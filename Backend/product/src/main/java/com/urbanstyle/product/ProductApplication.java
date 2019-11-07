@@ -1,4 +1,4 @@
-package com.anaadihsoft.product;
+package com.urbanstyle.product;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
