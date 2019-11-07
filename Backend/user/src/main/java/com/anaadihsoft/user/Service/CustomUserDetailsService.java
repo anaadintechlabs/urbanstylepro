@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.anaadih.aclassdeal.oauth2.UserPrincipal;
-import com.anaadihsoft.user.Model.User;
+import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.user.Repository.UserRepository;
 
 @Service

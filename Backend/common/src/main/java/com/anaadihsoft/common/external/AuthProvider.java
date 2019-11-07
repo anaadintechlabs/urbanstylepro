@@ -1,4 +1,4 @@
-package com.anaadihsoft.user.config;
+package com.anaadihsoft.common.external;
 
 public enum AuthProvider {
     local,

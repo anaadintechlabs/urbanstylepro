@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.anaadihsoft.common.external.AuthProvider;
+import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.user.Model.JwtAuthenticationResponse;
-import com.anaadihsoft.user.Model.User;
 import com.anaadihsoft.user.Payload.ApiResponse;
 import com.anaadihsoft.user.Payload.LoginRequest;
 import com.anaadihsoft.user.Payload.SignUpRequest;
 import com.anaadihsoft.user.Repository.UserRepository;
 import com.anaadihsoft.user.Service.TokenProvider;
-import com.anaadihsoft.user.config.AuthProvider;
 import com.anaadihsoft.user.exception.BadRequestException;
 import com.anaadihsoft.user.oauth2.UserPrincipal;
 
