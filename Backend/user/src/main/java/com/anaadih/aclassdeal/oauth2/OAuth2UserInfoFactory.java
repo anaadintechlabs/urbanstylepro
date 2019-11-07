@@ -2,7 +2,7 @@ package com.anaadih.aclassdeal.oauth2;
 
 import java.util.Map;
 
-import com.anaadihsoft.user.config.AuthProvider;
+import com.anaadihsoft.common.external.AuthProvider;
 import com.anaadihsoft.user.exception.OAuth2AuthenticationProcessingException;
 
 

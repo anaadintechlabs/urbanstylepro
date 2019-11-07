@@ -12,9 +12,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.anaadihsoft.user.Model.User;
+import com.anaadihsoft.common.external.AuthProvider;
+import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.user.Repository.UserRepository;
-import com.anaadihsoft.user.config.AuthProvider;
 import com.anaadihsoft.user.exception.OAuth2AuthenticationProcessingException;
 import com.anaadihsoft.user.oauth2.OAuth2UserInfo;
 import com.anaadihsoft.user.oauth2.OAuth2UserInfoFactory;

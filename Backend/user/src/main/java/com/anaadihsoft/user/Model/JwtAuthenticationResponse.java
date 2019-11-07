@@ -1,6 +1,6 @@
 package com.anaadihsoft.user.Model;
 
-import com.anaadihsoft.user.config.AuthProvider;
+import com.anaadihsoft.common.external.AuthProvider;
 import com.anaadihsoft.user.oauth2.UserPrincipal;
 
 //Response class changed

@@ -1,4 +1,4 @@
-package com.anaadihsoft.user.Model;
+package com.anaadihsoft.common.master;
 
 
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import com.anaadihsoft.user.config.AuthProvider;
+import com.anaadihsoft.common.external.AuthProvider;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
