@@ -36,7 +36,8 @@ public class ProductServiceImpl implements ProductService{
 						: Sort.Direction.ASC,
 						filter.getSortingField());
 
-		return productRepository.findByStatusAndParentProductId(ACTIVE,pagable);
+		return null;
+		//return productRepository.findByStatusAndParentProductId(ACTIVE,pagable);
 	}
 
 }

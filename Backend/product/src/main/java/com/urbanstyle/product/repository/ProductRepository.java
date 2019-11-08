@@ -14,6 +14,6 @@ public interface ProductRepository extends PagingAndSortingRepository<Product,Lo
 
 	List<Product> findByStatusAndVariantFalse(String active, Pageable pagable);
 
-	List<Product> findByStatusAndParentProductId(String active, Pageable pagable);
+	//List<Product> findByStatusAndParentProductId(String active, Pageable pagable);
 
 }

@@ -13,7 +13,7 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
 
 	
 
-	List<Category> findByStatusAndParentCategoryNULL(String active, Pageable pagable);
+	//List<Category> findByStatusAndParentCategoryNULL(String active, Pageable pagable);
 
 	List<Category> findByStatusAndParentCategoryCategoryId(String active, long categoryId);
 
