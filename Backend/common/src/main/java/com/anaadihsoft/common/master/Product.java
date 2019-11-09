@@ -80,6 +80,8 @@ public class Product {
 	
 	private boolean shipByVendorOrSite;
 	
+	private boolean enableReview;
+	
 	
 	
 	

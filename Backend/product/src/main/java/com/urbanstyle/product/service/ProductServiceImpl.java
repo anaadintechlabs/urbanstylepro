@@ -1,6 +1,7 @@
 package com.urbanstyle.product.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,5 +50,19 @@ public class ProductServiceImpl implements ProductService{
 						filter.getSortingField());
 		return productRepository.findByStatusAndCategoryCategoryId(ACTIVE,categoryId,pagable);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.urbanstyle.product.service.ProductService#getProductById(long)
+	 */
+	@Override
+	public Product getProductById(long prodId) {
+		Optional<Product> optProd= productRepository.findById(prodId);
+		
+		return optProd.isPresent() ? optProd.get():null;
+		
+	}
+	
+	
 
 }

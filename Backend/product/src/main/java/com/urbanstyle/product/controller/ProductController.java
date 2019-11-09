@@ -27,6 +27,14 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	/**
+	 * 
+	 * @param filter
+	 * @param userId
+	 * @param request
+	 * @param response
+	 * @return method for gettung all product for display
+	 */
 	@RequestMapping(value="/getAllMainProductsOfUser",method=RequestMethod.POST)
 	public Map<String,Object> getAllMainProductsOfUser(@RequestBody Filter filter,
 			@RequestParam(value="userId") long userId,
@@ -39,6 +47,15 @@ public class ProductController {
 	}
 	
 	
+	/**
+	 * 
+	 * @param filter
+	 * @param userId
+	 * @param productId
+	 * @param request
+	 * @param response
+	 * @return method for getting all variant products of user
+	 */
 	@RequestMapping(value="/getAllVariantProductsOfProductOfUser",method=RequestMethod.POST)
 	public Map<String,Object> getAllVariantProductsOfProductOfUser(@RequestBody Filter filter,
 			@RequestParam(value="userId") long userId,
@@ -53,7 +70,14 @@ public class ProductController {
 	
 	
 	
-	
+	/**
+	 * 
+	 * @param filter
+	 * @param categoryId
+	 * @param request
+	 * @param response
+	 * @return method for getting all product of a category
+	 */
 	@RequestMapping(value="/getProductOfCategory",method=RequestMethod.POST)
 	public Map<String,Object> getAllProductOfCategory(@RequestBody Filter filter,
 			@RequestParam(value="categoryId") long categoryId,
@@ -64,6 +88,28 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}
+	
+	
+	
+	
+	
+	/**
+	 * method to get product By Id
+	 * @param prodId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	
+	@RequestMapping(value="/getProductById",method=RequestMethod.GET)
+	public Map<String,Object> getProductById(@RequestParam(value="prodId")String prodId,HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("product", productService.getProductById(Long.parseLong(prodId)));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	
+	
 	
 	
 	
