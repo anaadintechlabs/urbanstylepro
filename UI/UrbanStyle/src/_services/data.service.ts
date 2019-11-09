@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service'
+import { Observable } from 'rxjs';
+import { Category } from 'src/_modals/category.modal';
 @Injectable()
 export class DataService{
 
@@ -7,9 +9,13 @@ export class DataService{
 
     }
 
-    getAllCategory(url:string,data:any){
-        this._apiService.post(url,data).subscribe((res) =>{
-            return JSON.parse(res);
+    getAllCategory(url:string,data:any): Observable<Category[]>{
+        return new Observable<Category[]>(obs =>{
+            this._apiService.post(url,data).subscribe((res) =>{
+                if(res.isSuccess){
+                    obs.next(res.data);
+                }
+            });
         });
     }
 
