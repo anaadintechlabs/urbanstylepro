@@ -38,7 +38,7 @@ export class UserServiceService {
     }
   }
 
-  //Response we are getting is accessToken and tokenType which are not presesnt in user class
+  // Response we are getting is accessToken and tokenType which are not presesnt in user class
 
   setAuth(user: User) {
     console.log('user us'+JSON.stringify(user));
