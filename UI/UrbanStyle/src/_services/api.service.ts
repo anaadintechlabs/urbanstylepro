@@ -33,7 +33,7 @@ export class ApiService {
     console.log("body..."+body);
     return this.http.post(
       `${environment.api_url}${path}`,
-      JSON.stringify(body)
+      body
     ).pipe(catchError(this.formatErrors));
   }
 
