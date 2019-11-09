@@ -3,6 +3,8 @@ package com.anaadihsoft.common.master;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
@@ -12,6 +14,7 @@ import javax.persistence.PreUpdate;
 public class Category {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long categoryId;
 	
 	private String categoryCode;
@@ -21,6 +24,9 @@ public class Category {
 	private String categoryImage;
 	
 	private String categoryVideo;
+	
+	//Check whether it is the last category or not
+	private boolean lastCategory;
 	
 	@ManyToOne
 	private Category parentCategory;
@@ -156,6 +162,14 @@ public class Category {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public boolean isLastCategory() {
+		return lastCategory;
+	}
+
+	public void setLastCategory(boolean lastCategory) {
+		this.lastCategory = lastCategory;
 	}
 	
 	
