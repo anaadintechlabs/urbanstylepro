@@ -1,4 +1,4 @@
-export interface response{
-    success:string;
-    message:string;
+export interface response {
+    success : string;
+    message : string;
 }
