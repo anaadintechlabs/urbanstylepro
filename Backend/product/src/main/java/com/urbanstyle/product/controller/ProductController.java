@@ -54,4 +54,18 @@ public class ProductController {
 	
 	
 	
+	@RequestMapping(value="/getProductOfCategory",method=RequestMethod.POST)
+	public Map<String,Object> getAllProductOfCategory(@RequestBody Filter filter,
+			@RequestParam(value="categoryId") long categoryId,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productService.getAllProductOfCategory(categoryId,filter));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+		
+	}
+	
+	
+	
+	
 }

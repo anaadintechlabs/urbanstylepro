@@ -39,4 +39,14 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findByStatusAndParentProductId(ACTIVE,pagable);
 	}
 
+	@Override
+	public List<Product> getAllProductOfCategory(long categoryId, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return productRepository.findByStatusAndCategoryCategoryId(ACTIVE,categoryId,pagable);
+	}
+
 }

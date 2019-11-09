@@ -14,4 +14,6 @@ public interface ProductService {
 
 	List<Product> getAllVariantProductsOfProductOfUser(long userId, long productId, Filter filter);
 
+	List<Product> getAllProductOfCategory(long categoryId, Filter filter);
+
 }
