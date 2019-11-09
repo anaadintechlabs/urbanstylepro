@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Category } from "../../../_modals/category.modal";
 
 @Component({
   selector: 'app-categoty-selection',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./categoty-selection.component.scss']
 })
 export class CategotySelectionComponent implements OnInit {
+
+  @Input() catList : Category[]; 
 
   constructor() { }
 

@@ -25,7 +25,8 @@ import { ReactiveFormsModule,FormsModule } from '@angular/forms';
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    CategotySelectionComponent
   ]
 })
 export class FormModule { }
