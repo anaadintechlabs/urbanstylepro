@@ -39,6 +39,18 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 			<exclusions>
+			 <exclusion>
+            <artifactId>tomcat-embed-el</artifactId>
+            <groupId>org.apache.tomcat.embed</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>tomcat-embed-core</artifactId>
+            <groupId>org.apache.tomcat.embed</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>tomcat-embed-websocket</artifactId>
+            <groupId>org.apache.tomcat.embed</groupId>
+        </exclusion>
 				<exclusion>
 					<groupId>org.junit.vintage</groupId>
 					<artifactId>junit-vintage-engine</artifactId>

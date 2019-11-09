@@ -1,6 +1,8 @@
 package com.anaadihsoft.common.master;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -8,6 +10,7 @@ import javax.persistence.ManyToOne;
 public class Product {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	//vital Information
@@ -23,6 +26,9 @@ public class Product {
 	//It will be shifted to user
 	@ManyToOne
 	private Vendor user;
+	
+	@ManyToOne
+	private Category category;
 	
 	
 	@ManyToOne
@@ -73,6 +79,8 @@ public class Product {
 	private boolean containVariants;
 	
 	private boolean shipByVendorOrSite;
+	
+	private boolean enableReview;
 	
 	
 	

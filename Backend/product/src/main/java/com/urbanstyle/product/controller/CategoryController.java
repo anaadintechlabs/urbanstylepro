@@ -33,6 +33,13 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	/**
+	 * 
+	 * @param filter
+	 * @param request
+	 * @param response
+	 * @return method for getting all parent category
+	 */
 	@RequestMapping(value="/getAllParentCategories",method=RequestMethod.POST)
 	public Map<String,Object> getAllParentCategories(@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response)
@@ -45,7 +52,17 @@ public class CategoryController {
 	
 	
 	
-
+	/**
+	 * 
+	 * @param files
+	 * @param categoryString
+	 * @param request
+	 * @param response
+	 * @return method for saving category, in complete
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	@RequestMapping(value="/saveCategory",method=RequestMethod.POST)
 	public Map<String,Object> saveCategory(@RequestParam(value="file",required=false) MultipartFile[] files,@RequestParam(value="categoryString",required=false) String categoryString,HttpServletRequest request,HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException
 	{
@@ -63,6 +80,13 @@ public class CategoryController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
+	/**
+	 * 
+	 * @param categoryId
+	 * @param request
+	 * @param response
+	 * @return method for getting all subcategory of a category
+	 */
 	@RequestMapping(value="/getAllSubCategoriesOfCategory",method=RequestMethod.GET)
 	public Map<String,Object> getAllSubCategoriesOfCategory(
 			@RequestParam(value="categoryId") long categoryId,

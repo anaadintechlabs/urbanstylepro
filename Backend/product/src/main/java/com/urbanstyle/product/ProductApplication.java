@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @EntityScan("com.anaadihsoft.*")
-@EnableJpaRepositories("com.urbanstyel.*")
-@ComponentScan(basePackages = { "com.urbanstyel.*" })
+@EnableJpaRepositories("com.urbanstyle.*")
+@ComponentScan(basePackages = { "com.urbanstyle.*" })
 @SpringBootApplication
 public class ProductApplication {
 

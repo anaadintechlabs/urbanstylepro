@@ -35,8 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return null;
-		//return categoryRepository.findByStatusAndParentCategoryNULL(ACTIVE,pagable);
+		//return null;
+		return categoryRepository.findByStatusAndParentCategory(ACTIVE,null,pagable);
 	}
 
 
