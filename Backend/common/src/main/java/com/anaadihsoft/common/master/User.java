@@ -62,7 +62,7 @@ public class User {
     
     @PrePersist
     public void setData() {
-    	this.setUserType("USER");
+    	//this.setUserType("USER");
     	this.setJoinDate(new Date());
     	this.setEnableMobileNumber(true);
     	this.setFirstTimeLogin(true);

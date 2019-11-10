@@ -11,6 +11,7 @@ import com.anaadihsoft.common.master.BankDetails;
 @Repository
 public interface BankRepository extends PagingAndSortingRepository<BankDetails, Long>{
 
-	List<BankDetails> findByuser(String userId);
+
+	List<BankDetails> findByUserId(long userId);
 
 }
