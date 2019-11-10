@@ -26,26 +26,23 @@ export class UserGuardGuard implements  CanActivate {
   ) {
     this.user=this.userService.getUser();
      if(this.user!=undefined){
-    if(!Object.keys(this.user).length){
-         this.router.navigateByUrl("/home");
-      }
-        else
-          {
+      if(!Object.keys(this.user).length){
+          this.router.navigateByUrl("");
+        } else {
             this.user= JSON.parse(this.userService.getUser())
-            //alert(this.user.userType)
-            if(this.user.userType!='USER')
-              {
-                this.router.navigateByUrl("/home");
-              }
-          }
+            alert(this.user.userType)
+            if(this.user.userType == 'USER') {
+              this.router.navigateByUrl("/home");
+            } else if (this.user.userType == 'VENDOR'){
+              this.router.navigateByUrl("/vendor/dashboard/")
+            }
+        }
      }
-    else{
-
-       this.router.navigateByUrl("/home");
+    else {
+       this.router.navigateByUrl("");
     }
     //
-return true;
-
+    return true;
   }
 
 }

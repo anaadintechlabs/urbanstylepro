@@ -4,6 +4,7 @@ import { VendorComponent } from './vendor.component';
 import { SignupComponent } from './signup/signup.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserGuardGuard } from 'src/_services/user-guard.guard';
 
 export const VendorRoutes: Routes=[
     {
@@ -19,6 +20,7 @@ export const VendorRoutes: Routes=[
             },{
                 path : 'dashboard',
                 component : DashboardComponent,
+                canActivate : [UserGuardGuard],
                 children : [
                     {
                         path : 'addProduct',

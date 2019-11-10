@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { UserServiceService } from 'src/_services/user-service.service';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +20,14 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private _userService : UserServiceService
     ) {
 
      }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
     // get return url from route parameters or default to '/'
@@ -39,6 +41,14 @@ export class LoginComponent implements OnInit {
     // stop here if form is invalid
     if (this.loginForm.invalid) {
         return;
+    } else {
+      let body = {
+        email : this.f.email.value,
+        password : this.f.password.value
+      }
+      this._userService.attemptAuth("",body).subscribe(res=>{
+        console.log(res);
+      })
     }
   }
 
