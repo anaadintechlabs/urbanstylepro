@@ -13,7 +13,7 @@ export class DataService{
         return new Observable<Category[]>(obs =>{
             this._apiService.post(url,data).subscribe((res) =>{
                 if(res.isSuccess){
-                    obs.next(res.data);
+                    obs.next(res.data.categoryList);
                 }
             });
         });

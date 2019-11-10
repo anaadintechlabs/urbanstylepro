@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Category } from "../../../_modals/category.modal";
 
 @Component({
@@ -9,11 +9,16 @@ import { Category } from "../../../_modals/category.modal";
 export class CategotySelectionComponent implements OnInit {
 
   @Input() catList : Category[]; 
+  @Output() submit: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit() {
     console.log(this.catList)
+  }
+
+  pickedCategory(id:number) : void {
+    this.submit.emit(id);
   }
 
 }

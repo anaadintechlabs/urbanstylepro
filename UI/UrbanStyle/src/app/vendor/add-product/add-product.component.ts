@@ -29,4 +29,8 @@ export class AddProductComponent implements OnInit {
     })
   }
 
+  selectedCategory(catId:number){
+    console.log(catId);
+  }
+
 }
