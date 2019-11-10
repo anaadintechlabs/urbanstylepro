@@ -96,6 +96,14 @@ public class Address {
 	public void setPrimaryAddress(boolean primaryAddress) {
 		this.primaryAddress = primaryAddress;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 	
 	
