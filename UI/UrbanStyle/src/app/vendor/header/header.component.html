@@ -4,8 +4,12 @@
     </button>
     <a routerLink="">URBAN STYLE</a>
     <div class="rightNav">
-        <a routerLink="/vendor/dashboard/addProduct">Add Product</a>
-        <a routerLink="/vendor/login">Login</a>
-        <a routerLink="/vendor/signup">SignUp</a>
+        <div *ngIf="loginStatus">
+            <a routerLink="/vendor/dashboard/addProduct">Add Product</a>
+        </div>
+        <div *ngIf="!loginStatus">
+            <a routerLink="/vendor/login">Login</a>
+            <a routerLink="/vendor/signup">SignUp</a>
+        </div>
     </div>      
 </mat-toolbar>

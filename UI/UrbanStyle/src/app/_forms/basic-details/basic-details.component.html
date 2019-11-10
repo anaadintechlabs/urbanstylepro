@@ -1,0 +1,55 @@
+<form  [formGroup]="basicDetailForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <!-- Name -->
+        <label class="control-label"  for="username">Name</label>
+        <div class="controls">
+          <input type="text" id="name" name="username" class="form-control" formControlName="name" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.name?.errors }">
+          <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <!-- Last Name -->
+        <label class="control-label"  for="username">Last Name</label>
+        <div class="controls">
+          <input type="text" id="lastname" name="username" class="form-control" formControlName="lastName" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.lastName?.errors }">
+          <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <!-- Username -->
+        <label class="control-label"  for="username">Username</label>
+        <div class="controls">
+          <input type="text" id="username" name="username" class="form-control" formControlName="userName" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.userName?.errors }">
+          <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+        </div>
+      </div>
+   
+      <div class="form-group">
+        <!-- E-mail -->
+        <label class="control-label" for="email">E-mail</label>
+        <div class="controls">
+          <input type="text" id="email" name="email" formControlName="email" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.email?.errors }">
+          <p class="help-block">Please provide your E-mail</p>
+        </div>
+      </div>
+   
+      <div class="form-group">
+        <!-- Password-->
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+          <input type="password" id="password" name="password" class="form-control" formControlName="password" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.password?.errors }">
+          <p class="help-block">Password should be at least 4 characters</p>
+        </div>
+      </div>
+   
+   
+      <div class="form-group">
+        <!-- Button -->
+        <div class="controls">
+          <button  class="btn btn-success">Register</button>
+        </div>
+      </div>
+  </form>
