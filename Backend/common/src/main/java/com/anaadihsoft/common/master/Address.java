@@ -1,12 +1,16 @@
 package com.anaadihsoft.common.master;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Address {
 
 	@Id
@@ -17,7 +21,7 @@ public class Address {
 	
 	private String addressTwo;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
 	
 	@ManyToOne 

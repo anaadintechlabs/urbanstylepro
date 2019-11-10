@@ -2,16 +2,25 @@ package com.anaadihsoft.common.master;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Fetch;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BankDetails {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
 	
     @Column(nullable = false)

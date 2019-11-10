@@ -7,16 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class City {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	private String stateName;
+	private String cityName;
 
-	private String stateCode;
+	private String cityCode;
 	
 	@ManyToOne
 	@JoinColumn(name = "state_id")
@@ -30,20 +34,22 @@ public class City {
 		this.id = id;
 	}
 
-	public String getStateName() {
-		return stateName;
+
+
+	public String getCityName() {
+		return cityName;
 	}
 
-	public void setStateName(String stateName) {
-		this.stateName = stateName;
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 
-	public String getStateCode() {
-		return stateCode;
+	public String getCityCode() {
+		return cityCode;
 	}
 
-	public void setStateCode(String stateCode) {
-		this.stateCode = stateCode;
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
 	}
 
 	public State getState() {
