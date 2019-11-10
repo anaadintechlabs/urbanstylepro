@@ -9,9 +9,9 @@ import com.anaadihsoft.common.master.BankDetails;
 @Service
 public interface BankService {
 
-	public void saveorUpdate(BankDetails bankDetails);
+	public BankDetails saveorUpdate(BankDetails bankDetails);
 	
-	public List<BankDetails> getBankDetails(String bankId);
+	public List<BankDetails> getBankDetails(long userId);
 	
 	public void deleteBankDetails(long bankId);
 
