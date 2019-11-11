@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
    
   }
 
+  get f() {return this.loginForm.controls}
+
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid

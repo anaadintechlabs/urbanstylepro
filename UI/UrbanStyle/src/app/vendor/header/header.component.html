@@ -6,6 +6,7 @@
     <div class="rightNav">
         <div *ngIf="loginStatus">
             <a routerLink="/vendor/dashboard/addProduct">Add Product</a>
+            <button (click)="logOut()">Logout</button>
         </div>
         <div *ngIf="!loginStatus">
             <a routerLink="/vendor/login">Login</a>

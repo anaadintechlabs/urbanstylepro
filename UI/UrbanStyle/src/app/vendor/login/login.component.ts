@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       password : this.f.password.value
     }
     this._userService.attemptAuth("",body).subscribe(res=>{
-      console.log(res);
+      this.router.navigateByUrl("/vendor/dashboard")
     });
   }
 
