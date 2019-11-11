@@ -13,6 +13,6 @@ public interface BankService {
 	
 	public List<BankDetails> getBankDetails(long userId);
 	
-	public void deleteBankDetails(long bankId);
+	public void deleteBankDetails(long bankId, String status);
 
 }

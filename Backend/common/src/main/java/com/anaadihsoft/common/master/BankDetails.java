@@ -1,5 +1,7 @@
 package com.anaadihsoft.common.master;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 import org.hibernate.annotations.Fetch;
 
@@ -34,6 +38,74 @@ public class BankDetails {
 	
     @Column(nullable = false)
 	private String  ifscCode;
+    
+    
+    private String status;
+
+	private Date createdDate;
+	
+	private String createdBy;
+	
+	private Date modifiedDate;
+	
+	private String modifiedBy;
+	
+	
+	@PrePersist
+	public void setAudit()
+	{
+		this.createdDate=new Date();
+		this.createdBy="Admin";
+		this.status="ACTIVE";
+	}
+	
+	@PreUpdate
+	public void  update()
+	{
+		this.modifiedDate= new Date();
+		this.modifiedBy="Admin";
+	}
+	
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
 
 	public long getId() {
 		return id;
@@ -84,4 +156,5 @@ public class BankDetails {
 	}
 	
 
+	
 }

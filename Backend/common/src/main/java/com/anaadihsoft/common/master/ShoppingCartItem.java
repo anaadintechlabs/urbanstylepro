@@ -117,6 +117,7 @@ public class ShoppingCartItem {
 	{
 		this.createdDate=new Date();
 		this.createdBy="Admin";
+		this.setStatus("ACTIVE");
 	}
 	
 	@PreUpdate

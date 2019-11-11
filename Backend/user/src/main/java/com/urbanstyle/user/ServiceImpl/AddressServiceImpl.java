@@ -29,15 +29,17 @@ public class AddressServiceImpl  implements AddressService{
 	@Autowired
 	private CityRepository cityRepository;
 	
+	private static final String ACTIVE="ACTIVE";
 	@Override
 	public List<Address> getAddressDetails(long userId) {
-		return addressRepository.findByUserId(userId);
+		return addressRepository.findByUserIdAndStatus(userId,ACTIVE);
 	}
-
+	
 	@Override
-	public void deleteAddressDetails(long id) {
-		
-		addressRepository.deleteById(id);
+	public void deleteAddressDetails(long id,String status) {
+		//No actual delete, Only status will be deleted
+//		addressRepository.deleteById(id);
+		addressRepository.changeStatusOfAddress(id,status);
 		
 	}
 

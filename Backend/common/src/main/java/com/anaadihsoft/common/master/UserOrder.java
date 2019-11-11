@@ -3,47 +3,40 @@ package com.anaadihsoft.common.master;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Address {
+public class UserOrder {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	private String addressOne;
-	
-	private String addressTwo;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	private User user;
 	
-	@ManyToOne 
-	private Country country;
+	private String orderStatus;
 	
-	@ManyToOne
-	private State state;
+	private Date orderPlacedDate;
 	
-	@ManyToOne
-	private City cite;
+	private Date orderPaidDate;
 	
-	private String zip;
+	private double orderTotalPrice;
 	
-	private boolean primaryAddress;
+	private String remarks;
 	
-    
-    private String status;
-
+	
 	private Date createdDate;
 	
 	private String createdBy;
@@ -52,13 +45,11 @@ public class Address {
 	
 	private String modifiedBy;
 	
-	
 	@PrePersist
 	public void setAudit()
 	{
 		this.createdDate=new Date();
 		this.createdBy="Admin";
-		this.status="ACTIVE";
 	}
 	
 	@PreUpdate
@@ -67,8 +58,6 @@ public class Address {
 		this.modifiedDate= new Date();
 		this.modifiedBy="Admin";
 	}
-	
-	
 
 	public long getId() {
 		return id;
@@ -76,62 +65,6 @@ public class Address {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getAddressOne() {
-		return addressOne;
-	}
-
-	public void setAddressOne(String addressOne) {
-		this.addressOne = addressOne;
-	}
-
-	public String getAddressTwo() {
-		return addressTwo;
-	}
-
-	public void setAddressTwo(String addressTwo) {
-		this.addressTwo = addressTwo;
-	}
-
-	public Country getCountry() {
-		return country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}
-
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
-
-	public City getCite() {
-		return cite;
-	}
-
-	public void setCite(City cite) {
-		this.cite = cite;
-	}
-
-	public String getZip() {
-		return zip;
-	}
-
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
-
-	public boolean isPrimaryAddress() {
-		return primaryAddress;
-	}
-
-	public void setPrimaryAddress(boolean primaryAddress) {
-		this.primaryAddress = primaryAddress;
 	}
 
 	public User getUser() {
@@ -142,12 +75,44 @@ public class Address {
 		this.user = user;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getOrderStatus() {
+		return orderStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public Date getOrderPlacedDate() {
+		return orderPlacedDate;
+	}
+
+	public void setOrderPlacedDate(Date orderPlacedDate) {
+		this.orderPlacedDate = orderPlacedDate;
+	}
+
+	public Date getOrderPaidDate() {
+		return orderPaidDate;
+	}
+
+	public void setOrderPaidDate(Date orderPaidDate) {
+		this.orderPaidDate = orderPaidDate;
+	}
+
+	public double getOrderTotalPrice() {
+		return orderTotalPrice;
+	}
+
+	public void setOrderTotalPrice(double orderTotalPrice) {
+		this.orderTotalPrice = orderTotalPrice;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 	public Date getCreatedDate() {
@@ -181,7 +146,6 @@ public class Address {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
 	
 	
 }

@@ -18,6 +18,8 @@ public class BankServiceImpl implements BankService{
 	public BankRepository bankRepository;
 	@Autowired
 	private UserRepository userRepository;
+	private static final String ACTIVE="ACTIVE";
+
 	
 	@Override
 	public BankDetails saveorUpdate(BankDetails bankDetails) {
@@ -26,11 +28,12 @@ public class BankServiceImpl implements BankService{
 	}
 	
 	public List<BankDetails> getBankDetails(long userId) {
-		List<BankDetails> bankModel = bankRepository.findByUserId(userId);
+		List<BankDetails> bankModel = bankRepository.findByUserIdAndStatus(userId,ACTIVE);
 		return bankModel;
 	}
 
-	public void deleteBankDetails(long bankId) {
-		bankRepository.deleteById(bankId);
+	public void deleteBankDetails(long bankId,String status) {
+		bankRepository.changeStatusOfBankDetails(bankId,status);
+		//bankRepository.deleteById(bankId);
 	}
 }
