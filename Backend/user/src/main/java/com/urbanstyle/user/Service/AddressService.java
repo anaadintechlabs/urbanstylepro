@@ -14,7 +14,7 @@ public interface AddressService {
 
 	List<Address> getAddressDetails(long userId);
 
-	void deleteAddressDetails(long parseLong);
+	void deleteAddressDetails(long parseLong, String status);
 
 	Address saveorUpdate(Address address);
 

@@ -44,4 +44,53 @@ public class ShoppingCartController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * @param filter
+	 * @param request
+	 * @param response
+	 * @return method for getting all parent category
+	 */
+	@RequestMapping(value="/getShoppingCartListOfUser",method=RequestMethod.POST)
+	public Map<String,Object> getShoppingCartListOfUser(@RequestBody Filter filter,
+			@RequestParam(value="cartType") String cartType,
+			@RequestParam(value="userId") String userId,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("cartOrWishList", shoppingCartService.getShoppingCartListOfUser(filter,cartType,userId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @param filter
+	 * @param request
+	 * @param response
+	 * @return method for getting all parent category
+	 */
+	@RequestMapping(value="/changeStatusOfShoppingCart",method=RequestMethod.GET)
+	public Map<String,Object> changeStatusOfShoppingCart(
+			@RequestParam(value="cartType") String cartType,
+			@RequestParam(value="userId") String userId,
+			@RequestParam(value="productId") String productId,
+			@RequestParam(value="status") String status,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("cartOrWishList", shoppingCartService.changeStatusOfShoppingCart(userId,cartType,productId,status));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+		
+	}
+	
+	
+	
+	
+	
 }

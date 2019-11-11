@@ -1,9 +1,15 @@
 package com.urbanstyle.product.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.ShoppingCartDTO;
+import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.ShoppingCart;
 import com.anaadihsoft.common.master.ShoppingCartItem;
 import com.anaadihsoft.common.master.ShoppingCartType;
@@ -14,6 +20,7 @@ import com.urbanstyle.product.repository.ShoppingCartTypeRepository;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService{
 
+	private static final String ACTIVE="ACTIVE";
 	
 	@Autowired
 	private ShoppingCartRepository  shoppingCartRepository;
@@ -91,6 +98,25 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 			
 		}
 
+		return null;
+	}
+
+
+	@Override
+	public List<ShoppingCartItem> getShoppingCartListOfUser(Filter filter, String cartType,String userId) {
+		
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return shoppingCartItemRepository.findByShoppingCartTypeCartTypeAndShoppingCartTypeShoppingCartUserIdAndStatus(cartType,userId,pagable);
+	}
+
+
+	@Override
+	public Object changeStatusOfShoppingCart(String userId, String cartType, String productId, String status) {
+		shoppingCartItemRepository.changeStatusOfShoppingCart(userId,cartType,productId,status);
 		return null;
 	}
 
