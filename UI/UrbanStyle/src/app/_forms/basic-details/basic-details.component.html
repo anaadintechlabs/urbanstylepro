@@ -1,4 +1,4 @@
-<form  [formGroup]="basicDetailForm" (ngSubmit)="onSubmit()">
+<form *ngIf="basicDetailForm" [formGroup]="basicDetailForm" (ngSubmit)="onSubmit()">
 
       <div class="form-group">
         <!-- Name -->
@@ -13,7 +13,7 @@
         <!-- Last Name -->
         <label class="control-label"  for="username">Last Name</label>
         <div class="controls">
-          <input type="text" id="lastname" name="username" class="form-control" formControlName="lastName" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.lastName?.errors }">
+          <input type="text" id="lastname" name="username" class="form-control" formControlName="lastname" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.lastname?.errors }">
           <p class="help-block">Username can contain any letters or numbers, without spaces</p>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <!-- Username -->
         <label class="control-label"  for="username">Username</label>
         <div class="controls">
-          <input type="text" id="username" name="username" class="form-control" formControlName="userName" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.userName?.errors }">
+          <input type="text" id="username" name="username" class="form-control" formControlName="username" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.username?.errors }">
           <p class="help-block">Username can contain any letters or numbers, without spaces</p>
         </div>
       </div>

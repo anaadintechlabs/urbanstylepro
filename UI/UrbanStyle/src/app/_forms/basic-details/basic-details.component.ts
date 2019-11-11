@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UserServiceService } from 'src/_services/user-service.service';
 
 @Component({
   selector: 'basic-details',
@@ -9,18 +10,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class BasicDetailsComponent implements OnInit {
 
   @Output() basicDetails : EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+  @Input() basicDetailForm : FormGroup;
 
-  basicDetailForm : FormGroup;
   submitted : boolean = false;
   
-  constructor(private _fb : FormBuilder) { 
-    this.basicDetailForm = this._fb.group({
-      name : ["",Validators.required],
-      lastName : [""],
-      userName : ["",Validators.required],
-      email : ["",Validators.required],
-      password : ["",Validators.required],
-    })
+  constructor() { 
   }
 
   ngOnInit() {
