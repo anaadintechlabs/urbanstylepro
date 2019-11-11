@@ -86,10 +86,11 @@ public class AddressController {
 	 */
 	@RequestMapping(value="/deleteAddressDetails",method=RequestMethod.POST)
 	public  Map<String,Object> deleteAddressDetails(@RequestParam (value = "bankId",required=true) String bankId,
+			@RequestParam (value = "status",required=true) String status,
 			HttpServletRequest request,HttpServletResponse response) {
 		final HashMap<String, Object> map = new HashMap<>();
 		try {
-			addressService.deleteAddressDetails(Long.parseLong(bankId));
+			addressService.deleteAddressDetails(Long.parseLong(bankId),status);
 			 return CommonResponseSender.recordDeleteSuccessResponse(map, response);
 	      }catch(Exception e) {
 	    	  return CommonResponseSender.errorResponse(map, response);
