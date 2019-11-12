@@ -12,12 +12,13 @@ import com.anaadihsoft.common.master.ShoppingCartItem;
 @Repository
 public interface ShoppingCartItemRepository extends PagingAndSortingRepository<ShoppingCartItem,Long> {
 
-	
 
-//	List<ShoppingCartItem> findByShoppingCartTypeCartTypeAndShoppingCartTypeShoppingCartUserIdAndStatus(String cartType,
-//			String userId, Pageable pagable);
+	@Query(value="update ShoppingCartItem sci set sci.status=?3 where sci.product.id in(?2) and  sci.shoppingCart.user.id=?1" )
+	void changeStatusOfShoppingCart(String userId, List<String> productId2, String productId);
 
-	@Query(value="update ShoppingCartItem sci set sci.status=?4 where sci.product.id=?3 and sci.shoppingCartType.cartType=?2 and sci.shoppingCartType.shoppingCart.user.id=?1" )
-	void changeStatusOfShoppingCart(String userId, String cartType, String productId, String status);
+	List<ShoppingCartItem> findByShoppingCartUserIdAndStatus(String userId, String active, Pageable pagable);
+
+//	@Query(value ="Select sum(sci.quantity) from ShoppingCartItem sci where sci.user.id=?1 and sci.status=?2")
+//	Object getCartCountOfUser(long userId,String status);
 
 }

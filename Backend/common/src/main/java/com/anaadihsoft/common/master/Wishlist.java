@@ -14,21 +14,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ShoppingCartItem {
+public class Wishlist {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    
 	
 	@ManyToOne
-	private Product product;
+	private User user;
 	
 	@ManyToOne
-	private ShoppingCart shoppingCart; 
+	private Product product;	
 	
-	private long quantity;
-	
-	private double cost;
 	
 	private String status;
 	
@@ -40,46 +39,28 @@ public class ShoppingCartItem {
 	
 	private String modifiedBy;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public double getCost() {
-		return cost;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCost(double cost) {
-		this.cost = cost;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Product getProduct() {
 		return product;
 	}
 
-	
-	
-	public ShoppingCart getShoppingCart() {
-		return shoppingCart;
-	}
-
-	public void setShoppingCart(ShoppingCart shoppingCart) {
-		this.shoppingCart = shoppingCart;
-	}
-
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	public long getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(long quantity) {
-		this.quantity = quantity;
 	}
 
 	public String getStatus() {
@@ -121,13 +102,12 @@ public class ShoppingCartItem {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
 	@PrePersist
 	public void setAudit()
 	{
 		this.createdDate=new Date();
 		this.createdBy="Admin";
-		this.setStatus("ACTIVE");
+		this.status="ACTIVE";
 	}
 	
 	@PreUpdate
@@ -136,5 +116,7 @@ public class ShoppingCartItem {
 		this.modifiedDate= new Date();
 		this.modifiedBy="Admin";
 	}
+	
+	
 	
 }
