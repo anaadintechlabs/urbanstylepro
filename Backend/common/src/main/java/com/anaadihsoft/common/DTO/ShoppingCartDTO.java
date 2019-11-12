@@ -1,5 +1,7 @@
 package com.anaadihsoft.common.DTO;
 
+import java.util.List;
+
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.User;
 
@@ -7,11 +9,11 @@ public class ShoppingCartDTO {
 
 	private User user;
 	
-	private String cartType;
+	private List<Double> cost;
 	
-	private long quantity;
+	private List<Long> quantity;
 	
-	private Product product;
+	private List<Product> product;
 
 	public User getUser() {
 		return user;
@@ -20,30 +22,33 @@ public class ShoppingCartDTO {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+		
 
-	public String getCartType() {
-		return cartType;
+	public List<Double> getCost() {
+		return cost;
 	}
 
-	public void setCartType(String cartType) {
-		this.cartType = cartType;
+	public void setCost(List<Double> cost) {
+		this.cost = cost;
 	}
 
-	public long getQuantity() {
+	public List<Long> getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(long quantity) {
+	public void setQuantity(List<Long> quantity) {
 		this.quantity = quantity;
 	}
 
-	public Product getProduct() {
+	public List<Product> getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(List<Product> product) {
 		this.product = product;
 	}
-	
+
+
 	
 }
