@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -25,6 +23,11 @@ public class UserOrder {
 	
 	@ManyToOne
 	private User user;
+	
+	@ManyToOne
+	private Address address;
+	
+	
 	
 	private String orderStatus;
 	
