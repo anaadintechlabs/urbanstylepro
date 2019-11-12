@@ -110,7 +110,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return shoppingCartItemRepository.findByShoppingCartTypeCartTypeAndShoppingCartTypeShoppingCartUserIdAndStatus(cartType,userId,pagable);
+		return null;
+		//return shoppingCartItemRepository.findByShoppingCartTypeCartTypeAndShoppingCartTypeShoppingCartUserIdAndStatus(cartType,userId,pagable);
 	}
 
 
