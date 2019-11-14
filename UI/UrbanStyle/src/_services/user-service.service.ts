@@ -84,10 +84,10 @@ export class UserServiceService {
   attemptAuth(type, credentials): Observable<User>
   {
       const route ='/login';
-      return this.apiService.post('/api/auth' + route, credentials).pipe(
+      return this.apiService.post('api/auth' + route, credentials).pipe(
         map(data => {
           this.setAuth(data);
-          
+          this.navigateToDashboardBasedOnUserType(data.userType);
           return data;
         }
       ));
@@ -102,6 +102,14 @@ export class UserServiceService {
     ));
   }
 
+  navigateToDashboardBasedOnUserType(userType)
+  {
+    console.log(userType);
+    if(userType == 'VENDOR')
+      {
+        this.router.navigateByUrl("vendor/dashboard");
+      }
+  }
   getCurrentUser(): User {
     return this.currentUserSubject.value;
   }

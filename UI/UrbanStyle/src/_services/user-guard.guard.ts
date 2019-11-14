@@ -34,7 +34,7 @@ export class UserGuardGuard implements  CanActivate {
             if(this.user.userType == 'USER') {
               this.router.navigateByUrl("/home");
             } else if (this.user.userType == 'VENDOR'){
-              this.router.navigateByUrl("/vendor/dashboard/")
+              this.router.navigateByUrl("/vendor/dashboard")
             }
         }
      }
