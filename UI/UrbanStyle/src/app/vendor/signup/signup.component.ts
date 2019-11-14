@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BasicDetailsComponent } from 'src/app/_forms/basic-details/basic-details.component';
+import { UserServiceService } from 'src/_services/user-service.service';
 
 
 @Component({
@@ -8,10 +11,42 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() { }
+  basicDetails : FormGroup;
+  addressDetails : FormGroup;
+  bankDetails : FormGroup;
+
+  @ViewChild('details',{read: ElementRef,static:true}) details : ElementRef;
+  constructor(
+    private _fb : FormBuilder,
+    private _userService : UserServiceService
+  ) {
+    this.basicDetails = this._fb.group({
+      name : ["",Validators.required],
+      lastname : [""],
+      username : ["",Validators.required],
+      email : ["",Validators.required],
+      password : ["",Validators.required],
+      userType : [""],
+    });
+   }
 
   ngOnInit() {
     
+  }
+  ngAfterViewInit() {
+    console.log('Values on ngAfterViewInit():');
+    console.log("sample:", this.details.nativeElement);
+  }
+
+   get f() { return this.basicDetails.controls;}
+
+  basicdetialForm(data : FormGroup) : void {
+    this.basicDetails = data;
+    this.f.userType.setValue('VENDOR');
+    console.log(this.basicDetails);
+    this._userService.attempiSignUp(this.basicDetails.value).subscribe(res=>{
+      console.log(res);
+    });
   }
 
 }

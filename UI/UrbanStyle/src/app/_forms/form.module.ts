@@ -1,14 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategotySelectionComponent } from './categoty-selection/categoty-selection.component';
-import { MatSidenavModule,MatToolbarModule,MatIconModule, MatButtonModule  } from '@angular/material';
+import { MatSidenavModule,MatToolbarModule,MatIconModule, MatButtonModule, MatStepperModule  } from '@angular/material';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
+import { BasicDetailsComponent } from './basic-details/basic-details.component';
+import { LoginComponent } from './login/login.component';
 
 
 
 
 @NgModule({
-  declarations: [CategotySelectionComponent],
+  declarations: [CategotySelectionComponent, 
+    BasicDetailsComponent, 
+    LoginComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -16,7 +21,8 @@ import { ReactiveFormsModule,FormsModule } from '@angular/forms';
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatStepperModule
   ],
   exports: [
     CommonModule,
@@ -26,7 +32,10 @@ import { ReactiveFormsModule,FormsModule } from '@angular/forms';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    CategotySelectionComponent
+    MatStepperModule,
+    CategotySelectionComponent,
+    BasicDetailsComponent,
+    LoginComponent
   ]
 })
 export class FormModule { }
