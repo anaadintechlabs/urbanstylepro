@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +36,8 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	
+	
 	/**
 	 * 
 	 * @param filter
@@ -40,7 +45,7 @@ public class CategoryController {
 	 * @param response
 	 * @return method for getting all parent category
 	 */
-	@RequestMapping(value="/getAllParentCategories",method=RequestMethod.POST)
+	@RequestMapping(value="/getAllParentCategories",method=RequestMethod.GET)
 	public Map<String,Object> getAllParentCategories(@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response)
 	{
@@ -63,22 +68,21 @@ public class CategoryController {
 	 * @throws JsonMappingException
 	 * @throws IOException
 	 */
-	@RequestMapping(value="/saveCategory",method=RequestMethod.POST)
-	public Map<String,Object> saveCategory(@RequestParam(value="file",required=false) MultipartFile[] files,@RequestParam(value="categoryString",required=false) String categoryString,HttpServletRequest request,HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException
-	{
-		final HashMap<String, Object> map = new HashMap<>();	
-		ObjectMapper objMapper= new ObjectMapper();
-		TypeReference<Category> mapType= new TypeReference<Category>() {
-		};
-		Category category= objMapper.readValue(categoryString, mapType);
-		//System.out.println("CATEGORY IS"+category);
-		category=categoryService.saveCategory(category);
-//		if(category!=null) {
-//		fileUploadService.saveIconofCategory(files,category);
-//		}
-		map.put("category", category);
-		return CommonResponseSender.createdSuccessResponse(map, response);
-	}
+//	@RequestMapping(value="/saveCategory",method=RequestMethod.POST)
+//	public Map<String,Object> saveCategory(@RequestParam(value="file",required=false) MultipartFile[] files,@RequestParam(value="categoryString",required=false) String categoryString,HttpServletRequest request,HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException
+//	{
+//		final HashMap<String, Object> map = new HashMap<>();	
+//		ObjectMapper objMapper= new ObjectMapper();
+//		TypeReference<Category> mapType= new TypeReference<Category>() {
+//		};
+//		Category category= objMapper.readValue(categoryString, mapType);
+//		category=categoryService.saveCategory(category);
+////		if(category!=null) {
+////		fileUploadService.saveIconofCategory(files,category);
+////		}
+//		map.put("category", category);
+//		return CommonResponseSender.createdSuccessResponse(map, response);
+//	}
 	
 	/**
 	 * 
@@ -100,5 +104,27 @@ public class CategoryController {
 	
 	
 	
+	
+	
+
+	@PostMapping
+	public Map<String,Object> saveCategory(HttpServletRequest request,HttpServletResponse response,@RequestBody(required=true)Category category) 
+	{
+		Map<String,Object> responseMap = new HashMap<>();
+		if(category!=null) {
+			category=categoryService.saveCategory(category);
+			responseMap.put("category", category);
+		}
+		return CommonResponseSender.createdSuccessResponse(responseMap, response);
+	}
+	
+	@PutMapping
+	public Map<String,Object> updateCategory(HttpServletRequest request,HttpServletResponse response,@RequestBody(required=true)Category category) 
+	{
+		Map<String,Object> responseMap = new HashMap<>();
+		category=categoryService.saveCategory(category);
+		responseMap.put("category", category);
+		return CommonResponseSender.createdSuccessResponse(responseMap, response);
+	}
 	
 }
