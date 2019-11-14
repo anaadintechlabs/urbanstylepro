@@ -1,1 +1,11 @@
-<p>signup works!</p>
+<mat-horizontal-stepper linear #stepper>
+    <mat-step [stepControl]="basicDetails">
+        <basic-details #details [basicDetailForm]="basicDetails" (basicDetails)="basicdetialForm($event)" ></basic-details>
+    </mat-step>
+    <mat-step [stepControl]="addressDetails" >
+     
+    </mat-step>
+    <mat-step [stepControl]="bankDetails">
+     
+    </mat-step>
+</mat-horizontal-stepper>

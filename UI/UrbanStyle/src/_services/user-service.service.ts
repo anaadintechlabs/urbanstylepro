@@ -95,7 +95,7 @@ export class UserServiceService {
 
   attempiSignUp(credentials){
     const route ='/signup';
-    return this.apiService.post('/api/auth' + route, credentials).pipe(
+    return this.apiService.post('api/auth' + route, credentials).pipe(
       map(data => {
         return data;
       }
