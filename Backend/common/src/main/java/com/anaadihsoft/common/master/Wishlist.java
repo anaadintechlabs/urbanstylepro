@@ -13,32 +13,23 @@ import javax.persistence.PreUpdate;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserOrder {
+public class Wishlist {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    private Long id;
+    
+    
 	
 	@ManyToOne
 	private User user;
 	
 	@ManyToOne
-	private Address address;
+	private Product product;	
 	
 	
-	
-	private String orderStatus;
-	
-	private Date orderPlacedDate;
-	
-	private Date orderPaidDate;
-	
-	private double orderTotalPrice;
-	
-	private String remarks;
-	
+	private String status;
 	
 	private Date createdDate;
 	
@@ -47,26 +38,12 @@ public class UserOrder {
 	private Date modifiedDate;
 	
 	private String modifiedBy;
-	
-	@PrePersist
-	public void setAudit()
-	{
-		this.createdDate=new Date();
-		this.createdBy="Admin";
-	}
-	
-	@PreUpdate
-	public void  update()
-	{
-		this.modifiedDate= new Date();
-		this.modifiedBy="Admin";
-	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -78,44 +55,20 @@ public class UserOrder {
 		this.user = user;
 	}
 
-	public String getOrderStatus() {
-		return orderStatus;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public Date getOrderPlacedDate() {
-		return orderPlacedDate;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setOrderPlacedDate(Date orderPlacedDate) {
-		this.orderPlacedDate = orderPlacedDate;
-	}
-
-	public Date getOrderPaidDate() {
-		return orderPaidDate;
-	}
-
-	public void setOrderPaidDate(Date orderPaidDate) {
-		this.orderPaidDate = orderPaidDate;
-	}
-
-	public double getOrderTotalPrice() {
-		return orderTotalPrice;
-	}
-
-	public void setOrderTotalPrice(double orderTotalPrice) {
-		this.orderTotalPrice = orderTotalPrice;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Date getCreatedDate() {
@@ -149,6 +102,21 @@ public class UserOrder {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
+	@PrePersist
+	public void setAudit()
+	{
+		this.createdDate=new Date();
+		this.createdBy="Admin";
+		this.status="ACTIVE";
+	}
+	
+	@PreUpdate
+	public void  update()
+	{
+		this.modifiedDate= new Date();
+		this.modifiedBy="Admin";
+	}
+	
 	
 	
 }

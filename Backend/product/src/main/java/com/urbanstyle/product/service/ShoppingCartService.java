@@ -14,8 +14,10 @@ public interface ShoppingCartService  {
 
 	Object addProductToShoppingCart(ShoppingCartDTO shoppingCartDTO);
 
-	List<ShoppingCartItem> getShoppingCartListOfUser(Filter filter, String cartType, String userId);
+	List<ShoppingCartItem> getShoppingCartListOfUser(Filter filter, String userId);
 
-	Object changeStatusOfShoppingCart(String userId, String cartType, String productId, String status);
+	Object changeStatusOfShoppingCart(String userId, List<String> productIds, String productId);
+
+	Object getCartCountOfUser(long userId);
 
 }

@@ -23,9 +23,9 @@ import com.urbanstyle.user.util.CommonResponseSender;
 @CrossOrigin(origins = {"*","http://localhost:4200"}, maxAge = 3600)
 public class UserController {
 
-	@Autowired
-	private UserService userService;
-	
+//	@Autowired
+//	private UserService userService;
+//	
 	
 	/**
 	 * 
@@ -41,7 +41,7 @@ public class UserController {
 			HttpServletRequest request,HttpServletResponse response)
 	{
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("status", userService.getCurrentStatusOfUser(userId));
+		//map.put("status", userService.getCurrentStatusOfUser(userId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}
