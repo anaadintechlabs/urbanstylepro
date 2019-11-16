@@ -50,6 +50,8 @@ public class Category {
 	
 	private String modifiedBy;
 	
+	private long parentCategoryId;
+	
 	@PrePersist
 	public void setAudit()
 	{
@@ -176,7 +178,12 @@ public class Category {
 		this.lastCategory = lastCategory;
 	}
 	
-	
-	
+	public long getParentCategoryId() {
+		return parentCategoryId;
+	}
+
+	public void setParentCategoryId(long parentCategoryId) {
+		this.parentCategoryId = parentCategoryId;
+	}
 	
 }
