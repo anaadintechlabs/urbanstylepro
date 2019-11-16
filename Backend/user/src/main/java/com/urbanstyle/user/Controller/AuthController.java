@@ -1,6 +1,8 @@
 package com.urbanstyle.user.Controller;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -99,4 +102,22 @@ public class AuthController {
 	        return ResponseEntity.created(location)
 	                .body(new ApiResponse(true, "User registered successfully@"));
 	    }
+	 
+	 @RequestMapping(value="/changePassword",method= {})
+	 public HashMap<String, String> changePassword(@RequestParam (value="newPassword",required = true) String newPassword,@RequestParam (value="oldPassword",required = true)  String oldPassword,@RequestParam (value="userId",required = true)long userId) {
+		 HashMap<String, String> result = new HashMap<>();
+		 Optional<User> user = userRepository.findById(userId);
+		 if(result !=null) {
+			 if(user.get().getPassword().equals(passwordEncoder.encode(oldPassword))) {
+				 user.get().setPassword(passwordEncoder.encode(newPassword));
+				 result.put("MESSAGE", "PASSWORD CHANGE SUCCESSFULLY");
+			 }else {
+				 result.put("MESSAGE", "PASSWORD NOT MATCH");
+			 }
+		 }else {
+			 result.put("MESSAGE", "USER NOT VALID");
+		 }
+		 return result;
+	 }
+	 
 }
