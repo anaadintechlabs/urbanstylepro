@@ -36,8 +36,6 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	
-	
 	/**
 	 * 
 	 * @param filter
@@ -51,38 +49,11 @@ public class CategoryController {
 	{
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("categoryList", categoryService.getAllParentCategories(filter));
-		return CommonResponseSender.createdSuccessResponse(map, response);
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
 	
 	
-	
-	/**
-	 * 
-	 * @param files
-	 * @param categoryString
-	 * @param request
-	 * @param response
-	 * @return method for saving category, in complete
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 */
-//	@RequestMapping(value="/saveCategory",method=RequestMethod.POST)
-//	public Map<String,Object> saveCategory(@RequestParam(value="file",required=false) MultipartFile[] files,@RequestParam(value="categoryString",required=false) String categoryString,HttpServletRequest request,HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException
-//	{
-//		final HashMap<String, Object> map = new HashMap<>();	
-//		ObjectMapper objMapper= new ObjectMapper();
-//		TypeReference<Category> mapType= new TypeReference<Category>() {
-//		};
-//		Category category= objMapper.readValue(categoryString, mapType);
-//		category=categoryService.saveCategory(category);
-////		if(category!=null) {
-////		fileUploadService.saveIconofCategory(files,category);
-////		}
-//		map.put("category", category);
-//		return CommonResponseSender.createdSuccessResponse(map, response);
-//	}
 	
 	/**
 	 * 
@@ -98,11 +69,27 @@ public class CategoryController {
 	{
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("categoryList", categoryService.getAllSubCategoriesOfCategory(categoryId));
-		return CommonResponseSender.createdSuccessResponse(map, response);
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
 	
 	
+	
+	/**
+	 * 
+	 * @param categoryId
+	 * @param request
+	 * @param response
+	 * @return method for getting all categories
+	 */
+	@RequestMapping(value="/getAllCategories",method=RequestMethod.GET)
+	public Map<String,Object> getAllSubCategoriesOfCategory(HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("categoryList", categoryService.getAllCategories());
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
 	
 	
 	
