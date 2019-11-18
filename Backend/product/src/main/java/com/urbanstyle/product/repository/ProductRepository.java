@@ -11,11 +11,7 @@ import com.anaadihsoft.common.master.Product;
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<Product,Long>{
 
-
-	List<Product> findByStatusAndVariantFalse(String active, Pageable pagable);
-
-	//List<Product> findByStatusAndParentProductId(String active, Pageable pagable);
-
-	List<Product> findByStatusAndCategoryCategoryId(String active, long categoryId, Pageable pagable);
-
+	Product findByProductName(String name);
+	
+	Product findByProductId(long productId);
 }
