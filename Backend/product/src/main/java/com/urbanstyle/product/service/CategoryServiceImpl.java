@@ -8,12 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Category;
-import com.urbanstyle.product.ProductApplication;
 import com.urbanstyle.product.repository.CategoryRepository;
 
 @Service
@@ -33,13 +30,11 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public List<Category> getAllParentCategories(Filter filter) {
-		
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		//return null;
 		return categoryRepository.findByStatusAndParentCategory(ACTIVE,null,pagable);
 	}
 
@@ -54,11 +49,14 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryRepository.findByStatusAndParentCategoryCategoryId(ACTIVE,categoryId);
 	}
 
-
-
-
 	@Override
 	public Category saveCategory(Category category) {
 			return categoryRepository.save(category);
+	}
+	
+
+	@Override
+	public List<Category> getAllCategories() {
+		return (List<Category>) categoryRepository.findAll();
 	}
 }

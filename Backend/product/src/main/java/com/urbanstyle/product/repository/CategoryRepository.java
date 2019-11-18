@@ -17,6 +17,6 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
 
 	List<Category> findByStatusAndParentCategoryCategoryId(String active, long categoryId);
 
-	boolean existsByCategoryCode(String categoryCode);
+	//boolean existsByCategoryCode(String categoryCode);
 
 }

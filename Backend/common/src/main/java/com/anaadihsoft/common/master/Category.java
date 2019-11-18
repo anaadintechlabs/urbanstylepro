@@ -21,27 +21,15 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long categoryId;
 	
-	private String categoryCode;
-	
 	private String categoryName;
 	
-	private String categoryImage;
-	
-	private String categoryVideo;
-	
-	//Check whether it is the last category or not
-	private boolean lastCategory;
-	
+	private long parentCategoryId;
+
 	@ManyToOne
 	private Category parentCategory;
 	
-	private String status;
-	
-	private double commissionPercent;
-	
-	//If shipping is done by site , then commission percentage
-	private double fullFillMentPercent;
-	
+	private Integer status;
+		
 	private Date createdDate;
 	
 	private String createdBy;
@@ -49,8 +37,6 @@ public class Category {
 	private Date modifiedDate;
 	
 	private String modifiedBy;
-	
-	private long parentCategoryId;
 	
 	@PrePersist
 	public void setAudit()
@@ -74,14 +60,6 @@ public class Category {
 		this.categoryId = categoryId;
 	}
 
-	public String getCategoryCode() {
-		return categoryCode;
-	}
-
-	public void setCategoryCode(String categoryCode) {
-		this.categoryCode = categoryCode;
-	}
-
 	public String getCategoryName() {
 		return categoryName;
 	}
@@ -90,52 +68,12 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
-	public String getCategoryImage() {
-		return categoryImage;
-	}
-
-	public void setCategoryImage(String categoryImage) {
-		this.categoryImage = categoryImage;
-	}
-
-	public String getCategoryVideo() {
-		return categoryVideo;
-	}
-
-	public void setCategoryVideo(String categoryVideo) {
-		this.categoryVideo = categoryVideo;
-	}
-
 	public Category getParentCategory() {
 		return parentCategory;
 	}
 
 	public void setParentCategory(Category parentCategory) {
 		this.parentCategory = parentCategory;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public double getCommissionPercent() {
-		return commissionPercent;
-	}
-
-	public void setCommissionPercent(double commissionPercent) {
-		this.commissionPercent = commissionPercent;
-	}
-
-	public double getFullFillMentPercent() {
-		return fullFillMentPercent;
-	}
-
-	public void setFullFillMentPercent(double fullFillMentPercent) {
-		this.fullFillMentPercent = fullFillMentPercent;
 	}
 
 	public Date getCreatedDate() {
@@ -169,14 +107,6 @@ public class Category {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-
-	public boolean isLastCategory() {
-		return lastCategory;
-	}
-
-	public void setLastCategory(boolean lastCategory) {
-		this.lastCategory = lastCategory;
-	}
 	
 	public long getParentCategoryId() {
 		return parentCategoryId;
@@ -184,6 +114,14 @@ public class Category {
 
 	public void setParentCategoryId(long parentCategoryId) {
 		this.parentCategoryId = parentCategoryId;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	
 }
