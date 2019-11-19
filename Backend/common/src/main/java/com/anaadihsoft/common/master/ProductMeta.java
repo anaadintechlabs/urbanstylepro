@@ -20,7 +20,7 @@ public class ProductMeta {
 	private long id;
 	
 	@ManyToOne
-	private Product product;
+	private ProductVariant productVariant;
 	
 	private int status;
 	
@@ -44,12 +44,12 @@ public class ProductMeta {
 		this.id = id;
 	}
 
-	public Product getProduct() {
-		return product;
+	public ProductVariant getProductVariant() {
+		return productVariant;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
 	}
 
 	public int getStatus() {

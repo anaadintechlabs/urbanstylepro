@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.urbanstyle.product.service.ProductService;
@@ -123,9 +124,9 @@ public class ProductController {
 	
 	
 	@PostMapping
-	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,@RequestBody Product product){
+	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,@RequestBody ProductDTO productDTO){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("product", productService.createProduct(product));
+		map.put("product", productService.createProduct(productDTO));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"productName"})})
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"productCode"})})
 public class Product {
 
 	@Id
@@ -43,6 +43,8 @@ public class Product {
 	
 	private String defaultColor;
 
+	private boolean variantExist;
+	
 	private Date createdDate;
 	
 	private String createdBy;

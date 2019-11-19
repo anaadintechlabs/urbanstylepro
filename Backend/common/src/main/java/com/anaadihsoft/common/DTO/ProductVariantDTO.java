@@ -11,7 +11,7 @@ public class ProductVariantDTO {
 	
 	public ProductVariant productVariant;
 	
-	private List<Map<Long,String>> attributesMap;
+	private Map<Long,String> attributesMap;
 	
 	private List<ProductMeta> productMetaInfo;
 
@@ -23,11 +23,13 @@ public class ProductVariantDTO {
 		this.productVariant = productVariant;
 	}
 
-	public List<Map<Long, String>> getAttributesMap() {
+ 
+
+	public Map<Long, String> getAttributesMap() {
 		return attributesMap;
 	}
 
-	public void setAttributesMap(List<Map<Long, String>> attributesMap) {
+	public void setAttributesMap(Map<Long, String> attributesMap) {
 		this.attributesMap = attributesMap;
 	}
 
