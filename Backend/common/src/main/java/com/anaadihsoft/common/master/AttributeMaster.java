@@ -8,12 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
-public class CategoryVariation {
+public class AttributeMaster {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +19,11 @@ public class CategoryVariation {
 	
 	private String variationType;// Like Input,Checkbox,Select Etc
 	
-	private String variationValue;
+	private String variationDefaultValue;
 	
 	private String typeOfInput; //If variationType is input then text,number or what
 	
 	private String variantDummy; //Showing Size dummy like XL,XXL label show
-	
-	@ManyToOne
-	private Category category;
 	
 	private String status;
 	
@@ -41,5 +34,4 @@ public class CategoryVariation {
 	private Date modifiedDate;
 	
 	private String modifiedBy;
-	
 }

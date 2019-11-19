@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.master.AttributeMaster;
 import com.anaadihsoft.common.master.Category;
 import com.urbanstyle.product.repository.CategoryRepository;
 
@@ -58,5 +59,13 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> getAllCategories() {
 		return (List<Category>) categoryRepository.findAll();
+	}
+
+
+
+
+	@Override
+	public List<AttributeMaster> fetchallAttributeDtail(long categoryId) {
+		return categoryRepository.fetchallAttributeDtail(categoryId);
 	}
 }
