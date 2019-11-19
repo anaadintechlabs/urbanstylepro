@@ -20,7 +20,9 @@ public class ProductMeta {
 	private long id;
 	
 	@ManyToOne
-	private Product product;
+	private ProductVariant productVariant;
+	
+	private int status;
 	
 	private String metaKey;
 	
@@ -33,4 +35,79 @@ public class ProductMeta {
 	private Date modifiedDate;
 	
 	private String modifiedBy;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public ProductVariant getProductVariant() {
+		return productVariant;
+	}
+
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getMetaKey() {
+		return metaKey;
+	}
+
+	public void setMetaKey(String metaKey) {
+		this.metaKey = metaKey;
+	}
+
+	public String getMetaValue() {
+		return metaValue;
+	}
+
+	public void setMetaValue(String metaValue) {
+		this.metaValue = metaValue;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+	
+	
+	
 }

@@ -12,44 +12,38 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import com.anaadihsoft.common.util.ProducIdType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"productName"})})
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"productCode"})})
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productId;
+	
+	private String productCode;
+	
+	private  ProducIdType productIdType;
 		
 	private String productName;
 	
 	private long categoryId;
 	
-	private String sku;
-
 	private Integer status;
 	
-	private double displayPrice;
+	private String brandName;
 	
-	private double actualPrice;
+	private String manufacturer;
 	
-	private double discountPrice;
+	private String defaultSize;
 	
-	private double totalQuantity;
-	
-	private double reservedQuantity;
-	
-	
-	@OneToMany(mappedBy="product")
-	private Set<ProductImages> productImages;
-	
-	@OneToMany(mappedBy="product")
-	private Set<ProductVariant> productVariants;
-	
-	@OneToMany(mappedBy="product")
-	private Set<ProductVideos> productVideos;
+	private String defaultColor;
+
+	private boolean variantExist;
 	
 	private Date createdDate;
 	
@@ -81,13 +75,7 @@ public class Product {
 		this.productName = productName;
 	}
 
-	public String getSku() {
-		return sku;
-	}
 
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
 
 	public Integer getStatus() {
 		return status;
@@ -97,45 +85,7 @@ public class Product {
 		this.status = status;
 	}
 
-	public double getDisplayPrice() {
-		return displayPrice;
-	}
-
-	public void setDisplayPrice(double displayPrice) {
-		this.displayPrice = displayPrice;
-	}
-
-	public double getActualPrice() {
-		return actualPrice;
-	}
-
-	public void setActualPrice(double actualPrice) {
-		this.actualPrice = actualPrice;
-	}
-
-	public double getDiscountPrice() {
-		return discountPrice;
-	}
-
-	public void setDiscountPrice(double discountPrice) {
-		this.discountPrice = discountPrice;
-	}
-
-	public double getTotalQuantity() {
-		return totalQuantity;
-	}
-
-	public void setTotalQuantity(double totalQuantity) {
-		this.totalQuantity = totalQuantity;
-	}
-
-	public double getReservedQuantity() {
-		return reservedQuantity;
-	}
-
-	public void setReservedQuantity(double reservedQuantity) {
-		this.reservedQuantity = reservedQuantity;
-	}
+	
 
 	public Date getCreatedDate() {
 		return createdDate;
@@ -185,30 +135,57 @@ public class Product {
 		this.productId = productId;
 	}
 
-	public Set<ProductImages> getProductImages() {
-		return productImages;
+	public String getProductCode() {
+		return productCode;
 	}
 
-	public void setProductImages(Set<ProductImages> productImages) {
-		this.productImages = productImages;
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
 
-	public Set<ProductVariant> getProductVariants() {
-		return productVariants;
+	public ProducIdType getProductIdType() {
+		return productIdType;
 	}
 
-	public void setProductVariants(Set<ProductVariant> productVariants) {
-		this.productVariants = productVariants;
+	public void setProductIdType(ProducIdType productIdType) {
+		this.productIdType = productIdType;
 	}
 
-	public Set<ProductVideos> getProductVideos() {
-		return productVideos;
+	public String getBrandName() {
+		return brandName;
 	}
 
-	public void setProductVideos(Set<ProductVideos> productVideos) {
-		this.productVideos = productVideos;
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+
+	public String getDefaultSize() {
+		return defaultSize;
+	}
+
+	public void setDefaultSize(String defaultSize) {
+		this.defaultSize = defaultSize;
+	}
+
+	public String getDefaultColor() {
+		return defaultColor;
+	}
+
+	public void setDefaultColor(String defaultColor) {
+		this.defaultColor = defaultColor;
 	}
 	
+	
+
+
 	
 	
 }

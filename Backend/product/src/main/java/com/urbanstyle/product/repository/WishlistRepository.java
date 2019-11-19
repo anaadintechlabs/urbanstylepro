@@ -10,10 +10,10 @@ import com.anaadihsoft.common.master.Wishlist;
 
 public interface WishlistRepository extends PagingAndSortingRepository<Wishlist, Long>{
 
-	List<Wishlist> findByUserIdAndStatus(long userId, String active, Pageable pagable);
+	List<Wishlist> findByUserIdAndStatus(long userId, int active, Pageable pagable);
 
 
 	@Query(value="update Wishlist set status =?2 where user.id = ?1 ")
-	void changeStatusOfWishList(long userId, String inactive);
+	void changeStatusOfWishList(long userId, int inactive);
 
 }

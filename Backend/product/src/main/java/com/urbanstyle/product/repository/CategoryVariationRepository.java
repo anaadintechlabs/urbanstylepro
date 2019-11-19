@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.anaadihsoft.common.master.CategoryVariation;
+import com.anaadihsoft.common.master.CategoryAttributeMapping;
 
-public interface CategoryVariationRepository extends PagingAndSortingRepository<CategoryVariation,Long>{
+public interface CategoryVariationRepository extends PagingAndSortingRepository<CategoryAttributeMapping,Long>{
 
-	List<CategoryVariation> findByStatusAndCategoryCategoryId(String active, int categoryId);
+	List<CategoryAttributeMapping> findByStatusAndCategoryCategoryId(int active, int categoryId);
 
 }
