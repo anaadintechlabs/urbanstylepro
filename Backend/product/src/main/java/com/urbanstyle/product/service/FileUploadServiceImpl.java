@@ -23,7 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.master.Product;
-import com.anaadihsoft.common.master.UploadFileResponse;
+import com.anaadihsoft.common.util.UploadFileResponse;
 import com.urbanstyle.product.repository.ProductRepository;
 import com.urbanstyle.product.util.CustomException;
 
@@ -117,8 +117,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 	 * @return
 	 */
 	private String generateFileName(String orgName, MultipartFile file) {
-		return orgName + "-" + new Date().getTime() + FilenameUtils.EXTENSION_SEPARATOR
-				+ FilenameUtils.getExtension(file.getOriginalFilename());
+		return orgName + "-" + new Date().getTime() ;
+//		+ FilenameUtils.EXTENSION_SEPARATOR
+//		+ FilenameUtils.getExtension(file.getOriginalFilename())
 	}
 
 	/**
@@ -239,12 +240,12 @@ public class FileUploadServiceImpl implements FileUploadService {
 			if (resource.exists()) {
 				return resource;
 			} else {
-				//throw new CustomException("File not found " + fileName);
+				throw new CustomException("File not found " + fileName);
 			}
 		} catch (MalformedURLException ex) {
-			//throw new CustomException("File not found " + fileName);
+			throw new CustomException("File not found " + fileName);
 		}
-		return null;
+		
 	}
 
 	/**

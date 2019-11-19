@@ -15,7 +15,7 @@ import com.urbanstyle.product.repository.ProductRepository;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-	private static final String ACTIVE ="ACTIVE";
+	private static final int ACTIVE =	1;
 	private ProductRepository productRepository;
 	
 //	@Override

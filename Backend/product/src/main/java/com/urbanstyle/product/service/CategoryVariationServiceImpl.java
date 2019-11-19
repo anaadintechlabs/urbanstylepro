@@ -11,7 +11,7 @@ import com.urbanstyle.product.repository.CategoryVariationRepository;
 
 @Service
 public class CategoryVariationServiceImpl implements CategoryVariationService{
-	private static final String ACTIVE ="ACTIVE";
+	private static final int ACTIVE =	1;
 	
 	@Autowired
 	private CategoryVariationRepository categoryVariationRepository; 

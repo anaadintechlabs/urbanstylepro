@@ -24,8 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.anaadihsoft.common.master.UploadFileResponse;
+import com.anaadihsoft.common.util.UploadFileResponse;
 import com.urbanstyle.product.service.FileUploadService;
+import com.urbanstyle.product.util.CustomException;
 
 @RestController
 public class FileUploadController {
@@ -91,7 +92,7 @@ public class FileUploadController {
 	 */
 	@GetMapping("/downloadFile/**/{fileName:.+}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request)
-			throws  UnsupportedEncodingException {
+			throws  UnsupportedEncodingException, CustomException {
 		final Resource resource = fileUploadService.loadFileAsResource(fileName, request);
 		// Try to determine file's content type
 		String contentType = null;

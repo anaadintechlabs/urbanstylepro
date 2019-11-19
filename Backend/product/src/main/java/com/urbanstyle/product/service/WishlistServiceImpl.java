@@ -15,8 +15,8 @@ import com.urbanstyle.product.repository.WishlistRepository;
 @Service
 public class WishlistServiceImpl implements WishlistService{
 
-	private static final String ACTIVE ="ACTIVE";
-	private static final String INACTIVE ="INACTIVE";
+	private static final int ACTIVE =	1;
+	private static final int INACTIVE =	2;
 	@Autowired
 	private WishlistRepository wishlistRepository;
 	

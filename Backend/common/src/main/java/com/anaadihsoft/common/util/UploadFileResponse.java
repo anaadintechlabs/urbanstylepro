@@ -1,5 +1,4 @@
-package com.urbanstyle.product.util;
-
+package com.anaadihsoft.common.util;
 
 public class UploadFileResponse {
 
@@ -46,4 +45,5 @@ public class UploadFileResponse {
     public void setSize(long size) {
         this.size = size;
     }
+
 }

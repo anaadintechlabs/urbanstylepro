@@ -20,7 +20,7 @@ import com.urbanstyle.product.repository.ShoppingCartRepository;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService{
 
-	private static final String ACTIVE="ACTIVE";
+	private static final int ACTIVE =	1;
 	
 	@Autowired
 	private ShoppingCartRepository  shoppingCartRepository;

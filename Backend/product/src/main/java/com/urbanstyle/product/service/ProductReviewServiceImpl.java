@@ -15,8 +15,8 @@ import com.urbanstyle.product.repository.ProductReviewRepository;
 @Service
 public class ProductReviewServiceImpl implements ProductReviewService{
 
-	private static final String ACTIVE ="ACTIVE";
-	private static final String INACTIVE ="INACTIVE";
+	private static final int ACTIVE =	1;
+	private static final int INACTIVE =2;
 	
 	@Autowired
 	private ProductReviewRepository productReviewRepository; 
