@@ -25,7 +25,7 @@ public class CategoryAttributeMapping {
 	@ManyToOne
 	private Category category;
 	
-	private String status;
+	private int status;
 	
 	private Date createdDate;
 	
@@ -59,11 +59,21 @@ public class CategoryAttributeMapping {
 		this.category = category;
 	}
 
-	public String getStatus() {
+
+
+	public AttributeMaster getAttributeMaster() {
+		return attributeMaster;
+	}
+
+	public void setAttributeMaster(AttributeMaster attributeMaster) {
+		this.attributeMaster = attributeMaster;
+	}
+
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

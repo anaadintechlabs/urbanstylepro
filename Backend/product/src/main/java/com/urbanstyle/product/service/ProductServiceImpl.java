@@ -81,22 +81,22 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product updateProduct(Product product) {
 		Product oldProduct=productRepository.findByProductId(product.getProductId());
-		updatProduct(oldProduct,product);
+		//updatProduct(oldProduct,product);
 		return productRepository.save(oldProduct);
 	}
 
-	private void updatProduct(Product oldProduct, Product product) {
-			if(!product.getProductImages().isEmpty()) {
-				oldProduct.setProductImages(product.getProductImages());
-			}
-			if(!product.getProductVariants().isEmpty()) {
-				oldProduct.setProductVariants(product.getProductVariants());
-			}
-			if(!product.getProductVideos().isEmpty()) {
-				oldProduct.setProductVideos(product.getProductVideos());
-			}
-	}
-	
+//	private void updatProduct(Product oldProduct, Product product) {
+//			if(!product.getProductImages().isEmpty()) {
+//				oldProduct.setProductImages(product.getProductImages());
+//			}
+//			if(!product.getProductVariants().isEmpty()) {
+//				oldProduct.setProductVariants(product.getProductVariants());
+//			}
+//			if(!product.getProductVideos().isEmpty()) {
+//				oldProduct.setProductVideos(product.getProductVideos());
+//			}
+//	}
+//	
 	
 
 }

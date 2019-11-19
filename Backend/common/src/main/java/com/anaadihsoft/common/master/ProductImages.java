@@ -18,10 +18,10 @@ public class ProductImages {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productImageId;
 	
-	@Lob
-	private byte[] productImage;
-	
-	private long productImageName;
+//	@Lob
+//	private byte[] productImage;
+//	
+	private String productImageUrl;
 	
 	 @ManyToOne
 	 @JoinColumn(name="productId", nullable=false,updatable=false)
@@ -33,6 +33,22 @@ public class ProductImages {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public long getProductImageId() {
+		return productImageId;
+	}
+
+	public void setProductImageId(long productImageId) {
+		this.productImageId = productImageId;
+	}
+
+	public String getProductImageUrl() {
+		return productImageUrl;
+	}
+
+	public void setProductImageUrl(String productImageUrl) {
+		this.productImageUrl = productImageUrl;
 	}
 	 
 	 

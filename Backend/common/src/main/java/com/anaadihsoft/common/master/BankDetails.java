@@ -40,7 +40,7 @@ public class BankDetails {
 	private String  ifscCode;
     
     
-    private String status;
+    private int status;
 
 	private Date createdDate;
 	
@@ -56,7 +56,7 @@ public class BankDetails {
 	{
 		this.createdDate=new Date();
 		this.createdBy="Admin";
-		this.status="ACTIVE";
+		this.status=1;
 	}
 	
 	@PreUpdate
@@ -67,11 +67,13 @@ public class BankDetails {
 	}
 	
 	
-	public String getStatus() {
+	
+
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

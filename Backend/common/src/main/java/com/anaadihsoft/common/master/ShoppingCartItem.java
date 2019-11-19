@@ -30,7 +30,7 @@ public class ShoppingCartItem {
 	
 	private double cost;
 	
-	private String status;
+	private int status;
 	
 	private Date createdDate;
 	
@@ -82,11 +82,13 @@ public class ShoppingCartItem {
 		this.quantity = quantity;
 	}
 
-	public String getStatus() {
+
+
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -127,7 +129,7 @@ public class ShoppingCartItem {
 	{
 		this.createdDate=new Date();
 		this.createdBy="Admin";
-		this.setStatus("ACTIVE");
+		this.setStatus(1);
 	}
 	
 	@PreUpdate

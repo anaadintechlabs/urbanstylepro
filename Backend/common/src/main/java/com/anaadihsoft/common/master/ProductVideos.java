@@ -20,6 +20,8 @@ public class ProductVideos {
 	@ManyToOne
 	@JoinColumn(name="productId", nullable=false)
 	private Product product;
+	
+	private String productVideoUrl;
 
 	public Product getProduct() {
 		return product;
@@ -28,4 +30,22 @@ public class ProductVideos {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+
+	public long getProductVideoId() {
+		return productVideoId;
+	}
+
+	public void setProductVideoId(long productVideoId) {
+		this.productVideoId = productVideoId;
+	}
+
+	public String getProductVideoUrl() {
+		return productVideoUrl;
+	}
+
+	public void setProductVideoUrl(String productVideoUrl) {
+		this.productVideoUrl = productVideoUrl;
+	}
+	
+	
 }

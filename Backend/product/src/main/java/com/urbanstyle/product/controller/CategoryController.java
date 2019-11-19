@@ -43,7 +43,7 @@ public class CategoryController {
 	 * @param response
 	 * @return method for getting all parent category
 	 */
-	@RequestMapping(value="/getAllParentCategories",method=RequestMethod.GET)
+	@RequestMapping(value="/getAllParentCategories",method=RequestMethod.POST)
 	public Map<String,Object> getAllParentCategories(@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response)
 	{

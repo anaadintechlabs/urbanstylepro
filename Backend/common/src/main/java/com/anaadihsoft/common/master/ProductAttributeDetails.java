@@ -7,29 +7,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ProductReview {
+
+public class ProductAttributeDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	@ManyToOne
-	private Product product;
+	private ProductVariant productVariant;
 	
-	@ManyToOne
-	private User user;
+	private long attributeMasterId;
 	
-	private String review;
-	
-	private String rating;
-	
+	private String attributeValue;
 	
 	private int status;
 	
@@ -49,38 +44,29 @@ public class ProductReview {
 		this.id = id;
 	}
 
-	public Product getProduct() {
-		return product;
+	public ProductVariant getProductVariant() {
+		return productVariant;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
 	}
 
-	public User getUser() {
-		return user;
+	public long getAttributeMasterId() {
+		return attributeMasterId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAttributeMasterId(long attributeMasterId) {
+		this.attributeMasterId = attributeMasterId;
 	}
 
-	public String getReview() {
-		return review;
+	public String getAttributeValue() {
+		return attributeValue;
 	}
 
-	public void setReview(String review) {
-		this.review = review;
+	public void setAttributeValue(String attributeValue) {
+		this.attributeValue = attributeValue;
 	}
-
-	public String getRating() {
-		return rating;
-	}
-
-	public void setRating(String rating) {
-		this.rating = rating;
-	}
-
 
 	public int getStatus() {
 		return status;
@@ -121,21 +107,9 @@ public class ProductReview {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
+
 	
-	@PrePersist
-	public void setAudit()
-	{
-		this.createdDate=new Date();
-		this.createdBy="Admin";
-		this.status=1;
-	}
 	
-	@PreUpdate
-	public void  update()
-	{
-		this.modifiedDate= new Date();
-		this.modifiedBy="Admin";
-	}
 	
 	
 }

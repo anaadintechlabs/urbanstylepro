@@ -28,6 +28,10 @@ public class Category {
 	@ManyToOne
 	private Category parentCategory;
 	
+	private boolean lastCategory;
+	
+	private double commissionPercentage;
+	
 	private Integer status;
 		
 	private Date createdDate;
@@ -52,8 +56,26 @@ public class Category {
 		this.modifiedBy="Admin";
 	}
 
+	
+	public double getCommissionPercentage() {
+		return commissionPercentage;
+	}
+
+	public void setCommissionPercentage(double commissionPercentage) {
+		this.commissionPercentage = commissionPercentage;
+	}
+
 	public long getCategoryId() {
 		return categoryId;
+	}
+
+	
+	public boolean isLastCategory() {
+		return lastCategory;
+	}
+
+	public void setLastCategory(boolean lastCategory) {
+		this.lastCategory = lastCategory;
 	}
 
 	public void setCategoryId(long categoryId) {
