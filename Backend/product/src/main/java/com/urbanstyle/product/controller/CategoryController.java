@@ -91,8 +91,16 @@ public class CategoryController {
 		
 	}
 	
+	@RequestMapping(value="/fetchallAttributeDtail",method=RequestMethod.GET)
+	public Map<String,Object> fetchallAttributeDtail(HttpServletRequest request,HttpServletResponse response,@RequestParam (value="categoryId",required=true) long categoryId)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("categoryList", categoryService.fetchallAttributeDtail(categoryId));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
 	
-	
+		
 
 	@PostMapping
 	public Map<String,Object> saveCategory(HttpServletRequest request,HttpServletResponse response,@RequestBody(required=true)Category category) 
