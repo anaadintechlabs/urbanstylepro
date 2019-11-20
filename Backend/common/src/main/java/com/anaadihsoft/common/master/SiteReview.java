@@ -14,14 +14,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ProductReview {
+public class SiteReview {
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@ManyToOne
-	private Product product;
 	
 	@ManyToOne
 	private User user;
@@ -29,8 +28,6 @@ public class ProductReview {
 	private String review;
 	
 	private String rating;
-	
-	private String title;
 	
 	
 	private int status;
@@ -51,13 +48,7 @@ public class ProductReview {
 		this.id = id;
 	}
 
-	public Product getProduct() {
-		return product;
-	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
 
 	public User getUser() {
 		return user;
@@ -138,16 +129,7 @@ public class ProductReview {
 		this.modifiedDate= new Date();
 		this.modifiedBy="Admin";
 	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	
 	
 	
 }
+

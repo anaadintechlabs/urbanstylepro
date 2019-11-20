@@ -1,6 +1,7 @@
 package com.anaadihsoft.order.Contoller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody; 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.order.Service.OrderService;
+import com.urbanstyle.user.util.CommonResponseSender;
 
 @RestController
 @RequestMapping("/api")
@@ -25,42 +28,52 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 
-	@ResponseBody
+	//@ResponseBody
 	@RequestMapping(value= {"/saveOrder"},method= {RequestMethod.POST,RequestMethod.GET})
-	public HashMap<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestBody UserOrder userOrder){
-		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	public Map<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestBody UserOrder userOrder){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
 		try {
 			resultMap.put("addressDetails",orderService.saveorUpdate(userOrder));
 			resultMap.put("RESPONSE", "SUCCESS");
 		}catch(Exception e) {
 			resultMap.put("RESPONSE", "ERROR");	
 		}
-		return resultMap;
+		return CommonResponseSender.createdSuccessResponse(resultMap, response);
+		//return resultMap;
 	}
 	
-	@ResponseBody
+	//@ResponseBody
 	@RequestMapping(value= {"/getOrderByUser"},method= {RequestMethod.POST,RequestMethod.GET})
-	public HashMap<String,Object> getOrderByUser(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
-		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	public Map<String,Object> getOrderByUser(HttpServletRequest request,
+			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
 		try {
-			resultMap.put("addressDetails",orderService.getOrderByUser(Long.parseLong(userId)));
+			resultMap.put("orderList",orderService.getOrderByUser(Long.parseLong(userId),filter));
 			resultMap.put("RESPONSE", "SUCCESS");
 		}catch(Exception e) {
 			resultMap.put("RESPONSE", "ERROR");	
 		}
-		return resultMap;
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+
+		//return resultMap;
 	}
 	
-	@ResponseBody
+	//@ResponseBody
 	@RequestMapping(value= {"/getOrderById"},method= {RequestMethod.POST,RequestMethod.GET})
-	public HashMap<String,Object> getOrderById(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="orderId",required=true) String orderId ){
-		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	public Map<String,Object> getOrderById(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="orderId",required=true) String orderId ){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
 		try {
-			resultMap.put("addressDetails",orderService.getOrderById(Long.parseLong(orderId)));
+			resultMap.put("orderDetails",orderService.getOrderById(Long.parseLong(orderId)));
 			resultMap.put("RESPONSE", "SUCCESS");
 		}catch(Exception e) {
 			resultMap.put("RESPONSE", "ERROR");	
 		}
-		return resultMap;
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+		//return resultMap;
 	}
+	
+	
+	
+	
+	
 }
