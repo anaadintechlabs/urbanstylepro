@@ -20,6 +20,7 @@ import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.urbanstyle.product.service.ProductService;
+import com.urbanstyle.product.service.ProductVarientService;
 import com.urbanstyle.product.util.CommonResponseSender;
 
 @RestController
@@ -30,6 +31,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ProductVarientService productVarient;
 	
 //	/**
 //	 * 
@@ -113,6 +117,13 @@ public class ProductController {
 //	}
 	
 	
+	@RequestMapping(value="/getAllVarientsOfProducts",method=RequestMethod.GET)
+	public Map<String,Object> getAllVarientsOfProducts(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="prodId",required = true)long prodId){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("product", productVarient.getAllVarients());
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
 
 	@RequestMapping(value="/getAllProducts",method=RequestMethod.GET)
 	public Map<String,Object> getAllProducts(HttpServletRequest request,HttpServletResponse response){
@@ -136,4 +147,37 @@ public class ProductController {
 		map.put("product", productService.updateProduct(product));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
+	
+	// FEATURED PRODUCTS
+	
+	@RequestMapping(value="/getAllFeaturedProducts",method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getAllFeaturedProducts(HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("featuredProducts", productVarient.getAllFeaturedProducts());
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/setFeaturedProduct",method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> setFeaturedProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam (value="prodId",required=true)long prodId){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("featuredProducts", productVarient.setFeaturedProduct(prodId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	// DEAL OF THE DAY
+	
+	@RequestMapping(value="/getDealOftheDay",method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getDealOftheDay(HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("dealOftheDay", productVarient.getDealOftheDay());
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/setDealOftheDay",method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> setDealOftheDay(HttpServletRequest request,HttpServletResponse response,@RequestParam (value="prodId",required=true)long prodId){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("dealOftheDay", productVarient.setDealOftheDay(prodId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
 }
