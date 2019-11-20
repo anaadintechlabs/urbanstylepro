@@ -17,5 +17,5 @@ public interface ProductVarientService {
 
 	boolean setDealOftheDay(long prodId);
 
-	List<ProductVariant> getAllVarients();
+	List<ProductVariant> getAllVarients(int Status);
 }
