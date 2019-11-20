@@ -1,3 +1,4 @@
+
 package com.urbanstyle.product.service;
 
 import java.util.List;
@@ -53,3 +54,4 @@ public interface ProductService {
 	List<Product> getBestSellingProducts(Filter filter);
 
 }
+

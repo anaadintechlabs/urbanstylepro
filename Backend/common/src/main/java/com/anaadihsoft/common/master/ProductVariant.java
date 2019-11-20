@@ -49,8 +49,28 @@ public class ProductVariant {
 	private Date modifiedDate;
 	
 	private String modifiedBy;
-
 	
+	private boolean fetauredProduct;
+	
+	private boolean dealOfTheDay;
+	
+	
+
+	public boolean isFetauredProduct() {
+		return fetauredProduct;
+	}
+
+	public void setFetauredProduct(boolean fetauredProduct) {
+		this.fetauredProduct = fetauredProduct;
+	}
+
+	public boolean isDealOfTheDay() {
+		return dealOfTheDay;
+	}
+
+	public void setDealOfTheDay(boolean dealOfTheDay) {
+		this.dealOfTheDay = dealOfTheDay;
+	}
 
 	public Product getProduct() {
 		return product;
@@ -164,7 +184,6 @@ public class ProductVariant {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
-	
+
 	
 }
