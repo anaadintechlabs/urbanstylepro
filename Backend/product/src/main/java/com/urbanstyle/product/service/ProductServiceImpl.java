@@ -145,6 +145,14 @@ public class ProductServiceImpl implements ProductService{
 		//updatProduct(oldProduct,product);
 		return productRepository.save(oldProduct);
 	}
+//
+	@Override
+	public List<Product> getBestSellingProducts(Filter filter) {
+
+		//Logic
+		//Order table 
+		return null;
+	}
 
 //	private void updatProduct(Product oldProduct, Product product) {
 //			if(!product.getProductImages().isEmpty()) {

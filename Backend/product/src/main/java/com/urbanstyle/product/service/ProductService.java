@@ -50,4 +50,6 @@ public interface ProductService {
 
 	Product updateProduct(Product product);
 
+	List<Product> getBestSellingProducts(Filter filter);
+
 }
