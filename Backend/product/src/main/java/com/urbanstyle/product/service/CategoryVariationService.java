@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.anaadihsoft.common.master.CategoryVariation;
+import com.anaadihsoft.common.master.CategoryAttributeMapping;
 
 @Service
 public interface CategoryVariationService {
 
-	List<CategoryVariation> getAllVariationOfCategory(int categoryId);
+	List<CategoryAttributeMapping> getAllVariationOfCategory(int categoryId);
 
-	CategoryVariation getVariationDetail(long variationId);
+	CategoryAttributeMapping getVariationDetail(long variationId);
 
 }
