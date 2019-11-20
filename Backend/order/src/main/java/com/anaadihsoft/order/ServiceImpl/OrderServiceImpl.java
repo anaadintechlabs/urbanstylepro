@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.order.Repository.OrderRepository;
 import com.anaadihsoft.order.Service.OrderService;
@@ -27,8 +31,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<UserOrder> getOrderByUser(long userId) {
-		return orderRepository.findByUserId(userId);
+	public List<UserOrder> getOrderByUser(long userId,Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		
+		return orderRepository.findByUserId(userId,pagable);
 	}
 
 	@Override

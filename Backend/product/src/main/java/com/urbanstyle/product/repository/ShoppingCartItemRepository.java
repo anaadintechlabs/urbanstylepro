@@ -16,7 +16,7 @@ public interface ShoppingCartItemRepository extends PagingAndSortingRepository<S
 	@Query(value="update ShoppingCartItem sci set sci.status=?3 where sci.product.id in(?2) and  sci.shoppingCart.user.id=?1" )
 	void changeStatusOfShoppingCart(String userId, List<String> productId2, String productId);
 
-	List<ShoppingCartItem> findByShoppingCartUserIdAndStatus(String userId, String active, Pageable pagable);
+	List<ShoppingCartItem> findByShoppingCartUserIdAndStatus(String userId, int active, Pageable pagable);
 
 //	@Query(value ="Select sum(sci.quantity) from ShoppingCartItem sci where sci.user.id=?1 and sci.status=?2")
 //	Object getCartCountOfUser(long userId,String status);

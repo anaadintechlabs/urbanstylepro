@@ -29,7 +29,7 @@ public class Wishlist {
 	private Product product;	
 	
 	
-	private String status;
+	private int status;
 	
 	private Date createdDate;
 	
@@ -63,13 +63,7 @@ public class Wishlist {
 		this.product = product;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
+	
 
 	public Date getCreatedDate() {
 		return createdDate;
@@ -107,7 +101,7 @@ public class Wishlist {
 	{
 		this.createdDate=new Date();
 		this.createdBy="Admin";
-		this.status="ACTIVE";
+		this.status=1;
 	}
 	
 	@PreUpdate

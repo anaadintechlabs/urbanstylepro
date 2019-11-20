@@ -5,6 +5,10 @@
 export const environment = {
   production: false,
   api_url: "http://localhost:8082/",
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5cde7e4f86df32e37471c11d1b8b7b36c37a517c
 };
 
 /*

@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	final Logger log=LoggerFactory.getLogger(CategoryServiceImpl.class);
 	
-	private static final String ACTIVE ="ACTIVE";
+	private static final int ACTIVE =	1;
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
