@@ -50,8 +50,8 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	}
 
 	@Override
-	public List<ProductVariant> getAllVarients() {
-		return productVarRepo.findByStatus(1);
+	public List<ProductVariant> getAllVarients(int Status) {
+		return productVarRepo.findByStatus(Status);
 	}
 	
 	
