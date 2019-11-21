@@ -180,8 +180,6 @@ public class ProductController {
 		map.put("dealOftheDay", productVarient.setDealOftheDay(prodId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
-	
-		
 	@PostMapping
 	public Map<String,Object> getBestSellingProducts(@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response)

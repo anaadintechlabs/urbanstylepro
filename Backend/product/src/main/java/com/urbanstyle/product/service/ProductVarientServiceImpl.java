@@ -41,7 +41,6 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		}else {
 			return false;			
 		}
-	}
 
 	@Override
 	public ProductVariant getDealOftheDay() {
@@ -52,7 +51,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	public boolean setDealOftheDay(long prodId) {
 	 try {
 		 productVarRepo.setDealOftheDay(false);
-		 productVarRepo.setDealofSelectedProd(true,prodId);
+		// productVarRepo.setDealofSelectedProd(true,prodId);
 		 return true;
 	 }catch(Exception e) {
 		 return false;		 

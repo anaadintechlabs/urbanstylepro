@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServicesModule } from 'src/_services/services.module';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -16,8 +18,10 @@ import { ServicesModule } from 'src/_services/services.module';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    ServicesModule
+    ServicesModule,
+    NgbModule
   ],
+  schemas: [NO_ERRORS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
 })

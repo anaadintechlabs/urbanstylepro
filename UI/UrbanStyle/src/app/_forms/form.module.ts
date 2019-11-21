@@ -5,14 +5,15 @@ import { MatSidenavModule,MatToolbarModule,MatIconModule, MatButtonModule, MatSt
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { BasicDetailsComponent } from './basic-details/basic-details.component';
 import { LoginComponent } from './login/login.component';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { VitalInformationComponent } from './vital-information/vital-information.component';
 
 
 
 @NgModule({
   declarations: [CategotySelectionComponent, 
     BasicDetailsComponent, 
-    LoginComponent
+    LoginComponent, VitalInformationComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +23,8 @@ import { LoginComponent } from './login/login.component';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatStepperModule
+    MatStepperModule,
+    NgbModule
   ],
   exports: [
     CommonModule,
