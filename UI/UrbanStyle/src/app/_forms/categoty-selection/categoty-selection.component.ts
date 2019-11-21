@@ -12,12 +12,7 @@ export class CategotySelectionComponent implements OnInit {
   @Input() catList : Category[]; 
   @Output() submit: EventEmitter<number> = new EventEmitter<number>();
 
-  showNavigationArrows = true;
-  showNavigationIndicators = true;
-  images : any = [1,2,3];
-  constructor( private config: NgbCarouselConfig) { 
-    config.showNavigationArrows = true;
-    config.showNavigationIndicators = true;
+  constructor( ) { 
   }
 
   ngOnInit() {
