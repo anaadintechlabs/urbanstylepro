@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path : 'vendor',
-    loadChildren: () => import('./vendor/vendor.module').then(m=> m.VendorModule),
+    loadChildren: './vendor/vendor.module#VendorModule',
   },
   {
     path : 'affiliate',

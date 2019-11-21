@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/_services/data.service';
 import { Category } from 'src/_modals/category.modal';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-product',
@@ -10,6 +11,7 @@ import { Category } from 'src/_modals/category.modal';
 export class AddProductComponent implements OnInit {
 
   category : Category[]=[];
+  vitalInfo : FormGroup;
   constructor(protected _dataService : DataService) { }
 
   ngOnInit() {
