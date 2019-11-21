@@ -22,15 +22,16 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 
 	@Override
 	public boolean setFeaturedProduct(long prodId) {
-		Optional<ProductVariant> productVarient = productVarRepo.findByProductId(prodId);
-		if(productVarient.isPresent()) {
-			ProductVariant proModel = productVarient.get();
-			proModel.setFetauredProduct(true);
-			productVarRepo.save(proModel);
-			return true;
-		}else {
-			return false;			
-		}
+//		Optional<ProductVariant> productVarient = productVarRepo.findByProductId(prodId);
+//		if(productVarient.isPresent()) {
+//			ProductVariant proModel = productVarient.get();
+//			proModel.setFetauredProduct(true);
+//			productVarRepo.save(proModel);
+//			return true;
+//		}else {
+//			return false;			
+//		}
+		return false;
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	public boolean setDealOftheDay(long prodId) {
 	 try {
 		 productVarRepo.setDealOftheDay(false);
-		 productVarRepo.setDealofSelectedProd(true,prodId);
+		// productVarRepo.setDealofSelectedProd(true,prodId);
 		 return true;
 	 }catch(Exception e) {
 		 return false;		 
