@@ -18,6 +18,7 @@ import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductMeta;
 import com.anaadihsoft.common.master.ProductVariant;
+import com.urbanstyle.product.repository.ProductAttributeDetailsRepository;
 import com.urbanstyle.product.repository.ProductRepository;
 import com.urbanstyle.product.repository.ProductVariantRepository;
 
@@ -29,6 +30,9 @@ public class ProductServiceImpl implements ProductService{
 	private ProductRepository productRepository;
 	@Autowired
 	private ProductVariantRepository  productVariantRepository;
+	
+	@Autowired
+	private ProductAttributeDetailsRepository productAttrRepo;
 	
 //	@Override
 //	public List<Product> getAllMainProductsOfUser(long userId, Filter filter) {
@@ -95,7 +99,6 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	private void createProductVariant(List<ProductVariantDTO> productVariantDTOList,Product product) {
-		List<ProductAttributeDetails> productAttributeDetails = new ArrayList<ProductAttributeDetails>();
 		for(ProductVariantDTO productVariantDTO:productVariantDTOList)
 		{
 			ProductVariant productVariant=productVariantDTO.getProductVariant();
@@ -103,13 +106,9 @@ public class ProductServiceImpl implements ProductService{
 			productVariant=productVariantRepository.save(productVariant);
 			if(productVariantDTO.getAttributesMap()!=null)
 			{
-				saveProductAttributeDetails(productVariantDTO.getAttributesMap(),productVariant,productAttributeDetails);
+				saveProductAttributeDetails(productVariantDTO.getAttributesMap(),productVariant);
 				saveProductMetaInformation(productVariantDTO.getProductMetaInfo(),productVariant);
 				
-				if(productAttributeDetails!=null && !productAttributeDetails.isEmpty())
-				{
-					//save the data here
-				}
 			}
 			
 			
@@ -117,7 +116,7 @@ public class ProductServiceImpl implements ProductService{
 		
 	}
 
-	private void saveProductMetaInformation(List<ProductMeta> productMetaInfo, ProductVariant productVariant) {
+	public void saveProductMetaInformation(List<ProductMeta> productMetaInfo, ProductVariant productVariant) {
 		for(ProductMeta productMeta:productMetaInfo)
 		{
 			productMeta.setProductVariant(productVariant);
@@ -125,7 +124,8 @@ public class ProductServiceImpl implements ProductService{
 		
 	}
 
-	private void saveProductAttributeDetails(Map<Long, String> attributesMap, ProductVariant productVariant, List<ProductAttributeDetails> productAttributeDetails) {
+	 public void saveProductAttributeDetails(Map<Long, String> attributesMap, ProductVariant productVariant) {
+		 List<ProductAttributeDetails> productAttributeDetails = new ArrayList<ProductAttributeDetails>();
 		for(Map.Entry<Long,String> entry:attributesMap.entrySet())
 		{
 			ProductAttributeDetails pad = new ProductAttributeDetails();
@@ -136,6 +136,10 @@ public class ProductServiceImpl implements ProductService{
 			productAttributeDetails.add(pad);
 		}
 		
+		if(productAttributeDetails!=null && !productAttributeDetails.isEmpty())
+		{
+			productAttrRepo.saveAll(productAttributeDetails);
+		}
 		
 	}
 
