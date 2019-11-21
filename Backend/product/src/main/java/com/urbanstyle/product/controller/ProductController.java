@@ -181,14 +181,14 @@ public class ProductController {
 	}
 	
 		
-	@PostMapping
-	public Map<String,Object> getBestSellingProducts(@RequestBody Filter filter,
-			HttpServletRequest request,HttpServletResponse response)
-	{
-		final HashMap<String, Object> map = new HashMap<>();
-		map.put("productList", productService.getBestSellingProducts(filter));
-		return CommonResponseSender.createdSuccessResponse(map, response);
-	}
-	
+//	@PostMapping
+//	public Map<String,Object> getBestSellingProducts(@RequestBody Filter filter,
+//			HttpServletRequest request,HttpServletResponse response)
+//	{
+//		final HashMap<String, Object> map = new HashMap<>();
+//		map.put("productList", productService.getBestSellingProducts(filter));
+//		return CommonResponseSender.createdSuccessResponse(map, response);
+//	}
+//	
 	
 }

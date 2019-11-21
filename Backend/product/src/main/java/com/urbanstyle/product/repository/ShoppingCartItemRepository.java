@@ -13,7 +13,7 @@ import com.anaadihsoft.common.master.ShoppingCartItem;
 public interface ShoppingCartItemRepository extends PagingAndSortingRepository<ShoppingCartItem,Long> {
 
 
-	@Query(value="update ShoppingCartItem sci set sci.status=?3 where sci.product.id in(?2) and  sci.shoppingCart.user.id=?1" )
+	@Query(value="update ShoppingCartItem sci set sci.status=?3 where sci.product.productId in(?2) and  sci.shoppingCart.user.id=?1" )
 	void changeStatusOfShoppingCart(String userId, List<String> productId2, String productId);
 
 	List<ShoppingCartItem> findByShoppingCartUserIdAndStatus(String userId, int active, Pageable pagable);

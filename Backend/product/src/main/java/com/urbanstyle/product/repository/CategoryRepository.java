@@ -19,7 +19,7 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
 
 	List<Category> findByStatusAndParentCategoryCategoryId(int active, long categoryId);
 
-	@Query(value="Select t from AttributeMaster t left join CategoryAttributeMapping ca on t.id = ca.attributeMaster where ca.category = ?")
+	@Query(value="Select t from AttributeMaster t left join CategoryAttributeMapping ca on t.id = ca.attributeMaster where ca.category = ?1")
 	//@Query(value="select new com.urbanstyle.AttributeMaster(c) from CategoryAttributeMapping c where c.category.id=?! ")
 	List<AttributeMaster> fetchallAttributeDtail(long categoryId);
 
