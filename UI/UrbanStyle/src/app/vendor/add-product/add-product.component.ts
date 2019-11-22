@@ -10,29 +10,18 @@ import { FormGroup } from '@angular/forms';
 })
 export class AddProductComponent implements OnInit {
 
-  category : Category[]=[];
   vitalInfo : FormGroup;
   constructor(protected _dataService : DataService) { }
 
   ngOnInit() {
-    this.getAllCategory();
+    
   }
-
-  getAllCategory(){
-    let body ={
-      limit:15,
-      offset:0,
-      sortingDirection:"DESC",
-      sortingField:"modifiedDate"
-    }
-    this._dataService.getAllCategory("category/getAllParentCategories",body).subscribe(data=>{
-      this.category = data;
-      console.log("hiiii",this.category);
-    })
-  }
-
+  
   selectedCategory(catId:number){
     console.log(catId);
+    this._dataService.getAllVariationOfCategory('variation/getAllVariationOfCategory',catId).subscribe(data=>{
+      console.log(data);
+    })
   }
 
 }

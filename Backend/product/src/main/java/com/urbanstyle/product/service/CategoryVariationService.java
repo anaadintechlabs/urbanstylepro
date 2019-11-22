@@ -9,7 +9,7 @@ import com.anaadihsoft.common.master.CategoryAttributeMapping;
 @Service
 public interface CategoryVariationService {
 
-	List<CategoryAttributeMapping> getAllVariationOfCategory(int categoryId);
+	List<CategoryAttributeMapping> getAllVariationOfCategory(long categoryId);
 
 	CategoryAttributeMapping getVariationDetail(long variationId);
 

@@ -11,5 +11,8 @@ export interface Category{
     createdDate : Date,
     createdBy : string,
     modifiedDate : Date,
-    modifiedBy : string
+    modifiedBy : string,
+    commissionPercentage: number,
+    lastCategory: boolean,
+    parentCategoryId: number
 }

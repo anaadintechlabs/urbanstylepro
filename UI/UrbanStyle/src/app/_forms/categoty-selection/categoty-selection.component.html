@@ -1,8 +1,8 @@
 
-<div *ngFor="let item of categoryList; trackBy:item.id">
-<ul >
-    <li *ngFor="let item of item?.categoryList; trackBy:item.id"> </li>
-  </ul>
+<div *ngIf="category && category?.length > 0">
+    <ul *ngFor="let item of category; let i = index">
+      <li *ngFor="let cat of item?.category" (click)="getCategoryById(cat,i)">{{ cat?.categoryName }}</li>
+    </ul>
 </div>
 
 
