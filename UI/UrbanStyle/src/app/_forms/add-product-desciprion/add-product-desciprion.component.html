@@ -12,6 +12,8 @@
     <product-variation></product-variation>
 </div>
 
-<div *ngIf="selectedProductType == 'ADVANCE'">
-    <mat-checkbox>Check me!</mat-checkbox>
+<div *ngIf="selectedProductType == 'ADVANCE' && categoryAttribute.length > 0">
+    <div *ngFor="let item of categoryAttribute">
+        <mat-checkbox>{{ item.attributeMaster.variationName }}</mat-checkbox>
+    </div>
 </div>

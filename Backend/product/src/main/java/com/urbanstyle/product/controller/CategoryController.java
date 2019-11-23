@@ -47,6 +47,7 @@ public class CategoryController {
 	public Map<String,Object> getAllParentCategories(@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response)
 	{
+		System.out.println("CategoryController.getAllParentCategories()");
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("categoryList", categoryService.getAllParentCategories(filter));
 		return CommonResponseSender.getRecordSuccessResponse(map, response);

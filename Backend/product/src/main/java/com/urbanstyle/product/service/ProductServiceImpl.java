@@ -18,6 +18,8 @@ import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductMeta;
 import com.anaadihsoft.common.master.ProductVariant;
+import com.urbanstyle.product.repository.ProductAttributeDetailsRepository;
+import com.urbanstyle.product.repository.ProductMetaRepository;
 import com.urbanstyle.product.repository.ProductRepository;
 import com.urbanstyle.product.repository.ProductVariantRepository;
 
@@ -30,50 +32,13 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private ProductVariantRepository  productVariantRepository;
 	
-//	@Override
-//	public List<Product> getAllMainProductsOfUser(long userId, Filter filter) {
-//		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
-//				filter.getSortingDirection() != null
-//				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
-//						: Sort.Direction.ASC,
-//						filter.getSortingField());
-//		
-//		return productRepository.findByStatusAndVariantFalse(ACTIVE,pagable);
-//	}
-//
-//	@Override
-//	public List<Product> getAllVariantProductsOfProductOfUser(long userId, long productId, Filter filter) {
-//		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
-//				filter.getSortingDirection() != null
-//				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
-//						: Sort.Direction.ASC,
-//						filter.getSortingField());
-//
-//		return null;
-//		//return productRepository.findByStatusAndParentProductId(ACTIVE,pagable);
-//	}
-//
-//	@Override
-//	public List<Product> getAllProductOfCategory(long categoryId, Filter filter) {
-//		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
-//				filter.getSortingDirection() != null
-//				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
-//						: Sort.Direction.ASC,
-//						filter.getSortingField());
-//		return productRepository.findByStatusAndCategoryCategoryId(ACTIVE,categoryId,pagable);
-//	}
-//
-//	/*
-//	 * (non-Javadoc)
-//	 * @see com.urbanstyle.product.service.ProductService#getProductById(long)
-//	 */
-//	@Override
-//	public Product getProductById(long prodId) {
-//		Optional<Product> optProd= productRepository.findById(prodId);
-//		
-//		return optProd.isPresent() ? optProd.get():null;
-//		
-//	}
+	@Autowired
+	private ProductAttributeDetailsRepository productAttrRepo;
+	
+	@Autowired
+	private ProductMetaRepository productMetaRepository; 
+	
+
 
 	@Override
 	public List<Product> getAllProducts() {
@@ -90,12 +55,20 @@ public class ProductServiceImpl implements ProductService{
 		
 		oldProduct=productRepository.save(productDTO.getProduct());
 		createProductVariant(productDTO.getProductVariantDTO(),oldProduct);
+		if(productDTO.getProductMetaInfo()!=null)
+		{
+			List<ProductMeta> productMetaList = new ArrayList<>();
+			saveProductMetaInformation(productDTO.getProductMetaInfo(),oldProduct,productMetaList);
+			if(productMetaList!=null && !productMetaList.isEmpty())
+			{
+				productMetaRepository.saveAll(productMetaList);
+			}
+		}
 
 		return oldProduct;
 	}
 
 	private void createProductVariant(List<ProductVariantDTO> productVariantDTOList,Product product) {
-		List<ProductAttributeDetails> productAttributeDetails = new ArrayList<ProductAttributeDetails>();
 		for(ProductVariantDTO productVariantDTO:productVariantDTOList)
 		{
 			ProductVariant productVariant=productVariantDTO.getProductVariant();
@@ -103,13 +76,8 @@ public class ProductServiceImpl implements ProductService{
 			productVariant=productVariantRepository.save(productVariant);
 			if(productVariantDTO.getAttributesMap()!=null)
 			{
-				saveProductAttributeDetails(productVariantDTO.getAttributesMap(),productVariant,productAttributeDetails);
-				saveProductMetaInformation(productVariantDTO.getProductMetaInfo(),productVariant);
+				saveProductAttributeDetails(productVariantDTO.getAttributesMap(),productVariant);
 				
-				if(productAttributeDetails!=null && !productAttributeDetails.isEmpty())
-				{
-					//save the data here
-				}
 			}
 			
 			
@@ -117,15 +85,17 @@ public class ProductServiceImpl implements ProductService{
 		
 	}
 
-	private void saveProductMetaInformation(List<ProductMeta> productMetaInfo, ProductVariant productVariant) {
+	public void saveProductMetaInformation(List<ProductMeta> productMetaInfo, Product product,List<ProductMeta> productMetaList) {
 		for(ProductMeta productMeta:productMetaInfo)
 		{
-			productMeta.setProductVariant(productVariant);
+			productMeta.setProduct(product);
+			 productMetaList.add(productMeta);
 		}
 		
 	}
 
-	private void saveProductAttributeDetails(Map<Long, String> attributesMap, ProductVariant productVariant, List<ProductAttributeDetails> productAttributeDetails) {
+	 public void saveProductAttributeDetails(Map<Long, String> attributesMap, ProductVariant productVariant) {
+		 List<ProductAttributeDetails> productAttributeDetails = new ArrayList<ProductAttributeDetails>();
 		for(Map.Entry<Long,String> entry:attributesMap.entrySet())
 		{
 			ProductAttributeDetails pad = new ProductAttributeDetails();
@@ -136,6 +106,10 @@ public class ProductServiceImpl implements ProductService{
 			productAttributeDetails.add(pad);
 		}
 		
+		if(productAttributeDetails!=null && !productAttributeDetails.isEmpty())
+		{
+			productAttrRepo.saveAll(productAttributeDetails);
+		}
 		
 	}
 
@@ -153,6 +127,8 @@ public class ProductServiceImpl implements ProductService{
 		//Order table 
 		return null;
 	}
+
+
 
 //	private void updatProduct(Product oldProduct, Product product) {
 //			if(!product.getProductImages().isEmpty()) {

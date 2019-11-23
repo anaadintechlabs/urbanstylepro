@@ -102,6 +102,7 @@ export class AddProductComponent implements OnInit {
     }
   }
 
+ 
   selectedCategory(catId:number){
     console.log(catId);
     this.vitalInfo.get('categoryId').setValue(catId);

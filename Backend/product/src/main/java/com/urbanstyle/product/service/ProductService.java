@@ -2,12 +2,16 @@
 package com.urbanstyle.product.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
+import com.anaadihsoft.common.master.ProductAttributeDetails;
+import com.anaadihsoft.common.master.ProductMeta;
+import com.anaadihsoft.common.master.ProductVariant;
 
 @Service
 public interface ProductService {
@@ -52,6 +56,9 @@ public interface ProductService {
 	Product updateProduct(Product product);
 
 	List<Product> getBestSellingProducts(Filter filter);
+	
+	 void saveProductAttributeDetails(Map<Long, String> attributesMap, ProductVariant productVariant);
+	 
 
 }
 

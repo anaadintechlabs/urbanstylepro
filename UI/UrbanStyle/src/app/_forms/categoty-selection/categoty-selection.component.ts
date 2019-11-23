@@ -62,7 +62,6 @@ export class CategotySelectionComponent implements OnInit {
   pickedCategory(id:number) : void {
     this.submit.emit(id);
   }
-
 }
 
 export class totalCategory {

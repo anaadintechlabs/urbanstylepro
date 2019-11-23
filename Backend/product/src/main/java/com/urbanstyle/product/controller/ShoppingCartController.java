@@ -88,6 +88,26 @@ public class ShoppingCartController {
 		
 	}
 	
+//	/**
+//	 * 
+//	 * @param filter
+//	 * @param request
+//	 * @param response
+//	 * @return method for getting all parent category
+//	 */
+//	@RequestMapping(value="/updateQuantityOfProduct",method=RequestMethod.GET)
+//	public Map<String,Object> updateQuantityOfProduct(
+//			@RequestParam(value="userId") String userId,
+//			@RequestParam(value="productId") List<String> productIds,
+//			@RequestParam(value="quantity") int quantity,
+//			HttpServletRequest request,HttpServletResponse response)
+//	{
+//		final HashMap<String, Object> map = new HashMap<>();
+//		map.put("cartList", shoppingCartService.updateQuantityOfProduct(userId,productIds,quantity));
+//		return CommonResponseSender.createdSuccessResponse(map, response);
+//		
+//	}
+	
 
 	
 	/**

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anaadihsoft.common.DTO.ProductDTO;
+import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.urbanstyle.product.service.ProductService;
@@ -158,9 +159,9 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/setFeaturedProduct",method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> setFeaturedProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam (value="prodId",required=true)long prodId){
+	public Map<String,Object> setFeaturedProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam (value="prodId",required=true)long prodVarId){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("featuredProducts", productVarient.setFeaturedProduct(prodId));
+		map.put("featuredProducts", productVarient.setFeaturedProduct(prodVarId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
@@ -180,15 +181,26 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
-		
-//	@PostMapping
-//	public Map<String,Object> getBestSellingProducts(@RequestBody Filter filter,
-//			HttpServletRequest request,HttpServletResponse response)
-//	{
-//		final HashMap<String, Object> map = new HashMap<>();
-//		map.put("productList", productService.getBestSellingProducts(filter));
-//		return CommonResponseSender.createdSuccessResponse(map, response);
-//	}
-//	
+	@PostMapping(value="/getBestSellingProduct")
+	public Map<String,Object> getBestSellingProducts(@RequestBody Filter filter,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productService.getBestSellingProducts(filter));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
 	
+	@RequestMapping(value="/addVarientToProduct",method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> addVarientToProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam ProductVariantDTO productVarientDTO){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("dealOftheDay", productVarient.addVarientToProduct(productVarientDTO));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/deleteVarientToProduct",method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> deleteVarientToProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="prodId",required=true) long prodId,@RequestParam(value="prodVarId",required=true) long prodVarId){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("dealOftheDay", productVarient.deleteVarientToProduct(prodId,prodVarId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
 }

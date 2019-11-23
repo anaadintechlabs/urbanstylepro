@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.master.ProductVariant;
 
 @Service
@@ -18,4 +19,8 @@ public interface ProductVarientService {
 	boolean setDealOftheDay(long prodId);
 
 	List<ProductVariant> getAllVarients(int Status);
+
+	ProductVariant addVarientToProduct(ProductVariantDTO productVarientDTO);
+
+	boolean deleteVarientToProduct(long prodId, long prodVarId);
 }
