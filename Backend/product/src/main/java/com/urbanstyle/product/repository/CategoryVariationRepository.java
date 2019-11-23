@@ -8,6 +8,6 @@ import com.anaadihsoft.common.master.CategoryAttributeMapping;
 
 public interface CategoryVariationRepository extends PagingAndSortingRepository<CategoryAttributeMapping,Long>{
 
-	List<CategoryAttributeMapping> findByStatusAndCategoryCategoryId(int active, int categoryId);
+	List<CategoryAttributeMapping> findByStatusAndCategoryCategoryId(int active, long categoryId);
 
 }

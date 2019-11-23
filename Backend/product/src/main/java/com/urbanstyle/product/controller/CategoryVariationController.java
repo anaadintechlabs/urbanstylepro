@@ -27,7 +27,7 @@ public class CategoryVariationController {
 	
 	@RequestMapping(value="/getAllVariationOfCategory",method=RequestMethod.GET)
 	public Map<String,Object> getAllVariationOfCategory(
-			@RequestParam(value="categoryId") int categoryId,
+			@RequestParam(value="categoryId") long categoryId,
 			HttpServletRequest request,HttpServletResponse response)
 	{
 		final HashMap<String, Object> map = new HashMap<>();

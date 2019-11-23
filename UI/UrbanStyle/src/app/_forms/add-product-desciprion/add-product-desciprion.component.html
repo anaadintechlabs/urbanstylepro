@@ -1,0 +1,19 @@
+<div class="form-group">
+  <label for=""></label>
+  <select class="form-control" (change)="onChange($event.target.value)" name="" id="" placeholder="select product type">
+    <option  disabled> Select Product type </option>
+    <option value="SIMPLE"> Simple Product </option>
+    <option value="ADVANCE"> Advance Product </option>
+  </select>
+</div>
+
+
+<div *ngIf="selectedProductType == 'SIMPLE'">
+    <product-variation></product-variation>
+</div>
+
+<div *ngIf="selectedProductType == 'ADVANCE' && categoryAttribute.length > 0">
+    <div *ngFor="let item of categoryAttribute">
+        <mat-checkbox>{{ item.attributeMaster.variationName }}</mat-checkbox>
+    </div>
+</div>

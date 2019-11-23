@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserServiceService } from 'src/_services/user-service.service';
+import { UserServiceService } from 'src/_services/http_&_login/user-service.service';
 
 @Component({
   selector: 'basic-details',

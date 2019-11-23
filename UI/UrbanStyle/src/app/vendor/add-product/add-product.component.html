@@ -1,12 +1,32 @@
-<div>
- <categoty-selection (submit)="selectedCategory($event)"></categoty-selection>    
-</div>
+<categoty-selection  (submit)="selectedCategory($event)"></categoty-selection>
 
-<mat-horizontal-stepper [linear] = "isLinear" #stepper>
+<!-- <mat-horizontal-stepper [linear] = "isLinear" #stepper>
     <mat-step [stepControl] = "firstFormGroup">
         <vital-information [vitalInfo]="vitalInfo"></vital-information>
     </mat-step>
     <mat-step [stepControl] = "secondFormGroup">
       
     </mat-step>
- </mat-horizontal-stepper>
+ </mat-horizontal-stepper> -->
+
+ <div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="borderBox">
+                <div class="borderBox_header">
+                    <button class="btn btn-primary borderBox_headerLink" (click)="showVitalForm()" role="button">Vital Information</button>
+                    <button class="btn btn-primary borderBox_headerLink" (click)="showProduDesc()" [disabled]="!productDescTab" role="button">Product Description</button>
+                    <button class="btn btn-primary borderBox_headerLink"  (click)="showAdvanceOption()" [hidden]="!advanceTabVisibility" role="button">Advance</button>
+                </div>
+                <div class="borderBox_content">
+                    <div *ngIf="dispVitalForm" class="vitalBox">
+                        <vital-information [vitalInfo]="vitalInfo" (status)="vitalFormStatus($event)"></vital-information>
+                    </div>
+                    <div *ngIf="dispProduDesc" class="descBox">
+                        <product-desciprion [categoryAttribute]="allAttriblue" (productType)="selectedPtoductType($event)"></product-desciprion>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+ </div>

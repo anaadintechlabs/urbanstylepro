@@ -2,7 +2,7 @@ import { JwtServiceService } from './jwt-service.service';
 
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
-import { User } from '../_modals/user.modal';
+import { User } from '../../_modals/user.modal';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChanged';

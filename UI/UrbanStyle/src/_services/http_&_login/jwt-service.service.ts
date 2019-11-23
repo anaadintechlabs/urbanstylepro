@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '../_modals/user.modal';
+import { User } from '../../_modals/user.modal';
 
 @Injectable()
 export class JwtServiceService {

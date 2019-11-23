@@ -16,7 +16,7 @@ public class CategoryVariationServiceImpl implements CategoryVariationService{
 	@Autowired
 	private CategoryVariationRepository categoryVariationRepository; 
 	@Override
-	public List<CategoryAttributeMapping> getAllVariationOfCategory(int categoryId) {
+	public List<CategoryAttributeMapping> getAllVariationOfCategory(long categoryId) {
 		return categoryVariationRepository.findByStatusAndCategoryCategoryId(ACTIVE,categoryId);
 	}
 	

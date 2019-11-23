@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './http_&_login/api.service'
+import { ApiService } from '../http_&_login/api.service'
 import { Observable } from 'rxjs';
 import { Category } from 'src/_modals/category.modal';
-import { HttpParams } from "@angular/common/http";
+import { CategoryAttribute } from 'src/_modals/categoryAttribute.modal';
+import { HttpParams } from '@angular/common/http';
 @Injectable()
 export class DataService{
 
@@ -20,7 +21,7 @@ export class DataService{
         });
     }
 
-      getAllSubCategoriesOfCategory(url:string,categoryId:any): Observable<Category[]>{
+    getAllSubCategoriesOfCategory(url:string,categoryId:any): Observable<Category[]>{
         const param : HttpParams = new HttpParams()
             .set('categoryId' , categoryId);
         console.log(param);
@@ -34,11 +35,11 @@ export class DataService{
     }
 
     //Method for getting all variations of category
-    getAllVariationOfCategory(url:string,categoryId:any): Observable<Category[]>{
+    getAllVariationOfCategory(url:string,categoryId:any): Observable<CategoryAttribute[]>{
         const param : HttpParams = new HttpParams()
             .set('categoryId' , categoryId);
         console.log(param);
-        return new Observable<Category[]>(obs =>{
+        return new Observable<CategoryAttribute[]>(obs =>{
             this._apiService.get(url,param).subscribe((res) =>{
                 if(res.isSuccess){
                     obs.next(res.data.variationList);
@@ -46,7 +47,6 @@ export class DataService{
             });
         });
     }
-    
 
 
 }
