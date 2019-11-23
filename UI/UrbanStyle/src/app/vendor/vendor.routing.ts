@@ -4,7 +4,7 @@ import { VendorComponent } from './vendor.component';
 import { SignupComponent } from './signup/signup.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserGuardGuard } from 'src/_services/user-guard.guard';
+import { UserGuardGuard } from 'src/_services/http_&_login/user-guard.guard';
 
 export const VendorRoutes: Routes=[
     {

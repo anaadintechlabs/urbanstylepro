@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { AddProductService } from 'src/_services/product/addProductService';
 
 @Component({
   selector: 'vital-information',
@@ -9,10 +10,27 @@ import { FormGroup } from '@angular/forms';
 export class VitalInformationComponent implements OnInit {
 
   @Input() vitalInfo : FormGroup;
+  @Output() status : EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor() { }
+  private _productService : AddProductService;
+  constructor() {
+    
+  }
+
+  get f() {
+    return this.vitalInfo.controls;
+  }
 
   ngOnInit() {
+    // console.log(this.vitalInfo);
+  }
+
+  ngDoCheck() {
+    if(this.vitalInfo.status == 'INVALID') {
+      this.status.emit(false);
+    } else {
+      this.status.emit(true);
+    }
   }
 
 }

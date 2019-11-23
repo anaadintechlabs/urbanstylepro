@@ -7,13 +7,15 @@ import { BasicDetailsComponent } from './basic-details/basic-details.component';
 import { LoginComponent } from './login/login.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { VitalInformationComponent } from './vital-information/vital-information.component';
+import { AddProductDesciprionComponent } from './add-product-desciprion/add-product-desciprion.component';
+import { AddProductVariationComponent } from './add-product-variation/add-product-variation.component';
 
 
 
 @NgModule({
   declarations: [CategotySelectionComponent, 
     BasicDetailsComponent, 
-    LoginComponent, VitalInformationComponent
+    LoginComponent, VitalInformationComponent, AddProductDesciprionComponent, AddProductVariationComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { VitalInformationComponent } from './vital-information/vital-information
     CategotySelectionComponent,
     BasicDetailsComponent,
     LoginComponent,
-    VitalInformationComponent
+    VitalInformationComponent,
+    AddProductDesciprionComponent
   ]
 })
 export class FormModule { }

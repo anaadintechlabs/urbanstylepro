@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BasicDetailsComponent } from 'src/app/_forms/basic-details/basic-details.component';
-import { UserServiceService } from 'src/_services/user-service.service';
+import { UserServiceService } from 'src/_services/http_&_login/user-service.service';
 
 
 @Component({

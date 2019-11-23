@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Category } from "../../../_modals/category.modal";
 import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
-import { DataService } from 'src/_services/data.service';
+import { DataService } from 'src/_services/data/data.service';
 
 @Component({
   selector: 'categoty-selection',

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { UserServiceService } from 'src/_services/user-service.service';
+import { UserServiceService } from 'src/_services/http_&_login/user-service.service';
 import { User } from 'src/_modals/user.modal';
 import { Router } from '@angular/router';
 
