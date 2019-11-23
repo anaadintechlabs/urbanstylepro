@@ -14,7 +14,7 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	
 	List<ProductVariant> findByFetauredProduct(boolean featured);
 
-	//Optional<ProductVariant> findByProductId(long prodId);
+	List<ProductVariant> findProductProductId(long prodId);
 
 	ProductVariant findByDealOfTheDay(boolean b);
 
@@ -25,5 +25,7 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 //	void setDealofSelectedProd(boolean b,long prodId);
 
 	List<ProductVariant> findByStatus(int i);
+
+	Optional<ProductVariant> findByProductVariantId(long prodVarId);
 
 }
