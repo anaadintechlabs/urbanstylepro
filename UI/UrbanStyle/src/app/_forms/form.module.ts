@@ -37,7 +37,8 @@ import { VitalInformationComponent } from './vital-information/vital-information
     MatStepperModule,
     CategotySelectionComponent,
     BasicDetailsComponent,
-    LoginComponent
+    LoginComponent,
+    VitalInformationComponent
   ]
 })
 export class FormModule { }

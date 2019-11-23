@@ -1,4 +1,6 @@
-<categoty-selection [catList] = "category" (submit)="selectedCategory($event)"></categoty-selection>
+<div>
+ <categoty-selection (submit)="selectedCategory($event)"></categoty-selection>    
+</div>
 
 <mat-horizontal-stepper [linear] = "isLinear" #stepper>
     <mat-step [stepControl] = "firstFormGroup">

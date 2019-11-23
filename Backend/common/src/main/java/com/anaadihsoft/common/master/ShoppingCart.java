@@ -23,7 +23,7 @@ public class ShoppingCart {
 	@ManyToOne
 	private User user;
 	
-	
+	private double totalCost;
 	
 	private int status;
 	

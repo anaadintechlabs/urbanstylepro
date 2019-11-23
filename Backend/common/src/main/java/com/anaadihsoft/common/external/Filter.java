@@ -10,6 +10,13 @@ public class Filter {
 	
 	private String sortingField;
 
+	//limit 
+	//offset
+	//searchString
+	//priceRange
+	//rating
+	//sortingByDate
+	//SortingByPrice
 	public int getLimit() {
 		return limit;
 	}
