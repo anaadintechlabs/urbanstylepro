@@ -41,7 +41,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		}else {
 			return false;			
 		}
-
+	}
 	@Override
 	public ProductVariant getDealOftheDay() {
 		return productVarRepo.findByDealOfTheDay(true);
@@ -67,13 +67,13 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	public ProductVariant addVarientToProduct(ProductVariantDTO productVarientDTO) {
 		productVarRepo.save(productVarientDTO.getProductVariant());
 		productService.saveProductAttributeDetails(productVarientDTO.getAttributesMap(), productVarientDTO.getProductVariant());
-		productService.saveProductMetaInformation(productVarientDTO.getProductMetaInfo(), productVarientDTO.getProductVariant());
+		//productService.saveProductMetaInformation(productVarientDTO.getProductMetaInfo(), productVarientDTO.getProductVariant());
 		return productVarientDTO.getProductVariant();
 	}
 
 	@Override
 	public boolean deleteVarientToProduct(long prodId, long prodVarId) {
-		List<ProductVariant> allVarients = productVarRepo.findProductProductId(prodId);
+		List<ProductVariant> allVarients = productVarRepo.findByProductProductId(prodId);
 		if(allVarients != null && allVarients.size()>1) {
 			Optional<ProductVariant>  productVariant = productVarRepo.findByProductVariantId(prodVarId);
 			if(productVariant.isPresent()) {

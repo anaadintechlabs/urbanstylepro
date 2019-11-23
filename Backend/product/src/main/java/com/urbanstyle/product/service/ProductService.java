@@ -59,7 +59,6 @@ public interface ProductService {
 	
 	 void saveProductAttributeDetails(Map<Long, String> attributesMap, ProductVariant productVariant);
 	 
-	 void saveProductMetaInformation(List<ProductMeta> productMetaInfo, ProductVariant productVariant);
 
 }
 

@@ -19,6 +19,7 @@ import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductMeta;
 import com.anaadihsoft.common.master.ProductVariant;
 import com.urbanstyle.product.repository.ProductAttributeDetailsRepository;
+import com.urbanstyle.product.repository.ProductMetaRepository;
 import com.urbanstyle.product.repository.ProductRepository;
 import com.urbanstyle.product.repository.ProductVariantRepository;
 
@@ -34,50 +35,10 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private ProductAttributeDetailsRepository productAttrRepo;
 	
-//	@Override
-//	public List<Product> getAllMainProductsOfUser(long userId, Filter filter) {
-//		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
-//				filter.getSortingDirection() != null
-//				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
-//						: Sort.Direction.ASC,
-//						filter.getSortingField());
-//		
-//		return productRepository.findByStatusAndVariantFalse(ACTIVE,pagable);
-//	}
-//
-//	@Override
-//	public List<Product> getAllVariantProductsOfProductOfUser(long userId, long productId, Filter filter) {
-//		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
-//				filter.getSortingDirection() != null
-//				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
-//						: Sort.Direction.ASC,
-//						filter.getSortingField());
-//
-//		return null;
-//		//return productRepository.findByStatusAndParentProductId(ACTIVE,pagable);
-//	}
-//
-//	@Override
-//	public List<Product> getAllProductOfCategory(long categoryId, Filter filter) {
-//		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
-//				filter.getSortingDirection() != null
-//				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
-//						: Sort.Direction.ASC,
-//						filter.getSortingField());
-//		return productRepository.findByStatusAndCategoryCategoryId(ACTIVE,categoryId,pagable);
-//	}
-//
-//	/*
-//	 * (non-Javadoc)
-//	 * @see com.urbanstyle.product.service.ProductService#getProductById(long)
-//	 */
-//	@Override
-//	public Product getProductById(long prodId) {
-//		Optional<Product> optProd= productRepository.findById(prodId);
-//		
-//		return optProd.isPresent() ? optProd.get():null;
-//		
-//	}
+	@Autowired
+	private ProductMetaRepository productMetaRepository; 
+	
+
 
 	@Override
 	public List<Product> getAllProducts() {
@@ -94,6 +55,15 @@ public class ProductServiceImpl implements ProductService{
 		
 		oldProduct=productRepository.save(productDTO.getProduct());
 		createProductVariant(productDTO.getProductVariantDTO(),oldProduct);
+		if(productDTO.getProductMetaInfo()!=null)
+		{
+			List<ProductMeta> productMetaList = new ArrayList<>();
+			saveProductMetaInformation(productDTO.getProductMetaInfo(),oldProduct,productMetaList);
+			if(productMetaList!=null && !productMetaList.isEmpty())
+			{
+				productMetaRepository.saveAll(productMetaList);
+			}
+		}
 
 		return oldProduct;
 	}
@@ -107,7 +77,6 @@ public class ProductServiceImpl implements ProductService{
 			if(productVariantDTO.getAttributesMap()!=null)
 			{
 				saveProductAttributeDetails(productVariantDTO.getAttributesMap(),productVariant);
-				saveProductMetaInformation(productVariantDTO.getProductMetaInfo(),productVariant);
 				
 			}
 			
@@ -116,10 +85,11 @@ public class ProductServiceImpl implements ProductService{
 		
 	}
 
-	public void saveProductMetaInformation(List<ProductMeta> productMetaInfo, ProductVariant productVariant) {
+	public void saveProductMetaInformation(List<ProductMeta> productMetaInfo, Product product,List<ProductMeta> productMetaList) {
 		for(ProductMeta productMeta:productMetaInfo)
 		{
-			productMeta.setProductVariant(productVariant);
+			productMeta.setProduct(product);
+			 productMetaList.add(productMeta);
 		}
 		
 	}
@@ -157,6 +127,8 @@ public class ProductServiceImpl implements ProductService{
 		//Order table 
 		return null;
 	}
+
+
 
 //	private void updatProduct(Product oldProduct, Product product) {
 //			if(!product.getProductImages().isEmpty()) {
