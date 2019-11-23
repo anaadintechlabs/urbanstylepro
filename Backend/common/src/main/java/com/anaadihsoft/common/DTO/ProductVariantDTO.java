@@ -13,7 +13,7 @@ public class ProductVariantDTO {
 	
 	private Map<Long,String> attributesMap;
 	
-	private List<ProductMeta> productMetaInfo;
+	
 
 	public ProductVariant getProductVariant() {
 		return productVariant;
@@ -33,13 +33,6 @@ public class ProductVariantDTO {
 		this.attributesMap = attributesMap;
 	}
 
-	public List<ProductMeta> getProductMetaInfo() {
-		return productMetaInfo;
-	}
-
-	public void setProductMetaInfo(List<ProductMeta> productMetaInfo) {
-		this.productMetaInfo = productMetaInfo;
-	}
 	
 	
 	

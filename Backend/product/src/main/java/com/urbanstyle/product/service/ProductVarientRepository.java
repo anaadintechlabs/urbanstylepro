@@ -14,7 +14,7 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	
 	List<ProductVariant> findByFetauredProduct(boolean featured);
 
-	List<ProductVariant> findProductProductId(long prodId);
+	List<ProductVariant> findByProductProductId(long prodId);
 
 	ProductVariant findByDealOfTheDay(boolean b);
 
