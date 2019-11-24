@@ -1,1 +1,65 @@
-<p>add-product-variation works!</p>
+<form *ngIf="productVariation" [formGroup]="productVariation" (ngSubmit)="onSubmit()">
+        <fieldset [formGroupName]="index">
+          <div formGroupName="productVariant"> 
+            
+      
+          <div class="form-group">
+            <!-- Name -->
+            <label class="control-label"  >SKU</label>
+            <div class="controls">
+              <input type="text" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+              <p class="help-block">Please enter a valid SKU</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- Last Name -->
+            <label class="control-label"  for="actualPrice">Actual Price</label>
+            <div class="controls">
+              <input type="text" id="actualPrice" name="username" class="form-control" formControlName="actualPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.actualPrice?.errors }">
+              <p class="help-block">Please enter a valid actual price</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- Username -->
+            <label class="control-label"  for="username">Display Price</label>
+            <div class="controls">
+              <input type="text" id="username" name="username" class="form-control" formControlName="displayPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.displayPrice?.errors }">
+              <p class="help-block">Please enter a valid display price</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- E-mail -->
+            <label class="control-label" for="discountPrice">Discount Price</label>
+            <div class="controls">
+              <input type="text" id="email" name="email" formControlName="discountPrice" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.discountPrice?.errors }">
+              <p class="help-block">Please enter a valid discount price</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- Password-->
+            <label class="control-label" for="password">Total Quantity Available</label>
+            <div class="controls">
+              <input type="text" id="password" name="totalQuantity" class="form-control" formControlName="totalQuantity" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.totalQuantity?.errors }">
+              <p class="help-block">Password enter valid quantity</p>
+            </div>
+          </div>
+        </div>
+          <div class="form-group">
+            <!-- Button -->
+            <div class="controls">
+              <button  class="btn btn-success">Register</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

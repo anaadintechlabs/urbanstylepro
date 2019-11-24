@@ -16,20 +16,23 @@
                 <div class="borderBox_header">
                     <button class="btn btn-primary borderBox_headerLink" (click)="showVitalForm()" role="button">Vital Information</button>
                     <button class="btn btn-primary borderBox_headerLink" (click)="showProduDesc()" [disabled]="!productDescTab" role="button">Product Description</button>
-                    <button class="btn btn-primary borderBox_headerLink"  (click)="showAdvanceOption()" [hidden]="!advanceTabVisibility" role="button">Advance</button>
+                    <button class="btn btn-primary borderBox_headerLink"  (click)="showAdvanceOption()" [disabled]="!dispAdvanceOption" [hidden]="!advanceTabVisibility" role="button">Advance</button>
                 </div>
                 <div class="borderBox_content">
                     <div *ngIf="dispVitalForm" class="vitalBox">
                         <vital-information [vitalInfo]="vitalInfo" (status)="vitalFormStatus($event)"></vital-information>
                     </div>
                     <div *ngIf="dispProduDesc" class="descBox">
-                        <product-desciprion [categoryAttribute]="allAttriblue" (productType)="selectedPtoductType($event)"></product-desciprion>
+                        <product-desciprion [categoryAttribute]="allAttriblue" (allAttrMap)="getAllAttrMap($event)" (status)="activeAdvanceTab($event)" (productType)="selectedPtoductType($event)"  [selectedProductType]="selectedProductType"></product-desciprion>
                     </div>
-                    <div *ngIf="advanceTabVisibility">
-                        <div formArraryName="attendeeArray" *ngFor="let item of productVariantDTO.controls">
-                            <product-variation [productVariation]="item"></product-variation>
+                    <div *ngIf="dispAdvanceOption && selectedProductType == 'ADVANCE'">
+                        <div formArraryName="productVariantDTO" *ngFor="let item of productVariantDTO.controls;let i = index">
+                            <product-variation [productVariation]="item" [index]="i" ></product-variation>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <button type ="button" (click)="saveProduct()">save</button>
                 </div>
             </div>
         </div>
