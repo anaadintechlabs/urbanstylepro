@@ -23,7 +23,6 @@ export class BasicDetailsComponent implements OnInit {
   get f() { return this.basicDetailForm.controls;}
 
   onSubmit(){
-    console.log("called");
     this.submitted = true;
     if(this.basicDetailForm.invalid){
 
