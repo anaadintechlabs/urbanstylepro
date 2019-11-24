@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, Input, EventEmitter } from "@angular/core";
-import { FormGroup } from "@angular/forms/forms";
+
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'product-variation',
@@ -8,12 +9,12 @@ import { FormGroup } from "@angular/forms/forms";
 })
 export class AddProductVariationComponent implements OnInit {
 
-  @Output() productDetails : EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+  
   @Input() productVariation : FormGroup;
-
   constructor() { }
 
   ngOnInit() {
+    console.log(this.productVariation);
   }
 
 }

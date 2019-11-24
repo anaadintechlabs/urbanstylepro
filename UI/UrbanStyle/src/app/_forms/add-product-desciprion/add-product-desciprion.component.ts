@@ -12,6 +12,7 @@ export class AddProductDesciprionComponent implements OnInit {
   @Input() categoryAttribute : CategoryAttribute[];
 
   selectedProductType : string;
+  selectedVariation : CategoryAttribute[]=[];
   constructor() { }
 
   ngOnInit() {
@@ -21,6 +22,15 @@ export class AddProductDesciprionComponent implements OnInit {
   onChange(value : string) : void {
     this.selectedProductType = value;
     this.productType.emit(this.selectedProductType);
+  }
+
+  addvariation(event, data:CategoryAttribute) {
+    console.log(event);
+    if(event.checked){
+
+    } else {
+
+    }
   }
 
 }

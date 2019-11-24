@@ -25,6 +25,11 @@
                     <div *ngIf="dispProduDesc" class="descBox">
                         <product-desciprion [categoryAttribute]="allAttriblue" (productType)="selectedPtoductType($event)"></product-desciprion>
                     </div>
+                    <div *ngIf="advanceTabVisibility">
+                        <div formArraryName="attendeeArray" *ngFor="let item of productVariantDTO.controls">
+                            <product-variation [productVariation]="item"></product-variation>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
