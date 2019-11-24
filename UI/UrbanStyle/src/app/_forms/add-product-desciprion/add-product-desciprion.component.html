@@ -14,6 +14,14 @@
 
 <div *ngIf="selectedProductType == 'ADVANCE' && categoryAttribute.length > 0">
     <div *ngFor="let item of categoryAttribute">
-        <mat-checkbox>{{ item.attributeMaster.variationName }}</mat-checkbox>
+        <mat-checkbox (change)="addvariation($event,item)">{{ item.attributeMaster.variationName }}</mat-checkbox>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div *ngFor="let item of list" class="col-sm-4">
+            
+        </div>
     </div>
 </div>

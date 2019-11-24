@@ -42,7 +42,8 @@ import { AddProductVariationComponent } from './add-product-variation/add-produc
     BasicDetailsComponent,
     LoginComponent,
     VitalInformationComponent,
-    AddProductDesciprionComponent
+    AddProductDesciprionComponent,
+    AddProductVariationComponent
   ]
 })
 export class FormModule { }
