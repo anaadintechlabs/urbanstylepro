@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, RootRenderer } from '@angular/core';
+import { Component, OnInit, ElementRef, RootRenderer, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { DataService } from 'src/_services/data/data.service';
 import { AddProductService } from 'src/_services/product/addProductService';
 import { Category } from 'src/_modals/category.modal';
@@ -8,34 +8,46 @@ import { CategoryAttribute } from 'src/_modals/categoryAttribute.modal';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.scss']
+  styleUrls: ['./add-product.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddProductComponent implements OnInit {
 
   allAttriblue : CategoryAttribute[];
+
   productDescTab : boolean;
   dispVitalForm : boolean = true;
   dispProduDesc : boolean;
   dispAdvanceOption : boolean;
   advanceTabVisibility : boolean = false;
+  selectedProductType : string;
   private menuItemCount : number;
+  selectedAttrForVariation: CategoryAttribute[];
 
   private get element(): HTMLElement {
     return this.el.nativeElement;
   }
 
+  productDTO:FormGroup;
   vitalInfo : FormGroup;
+
   productVariantDTO : FormArray;
   constructor(
+    private _fb : FormBuilder,
     protected _dataService : DataService,
     protected _addProduct : AddProductService,
     private el: ElementRef,
-    ) {
+    private cdRef:ChangeDetectorRef    ) {
       this.vitalInfo = this._addProduct.productFormGroup;
       this.productVariantDTO = this._addProduct.productVariantDTO;
+      this.productDTO=this._addProduct.productDTO;
       this.menuCount = 2;
   }
 
+  ngAfterViewChecked()
+{
+  this.cdRef.detectChanges();
+}
   get menuCount() : number {
     return this.menuItemCount;
   }
@@ -93,6 +105,7 @@ export class AddProductComponent implements OnInit {
   }
 
   selectedPtoductType(value) {
+    this.selectedProductType = value;
     if(value != 'SIMPLE') {
       this.advanceTabVisibility = true;
       this.menuCount = 3;
@@ -102,6 +115,31 @@ export class AddProductComponent implements OnInit {
     }
   }
 
+  getAllAttrMap(data : CategoryAttribute[]) {
+   
+    this.selectedAttrForVariation = data;
+    console.log(this.selectedAttrForVariation);
+    let tempData : any[]=[];
+    var tempAttributeData : any=[];
+    data.forEach(element => {
+      tempData.push(element.allAttributeMap.variationAttribute);
+      tempAttributeData.push(element.attributeMaster.id);
+    });
+  
+
+    console.log(tempAttributeData);
+    let combinations =  this._addProduct.makeCombinations(tempData);
+    this.productVariantDTO = this._fb.array([]);
+    combinations.forEach(element => {
+      //here I have to set the values as well
+      this.productVariantDTO.push(this._addProduct.initializeProductVarientDtoWithValue(element,tempAttributeData));
+    });
+    console.log(this.productVariantDTO);
+  }
+  activeAdvanceTab(status : boolean) {
+    this.dispAdvanceOption = status;
+    console.log('worked 2');
+  }
  
   selectedCategory(catId:number){
     console.log(catId);
@@ -112,4 +150,9 @@ export class AddProductComponent implements OnInit {
     })
   }
 
+
+  saveProduct(){
+
+    console.log("final FORM to be saved is ",this._addProduct.productDTO.value);
+  }
 }

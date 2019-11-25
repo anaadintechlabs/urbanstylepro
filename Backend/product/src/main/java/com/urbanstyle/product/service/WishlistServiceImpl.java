@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.anaadih.aclassdeal.Model.WishlistModel;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Wishlist;
 import com.urbanstyle.product.repository.WishlistRepository;

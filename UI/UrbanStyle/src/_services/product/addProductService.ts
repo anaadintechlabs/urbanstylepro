@@ -58,6 +58,20 @@ export class AddProductService {
         return productVarientDto;
     }
 
+    public initializeProductVarientDtoWithValue(data,tempAttributeData): FormGroup {
+        let myMap={};
+        let productVarientDto : FormGroup;
+        for(let i in data)
+        {
+            myMap[tempAttributeData[i]]=data[i];
+        }
+        productVarientDto = this._fb.group({
+            'attributeMap' : new FormControl(myMap),
+            'productVariant' : this.productVariantForm,
+        })
+        return productVarientDto;
+    }
+
     public addMetaInfo() : FormGroup {
         return this.productMetaForm;
     }
@@ -68,6 +82,24 @@ export class AddProductService {
 
     get productVariantDTO() : FormArray {
         return this.productDTO.get('productVariantDTO') as FormArray;
+    }
+
+    makeCombinations(arr){
+        if (arr.length === 0) {
+            return [];
+        } else if (arr.length ===1){
+            return arr[0];
+        } else {
+            var result = [];
+            var allCasesOfRest = this.makeCombinations(arr.slice(1));  // recur with the rest of array
+            for (var c in allCasesOfRest) {
+              for (var i = 0; i < arr[0].length; i++) {
+                // result.push(arr[0][i] + allCasesOfRest[c]);
+                result.push([arr[0][i],allCasesOfRest[c]]);
+              }
+            }
+            return result;
+        }
     }
 
 }
