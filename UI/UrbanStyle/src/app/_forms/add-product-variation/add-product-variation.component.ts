@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -7,6 +8,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./add-product-variation.component.scss']
 })
 export class AddProductVariationComponent implements OnInit {
+
   
   @Output() productVariationEmit : EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   @Input() productVariation : FormGroup;
@@ -31,4 +33,5 @@ export class AddProductVariationComponent implements OnInit {
       this.productVariationEmit.emit(this.productVariation);
     }
   }
+
 }

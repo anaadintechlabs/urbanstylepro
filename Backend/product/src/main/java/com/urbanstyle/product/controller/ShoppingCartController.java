@@ -35,6 +35,8 @@ public class ShoppingCartController {
 	 * @param request
 	 * @param response
 	 * @return method for adding product to wishlist or cart
+	 * 
+	 *
 	 */
 	@RequestMapping(value="/addProductToShoppingCart",method=RequestMethod.POST)
 	public Map<String,Object> addProductToShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO,
@@ -54,7 +56,7 @@ public class ShoppingCartController {
 	 * @param filter
 	 * @param request
 	 * @param response
-	 * @return method for getting all parent category
+	 * @return method for getting all active cart of user
 	 */
 	@RequestMapping(value="/getShoppingCartListOfUser",method=RequestMethod.POST)
 	public Map<String,Object> getShoppingCartListOfUser(@RequestBody Filter filter,
@@ -73,13 +75,13 @@ public class ShoppingCartController {
 	 * @param filter
 	 * @param request
 	 * @param response
-	 * @return method for getting all parent category
+	 * @return method for soft deleting item from cart
 	 */
 	@RequestMapping(value="/changeStatusOfShoppingCart",method=RequestMethod.GET)
 	public Map<String,Object> changeStatusOfShoppingCart(
 			@RequestParam(value="userId") String userId,
-			@RequestParam(value="productId") List<String> productIds,
-			@RequestParam(value="status") String status,
+			@RequestParam(value="productId") List<Long> productIds,
+			@RequestParam(value="status") int status,
 			HttpServletRequest request,HttpServletResponse response)
 	{
 		final HashMap<String, Object> map = new HashMap<>();
@@ -88,25 +90,25 @@ public class ShoppingCartController {
 		
 	}
 	
-//	/**
-//	 * 
-//	 * @param filter
-//	 * @param request
-//	 * @param response
-//	 * @return method for getting all parent category
-//	 */
-//	@RequestMapping(value="/updateQuantityOfProduct",method=RequestMethod.GET)
-//	public Map<String,Object> updateQuantityOfProduct(
-//			@RequestParam(value="userId") String userId,
-//			@RequestParam(value="productId") List<String> productIds,
-//			@RequestParam(value="quantity") int quantity,
-//			HttpServletRequest request,HttpServletResponse response)
-//	{
-//		final HashMap<String, Object> map = new HashMap<>();
-//		map.put("cartList", shoppingCartService.updateQuantityOfProduct(userId,productIds,quantity));
-//		return CommonResponseSender.createdSuccessResponse(map, response);
-//		
-//	}
+	/**
+	 * 
+	 * @param filter
+	 * @param request
+	 * @param response
+	 * @return method for getting all parent category
+	 */
+	@RequestMapping(value="/updateQuantityOfProduct",method=RequestMethod.GET)
+	public Map<String,Object> updateQuantityOfProduct(
+			@RequestParam(value="userId") String userId,
+			@RequestParam(value="productId") long productIds,
+			@RequestParam(value="quantity") int quantity,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("cartList", shoppingCartService.updateQuantityOfProduct(userId,productIds,quantity));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+		
+	}
 	
 
 	

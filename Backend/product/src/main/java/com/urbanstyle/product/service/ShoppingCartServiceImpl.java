@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.ShoppingCartDTO;
+import com.anaadihsoft.common.DTO.ShoppingCartItemDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ShoppingCart;
@@ -28,26 +29,48 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Autowired
 	private ShoppingCartItemRepository shoppingCartItemRepository;
 	
-	
+	//ALGO
+	//Check whether Cart of that user exists or not
+	// If No => Just create the cart and add the product
+	// If yes => check again if any product is already added or not
+	//if yes update the quantity
 //	@Override
 	public Object addProductToShoppingCart(ShoppingCartDTO shoppingCartDTO) {
-//	
-//		shoppingCartRepository.existsByUserId(shoppingCartDTO.getUser().getId())
+
 		ShoppingCart previousUserCart = shoppingCartRepository.findByUserId(shoppingCartDTO.getUser().getId());
-//		//If user previous details exists
 		if (previousUserCart!=null) {
-				List<Product> productList = shoppingCartDTO.getProduct();
+				List<ShoppingCartItemDTO> itemDTO = shoppingCartDTO.getShoppingCartProductDTO();
+			
 				List<ShoppingCartItem> shoppingCartList = new ArrayList<>();
-				for(int i =0;i<productList.size();i++)
+				double totalCost =0.0;
+				int totalQuantity=0;
+				for(int i =0;i<itemDTO.size();i++)
 				{
-				ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
-				shoppingCartItem.setQuantity(shoppingCartDTO.getQuantity().get(i));
-				//Set proper product
-				shoppingCartItem.setProduct(shoppingCartDTO.getProduct().get(i));
-				shoppingCartItem.setCost(shoppingCartDTO.getCost().get(i));
+				ShoppingCartItem  shoppingCartItem = shoppingCartItemRepository.findByShoppingCartAndProduct(previousUserCart,itemDTO.get(i).getProduct());
 				
+				if(shoppingCartItem==null)
+				{
+				 shoppingCartItem = new ShoppingCartItem();
+				shoppingCartItem.setQuantity(itemDTO.get(i).getQuantity());
+				shoppingCartItem.setShoppingCart(previousUserCart);
+				shoppingCartItem.setProduct(itemDTO.get(i).getProduct());
+				//Cost I have to calculate again
+				shoppingCartItem.setCost(itemDTO.get(i).getCost());
+				}
+				else
+				{
+					shoppingCartItem.setQuantity(shoppingCartItem.getQuantity() + itemDTO.get(i).getQuantity());	
+				}
+				
+				//Set proper product
+
+				totalCost += itemDTO.get(i).getCost();
+				totalQuantity += itemDTO.get(i).getQuantity();
 				shoppingCartList.add(shoppingCartItem);
 				}
+				previousUserCart.setTotalCost(previousUserCart.getTotalCost()+totalCost);
+				previousUserCart.setCartCount(previousUserCart.getCartCount()+totalQuantity);
+				shoppingCartRepository.save(previousUserCart);
 				shoppingCartItemRepository.saveAll(shoppingCartList);
 
 		} else {
@@ -56,19 +79,28 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 			ShoppingCart shoppingCart = new ShoppingCart();
 			shoppingCart.setUser(shoppingCartDTO.getUser());
 			shoppingCart=shoppingCartRepository.save(shoppingCart);
-			
-			List<Product> productList = shoppingCartDTO.getProduct();
+			double totalCost =0.0;
+			int totalQuantity=0;
+			List<ShoppingCartItemDTO> itemDTO = shoppingCartDTO.getShoppingCartProductDTO();
 			List<ShoppingCartItem> shoppingCartList = new ArrayList<>();
-			for(int i =0;i<productList.size();i++)
+			for(int i =0;i<itemDTO.size();i++)
 			{
 			ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
-			shoppingCartItem.setQuantity(shoppingCartDTO.getQuantity().get(i));
+			shoppingCartItem.setQuantity(itemDTO.get(i).getQuantity());
 			//Set proper product
-			shoppingCartItem.setProduct(shoppingCartDTO.getProduct().get(i));
-			shoppingCartItem.setCost(shoppingCartDTO.getCost().get(i));
+			shoppingCartItem.setProduct(itemDTO.get(i).getProduct());
+			shoppingCartItem.setCost(itemDTO.get(i).getCost());
+			shoppingCartItem.setShoppingCart(shoppingCart);
+			
+			totalCost += itemDTO.get(i).getCost();
+			totalQuantity += itemDTO.get(i).getQuantity();
 			
 			shoppingCartList.add(shoppingCartItem);
 			}
+			
+			shoppingCart.setTotalCost(shoppingCart.getTotalCost()+totalCost);
+			shoppingCart.setCartCount(shoppingCart.getCartCount()+totalQuantity);
+			shoppingCartRepository.save(shoppingCart);
 			shoppingCartItemRepository.saveAll(shoppingCartList);
 			
 		}
@@ -91,17 +123,58 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 
 
 	@Override
-	public Object changeStatusOfShoppingCart(String userId, List<String> productId, String status) {
-		shoppingCartItemRepository.changeStatusOfShoppingCart(userId,productId,status);
-		return null;
+	public Object changeStatusOfShoppingCart(String userId, List<Long> productIds, int status) {
+		//shoppingCartItemRepository.changeStatusOfShoppingCart(userId,productId,status);
+		List<ShoppingCartItem> shoppingCartItems =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductProductIdIn(userId, productIds);
+		if(shoppingCartItems!=null)
+		{
+			double totalCostToRemove=0;
+			int totalQuantityToRemove=0;
+			
+			for(ShoppingCartItem shoppingCartItem:shoppingCartItems)
+			{
+				totalCostToRemove+=shoppingCartItem.getCost();
+				totalQuantityToRemove+=shoppingCartItem.getQuantity();
+				shoppingCartItem.setStatus(0);
+			}
+			if(shoppingCartItems!=null && !shoppingCartItems.isEmpty())
+			{
+				ShoppingCart shoppingCart=shoppingCartItems.get(0).getShoppingCart();
+				shoppingCart.setCartCount(shoppingCart.getCartCount() - totalQuantityToRemove);
+				shoppingCart.setTotalCost(shoppingCart.getTotalCost() - totalCostToRemove);
+				shoppingCartRepository.save(shoppingCart);
+
+			}
+			System.out.println("Update list"+shoppingCartItems);
+
+			shoppingCartItemRepository.saveAll(shoppingCartItems);
+			
+		}
+		return shoppingCartItems;
 	}
 
 
 	@Override
-	public Object getCartCountOfUser(long userId) {
-	//return	shoppingCartItemRepository.getCartCountOfUser(userId,ACTIVE);
+	public int getCartCountOfUser(long userId) {
+	ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
+	if(shoppingCart!=null)
+	{
+		return shoppingCart.getCartCount();
+	}
+	return 0;
+		
+	}
+
+
+	@Override
+	public Object updateQuantityOfProduct(String userId, Long productIds, int quantity) {
+		
+		ShoppingCartItem shoppingCartItem =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductProductId(userId, productIds);
 		return null;
 	}
+
+	
+
 
 	
 }

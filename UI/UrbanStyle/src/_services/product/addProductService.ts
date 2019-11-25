@@ -15,11 +15,11 @@ export class AddProductService {
     /////// product variation formGroup
     public productVariantForm = new FormGroup({
         sku : new FormControl('', [Validators.required]),
-        displayPrice: new FormControl('',[Validators.required]),
+        displayPrice: new FormControl('', [Validators.required]),
         actualPrice : new FormControl('', [Validators.required]),
         discountPrice : new FormControl('', [Validators.required]),
-        totalQuantity :new FormControl('', [Validators.required]), 
-        reservedQuantity:new FormControl('',[Validators.required])
+        totalQuantity : new FormControl('', [Validators.required]),
+        reservedQuantity: new FormControl('', [Validators.required])
     });
 
     /////// formGroup for vital information for product

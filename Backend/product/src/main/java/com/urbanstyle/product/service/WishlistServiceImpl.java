@@ -22,6 +22,13 @@ public class WishlistServiceImpl implements WishlistService{
 	
 	@Override
 	public Wishlist addProductToWishlist(Wishlist wishList) {
+//		WishlistModel previousAdded=wishlistRepository.findByUserIdAndProdIdProdId(userId,Integer.parseInt(prodId));
+//		if(previousAdded!=null) {
+//			map.put("msg", "Already Added to wishlist");
+//			map.put("type", "Warning!");
+//			return map;
+//		}
+//		
 		return wishlistRepository.save(wishList);
 	}
 	

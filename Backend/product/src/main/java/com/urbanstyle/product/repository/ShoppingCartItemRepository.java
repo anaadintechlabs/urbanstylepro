@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import com.anaadihsoft.common.master.Product;
+import com.anaadihsoft.common.master.ShoppingCart;
 import com.anaadihsoft.common.master.ShoppingCartItem;
 
 @Repository
@@ -18,7 +20,12 @@ public interface ShoppingCartItemRepository extends PagingAndSortingRepository<S
 
 	List<ShoppingCartItem> findByShoppingCartUserIdAndStatus(String userId, int active, Pageable pagable);
 
-//	@Query(value ="Select sum(sci.quantity) from ShoppingCartItem sci where sci.user.id=?1 and sci.status=?2")
-//	Object getCartCountOfUser(long userId,String status);
+	ShoppingCartItem findByShoppingCartAndProduct(ShoppingCart previousUserCart, Product product);
+
+	List<ShoppingCartItem> findByShoppingCartUserIdAndProductProductIdIn(String userId, List<Long> productId);
+
+	ShoppingCartItem findByShoppingCartUserIdAndProductProductId(String userId, Long productIds);
+
+
 
 }

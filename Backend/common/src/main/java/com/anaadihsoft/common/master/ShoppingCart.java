@@ -23,7 +23,11 @@ public class ShoppingCart {
 	@ManyToOne
 	private User user;
 	
+	//Only active cost set
 	private double totalCost;
+	
+	//only active cart item
+	private int cartCount;
 	
 	private int status;
 	
@@ -56,6 +60,22 @@ public class ShoppingCart {
 
 
 	
+
+	public double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	public int getCartCount() {
+		return cartCount;
+	}
+
+	public void setCartCount(int cartCount) {
+		this.cartCount = cartCount;
+	}
 
 	public int getStatus() {
 		return status;

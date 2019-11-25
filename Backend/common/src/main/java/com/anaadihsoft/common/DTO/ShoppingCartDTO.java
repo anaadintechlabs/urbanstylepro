@@ -9,11 +9,7 @@ public class ShoppingCartDTO {
 
 	private User user;
 	
-	private List<Double> cost;
-	
-	private List<Long> quantity;
-	
-	private List<Product> product;
+	private List<ShoppingCartItemDTO> shoppingCartItemDTO; 
 
 	public User getUser() {
 		return user;
@@ -22,32 +18,17 @@ public class ShoppingCartDTO {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public List<ShoppingCartItemDTO> getShoppingCartProductDTO() {
+		return shoppingCartItemDTO;
+	}
+
+	public void setShoppingCartProductDTO(List<ShoppingCartItemDTO> shoppingCartItemDTO) {
+		this.shoppingCartItemDTO = shoppingCartItemDTO;
+	}
 	
 		
 
-	public List<Double> getCost() {
-		return cost;
-	}
-
-	public void setCost(List<Double> cost) {
-		this.cost = cost;
-	}
-
-	public List<Long> getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(List<Long> quantity) {
-		this.quantity = quantity;
-	}
-
-	public List<Product> getProduct() {
-		return product;
-	}
-
-	public void setProduct(List<Product> product) {
-		this.product = product;
-	}
 
 
 	

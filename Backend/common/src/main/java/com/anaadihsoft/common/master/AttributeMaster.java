@@ -15,6 +15,7 @@ public class AttributeMaster {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	//It should also be unique
 	private String variationName;
 	
 	private String variationType;// Like Input,Checkbox,Select Etc

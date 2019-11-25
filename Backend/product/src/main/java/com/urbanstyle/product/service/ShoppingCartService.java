@@ -16,8 +16,10 @@ public interface ShoppingCartService  {
 
 	List<ShoppingCartItem> getShoppingCartListOfUser(Filter filter, String userId);
 
-	Object changeStatusOfShoppingCart(String userId, List<String> productIds, String productId);
+	Object changeStatusOfShoppingCart(String userId, List<Long> productIds, int status);
 
-	Object getCartCountOfUser(long userId);
+	int getCartCountOfUser(long userId);
+
+	Object updateQuantityOfProduct(String userId, Long productId, int quantity);
 
 }

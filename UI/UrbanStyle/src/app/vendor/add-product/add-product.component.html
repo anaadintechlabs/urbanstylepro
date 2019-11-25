@@ -27,9 +27,10 @@
                     </div>
                     <div *ngIf="dispAdvanceOption && selectedProductType == 'ADVANCE'">
                         <div formArraryName="productVariantDTO" *ngFor="let item of productVariantDTO.controls;let i = index">
-                            <product-variation [productVariation]="item" [index]="i" ></product-variation>
+                            <product-variation [productVariation]="item"  ></product-variation>
                         </div>
                     </div>
+                    
                 </div>
                 <div>
                     <button type ="button" (click)="saveProduct()">save</button>
