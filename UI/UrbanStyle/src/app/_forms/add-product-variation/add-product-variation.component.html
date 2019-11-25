@@ -1,6 +1,5 @@
-<form *ngIf="productVariation" [formGroup]="productVariation" (ngSubmit)="onSubmit()">
 
-        <fieldset [formGroupName]="index">
+        <div [formGroup]="productVariation">
           <div formGroupName="productVariant"> 
             
       
@@ -51,8 +50,7 @@
               <button  class="btn btn-success">Register</button>
             </div>
           </div>
-        </fieldset>
-      </form>
+        </div>
     
     
     
