@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -9,12 +9,31 @@ import { FormGroup } from '@angular/forms';
 })
 export class AddProductVariationComponent implements OnInit {
 
-  
+    @Output() productVariationEmit : EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+
   @Input() productVariation : FormGroup;
+
+  productVariantGroup:FormGroup;
   constructor() { }
 
+    submitted : boolean = false;
+
+
   ngOnInit() {
-    console.log(this.productVariation);
+    
   }
+
+    get f() { return this.productVariation.controls.productVariant;}
+
+     onSubmit(){
+    this.submitted = true;
+    if(this.productVariation.invalid){
+
+    } else {
+      console.log(this.productVariation);
+      this.productVariationEmit.emit(this.productVariation);
+    }
+  }
+
 
 }
