@@ -169,8 +169,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Override
 	public Object updateQuantityOfProduct(String userId, Long productIds, int quantity) {
 		
-		ShoppingCartItem shoppingCartItem =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductProductIdIn(userId, productIds);
-		
+		ShoppingCartItem shoppingCartItem =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductProductId(userId, productIds);
+		return null;
 	}
 
 	

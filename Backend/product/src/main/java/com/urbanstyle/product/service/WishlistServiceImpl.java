@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anaadih.aclassdeal.Model.WishlistModel;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Wishlist;
 import com.urbanstyle.product.repository.WishlistRepository;
@@ -22,6 +23,13 @@ public class WishlistServiceImpl implements WishlistService{
 	
 	@Override
 	public Wishlist addProductToWishlist(Wishlist wishList) {
+//		WishlistModel previousAdded=wishlistRepository.findByUserIdAndProdIdProdId(userId,Integer.parseInt(prodId));
+//		if(previousAdded!=null) {
+//			map.put("msg", "Already Added to wishlist");
+//			map.put("type", "Warning!");
+//			return map;
+//		}
+//		
 		return wishlistRepository.save(wishList);
 	}
 	

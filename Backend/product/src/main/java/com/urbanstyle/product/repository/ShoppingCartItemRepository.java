@@ -24,6 +24,8 @@ public interface ShoppingCartItemRepository extends PagingAndSortingRepository<S
 
 	List<ShoppingCartItem> findByShoppingCartUserIdAndProductProductIdIn(String userId, List<Long> productId);
 
+	ShoppingCartItem findByShoppingCartUserIdAndProductProductId(String userId, Long productIds);
+
 
 
 }
