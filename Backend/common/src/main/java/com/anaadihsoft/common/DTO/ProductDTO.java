@@ -12,6 +12,8 @@ public class ProductDTO {
 	private List<ProductVariantDTO> productVariantDTO;
 	
 	private List<ProductMeta> productMetaInfo;
+	
+	
 
 	public Product getProduct() {
 		return product;

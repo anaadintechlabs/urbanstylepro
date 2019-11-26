@@ -17,6 +17,8 @@
                     <button class="btn btn-primary borderBox_headerLink" (click)="showVitalForm()" role="button">Vital Information</button>
                     <button class="btn btn-primary borderBox_headerLink" (click)="showProduDesc()" [disabled]="!productDescTab" role="button">Product Description</button>
                     <button class="btn btn-primary borderBox_headerLink"  (click)="showAdvanceOption()" [disabled]="!dispAdvanceOption" [hidden]="!advanceTabVisibility" role="button">Advance</button>
+                    <button class="btn btn-primary borderBox_headerLink"  (click)="showProductMedia()" role="button">Product Media</button>
+
                 </div>
                 <div class="borderBox_content">
                     <div *ngIf="dispVitalForm" class="vitalBox">
@@ -30,10 +32,16 @@
                             <product-variation [productVariation]="item"  ></product-variation>
                         </div>
                     </div>
-                    
+<!--   -->
+                      <div *ngIf="dispProductMedia"  class="vitalBox">
+                        <product-media [myFiles]="myFiles" [urlArray]="urlArray" (myFilesEmit)="myFilesEmitFunction($event)" (urlArrayEmit)="myUrlArrayEmitFunction($event)"  ></product-media>
+                    </div> 
+                     
                 </div>
+
+                
                 <div>
-                    <button type ="button" (click)="saveProduct()">save</button>
+                    <button type ="button"  class="btn btn-success" (click)="saveProduct()">save</button>
                 </div>
             </div>
         </div>
