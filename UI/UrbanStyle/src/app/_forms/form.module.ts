@@ -9,13 +9,14 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { VitalInformationComponent } from './vital-information/vital-information.component';
 import { AddProductDesciprionComponent } from './add-product-desciprion/add-product-desciprion.component';
 import { AddProductVariationComponent } from './add-product-variation/add-product-variation.component';
+import { AddProductMediaComponent } from './add-product-media/add-product-media.component';
 
 
 
 @NgModule({
   declarations: [CategotySelectionComponent, 
     BasicDetailsComponent, 
-    LoginComponent, VitalInformationComponent, AddProductDesciprionComponent, AddProductVariationComponent
+    LoginComponent, VitalInformationComponent, AddProductDesciprionComponent, AddProductVariationComponent, AddProductMediaComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +44,8 @@ import { AddProductVariationComponent } from './add-product-variation/add-produc
     LoginComponent,
     VitalInformationComponent,
     AddProductDesciprionComponent,
-    AddProductVariationComponent
+    AddProductVariationComponent,
+    AddProductMediaComponent
   ]
 })
 export class FormModule { }

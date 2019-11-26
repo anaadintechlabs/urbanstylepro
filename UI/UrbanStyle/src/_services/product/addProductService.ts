@@ -52,7 +52,7 @@ export class AddProductService {
     public initializeProductVarientDto() : FormGroup {
         let productVarientDto : FormGroup;
         productVarientDto = this._fb.group({
-            'attributeMap' : new FormControl('',[]),
+            'attributesMap' : new FormControl('',[]),
             'productVariant' : this.productVariantForm,
         })
         return productVarientDto;
@@ -66,9 +66,16 @@ export class AddProductService {
             myMap[tempAttributeData[i]]=data[i];
         }
         productVarientDto = this._fb.group({
-            'attributeMap' : new FormControl(myMap),
-            'productVariant' : this.productVariantForm,
-        })
+            'attributesMap' : new FormControl(myMap),
+            'productVariant' :  new FormGroup({
+        sku : new FormControl('', [Validators.required]),
+        displayPrice: new FormControl('', [Validators.required]),
+        actualPrice : new FormControl('', [Validators.required]),
+        discountPrice : new FormControl('', [Validators.required]),
+        totalQuantity : new FormControl('', [Validators.required]),
+        reservedQuantity: new FormControl('', [Validators.required])
+    })
+        });
         return productVarientDto;
     }
 

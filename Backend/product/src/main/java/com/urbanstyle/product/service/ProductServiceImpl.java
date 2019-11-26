@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService{
 			System.out.println("duplicate check");
 			return null;
 		}
-		
+
 		oldProduct=productRepository.save(productDTO.getProduct());
 		createProductVariant(productDTO.getProductVariantDTO(),oldProduct);
 		if(productDTO.getProductMetaInfo()!=null)
@@ -105,7 +105,7 @@ public class ProductServiceImpl implements ProductService{
 			pad.setStatus(1);
 			productAttributeDetails.add(pad);
 		}
-		
+		System.out.println("setting [roduct attribute record"+productAttributeDetails);
 		if(productAttributeDetails!=null && !productAttributeDetails.isEmpty())
 		{
 			productAttrRepo.saveAll(productAttributeDetails);

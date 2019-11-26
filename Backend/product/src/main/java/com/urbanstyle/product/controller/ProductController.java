@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
@@ -135,14 +137,16 @@ public class ProductController {
 	
 	
 	
-	@PostMapping
-	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,@RequestBody ProductDTO productDTO){
+	@PostMapping(value="/saveProduct")
+	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,
+			@RequestPart(value="files",required=false) MultipartFile[] files,@RequestPart("dto") ProductDTO productDTO){
 		final HashMap<String, Object> map = new HashMap<>();
+		System.out.println("inside save prodcuct");
 		map.put("product", productService.createProduct(productDTO));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 
-	@PutMapping
+	@PutMapping(value="/updateProduct")
 	public Map<String,Object> updateProduct(HttpServletRequest request,HttpServletResponse response,@RequestBody Product product){
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("product", productService.updateProduct(product));
