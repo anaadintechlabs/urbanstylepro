@@ -21,9 +21,14 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.anaadihsoft.common.master.Product;
+import com.anaadihsoft.common.master.ProductImages;
 import com.anaadihsoft.common.util.UploadFileResponse;
+import com.urbanstyle.product.exception.FileStorageException;
+import com.urbanstyle.product.exception.MyFileNotFoundException;
+import com.urbanstyle.product.property.FileStorageProperties;
 import com.urbanstyle.product.repository.ProductRepository;
 import com.urbanstyle.product.util.CustomException;
 
@@ -31,239 +36,213 @@ import com.urbanstyle.product.util.CustomException;
 public class FileUploadServiceImpl implements FileUploadService {
 
 	
-//	@Value("${upload.document.path}")
-	private String documentPath="";
 
-	//@Value("${upload.document.path}")
-	private Path fileStoragePath=null;
-
-	//@Value("${application.public.domain}")
-	private String applicationPublicDomain="";
 	
+	private final Path fileStoragePath;
+    private final Path fileStorageLocation;
+	private static final String SLASH = "/";
+    @Value("${application.public.domain}")
+	private String applicationPublicDomain;
+    
 	@Autowired
 	private ProductRepository productRepository; 
 
 
+	
+	 public String generateFileUri(String fileName) {
+	    	return applicationPublicDomain+"/downloadFile/"+fileName;
+
+	    }
+	    
+	
+	
+	    
+	    private String generateFileNameFromMultipart(MultipartFile multiPart) {
+	    	String fileName = multiPart.getOriginalFilename().replace("\\",SLASH).replace(" ", "_");
+	    	int lastIndex = fileName.lastIndexOf(SLASH);
+	    	if(lastIndex!=-1) {
+	    		fileName = fileName.substring(lastIndex+1);
+	    	}
+	        return new Date().getTime() + "-" + fileName;
+	    }
+	    
+
+	    
+
+	    public UploadFileResponse storeFile(MultipartFile file) {
+	        // Normalize file name
+	        String fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
+
+	        try {
+	            // Check if the file's name contains invalid characters
+	            if(fileName.contains("..")) {
+	                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+	            }
+
+	            // Copy file to the target location (Replacing existing file with the same name)
+	            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+	            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+	            return new UploadFileResponse(fileName, generateFileUri(fileName),file.getContentType(), file.getSize());
+	        } catch (IOException ex) {
+	            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+	        }
+	    }
 
 
+	 
+	 
+	    public List<UploadFileResponse> getFileList(){
+	    	try {
+	    		List<UploadFileResponse> uploadFileResponseList = new ArrayList<>();
+	    		Files.walk(this.fileStoragePath).filter(Files::isRegularFile).forEach(file->{
+	    			try {
+						uploadFileResponseList.add(
+						new UploadFileResponse(file.toFile().getName(), this.generateFileUri(file.toFile().getName()),
+								Files.probeContentType(file), file.toFile().length()));
+					} catch (IOException ex) {
+						throw new FileStorageException("Could not find files. Please try again!", ex);
+					}
+	    		});
+	            return uploadFileResponseList;
+	        } catch (IOException ex) {
+	            throw new FileStorageException("Could not find files. Please try again!", ex);
+	        }
+	    }
+	    
+	    /**
+	     * 
+	     * @param fileUrl
+	     * @return Boolean
+	     */
+	    public Boolean deleteFile(String fileUrl) {
+	    	if(!StringUtils.isEmpty(fileUrl) && fileUrl.indexOf("downloadFile/")!=-1) {
+	    		try {
+	    			Path fileLocation = this.fileStorageLocation.resolve(fileUrl.substring(fileUrl.indexOf("downloadFile/")+13));
+					return Files.deleteIfExists(fileLocation);
+				} catch (IOException e) {
+					
+					return false;
+				}
+	    	}
+	    	return false;
+	    }
+	    
+	    /**
+	     * 
+	     * @param List<String> fileUrls
+	     * @return List<Boolean>
+	     */
+	    public List<Boolean> deleteFiles(List<String> fileUrls) {
+	    	List<Boolean> response = new ArrayList<>();
+	    	for(String fileUrl:fileUrls) {
+	    		response.add(deleteFile(fileUrl));
+	    	}
+	    	return response;
+	    }
+	    
+	    
+    @Autowired
+    public FileUploadServiceImpl(FileStorageProperties fileStorageProperties) {
+    	this.fileStoragePath = Paths.get(fileStorageProperties.getUploadDir());
+        this.fileStorageLocation = this.fileStoragePath.toAbsolutePath().normalize();
+
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (Exception ex) {
+            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
+        }
+    }
 
 
-
-	/**
-	 * @author DB-0066
-	 * @description this method is used to upload single document
-	 * @param file
-	 * @param organizationId
-	 * @param local
-	 * @return
-	 * @throws Exception
-	 */
+	@Override
 	public UploadFileResponse storeFile(MultipartFile file, long productId, boolean local) throws Exception {
-		// Normalize file name
-		//log.info("storeFile-------------------------fileStoragePath----" + fileStoragePath);
-		Product product = productRepository.findByProductId(productId);
-		String orgName = product.getProductId()+"";
-		String fileName = StringUtils.cleanPath(generateFileName(orgName, file));
-		try {
-			if (fileName.contains("..")) {
-			//	throw new CustomException("Sorry! Filename contains invalid path sequence " + fileName);
-			}
-			Path rootDirName = Paths.get(documentPath);
-			Path rootDirectory = Paths.get(rootDirName + "//" + orgName).toAbsolutePath().normalize();
-			Path targetLocation = Files.createDirectories(rootDirectory).resolve(fileName);
-			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-			String fileUri = generateFileUri(orgName, fileName);
-			if (local) {
-				fileUri = targetLocation.toString();
-			}
-			return new UploadFileResponse(fileName, fileUri, file.getContentType(), file.getSize());
-		} catch (IOException ex) {
-			throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
-		}
+		   // Normalize file name
+        String fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
+
+        try {
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+            return new UploadFileResponse(fileName, generateFileUri(fileName),file.getContentType(), file.getSize());
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
 	}
 
-	/**
-	 * @author DB-0051
-	 * @param orgName
-	 * @param fileName
-	 * @return
-	 */
-	private String generateFileUri(String organizationName, String fileName) {
-		return applicationPublicDomain + "/downloadFile/" + organizationName + "/" + fileName;
-	}
 
-	/**
-	 * @author DB-0066
-	 * @description this method is used to upload multiple documents
-	 * @param files
-	 * @param organizationId
-	 * @return
-	 * @throws Exception
-	 */
-	public List<UploadFileResponse> storeFiles(MultipartFile[] files, long organizationId, boolean local)
-			throws Exception {
+	@Override
+	public List<UploadFileResponse> storeFiles(MultipartFile[] files, long productId) throws Exception {
 		List<UploadFileResponse> uploadMultipleFiles = new ArrayList<>();
-		for (MultipartFile file : files) {
-			uploadMultipleFiles.add(storeFile(file, organizationId, local));
+    	for(MultipartFile file : files){
+    		 uploadMultipleFiles.add(storeFile(file));
+    	}
+    	return uploadMultipleFiles;
+	}
+
+
+	@Override
+	public Resource loadFileAsResource(String fileName)
+			throws UnsupportedEncodingException, CustomException {
+		 try {
+	            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+	            Resource resource = new UrlResource(filePath.toUri());
+	            if(resource.exists()) {
+	                return resource;
+	            } else {
+	                throw new MyFileNotFoundException("File not found " + fileName);
+	            }
+	        } catch (MalformedURLException ex) {
+	            throw new MyFileNotFoundException("File not found " + fileName, ex);
+	        }
+	}
+
+
+
+
+
+
+	@Override
+	public List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct) {
+		List<ProductImages> productImages = new ArrayList<>();
+		for(MultipartFile file : files){
+			productImages.add(storeSingleMediaForProduct(file,oldProduct));
 		}
-		return uploadMultipleFiles;
-	}
-
-	/**
-	 * @author DB-0066
-	 * @description this method is used to generate document name
-	 * @param orgName
-	 * @param file
-	 * @return
-	 */
-	private String generateFileName(String orgName, MultipartFile file) {
-		return orgName + "-" + new Date().getTime() ;
-//		+ FilenameUtils.EXTENSION_SEPARATOR
-//		+ FilenameUtils.getExtension(file.getOriginalFilename())
-	}
-
-	/**
-	 * @author DB-0066
-	 * @description this method is used to create directories for the document
-	 * @param orgName
-	 * @return
-	 * @throws IOException
-	 */
-	public Path createDirectoryToUpload(String orgName) throws IOException {
-		Path rootDirName = Paths.get(documentPath);
-		Path rootDirectory = rootDirName.toAbsolutePath().normalize();
-		if (!Files.exists(rootDirectory)) {
-		//	log.info("------------------if");
-			Path subDirName = Paths.get(rootDirName + "/" + orgName).toAbsolutePath().normalize();
-			rootDirectory = Files.createDirectories(subDirName);
-		} else {
-		//	log.info("------------------else");
-
-			Path subDirName = Paths.get(rootDirName + "/" + orgName).toAbsolutePath().normalize();
-			if (!Files.exists(subDirName)) {
-				rootDirectory = Files.createDirectories(subDirName);
-			}
-		}
-		return rootDirectory;
-	}
-
-	public String generateFileUri(String organizationName, String workOrderNumber, String fileName) {
-		return applicationPublicDomain + "/downloadFile/" + organizationName + "/" + workOrderNumber + "/" + fileName;
-	}
-
-	/**
-	 * @author DB-0051
-	 * @param file
-	 * @param organizationName
-	 * @param workOrderNumber
-	 * @param local
-	 * @return
-	 * @throws Exception
-	 */
-	public UploadFileResponse uploadReport(MultipartFile file, String organizationName, String workOrderNumber,
-			boolean local) throws Exception {
-		String fileName = StringUtils.cleanPath(generateFileName(file));
-		try {
-			if (fileName.contains("..")) {
-				//throw new CustomException("Sorry! Filename contains invalid path sequence " + fileName);
-			}
-			Path rootDirName = Paths.get(documentPath);
-			Path rootDirectory = Paths.get(rootDirName + "//" + organizationName + "//" + workOrderNumber)
-					.toAbsolutePath().normalize();
-			Path targetLocation = Files.createDirectories(rootDirectory).resolve(fileName);
-			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-			String fileUri = generateFileUri(organizationName, workOrderNumber, fileName);
-			if (local) {
-				fileUri = targetLocation.toString();
-			}
-		
-			return new UploadFileResponse(fileName, fileUri, file.getContentType(), file.getSize());
-		} catch (IOException ex) {
-			throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
-		}
+		System.out.println("product images");
+		return productImages;
 	}
 
 
 
 
-	public UploadFileResponse saveBirtReport(MultipartFile file, String organizationName, String workOrderNumber,
-			String consignmentNumber,
-			String fileName,
-			boolean local) throws Exception {
-		if (consignmentNumber != null) {
-			fileName = consignmentNumber + "-" + fileName;
-		}
-		fileName = StringUtils.cleanPath(fileName);
-		try {
-			if (fileName.contains("..")) {
-			//	throw new CustomException("Sorry! Filename contains invalid path sequence " + fileName);
-			}
-			Path rootDirName = Paths.get(documentPath);
-			Path rootDirectory = Paths.get(rootDirName + "//" + organizationName + "//" + workOrderNumber)
-					.toAbsolutePath().normalize();
-			Path targetLocation = Files.createDirectories(rootDirectory).resolve(fileName);
-			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-			String fileUri = generateFileUri(organizationName, workOrderNumber, fileName);
-			if (local) {
-				fileUri = targetLocation.toString();
-			}
-			return new UploadFileResponse(fileName, fileUri, file.getContentType(), file.getSize());
-		} catch (IOException ex) {
-			throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
-		}
+	@Override
+	public ProductImages storeSingleMediaForProduct(MultipartFile file, Product oldProduct) {
+	    String fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
+
+        try {
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            return new ProductImages(fileName,generateFileUri(fileName),file.getContentType(),file.getSize(),oldProduct);
+          //  return new UploadFileResponse(fileName, generateFileUri(fileName),file.getContentType(), file.getSize());
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
 	}
 
-	/**
-	 * @author DB-0051
-	 * @param file
-	 * @return
-	 */
-	private String generateFileName(MultipartFile file) {
-		return new Date().getTime() + "-"+ file.getOriginalFilename();
-	}
 
-	/**
-	 * @author DB-0051
-	 * @param fileName
-	 * @param request
-	 * @return
-	 * @throws CustomException
-	 * @throws UnsupportedEncodingException
-	 */
-	public Resource loadFileAsResource(String fileName, HttpServletRequest request) throws CustomException, UnsupportedEncodingException {
-		try {
-			final Path fileStorageLocation = fileStoragePath.toAbsolutePath().normalize();
-			Path fileStorage = Paths.get(fileStorageLocation.toString(), getFilePath(request));
-			Path filePath = fileStorage.resolve(fileName).normalize();
-			//log.info("filePath : " + filePath.toString());
-			Resource resource = new UrlResource(filePath.toUri());
-			if (resource.exists()) {
-				return resource;
-			} else {
-				throw new CustomException("File not found " + fileName);
-			}
-		} catch (MalformedURLException ex) {
-			throw new CustomException("File not found " + fileName);
-		}
-		
-	}
 
-	/**
-	 * @author DB-0051
-	 * @param request
-	 * @return
-	 * @throws UnsupportedEncodingException
-	 */
-	public String[] getFilePath(HttpServletRequest request) throws UnsupportedEncodingException {
-		String[] arr = request.getRequestURI().split("/");
-		StringBuilder strBuilder = new StringBuilder();
-		for (int i = 0; i < arr.length; i++) {
-			if (i != 0 && i != 1 && i != arr.length - 1) {
-				strBuilder.append(URLDecoder.decode(arr[i],"UTF-8")).append("/");
-			}
-		}
-		return strBuilder.toString().split("/");
-	}
 
 
 

@@ -18,15 +18,32 @@ public class ProductImages {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productImageId;
 	
-//	@Lob
-//	private byte[] productImage;
-//	
+	
+	private String fileName;
+	
+	private String fileType;
+	
+	private long size;
+	
 	private String productImageUrl;
 	
 	 @ManyToOne
 	 @JoinColumn(name="productId", nullable=false,updatable=false)
 	 private Product product;
 
+	 
+	public ProductImages(String fileName2, String generateFileUri, String contentType, long size2, Product oldProduct) {
+		this.fileName=fileName2;
+		this.productImageUrl=generateFileUri;
+		this.fileType=contentType;
+		this.size=size2;
+		this.product=oldProduct;
+	}
+
+	public ProductImages()
+	{
+		
+	}
 	public Product getProduct() {
 		return product;
 	}
@@ -49,6 +66,30 @@ public class ProductImages {
 
 	public void setProductImageUrl(String productImageUrl) {
 		this.productImageUrl = productImageUrl;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
 	}
 	 
 	 

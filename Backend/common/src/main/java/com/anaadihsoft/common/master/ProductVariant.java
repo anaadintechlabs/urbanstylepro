@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductVariant {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productVariantId;
@@ -29,6 +28,26 @@ public class ProductVariant {
 	 
 	 private String sku;
 	 
+	 private String prodName;
+	 
+	 private String prodDesc;
+	 
+	public String getProdName() {
+		return prodName;
+	}
+
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
+
+	public String getProdDesc() {
+		return prodDesc;
+	}
+
+	public void setProdDesc(String prodDesc) {
+		this.prodDesc = prodDesc;
+	}
+
 	private double displayPrice;
 	
 	private double actualPrice;
@@ -184,6 +203,5 @@ public class ProductVariant {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-
 	
 }

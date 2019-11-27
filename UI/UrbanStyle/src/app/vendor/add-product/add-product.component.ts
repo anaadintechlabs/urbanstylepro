@@ -30,12 +30,13 @@ export class AddProductComponent implements OnInit {
   productDescTab: boolean;
   dispVitalForm: boolean = true;
   dispProductMedia: boolean = false;
+  showAdvanceTab:boolean = false;
   dispProduDesc: boolean;
   dispAdvanceOption: boolean;
   advanceTabVisibility: boolean = false;
   selectedProductType: string;
   private menuItemCount: number;
-  selectedAttrForVariation: CategoryAttribute[];
+  selectedVariation: CategoryAttribute[];
 
   myFiles: string[] = [];
   urlArray: any = [];
@@ -93,6 +94,7 @@ export class AddProductComponent implements OnInit {
   }
 
   vitalFormStatus(status) {
+   
     if (status) {
       this.productDescTab = true;
     } else {
@@ -103,15 +105,17 @@ export class AddProductComponent implements OnInit {
   showVitalForm() {
     this.dispVitalForm = true;
     this.dispProduDesc = false;
-    this.dispAdvanceOption = false;
+    //this.dispAdvanceOption = false;
     this.dispProductMedia = false;
+     this.showAdvanceTab=false;
   }
 
   showProductMedia() {
     this.dispVitalForm = false;
     this.dispProduDesc = false;
-    this.dispAdvanceOption = false;
+   // this.dispAdvanceOption = false;
     this.dispProductMedia = true;
+     this.showAdvanceTab=false;
   }
 
   showProduDesc() {
@@ -120,12 +124,14 @@ export class AddProductComponent implements OnInit {
       this.dispProduDesc = true;
       this.dispAdvanceOption = false;
       this.dispProductMedia = false;
+      this.showAdvanceTab=false;
     } else {
     }
   }
 
   showAdvanceOption() {
     if (this.advanceTabVisibility) {
+      this.showAdvanceTab=true;
       this.dispVitalForm = false;
       this.dispProduDesc = false;
       this.dispAdvanceOption = true;
@@ -140,6 +146,7 @@ export class AddProductComponent implements OnInit {
       this.menuCount = 3;
     } else {
       this.advanceTabVisibility = false;
+      this.dispAdvanceOption=false;
       this.menuCount = 2;
     }
   }
@@ -155,24 +162,23 @@ export class AddProductComponent implements OnInit {
   }
 
   getAllAttrMap(data: CategoryAttribute[]) {
-    this.selectedAttrForVariation = data;
-    console.log(this.selectedAttrForVariation);
+    this.selectedVariation = data;
     let tempData: any[] = [];
     var tempAttributeData: any = [];
+
+    
     data.forEach(element => {
       tempData.push(element.allAttributeMap.variationAttribute);
       tempAttributeData.push(element.attributeMaster.id);
     });
-
-    console.log(tempAttributeData);
+ 
     let combinations = this._addProduct.makeCombinations(tempData);
     //this.productVariantDTO = this._fb.array([]);
     while (this.productVariantDTO.length !== 0) {
       this.productVariantDTO.removeAt(0);
     }
-
     combinations.forEach(element => {
-      //here I have to set the values as well
+        //here I have to set the values as well
       this.productVariantDTO.push(
         this._addProduct.initializeProductVarientDtoWithValue(
           element,
@@ -180,9 +186,9 @@ export class AddProductComponent implements OnInit {
         )
       );
     });
-    console.log(this.productVariantDTO);
   }
   activeAdvanceTab(status: boolean) {
+    console.log("status is",status)
     this.dispAdvanceOption = status;
     console.log("worked 2");
   }
@@ -207,14 +213,18 @@ export class AddProductComponent implements OnInit {
 console.log("myurls ",this.urlArray);
     const productData = this._addProduct.productDTO.value;
     const formData: FormData = new FormData();
-    formData.append('dto', JSON.stringify(productData));
+    formData.append('dto', new Blob([JSON.stringify(productData)],
+        {
+            type: "application/json"
+        }));
+    // formData.append('dto', JSON.stringify(productData));
 
     for (let i = 0; i < this.myFiles.length; i++) {
       formData.append('file', this.myFiles[i]);
     }
-    console.log('form data is ', formData);
+    console.log('form data is '+ formData);
     this._dataService
-      .saveProduct('product/saveProduct', this._addProduct.productDTO.value)
+      .saveProduct('product/saveProduct', formData)
       .subscribe(data => {
         console.log(data);
         this.allAttriblue = data;

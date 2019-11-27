@@ -25,9 +25,9 @@
                         <vital-information [vitalInfo]="vitalInfo" (status)="vitalFormStatus($event)"></vital-information>
                     </div>
                     <div *ngIf="dispProduDesc" class="descBox">
-                        <product-desciprion [categoryAttribute]="allAttriblue" (allAttrMap)="getAllAttrMap($event)" (status)="activeAdvanceTab($event)" (productType)="selectedPtoductType($event)"  [selectedProductType]="selectedProductType"></product-desciprion>
+                        <product-desciprion [categoryAttribute]="allAttriblue" (allAttrMap)="getAllAttrMap($event)" (status)="activeAdvanceTab($event)" (productType)="selectedPtoductType($event)"  [selectedVariation]="selectedVariation" [selectedProductType]="selectedProductType"></product-desciprion>
                     </div>
-                    <div *ngIf="dispAdvanceOption && selectedProductType == 'ADVANCE'">
+                    <div *ngIf="showAdvanceTab && dispAdvanceOption && selectedProductType == 'ADVANCE'">
                         <div formArraryName="productVariantDTO" *ngFor="let item of productVariantDTO.controls;let i = index">
                             <product-variation [productVariation]="item"  ></product-variation>
                         </div>

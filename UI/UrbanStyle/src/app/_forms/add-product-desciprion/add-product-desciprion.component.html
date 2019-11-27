@@ -9,7 +9,10 @@
 
 
 <div *ngIf="selectedProductType == 'SIMPLE'">
-    <product-variation></product-variation>
+    <div formArraryName="productVariantDTO" *ngFor="let item of productVariantDTO.controls;let i = index">
+            <product-variation [productVariation]="item"  ></product-variation>
+     </div>
+    <!-- <product-variation></product-variation> -->
 </div>
 
 <div *ngIf="selectedProductType == 'ADVANCE' && categoryAttribute.length > 0">

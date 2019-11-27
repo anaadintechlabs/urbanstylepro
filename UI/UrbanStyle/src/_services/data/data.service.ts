@@ -3,10 +3,15 @@ import { ApiService } from "../http_&_login/api.service";
 import { Observable } from "rxjs";
 import { Category } from "src/_modals/category.modal";
 import { CategoryAttribute } from "src/_modals/categoryAttribute.modal";
-import { HttpParams } from "@angular/common/http";
+import {
+  HttpParams,
+  HttpBackend,
+  HttpHeaders,
+  HttpClient
+} from "@angular/common/http";
 @Injectable()
 export class DataService {
-  constructor(protected _apiService: ApiService) {}
+  constructor(protected _apiService: ApiService,private httpBackend:HttpBackend) {}
 
   getAllCategory(url: string, data: any): Observable<Category[]> {
     return new Observable<Category[]>(obs => {
@@ -50,8 +55,10 @@ export class DataService {
   }
 
   saveProduct(url, data): Observable<CategoryAttribute[]> {
+   
+
     return new Observable<any[]>(obs => {
-      this._apiService.post(url, data).subscribe(res => {
+      this._apiService.postWithMedia(url, data).subscribe(res => {
         console.log("product saved", res);
       });
     });
