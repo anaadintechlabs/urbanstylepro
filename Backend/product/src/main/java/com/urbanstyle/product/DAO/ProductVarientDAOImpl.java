@@ -70,8 +70,8 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		 }
 		 
 		 Query managerQuery =  session.createQuery(query);
-		 managerQuery.setParameter("prodDesc", searchString);
-		 managerQuery.setParameter("prodName", searchString);
+		 managerQuery.setParameter("prodDesc",  "%"+searchString+"%");
+		 managerQuery.setParameter("prodName",  "%"+searchString+"%");
 		 if(StringUtils.isNotBlank(rating)) {
 			 managerQuery.setParameter("rating", rating);
 		 }
@@ -87,7 +87,7 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		 }
 		 
 		 managerQuery =  session.createQuery(query);
-		 managerQuery.setParameter("categoryName", searchString);
+		 managerQuery.setParameter("categoryName", "%"+searchString+"%");
 		 
 		 returnData = managerQuery.list();
 		 
