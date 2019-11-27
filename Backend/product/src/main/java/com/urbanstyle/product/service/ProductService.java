@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.external.Filter;
@@ -51,7 +52,7 @@ public interface ProductService {
 	
 	List<Product> getAllProducts();
 	
-	Product createProduct(ProductDTO productDTO);
+	Product createProduct(ProductDTO productDTO, MultipartFile[] files) throws Exception;
 
 	Product updateProduct(Product product);
 

@@ -7,10 +7,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductVariant;
 import com.mysql.fabric.xmlrpc.base.Array;
+import com.urbanstyle.product.DAO.ProductVarientDAO;
 import com.urbanstyle.product.repository.ProductRepository;
 
 @Service
@@ -24,6 +26,9 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Autowired
 	private ProductRepository productRepo;
+	
+	@Autowired
+	private ProductVarientDAO productVarientDAO;
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
@@ -93,6 +98,15 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			productRepo.save(product);
 		}
 		return true;
+	}
+	
+	
+	@Override
+	public List<ProductVariant> searchProducts(FilterDTO filterDTO) {
+		
+		 List<ProductVariant> resultsVarient = productVarientDAO.findInProductVarient(filterDTO);
+		
+		return resultsVarient;
 	}
 	
 	
