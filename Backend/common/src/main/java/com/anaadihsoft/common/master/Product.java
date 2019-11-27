@@ -58,6 +58,7 @@ public class Product {
 	{
 		this.createdDate=new Date();
 		this.createdBy="Admin";
+		this.setStatus(1);
 	}
 	
 	@PreUpdate

@@ -74,7 +74,7 @@ public class FileUploadController {
 			@RequestParam("productId") long productId, @RequestParam(required = false) boolean local,
 			HttpServletResponse response) throws Exception {
 
-		final List<UploadFileResponse> uploadMultipleFiles = fileUploadService.storeFiles(files, productId, local);
+		final List<UploadFileResponse> uploadMultipleFiles = fileUploadService.storeFiles(files, productId);
 		final Map<String, Object> map = new HashMap<>();
 		final Date startDate = new Date();
 		map.put("uploadMultipleFiles", uploadMultipleFiles);
@@ -93,7 +93,7 @@ public class FileUploadController {
 	@GetMapping("/downloadFile/**/{fileName:.+}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request)
 			throws  UnsupportedEncodingException, CustomException {
-		final Resource resource = fileUploadService.loadFileAsResource(fileName, request);
+		final Resource resource = fileUploadService.loadFileAsResource(fileName);
 		// Try to determine file's content type
 		String contentType = null;
 		try {

@@ -14,20 +14,24 @@ export class AddProductVariationComponent implements OnInit {
   @Input() productVariation : FormGroup;
   @Input() index : number;
   
-  submitted : boolean = false;
+  submitted : boolean = false;  
 
   productVariantGroup:FormGroup;
   
-  constructor() { }
+  constructor() {
+
+   
+   }
   
   ngOnInit() {
-    console.log("ffffffffffffffffffff",this.f);
+     console.log("in construcotr",this.productVariation);
   }
   
   get f() { return this.productVariation.controls.productVariant;}
   
   onSubmit(){
     this.submitted = true;
+    console.log("obsubmit",this.productVariation);
     if(this.productVariation.invalid){
     } else {
       console.log(this.productVariation);
