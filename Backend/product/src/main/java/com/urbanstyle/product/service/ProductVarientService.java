@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.master.ProductVariant;
 
@@ -23,4 +24,6 @@ public interface ProductVarientService {
 	ProductVariant addVarientToProduct(ProductVariantDTO productVarientDTO);
 
 	boolean deleteVarientToProduct(long prodId, long prodVarId);
+
+	List<ProductVariant> searchProducts(FilterDTO filterDTO);
 }

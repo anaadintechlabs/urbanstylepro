@@ -22,7 +22,7 @@ import com.urbanstyle.product.service.SiteReviewService;
 import com.urbanstyle.product.util.CommonResponseSender;
 
 @RestController
-@RequestMapping("/reviewsite")
+@RequestMapping("/review")
 @CrossOrigin(origins="*")
 public class SiteReviewController {
 

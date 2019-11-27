@@ -18,11 +18,11 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 
 	ProductVariant findByDealOfTheDay(boolean b);
 
-	@Query("update ProductVariant set dealOfTheDay = ?1")
+	@Query("update ProductVariant set dealOfTheDay = ?")
 	boolean setDealOftheDay(boolean deal1);
 
-//	@Query("update ProductVariant  pv set dealOfTheDay = ?1 where pv.product.productId = ?2")
-//	void setDealofSelectedProd(boolean b,long prodId);
+	@Query("update ProductVariant set dealOfTheDay = ? where productId = ?")
+	void setDealofSelectedProd(boolean b,long prodId);
 
 	List<ProductVariant> findByStatus(int i);
 

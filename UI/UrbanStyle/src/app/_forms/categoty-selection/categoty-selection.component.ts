@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Category } from "../../../_modals/category.modal";
-import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'categoty-selection',
@@ -12,8 +11,7 @@ export class CategotySelectionComponent implements OnInit {
   @Input() catList : Category[]; 
   @Output() submit: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor( ) { 
-  }
+  constructor() { }
 
   ngOnInit() {
     console.log(this.catList)

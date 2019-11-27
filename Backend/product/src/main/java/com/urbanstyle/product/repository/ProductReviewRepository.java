@@ -12,9 +12,9 @@ public interface ProductReviewRepository extends PagingAndSortingRepository<Prod
 
 	List<ProductReview> findByUserIdAndStatus(long userId, int active, Pageable pagable);
 
-	List<ProductReview> findByProductProductIdAndStatus(long productId, int active, Pageable pagable);
+	List<ProductReview> findByProductIdAndStatus(long productId, int active, Pageable pagable);
 
-	@Query(value="update ProductReview pr set pr.status =?3 where pr.user.id = ?1 and pr.product.productId= ?2 ")
+	@Query(value="update ProductReview set status =?3 where user.id = ?1 and product.id= ?2 ")
 	void changeStatusOfProduct(long userId, long productId, int inactive);
 
 	List<ProductReview> findByStatus(int active, Pageable pagable);

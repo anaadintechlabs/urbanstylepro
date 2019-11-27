@@ -40,7 +40,7 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return productReviewRepository.findByProductProductIdAndStatus(productId,ACTIVE,pagable);
+		return productReviewRepository.findByProductIdAndStatus(productId,ACTIVE,pagable);
 	}
 	@Override
 	public boolean softDeleteProductReview(long userId, long productId) {

@@ -1,29 +1,3 @@
-
-<div *ngFor="let item of categoryList; trackBy:item.id">
-<ul >
-    <li *ngFor="let item of item?.categoryList; trackBy:item.id"> </li>
-  </ul>
-</div>
-
-
-
-
-<!-- <ngb-carousel *ngIf="images" [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
-    <ng-template ngbSlide *ngFor="let image of images">
-      <div class="picsum-img-wrapper">
-        <img [src]="image" alt="Random slide">
-      </div>
-      <div class="carousel-caption">
-        <h3>No mouse navigation</h3>
-        <p>This carousel hides navigation arrows and indicators.</p>
-      </div>
-      <p>sab sala jadu hai</p>
-    </ng-template>
-  </ngb-carousel>
-  
-  <hr>
-  
-  <div class="btn-group" role="group" aria-label="Carousel toggle controls">
-    <button type="button" (click)="showNavigationArrows = !showNavigationArrows" class="btn btn-outline-dark btn-sm">Toggle navigation arrows</button>
-    <button type="button" (click)="showNavigationIndicators = !showNavigationIndicators" class="btn btn-outline-dark btn-sm">Toggle navigation indicators</button>
-  </div> -->
+<!-- view for category selection -->
+<!-- pass selected_id in pickedCategory -->
+<p (click)="pickedCategory(2)" >categoty-selection works!</p>

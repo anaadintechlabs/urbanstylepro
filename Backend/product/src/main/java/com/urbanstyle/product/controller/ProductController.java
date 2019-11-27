@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
@@ -180,6 +181,8 @@ public class ProductController {
 		map.put("dealOftheDay", productVarient.setDealOftheDay(prodId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
+	
+		
 	@PostMapping
 	public Map<String,Object> getBestSellingProducts(@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response)
@@ -200,6 +203,13 @@ public class ProductController {
 	public Map<String,Object> deleteVarientToProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="prodId",required=true) long prodId,@RequestParam(value="prodVarId",required=true) long prodVarId){
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("dealOftheDay", productVarient.deleteVarientToProduct(prodId,prodVarId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/searchProducts",method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> searchProducts(HttpServletRequest request,HttpServletResponse response,@RequestParam FilterDTO filterDTO){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("dealOftheDay", productVarient.searchProducts(filterDTO));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 }

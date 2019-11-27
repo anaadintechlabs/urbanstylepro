@@ -29,6 +29,26 @@ public class ProductVariant {
 	 
 	 private String sku;
 	 
+	 private String prodName;
+	 
+	 private String prodDesc;
+	 
+	public String getProdName() {
+		return prodName;
+	}
+
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
+
+	public String getProdDesc() {
+		return prodDesc;
+	}
+
+	public void setProdDesc(String prodDesc) {
+		this.prodDesc = prodDesc;
+	}
+
 	private double displayPrice;
 	
 	private double actualPrice;
