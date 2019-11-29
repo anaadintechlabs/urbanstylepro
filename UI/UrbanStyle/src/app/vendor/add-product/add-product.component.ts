@@ -163,7 +163,7 @@ export class AddProductComponent implements OnInit {
       this.productVariantDTO.removeAt(0);
     }
     combinations.forEach(element => {
-        //here I have to set the values as well
+      ////here I have to set the values as well
       this.productVariantDTO.push(
         this._addProduct.initializeProductVarientDtoWithValue(
           element,

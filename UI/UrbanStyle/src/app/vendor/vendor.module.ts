@@ -11,6 +11,7 @@ import { FormModule } from '../_forms/form.module';
 import { ServicesModule } from 'src/_services/services.module';
 import { AddProductComponent } from './add-product/add-product.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 // import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         RouterModule.forChild(VendorRoutes),
         CommonModule,
         FormModule,
-        ServicesModule
+        ServicesModule,
+        NgbModule
     ],
     
     declarations:[

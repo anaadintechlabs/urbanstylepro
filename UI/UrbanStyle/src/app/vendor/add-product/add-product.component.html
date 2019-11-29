@@ -28,11 +28,20 @@
                         <vital-information [vitalInfo]="vitalInfo" (status)="vitalFormStatus($event)"></vital-information>
                     </div>
                     <div *ngIf="button[1].description" class="descBox">
-                        <product-desciprion [categoryAttribute]="allAttriblue" (allAttrMap)="getAllAttrMap($event)" (status)="activeAdvanceTab($event)" (productType)="selectedPtoductType($event)"  [selectedVariation]="selectedVariation" [selectedProductType]="selectedProductType"></product-desciprion>
+                        <product-desciprion [categoryAttribute]="allAttriblue" (allAttrMap)="getAllAttrMap($event)" 
+                                    (status)="activeAdvanceTab($event)" (productType)="selectedPtoductType($event)"  
+                                    [selectedVariation]="selectedVariation" [selectedProductType]="selectedProductType">
+                        </product-desciprion>
                     </div>
                     <div *ngIf="button[2].description">
                         <div formArraryName="productVariantDTO" *ngFor="let item of productVariantDTO.controls;let i = index">
-                            <product-variation [productVariation]="item" [index]="i" ></product-variation>
+                            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+                                    <ngb-panel title="Simple">
+                                        <ng-template ngbPanelContent>  
+                                            <product-variation [formGroup]="i" [productVariation]="item" [index]="i" ></product-variation>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
                         </div>
                     </div>
                     <div *ngIf="button[3].description"  class="vitalBox">
