@@ -14,7 +14,7 @@ public interface AddressService {
 
 	List<Address> getAddressDetails(long userId);
 
-	void deleteAddressDetails(long parseLong, String status);
+	void deleteAddressDetails(long parseLong, int status);
 
 	Address saveorUpdate(Address address);
 
@@ -23,5 +23,7 @@ public interface AddressService {
 	List<State> getAllStatesOfCountry(long countryId);
 
 	List<City> getAllCityOfStates(long stateId);
+
+	Address getAddressById(long addressId);
 
 }

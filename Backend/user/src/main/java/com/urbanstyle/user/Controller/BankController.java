@@ -40,7 +40,22 @@ public class BankController {
 			HttpServletRequest request,HttpServletResponse response) {
 		final HashMap<String, Object> map = new HashMap<>();
 		try {
+			
+			boolean duplicate =false;
+			if(bankDetails.getId()==0)
+			{
+				duplicate= bankService.checkDuplicateIFSC(bankDetails.getIfscCode());	
+			}
+			if(duplicate)
+			{
+				map.put("duplicate",duplicate);
+
+			}
+			else
+			{
+				
 			map.put("bankDetails",bankService.saveorUpdate(bankDetails));
+			}
 			return CommonResponseSender.createdSuccessResponse(map, response);
 	      }catch(Exception e) { 
 	    	  return CommonResponseSender.errorResponse(map, response);
@@ -73,15 +88,31 @@ public class BankController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value="/deleteBankDetails",method=RequestMethod.POST)
+	@RequestMapping(value="/deleteBankDetails",method=RequestMethod.DELETE)
 	public  Map<String,Object> deleteBankDetails(@RequestParam (value = "bankId",required=true) String bankId,
-			@RequestParam (value = "status",required=true) String status,
+			@RequestParam (value = "userId",required=true) long userId,
+			@RequestParam (value = "status",required=true) int status,
 			HttpServletRequest request,HttpServletResponse response) {
 		final HashMap<String, Object> map = new HashMap<>();
 		try {
 			bankService.deleteBankDetails(Long.parseLong(bankId),status);
+			List<BankDetails> bankDetails = bankService.getBankDetails(userId);
+			map.put("bankDetails", bankDetails);
 			 return CommonResponseSender.recordDeleteSuccessResponse(map, response);
 	      }catch(Exception e) {
+	    	  return CommonResponseSender.errorResponse(map, response);
+	      }
+	}
+	
+	
+	@RequestMapping(value="/getBankDetailsById",method=RequestMethod.GET)
+	public  Map<String,Object> getBankDetailsById(@RequestParam("bankId")long bankId,
+			HttpServletRequest request,HttpServletResponse response) {
+		final HashMap<String, Object> map = new HashMap<>();
+		try {
+			map.put("bankDetails",bankService.getBankDetailsById(bankId));
+			return CommonResponseSender.createdSuccessResponse(map, response);
+	      }catch(Exception e) { 
 	    	  return CommonResponseSender.errorResponse(map, response);
 	      }
 	}

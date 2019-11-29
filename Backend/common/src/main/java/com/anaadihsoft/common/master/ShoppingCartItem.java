@@ -21,7 +21,7 @@ public class ShoppingCartItem {
 	private long id;
 	
 	@ManyToOne
-	private Product product;
+	private ProductVariant productVariant;
 	
 	@ManyToOne
 	private ShoppingCart shoppingCart; 
@@ -56,12 +56,17 @@ public class ShoppingCartItem {
 		this.cost = cost;
 	}
 
-	public Product getProduct() {
-		return product;
-	}
 
 	
 	
+	public ProductVariant getProductVariant() {
+		return productVariant;
+	}
+
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
+	}
+
 	public ShoppingCart getShoppingCart() {
 		return shoppingCart;
 	}
@@ -70,9 +75,7 @@ public class ShoppingCartItem {
 		this.shoppingCart = shoppingCart;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+
 
 	public long getQuantity() {
 		return quantity;

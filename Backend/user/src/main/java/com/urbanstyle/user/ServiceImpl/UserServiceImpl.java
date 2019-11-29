@@ -20,9 +20,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String getCurrentStatusOfUser(long userId) {
-		boolean adressExist=addressRepository.existsByUserIdAndStatus(userId, "ACTIVE") ;
+		boolean adressExist=addressRepository.existsByUserIdAndStatus(userId, 1) ;
 		
-		boolean bankExist=bankRepository.existsByUserIdAndStatus(userId, "ACTIVE");
+		boolean bankExist=bankRepository.existsByUserIdAndStatus(userId, 1);
 		if(adressExist &&  bankExist)
 		{
 			return "0";

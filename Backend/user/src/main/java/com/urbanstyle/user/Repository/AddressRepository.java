@@ -2,6 +2,9 @@ package com.urbanstyle.user.Repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -11,12 +14,14 @@ public interface AddressRepository extends PagingAndSortingRepository<Address,Lo
 
 	List<Address> findByUserId(long userId);
 
-	List<Address> findByUserIdAndStatus(long userId, String active);
+	List<Address> findByUserIdAndStatus(long userId, int active);
 	
-	boolean existsByUserIdAndStatus(long userId, String active);
+	boolean existsByUserIdAndStatus(long userId, int active);
 	
 	
 	@Query(value="Update Address a set a.status=?2 where a.id=?1")
-	void changeStatusOfAddress(long id, String status);
+	@Modifying
+	@Transactional
+	void changeStatusOfAddress(long id, int status);
 
 }

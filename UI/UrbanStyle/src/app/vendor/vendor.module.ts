@@ -11,6 +11,8 @@ import { FormModule } from '../_forms/form.module';
 import { ServicesModule } from 'src/_services/services.module';
 import { AddProductComponent } from './add-product/add-product.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AddressComponent } from './address/address.component';
+import { BankDetailsComponent } from './bank-details/bank-details.component';
 // import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -18,7 +20,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         RouterModule.forChild(VendorRoutes),
         CommonModule,
         FormModule,
-        ServicesModule
+        ServicesModule,RouterModule
     ],
     
     declarations:[
@@ -28,7 +30,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         SidebarComponent,
         SignupComponent,
         AddProductComponent,
-        DashboardComponent
+        DashboardComponent,
+        AddressComponent,
+        BankDetailsComponent,
+
+        
     ],
     bootstrap: [VendorComponent]
 })

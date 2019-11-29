@@ -16,20 +16,21 @@ import com.urbanstyle.product.repository.WishlistRepository;
 public class WishlistServiceImpl implements WishlistService{
 
 	private static final int ACTIVE =	1;
-	private static final int INACTIVE =	2;
+	private static final int INACTIVE =	0;
 	@Autowired
 	private WishlistRepository wishlistRepository;
 	
 	@Override
-	public Wishlist addProductToWishlist(Wishlist wishList) {
-//		WishlistModel previousAdded=wishlistRepository.findByUserIdAndProdIdProdId(userId,Integer.parseInt(prodId));
-//		if(previousAdded!=null) {
-//			map.put("msg", "Already Added to wishlist");
-//			map.put("type", "Warning!");
-//			return map;
-//		}
-//		
-		return wishlistRepository.save(wishList);
+	public boolean addProductToWishlist(Wishlist wishList) {
+		Wishlist previousAdded=wishlistRepository.findByUserIdAndProductVariantProductVariantId(wishList.getUser().getId(),wishList.getProductVariant().getProductVariantId());
+		if(previousAdded!=null) {		
+			return true;
+		}
+		else
+		{
+		 wishlistRepository.save(wishList);
+		 return false;
+		}
 	}
 	
 	@Override
@@ -43,8 +44,9 @@ public class WishlistServiceImpl implements WishlistService{
 	}
 	
 	@Override
-	public boolean softDeleteWishList(long userId) {
-		wishlistRepository.changeStatusOfWishList(userId,INACTIVE);
+	public boolean softDeleteWishList(long userId,long id) {
+		wishlistRepository.changeStatusOfWishList(INACTIVE,id);
+		
 		return true;
 	}
 

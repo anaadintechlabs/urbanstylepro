@@ -13,6 +13,10 @@ public interface BankService {
 	
 	public List<BankDetails> getBankDetails(long userId);
 	
-	public void deleteBankDetails(long bankId, String status);
+	public void deleteBankDetails(long bankId, int status);
+
+	public BankDetails getBankDetailsById(long bankId);
+
+	public boolean checkDuplicateIFSC(String ifscCode);
 
 }
