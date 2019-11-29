@@ -12,6 +12,7 @@ import { Observable, throwError } from "rxjs";
 
 @Injectable()
 export class ApiService {
+ userUrl='http://localhost:8081/urban/';
   constructor(
     private http: HttpClient,
     private jwtService: JwtServiceService,
@@ -28,6 +29,12 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
+   getUser(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    return this.http
+      .get(this.userUrl + path, { params })
+      .pipe(catchError(this.formatErrors));
+  }
+
   put(path: string, body: Object = {}): Observable<any> {
     return this.http
       .put(`${environment.api_url}${path}`, JSON.stringify(body))
@@ -36,9 +43,15 @@ export class ApiService {
 
   post(path: string, body: Object = {}): Observable<any> {
     console.log("path..." + environment.api_url + path);
-    console.log("body..." + body);
+    console.log("body..." , body);
     return this.http
       .post(`${environment.api_url}${path}`, body)
+      .pipe(catchError(this.formatErrors));
+  }
+
+    postUser(path: string, body: Object = {}): Observable<any> {
+    return this.http
+      .post(this.userUrl + path, body)
       .pipe(catchError(this.formatErrors));
   }
 
@@ -61,6 +74,12 @@ export class ApiService {
   delete(path): Observable<any> {
     return this.http
       .delete(`${environment.api_url}${path}`)
+      .pipe(catchError(this.formatErrors));
+  }
+
+   deleteUser(path): Observable<any> {
+    return this.http
+      .delete(this.userUrl + path)
       .pipe(catchError(this.formatErrors));
   }
 }

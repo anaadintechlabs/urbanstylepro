@@ -58,6 +58,18 @@ public class AddressController {
 	      }
 	}
 	
+	@RequestMapping(value="/getAddressById",method=RequestMethod.GET)
+	public  Map<String,Object> getAddressById(@RequestParam("addressId")long addressId,
+			HttpServletRequest request,HttpServletResponse response) {
+		final HashMap<String, Object> map = new HashMap<>();
+		try {
+			map.put("address",addressService.getAddressById(addressId));
+			return CommonResponseSender.createdSuccessResponse(map, response);
+	      }catch(Exception e) { 
+	    	  return CommonResponseSender.errorResponse(map, response);
+	      }
+	}
+	
 	/**
 	 * 
 	 * @param userId
@@ -69,6 +81,7 @@ public class AddressController {
 	public  Map<String,Object> getAddressDetailsByUser(@RequestParam (value = "userId",required=true) long userId,HttpServletRequest request,HttpServletResponse response) {
 		final HashMap<String, Object> map = new HashMap<>();
 		try {
+			System.out.println("address details");
 			List<Address> addressDetails = addressService.getAddressDetails(userId);
 			map.put("addressDetails", addressDetails);
 			return CommonResponseSender.createdSuccessResponse(map, response);
@@ -84,13 +97,17 @@ public class AddressController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value="/deleteAddressDetails",method=RequestMethod.POST)
-	public  Map<String,Object> deleteAddressDetails(@RequestParam (value = "bankId",required=true) String bankId,
-			@RequestParam (value = "status",required=true) String status,
+	@RequestMapping(value="/deleteAddressDetails",method=RequestMethod.DELETE)
+	public  Map<String,Object> deleteAddressDetails(@RequestParam (value = "addressId",required=true) String addressId,
+			@RequestParam (value = "userId",required=true) long userId,
+			@RequestParam (value = "status",required=true) int status,
 			HttpServletRequest request,HttpServletResponse response) {
 		final HashMap<String, Object> map = new HashMap<>();
 		try {
-			addressService.deleteAddressDetails(Long.parseLong(bankId),status);
+			System.out.println("addressId"+addressId+"userId"+userId+"status"+status);
+			addressService.deleteAddressDetails(Long.parseLong(addressId),status);
+			List<Address> addressDetails = addressService.getAddressDetails(userId);
+			map.put("addressDetails", addressDetails);
 			 return CommonResponseSender.recordDeleteSuccessResponse(map, response);
 	      }catch(Exception e) {
 	    	  return CommonResponseSender.errorResponse(map, response);

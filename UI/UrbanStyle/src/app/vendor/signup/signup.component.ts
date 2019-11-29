@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BasicDetailsComponent } from 'src/app/_forms/basic-details/basic-details.component';
 import { UserServiceService } from 'src/_services/http_&_login/user-service.service';
+import { AddAddressComponent } from "src/app/_forms/add-address/add-address.component";
 
 
 @Component({
@@ -34,8 +35,7 @@ export class SignupComponent implements OnInit {
     
   }
   ngAfterViewInit() {
-    console.log('Values on ngAfterViewInit():');
-    console.log("sample:", this.details.nativeElement);
+  
   }
 
    get f() { return this.basicDetails.controls;}

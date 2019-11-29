@@ -46,14 +46,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 				int totalQuantity=0;
 				for(int i =0;i<itemDTO.size();i++)
 				{
-				ShoppingCartItem  shoppingCartItem = shoppingCartItemRepository.findByShoppingCartAndProduct(previousUserCart,itemDTO.get(i).getProduct());
+				ShoppingCartItem  shoppingCartItem = shoppingCartItemRepository.findByShoppingCartAndProductVariant(previousUserCart,itemDTO.get(i).getProductVariant());
 				
 				if(shoppingCartItem==null)
 				{
 				 shoppingCartItem = new ShoppingCartItem();
 				shoppingCartItem.setQuantity(itemDTO.get(i).getQuantity());
 				shoppingCartItem.setShoppingCart(previousUserCart);
-				shoppingCartItem.setProduct(itemDTO.get(i).getProduct());
+				shoppingCartItem.setProductVariant(itemDTO.get(i).getProductVariant());
 				//Cost I have to calculate again
 				shoppingCartItem.setCost(itemDTO.get(i).getCost());
 				}
@@ -88,7 +88,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 			ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
 			shoppingCartItem.setQuantity(itemDTO.get(i).getQuantity());
 			//Set proper product
-			shoppingCartItem.setProduct(itemDTO.get(i).getProduct());
+			shoppingCartItem.setProductVariant(itemDTO.get(i).getProductVariant());
 			shoppingCartItem.setCost(itemDTO.get(i).getCost());
 			shoppingCartItem.setShoppingCart(shoppingCart);
 			
@@ -125,7 +125,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Override
 	public Object changeStatusOfShoppingCart(String userId, List<Long> productIds, int status) {
 		//shoppingCartItemRepository.changeStatusOfShoppingCart(userId,productId,status);
-		List<ShoppingCartItem> shoppingCartItems =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductProductIdIn(userId, productIds);
+		List<ShoppingCartItem> shoppingCartItems =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductVariantProductVariantIdIn(userId, productIds);
 		if(shoppingCartItems!=null)
 		{
 			double totalCostToRemove=0;
@@ -169,7 +169,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Override
 	public Object updateQuantityOfProduct(String userId, Long productIds, int quantity) {
 		
-		ShoppingCartItem shoppingCartItem =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductProductId(userId, productIds);
+		ShoppingCartItem shoppingCartItem =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductVariantProductVariantId(userId, productIds);
 		return null;
 	}
 

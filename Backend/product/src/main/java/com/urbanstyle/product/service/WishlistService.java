@@ -10,10 +10,10 @@ import com.anaadihsoft.common.master.Wishlist;
 @Service
 public interface WishlistService {
 
-	Wishlist addProductToWishlist(Wishlist wishList);
+	boolean addProductToWishlist(Wishlist wishList);
 
 	List<Wishlist> getAllWishListOfUser(Filter filter, long userId);
 
-	boolean softDeleteWishList(long userId);
+	boolean softDeleteWishList(long userId, long id);
 
 }

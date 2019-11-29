@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -27,7 +29,7 @@ public class Product {
 	
 	private String productCode;
 	
-	private  ProducIdType productIdType;
+	
 		
 	private String productName;
 	
@@ -52,6 +54,10 @@ public class Product {
 	private Date modifiedDate;
 	
 	private String modifiedBy;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 
 	@PrePersist
 	public void setAudit()
@@ -144,13 +150,7 @@ public class Product {
 		this.productCode = productCode;
 	}
 
-	public ProducIdType getProductIdType() {
-		return productIdType;
-	}
-
-	public void setProductIdType(ProducIdType productIdType) {
-		this.productIdType = productIdType;
-	}
+	
 
 	public String getBrandName() {
 		return brandName;

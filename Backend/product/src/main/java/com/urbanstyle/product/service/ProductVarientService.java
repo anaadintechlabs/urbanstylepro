@@ -19,12 +19,14 @@ public interface ProductVarientService {
 
 	boolean setDealOftheDay(long prodId);
 
-	List<ProductVariant> getAllVarients(int Status);
+	List<ProductVariant> getAllVarients(int Status, long prodId);
 
 	ProductVariant addVarientToProduct(ProductVariantDTO productVarientDTO);
 
 	boolean deleteVarientToProduct(long prodId, long prodVarId);
 	
 	List<ProductVariant> searchProducts(FilterDTO filterDTO);
+	
+	List<ProductVariant> getAllProducts();
 
 }

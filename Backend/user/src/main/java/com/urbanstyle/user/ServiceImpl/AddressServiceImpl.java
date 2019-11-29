@@ -1,6 +1,7 @@
 package com.urbanstyle.user.ServiceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,14 +30,14 @@ public class AddressServiceImpl  implements AddressService{
 	@Autowired
 	private CityRepository cityRepository;
 	
-	private static final String ACTIVE="ACTIVE";
+	private static final int ACTIVE=1;
 	@Override
 	public List<Address> getAddressDetails(long userId) {
 		return addressRepository.findByUserIdAndStatus(userId,ACTIVE);
 	}
 	
 	@Override
-	public void deleteAddressDetails(long id,String status) {
+	public void deleteAddressDetails(long id,int status) {
 		//No actual delete, Only status will be deleted
 //		addressRepository.deleteById(id);
 		addressRepository.changeStatusOfAddress(id,status);
@@ -75,6 +76,12 @@ public class AddressServiceImpl  implements AddressService{
 	@Override
 	public List<City> getAllCityOfStates(long stateId) {
 		return cityRepository.findByStateId(stateId);
+	}
+
+	@Override
+	public Address getAddressById(long addressId) {
+		Optional<Address> optAddress= addressRepository.findById(addressId);
+		return optAddress.isPresent()? optAddress.get():null;
 	}
 	
 

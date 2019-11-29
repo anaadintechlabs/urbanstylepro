@@ -3,6 +3,9 @@ package com.urbanstyle.product.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -19,6 +22,8 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	ProductVariant findByDealOfTheDay(boolean b);
 
 	@Query("update ProductVariant set dealOfTheDay = ?1")
+	@Modifying
+	@Transactional
 	boolean setDealOftheDay(boolean deal1);
 
 //	@Query("update ProductVariant  pv set dealOfTheDay = ?1 where pv.product.productId = ?2")
@@ -27,5 +32,7 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	List<ProductVariant> findByStatus(int i);
 
 	Optional<ProductVariant> findByProductVariantId(long prodVarId);
+
+	List<ProductVariant> findByStatusAndProductProductId(int status, long prodId);
 
 }
