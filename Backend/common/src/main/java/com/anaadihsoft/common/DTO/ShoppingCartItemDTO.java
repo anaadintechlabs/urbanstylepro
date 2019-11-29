@@ -1,6 +1,7 @@
 package com.anaadihsoft.common.DTO;
 
 import com.anaadihsoft.common.master.Product;
+import com.anaadihsoft.common.master.ProductVariant;
 
 public class ShoppingCartItemDTO {
 	
@@ -10,7 +11,7 @@ public class ShoppingCartItemDTO {
 	
 	private int quantity;
 	
-	private Product product;
+	private ProductVariant productVariant;
 
 	
 	
@@ -38,13 +39,14 @@ public class ShoppingCartItemDTO {
 		this.quantity = quantity;
 	}
 
-	public Product getProduct() {
-		return product;
+	public ProductVariant getProductVariant() {
+		return productVariant;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
 	}
+
 	
 	
 }

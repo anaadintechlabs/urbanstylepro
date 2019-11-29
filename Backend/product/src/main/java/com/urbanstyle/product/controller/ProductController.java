@@ -125,15 +125,15 @@ public class ProductController {
 	@RequestMapping(value="/getAllVarientsOfProducts",method=RequestMethod.GET)
 	public Map<String,Object> getAllVarientsOfProducts(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="prodId",required = true)long prodId){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("product", productVarient.getAllVarients(1));
+		map.put("product", productVarient.getAllVarients(1,prodId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
-
+//dummy
 	@RequestMapping(value="/getAllProducts",method=RequestMethod.GET)
 	public Map<String,Object> getAllProducts(HttpServletRequest request,HttpServletResponse response){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("product", productService.getAllProducts());
+		map.put("productList", productVarient.getAllProducts());
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	

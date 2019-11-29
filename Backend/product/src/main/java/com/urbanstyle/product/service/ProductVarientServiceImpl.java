@@ -64,8 +64,8 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	}
 
 	@Override
-	public List<ProductVariant> getAllVarients(int Status) {
-		return productVarRepo.findByStatus(Status);
+	public List<ProductVariant> getAllVarients(int Status, long prodId) {
+		return productVarRepo.findByStatusAndProductProductId(Status,prodId);
 	}
 
 	@Override
@@ -107,6 +107,11 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		 List<ProductVariant> resultsVarient = productVarientDAO.findInProductVarient(filterDTO);
 		
 		return resultsVarient;
+	}
+
+	@Override
+	public List<ProductVariant> getAllProducts() {
+		return productVarRepo.findByStatus(1);
 	}
 	
 	

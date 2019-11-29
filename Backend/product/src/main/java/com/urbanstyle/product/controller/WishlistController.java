@@ -43,7 +43,7 @@ public class WishlistController {
 			HttpServletRequest request,HttpServletResponse response)
 	{
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("wishList", wishlistService.addProductToWishlist(wishList));
+		map.put("alreadyAdded", wishlistService.addProductToWishlist(wishList));
 		return CommonResponseSender.createdSuccessResponse(map, response);	
 	}
 	
@@ -80,10 +80,19 @@ public class WishlistController {
 	@RequestMapping(value="/softDeleteWishList",method=RequestMethod.DELETE)
 	public Map<String,Object> softDeleteWishList(
 			@RequestParam(value="userId") long userId,
+			@RequestParam(value="id") long id,
 			HttpServletRequest request,HttpServletResponse response)
 	{
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("deleted", wishlistService.softDeleteWishList(userId));
+		//get other wishlist based on user id
+		map.put("deleted", wishlistService.softDeleteWishList(userId,id));
+		Filter filter = new Filter();
+		filter.setLimit(15);
+		filter.setOffset(0);
+		filter.setSortingDirection("ASC");
+		filter.setSortingField("modifiedDate");
+		map.put("wishList", wishlistService.getAllWishListOfUser(filter,userId));
+		
 		return CommonResponseSender.createdSuccessResponse(map, response);	
 	}
 	

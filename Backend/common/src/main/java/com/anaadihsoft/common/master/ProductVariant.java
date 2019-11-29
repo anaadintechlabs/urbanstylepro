@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.anaadihsoft.common.util.ProducIdType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -26,27 +27,17 @@ public class ProductVariant {
 	 @JoinColumn(name="productId", nullable=false,updatable=false)
 	 private Product product;
 	 
+	 private  ProducIdType productIdType;
+	 
 	 private String sku;
 	 
 	 private String prodName;
 	 
 	 private String prodDesc;
 	 
-	public String getProdName() {
-		return prodName;
-	}
+	 private String mainImageUrl;
+	 
 
-	public void setProdName(String prodName) {
-		this.prodName = prodName;
-	}
-
-	public String getProdDesc() {
-		return prodDesc;
-	}
-
-	public void setProdDesc(String prodDesc) {
-		this.prodDesc = prodDesc;
-	}
 
 	private double displayPrice;
 	
@@ -74,6 +65,40 @@ public class ProductVariant {
 	private boolean dealOfTheDay;
 	
 	
+	public String getProdName() {
+		return prodName;
+	}
+
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
+
+	public String getProdDesc() {
+		return prodDesc;
+	}
+
+	public void setProdDesc(String prodDesc) {
+		this.prodDesc = prodDesc;
+	}
+	
+	
+	
+
+	public ProducIdType getProductIdType() {
+		return productIdType;
+	}
+
+	public void setProductIdType(ProducIdType productIdType) {
+		this.productIdType = productIdType;
+	}
+
+	public String getMainImageUrl() {
+		return mainImageUrl;
+	}
+
+	public void setMainImageUrl(String mainImageUrl) {
+		this.mainImageUrl = mainImageUrl;
+	}
 
 	public boolean isFetauredProduct() {
 		return fetauredProduct;

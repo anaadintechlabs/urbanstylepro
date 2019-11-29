@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row ptop10 p0">
+    <div class="col-md-12 col-sm-12 thc">
+      <strong>Address Details</strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+      <div class="row pt-2 pb-2">
+        <div class="col-xl-9 col-md-9 col-sm-9 col-12 pt-1">
+          <button (click)="navigateToAddGroup()">
+            Add</button>
+        </div>
+        
+      </div>
+      <!-- data-table start -->
+       <div  *ngIf="addressDetails && addressDetails.length>0" class="table-responsive">
+            <div class="card card-plain">
+              <div class="card-header card-header-danger">
+                  <h4 class="card-title mt-0">Attribute List</h4>
+                  <p class="card-category"> All attribute of the relating Sub Category</p>
+              </div>
+              <table class="table table-hover">
+                <thead class="attrTblHead">
+                    <th>Attribute Name</th>
+                    <th> Attribute   Type</th>
+                    <th>Attribute   Value</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let address of addressDetails">
+                    <td>{{address.addressOne}}</td>
+                    <td>{{address.addressTwo}}</td>
+                    <td>{{address.zip}}</td>
+                    <td><button (click)="navigateToEditOrViewAddress('edit',address)">
+            Edit</button>
+            <button (click)="deleteAddressDetails(address)">
+            Delete</button>
+                  </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+     
+    </div>

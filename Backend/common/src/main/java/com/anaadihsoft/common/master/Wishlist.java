@@ -12,6 +12,10 @@ import javax.persistence.PreUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * @author Sanchit
+ *
+ */
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Wishlist {
@@ -26,7 +30,7 @@ public class Wishlist {
 	private User user;
 	
 	@ManyToOne
-	private Product product;	
+	private ProductVariant productVariant;	
 	
 	
 	private int status;
@@ -55,15 +59,26 @@ public class Wishlist {
 		this.user = user;
 	}
 
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+	
 
 	
+
+
+	public ProductVariant getProductVariant() {
+		return productVariant;
+	}
+
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	public Date getCreatedDate() {
 		return createdDate;
