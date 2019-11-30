@@ -44,7 +44,6 @@ export class SignupComponent implements OnInit {
    get f() { return this.basicDetails.controls;}
 
   basicdetialForm(data : FormGroup) : void {
-    console.log(data)
     this.basicDetails = data;
     this.f.userType.setValue('VENDOR');
     this.myStepper.next();
@@ -53,9 +52,6 @@ export class SignupComponent implements OnInit {
 
    addressForm(data : FormGroup) : void {
     this.addressDetails = data;
-   // this.f.userType.setValue('VENDOR');
-    // console.log(this.addressDetails);
-
     this.myStepper.next();
   }
 
