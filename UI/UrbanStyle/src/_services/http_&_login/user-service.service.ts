@@ -1,5 +1,6 @@
 import { JwtServiceService } from './jwt-service.service';
 
+
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { User } from '../../_modals/user.modal';
@@ -41,8 +42,7 @@ export class UserServiceService {
   // Response we are getting is accessToken and tokenType which are not presesnt in user class
 
   setAuth(user: User) {
-    console.log('user us'+JSON.stringify(user));
-   
+
     // Save JWT sent from server in localstorage
     this.jwtService.saveToken(user.token);
     // Set current user data into observable

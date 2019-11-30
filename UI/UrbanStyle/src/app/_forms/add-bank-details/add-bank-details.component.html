@@ -4,7 +4,7 @@
                 <div class="col-xl-6">
                 </div>
                 <div class="col-xl-6 text-right">
-                    <button type="button" mat-button (click)="backButton()">
+                    <button *ngIf="!fromVendorSignUp" type="button" mat-button (click)="backButton()">
                         Back
                     </button>
                 </div>

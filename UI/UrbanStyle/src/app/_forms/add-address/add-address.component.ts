@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { DataService } from "src/_services/data/data.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Country, State,City } from "src/_modals/country";
+import { Country, State, City } from "src/_modals/country";
 import { Address } from "src/_modals/address";
 
 @Component({
@@ -18,14 +18,15 @@ export class AddAddressComponent implements OnInit {
   public stateList: State[];
   public cityList: City[];
   public address: Address;
-
+  @Input() fromVendorSignUp: boolean;
+  @Output()
+  addressDetails: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    console.log("construc add addreess")
-      //get dynamic logged in user
+    //get dynamic logged in user
     this.userId = 1;
 
     this.router.events.forEach(event => {
@@ -36,7 +37,6 @@ export class AddAddressComponent implements OnInit {
           var params = this.route.snapshot.params;
           this.action = params.action;
 
-          this.getAllCountry();
           if (params.action) {
             if (this.action == "view") {
               this.addressForm.disable({});
@@ -44,7 +44,7 @@ export class AddAddressComponent implements OnInit {
               this.addressForm.enable({});
             }
             if (this.action == "add") {
-              this.address=undefined;
+              this.address = undefined;
             } else if (params.id) {
               this.addressId = params.id;
               this.getAddressInformation(this.addressId);
@@ -66,7 +66,7 @@ export class AddAddressComponent implements OnInit {
       Validators.minLength(10),
       Validators.maxLength(255)
     ]),
-     status: new FormControl(1),
+    status: new FormControl(1),
     zip: new FormControl("", [
       Validators.required,
       Validators.minLength(6),
@@ -81,7 +81,7 @@ export class AddAddressComponent implements OnInit {
     cite: new FormGroup({
       id: new FormControl("")
     }),
-     user: new FormGroup({
+    user: new FormGroup({
       id: new FormControl("")
     })
   });
@@ -118,48 +118,48 @@ export class AddAddressComponent implements OnInit {
         this.countryOnChange(data.country.id);
         this.stateOnChange(data.state.id);
         this.addressForm.patchValue(this.address);
-         this.addressForm.controls.user.patchValue({
-          id: this.userId,
+        this.addressForm.controls.user.patchValue({
+          id: this.userId
         });
       });
   }
 
   ngOnInit() {
-   
-  
+    console.log("inside oninit", this.fromVendorSignUp);
+              this.getAllCountry();
+
   }
 
-
-    onSubmit() {
+  onSubmit() {
     if (this.addressForm.invalid) {
-     // this.toast.warning('Please fill all details in mandatory fields');
+      // this.toast.warning('Please fill all details in mandatory fields');
       return;
-    }
-    else {
-
-
-        //    console.log('form value is', this.createRoleForm.value);
-        this.addressForm.controls.user.patchValue({
-          id: this.userId,
-        });
-        this.addressForm.controls.st
-        // console.log("this.createRoleForm.value"+this.createRoleForm.value)
-        this.dataService.saveAddressDetails("api/saveAddressDetails",this.addressForm.value)
-          .subscribe(data => {
-            alert("sucess");
+    } else {
+      //    console.log('form value is', this.createRoleForm.value);
+      this.addressForm.controls.user.patchValue({
+        id: this.userId
+      });
+      if (this.fromVendorSignUp) {
+        console.log("from vendor sign up");
+        this.addressDetails.emit(this.addressForm);
+      } else {
+        console.log("from add addres");
+        this.dataService
+          .saveAddressDetails("api/saveAddressDetails", this.addressForm.value)
+          .subscribe(
+            data => {
+              alert("sucess");
               //this.router.navigateByUrl("secure/" + this.customerId + "/admin/role/edit/" + data.role.id);
-          }, error => {
-           // this.toast.error('Something went wrong');
-          });
+            },
+            error => {
+              // this.toast.error('Something went wrong');
+            }
+          );
+      }
     }
   }
 
-
-    backButton() {
-
+  backButton() {
     this.router.navigateByUrl("vendor/account/addresses");
-
-
   }
-
 }

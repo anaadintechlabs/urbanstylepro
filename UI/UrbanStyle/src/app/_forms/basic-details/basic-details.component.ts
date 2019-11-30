@@ -25,7 +25,7 @@ export class BasicDetailsComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     if(this.basicDetailForm.invalid){
-
+      
     } else {
       console.log(this.basicDetailForm);
       this.basicDetails.emit(this.basicDetailForm);

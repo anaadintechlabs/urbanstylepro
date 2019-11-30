@@ -14,15 +14,18 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AddressComponent } from './address/address.component';
 import { BankDetailsComponent } from './bank-details/bank-details.component';
-// import { ReactiveFormsModule,FormsModule } from '@angular/forms';
+
+import { InventoryComponent } from './inventory/inventory.component';
+
 
 @NgModule({
     imports:[
         RouterModule.forChild(VendorRoutes),
         CommonModule,
         FormModule,
-        ServicesModule,RouterModule,
-        NgbModule
+        ServicesModule,
+        NgbModule,
+        ServicesModule,RouterModule
     ],
     
     declarations:[
@@ -35,6 +38,7 @@ import { BankDetailsComponent } from './bank-details/bank-details.component';
         DashboardComponent,
         AddressComponent,
         BankDetailsComponent,
+        InventoryComponent,
 
         
     ],

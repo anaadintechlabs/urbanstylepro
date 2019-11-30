@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 
 import com.anaadihsoft.common.util.ProducIdType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -227,6 +228,14 @@ public class ProductVariant {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+	
+	@PrePersist
+	public void setdate()
+	{
+		this.status=1;
+		this.createdDate=new Date();
+		this.createdBy="Admin";
 	}
 	
 }

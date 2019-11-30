@@ -60,15 +60,15 @@ export class HomeComponent implements OnInit {
   // addProductToWishlist(productVar) {
   //   let url = "wishlist/addProductToWishlist";
 
-  //   // const userObj: User = {
-  //   //   id: this.userId
-  //   // };
-  //   const wishListObj: WishList = {
-  //     id: 0,
-  //     productVariant: productVar,
-  //   //  user: userObj,
-  //     status: 1
-  //   };
+    // const userObj: User = {
+    //   id: this.userId
+    // };
+    // const wishListObj: WishList = {
+    //   id: 0,
+    //   // productVariant: productVar,
+    //   user: undefined,
+    //   status: 1
+    // };
 
   //   this.dataService.addProductToWishlist(url, wishListObj).subscribe(
   //     data => {

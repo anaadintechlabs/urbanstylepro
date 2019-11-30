@@ -1,11 +1,15 @@
 <form *ngIf="basicDetailForm" [formGroup]="basicDetailForm" (ngSubmit)="onSubmit()">
+  
 
       <div class="form-group">
         <!-- Name -->
         <label class="control-label"  for="username">Name</label>
         <div class="controls">
           <input type="text" id="name" name="username" class="form-control" formControlName="name" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.name?.errors }">
-          <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+            <mat-error ngxErrors="basicDetailForm.name" [ngClass]="['dirty', 'touched']">
+                                            Enter valid first name
+                  </mat-error>
+          <!-- <p class="help-block">Username can contain any letters or numbers, without spaces</p> -->
         </div>
       </div>
 
@@ -14,7 +18,10 @@
         <label class="control-label"  for="username">Last Name</label>
         <div class="controls">
           <input type="text" id="lastname" name="username" class="form-control" formControlName="lastname" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.lastname?.errors }">
-          <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+          <mat-error ngxErrors="basicDetailForm.lastname" [ngClass]="['dirty', 'touched']">
+                                            Enter valid last name
+          </mat-error>
+          <!-- <p class="help-block">Username can contain any letters or numbers, without spaces</p> -->
         </div>
       </div>
 
@@ -23,7 +30,10 @@
         <label class="control-label"  for="username">Username</label>
         <div class="controls">
           <input type="text" id="username" name="username" class="form-control" formControlName="username" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.username?.errors }">
-          <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+           <mat-error ngxErrors="basicDetailForm.username" [ngClass]="['dirty', 'touched']">
+                                            Enter valid lastname
+          </mat-error>
+          <!-- <p class="help-block">Username can contain any letters or numbers, without spaces</p> -->
         </div>
       </div>
    
@@ -31,8 +41,12 @@
         <!-- E-mail -->
         <label class="control-label" for="email">E-mail</label>
         <div class="controls">
-          <input type="text" id="email" name="email" formControlName="email" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.email?.errors }">
-          <p class="help-block">Please provide your E-mail</p>
+          <input type="email" id="email" name="email" formControlName="email" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.email?.errors }">
+         <mat-error ngxErrors="basicDetailForm.email" [ngClass]="['dirty', 'touched']">
+                                            Enter valid email address
+          </mat-error>
+
+          <!-- <p class="help-block">Please provide your E-mail</p> -->
         </div>
       </div>
    
@@ -41,7 +55,10 @@
         <label class="control-label" for="password">Password</label>
         <div class="controls">
           <input type="password" id="password" name="password" class="form-control" formControlName="password" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.password?.errors }">
-          <p class="help-block">Password should be at least 4 characters</p>
+           <mat-error ngxErrors="basicDetailForm.password" [ngClass]="['dirty', 'touched']">
+                                            Enter valid password
+          </mat-error>
+          <!-- <p class="help-block">Password should be at least 4 characters</p> -->
         </div>
       </div>
    
@@ -49,7 +66,7 @@
       <div class="form-group">
         <!-- Button -->
         <div class="controls">
-          <button  class="btn btn-success">Register</button>
+          <button  class="btn btn-success" >Next</button>
         </div>
       </div>
   </form>

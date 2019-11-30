@@ -10,6 +10,7 @@ import { AddAddressComponent } from "src/app/_forms/add-address/add-address.comp
 import { NgModule } from "@angular/core";
 import { BankDetailsComponent } from "src/app/vendor/bank-details/bank-details.component";
 import { AddBankDetailsComponent } from "src/app/_forms/add-bank-details/add-bank-details.component";
+import { InventoryComponent } from "src/app/vendor/inventory/inventory.component";
 
 export const VendorRoutes: Routes=[
     {
@@ -27,6 +28,10 @@ export const VendorRoutes: Routes=[
             {
                 path : 'signup',
                 component : SignupComponent
+            },
+              {
+                path : 'inventory',
+                component : InventoryComponent
             },
             // account component needs to be changed
              {
