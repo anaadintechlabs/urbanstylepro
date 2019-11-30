@@ -11,16 +11,20 @@ import { FormModule } from '../_forms/form.module';
 import { ServicesModule } from 'src/_services/services.module';
 import { AddProductComponent } from './add-product/add-product.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AddressComponent } from './address/address.component';
 import { BankDetailsComponent } from './bank-details/bank-details.component';
+
 import { InventoryComponent } from './inventory/inventory.component';
-// import { ReactiveFormsModule,FormsModule } from '@angular/forms';
+
 
 @NgModule({
     imports:[
         RouterModule.forChild(VendorRoutes),
         CommonModule,
         FormModule,
+        ServicesModule,
+        NgbModule
         ServicesModule,RouterModule
     ],
     
