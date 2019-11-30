@@ -15,7 +15,7 @@ export class AddProductComponent implements OnInit {
   allAttriblue: CategoryAttribute[];
   selectedProductType: string;
   selectedVariation: CategoryAttribute[];
-
+  categorySelected : boolean = false;
   myFiles: string[] = [];
   urlArray: any = [];
 
@@ -48,13 +48,13 @@ export class AddProductComponent implements OnInit {
       status : true,
       description : false,
     },
-    {
-      tabIndex : 4,
-      name : "Extra Info",
-      visible : true,
-      status : true,
-      description : false,
-    },
+    // {
+    //   tabIndex : 4,
+    //   name : "Extra Info",
+    //   visible : true,
+    //   status : true,
+    //   description : false,
+    // },
   ];
 
   private get element(): HTMLElement {
@@ -181,6 +181,7 @@ export class AddProductComponent implements OnInit {
 
   selectedCategory(catId: number) {
     console.log(catId);
+    this.categorySelected = true;
     this.vitalInfo.get("categoryId").setValue(catId);
     this._dataService
       .getAllVariationOfCategory("variation/getAllVariationOfCategory", catId)

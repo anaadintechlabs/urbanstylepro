@@ -1,29 +1,15 @@
 
 <div *ngIf="category && category?.length > 0">
-    <ul *ngFor="let item of category; let i = index">
-      <li *ngFor="let cat of item?.category" (click)="getCategoryById(cat,i)">{{ cat?.categoryName }}</li>
-    </ul>
+    <div class="category">
+        <div class="category_map">
+            <p>Select a category to continue</p> 
+        </div>
+    </div>
+    <div class="fixWidth" *ngFor="let item of category; let i = index">
+        <mat-card class="card" *ngFor="let cat of item?.category" (click)="getCategoryById(cat,i)">
+            <p class="card_title"> {{ cat?.categoryName | uppercase }}</p>
+        </mat-card>
+    </div>
 </div>
 
 
-
-
-<!-- <ngb-carousel *ngIf="images" [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
-    <ng-template ngbSlide *ngFor="let image of images">
-      <div class="picsum-img-wrapper">
-        <img [src]="image" alt="Random slide">
-      </div>
-      <div class="carousel-caption">
-        <h3>No mouse navigation</h3>
-        <p>This carousel hides navigation arrows and indicators.</p>
-      </div>
-      <p>sab sala jadu hai</p>
-    </ng-template>
-  </ngb-carousel>
-  
-  <hr>
-  
-  <div class="btn-group" role="group" aria-label="Carousel toggle controls">
-    <button type="button" (click)="showNavigationArrows = !showNavigationArrows" class="btn btn-outline-dark btn-sm">Toggle navigation arrows</button>
-    <button type="button" (click)="showNavigationIndicators = !showNavigationIndicators" class="btn btn-outline-dark btn-sm">Toggle navigation indicators</button>
-  </div> -->

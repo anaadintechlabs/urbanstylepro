@@ -1,0 +1,35 @@
+.chkBox{
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px;
+}
+p,h1,h2,h3,h4,h5,h6{
+    color: #5f5f5f;
+}
+p{
+   font-size: 12px;
+   margin: 0;
+}
+h4{
+    font-size: 16px;
+}
+
+.attribute{
+    padding: 10px 0;
+    &_map{
+        display: inline-block;
+        margin-right: 10px;
+        border: 1px solid;
+        padding: 5px;
+    }
+}
+
+.cancelBtn{
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 0 10px;
+    i{
+        font-size: 15px;
+    }
+}

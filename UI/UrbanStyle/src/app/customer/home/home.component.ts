@@ -57,30 +57,30 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  addProductToWishlist(productVar) {
-    let url = "wishlist/addProductToWishlist";
+  // addProductToWishlist(productVar) {
+  //   let url = "wishlist/addProductToWishlist";
 
     // const userObj: User = {
     //   id: this.userId
     // };
-    const wishListObj: WishList = {
-      id: 0,
-      productVariant: productVar,
-      user: undefined,
-      status: 1
-    };
+    // const wishListObj: WishList = {
+    //   id: 0,
+    //   // productVariant: productVar,
+    //   user: undefined,
+    //   status: 1
+    // };
 
-    this.dataService.addProductToWishlist(url, wishListObj).subscribe(
-      data => {
-        if (data.alreadyAdded) {
-          alert("already added");
-        } else {
-          alert("added to wishlist");
-        }
-      },
-      error => {
-        console.log("error======", error);
-      }
-    );
-  }
+  //   this.dataService.addProductToWishlist(url, wishListObj).subscribe(
+  //     data => {
+  //       if (data.alreadyAdded) {
+  //         alert("already added");
+  //       } else {
+  //         alert("added to wishlist");
+  //       }
+  //     },
+  //     error => {
+  //       console.log("error======", error);
+  //     }
+  //   );
+  // }
 }
