@@ -155,6 +155,32 @@ public class ProductServiceImpl implements ProductService{
 		return null;
 	}
 
+	@Override
+	public List<Product> getAllProductOfUser(long userId, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return productRepository.findByUserId(userId,pagable);
+	}
+
+	@Override
+	public List<Product> getAllActiveOrInactiveProductOfUser(long userId, Filter filter, int status) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return productRepository.findByUserIdAndStatus(userId,status,pagable);
+	}
+
+	@Override
+	public void changeStatusOfProduct(long productId, int status) {
+		 productRepository.changeStatusOfProduct(productId,status);
+		
+	}
+
 
 
 //	private void updatProduct(Product oldProduct, Product product) {

@@ -14,12 +14,43 @@ import { Country, State, City } from "src/_modals/country";
 import { BankDetails } from "src/_modals/bankdetails";
 import { WishList } from "src/_modals/wishlist";
 import { ProductVariant } from "src/_modals/productVariant";
+import { Product } from "src/_modals/product";
 @Injectable()
 export class DataService {
   constructor(
     protected _apiService: ApiService,
     private httpBackend: HttpBackend
   ) {}
+
+
+  getAllProductVariantOfUser(url: string, data: any): Observable<ProductVariant[]> {
+    return new Observable<ProductVariant[]>(obs => {
+      this._apiService.post(url, data).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.productList);
+        }
+      });
+    });
+  }
+  getAllActiveOrInactiveProductVariantOfUser(url: string, data: any): Observable<ProductVariant[]> {
+    return new Observable<ProductVariant[]>(obs => {
+      this._apiService.post(url, data).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.productList);
+        }
+      });
+    });
+  }
+
+  changeStatusOfProductVariant(url: string, data: any): Observable<ProductVariant[]> {
+    return new Observable<ProductVariant[]>(obs => {
+      this._apiService.post(url, data).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.productList);
+        }
+      });
+    });
+  }
 
   getAllCategory(url: string, data: any): Observable<Category[]> {
     return new Observable<Category[]>(obs => {

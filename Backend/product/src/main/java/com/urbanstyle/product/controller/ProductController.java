@@ -40,86 +40,84 @@ public class ProductController {
 	@Autowired
 	private ProductVarientService productVarient;
 	
-//	/**
-//	 * 
-//	 * @param filter
-//	 * @param userId
-//	 * @param request
-//	 * @param response
-//	 * @return method for gettung all product for display
-//	 */
-//	@RequestMapping(value="/getAllMainProductsOfUser",method=RequestMethod.POST)
-//	public Map<String,Object> getAllMainProductsOfUser(@RequestBody Filter filter,
-//			@RequestParam(value="userId") long userId,
-//			HttpServletRequest request,HttpServletResponse response)
-//	{
-//		final HashMap<String, Object> map = new HashMap<>();
-//		map.put("productList", productService.getAllMainProductsOfUser(userId,filter));
-//		return CommonResponseSender.createdSuccessResponse(map, response);
-//		
-//	}
-//	
-//	
-//	/**
-//	 * 
-//	 * @param filter
-//	 * @param userId
-//	 * @param productId
-//	 * @param request
-//	 * @param response
-//	 * @return method for getting all variant products of user
-//	 */
-//	@RequestMapping(value="/getAllVariantProductsOfProductOfUser",method=RequestMethod.POST)
-//	public Map<String,Object> getAllVariantProductsOfProductOfUser(@RequestBody Filter filter,
-//			@RequestParam(value="userId") long userId,
-//			@RequestParam(value="productId") long productId,
-//			HttpServletRequest request,HttpServletResponse response)
-//	{
-//		final HashMap<String, Object> map = new HashMap<>();
-//		map.put("productVariantsList", productService.getAllVariantProductsOfProductOfUser(userId,productId,filter));
-//		return CommonResponseSender.createdSuccessResponse(map, response);
-//		
-//	}
-//	
-//	
-//	
-//	/**
-//	 * 
-//	 * @param filter
-//	 * @param categoryId
-//	 * @param request
-//	 * @param response
-//	 * @return method for getting all product of a category
-//	 */
-//	@RequestMapping(value="/getProductOfCategory",method=RequestMethod.POST)
-//	public Map<String,Object> getAllProductOfCategory(@RequestBody Filter filter,
-//			@RequestParam(value="categoryId") long categoryId,
-//			HttpServletRequest request,HttpServletResponse response)
-//	{
-//		final HashMap<String, Object> map = new HashMap<>();
-//		map.put("productList", productService.getAllProductOfCategory(categoryId,filter));
-//		return CommonResponseSender.createdSuccessResponse(map, response);
-//		
-//	}
-//	
-//	
-//	
-//	
-//	
-//	/**
-//	 * method to get product By Id
-//	 * @param prodId
-//	 * @param request
-//	 * @param response
-//	 * @return
-//	 */
-//	
-//	@RequestMapping(value="/getProductById",method=RequestMethod.GET)
-//	public Map<String,Object> getProductById(@RequestParam(value="prodId")String prodId,HttpServletRequest request,HttpServletResponse response){
-//		final HashMap<String, Object> map = new HashMap<>();
-//		map.put("product", productService.getProductById(Long.parseLong(prodId)));
-//		return CommonResponseSender.createdSuccessResponse(map, response);
-//	}
+
+	
+	
+	
+	@RequestMapping(value="/getAllProductOfCategory",method=RequestMethod.POST)
+	public Map<String,Object> getAllProductOfCategory(@RequestBody Filter filter,
+			@RequestParam(value="catId") long catId,
+			HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productVarient.getAllProductOfCategory(catId,filter));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	
+	@RequestMapping(value="/changeStatusOfProduct",method=RequestMethod.POST)
+	public Map<String,Object> changeStatusOfProduct(
+			@RequestBody Filter filter,
+			@RequestParam(value="productId") long productId,
+			@RequestParam(value="status") int status,
+			@RequestParam(value="userId") long userId,
+			HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		 productService.changeStatusOfProduct(productId,status);
+		map.put("productList", productService.getAllActiveOrInactiveProductOfUser(userId,filter,status==1?0:1));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/getAllProductOfUser",method=RequestMethod.POST)
+	public Map<String,Object> getAllProductOfUser(@RequestBody Filter filter,
+			@RequestParam(value="userId") long userId,
+			HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productService.getAllProductOfUser(userId,filter));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	
+	@RequestMapping(value="/getAllProductVariantOfUser",method=RequestMethod.POST)
+	public Map<String,Object> getAllProductVariantOfUser(@RequestBody Filter filter,
+			@RequestParam(value="userId") long userId,
+			HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productVarient.getAllProductVariantOfUser(userId,filter));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/getAllActiveOrInactiveProductOfUser",method=RequestMethod.POST)
+	public Map<String,Object> getAllActiveOrInactiveProductOfUser(@RequestBody Filter filter,
+			@RequestParam(value="userId") long userId,
+			@RequestParam(value="status") int status,
+			HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productService.getAllActiveOrInactiveProductOfUser(userId,filter,status));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/changeStatusOfProductVariant",method=RequestMethod.POST)
+	public Map<String,Object> changeStatusOfProductVariant(
+			@RequestBody Filter filter,
+			@RequestParam(value="productId") long productId,
+			@RequestParam(value="status") int status,
+			@RequestParam(value="userId") long userId,
+			HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		productVarient.changeStatusOfProduct(productId,status);
+		map.put("productList",productVarient.getAllActiveOrInactiveProductVariantOfUser(userId,filter,status==1?0:1));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/getAllActiveOrInactiveProductVariantOfUser",method=RequestMethod.POST)
+	public Map<String,Object> getAllActiveOrInactiveProductVariantOfUser(@RequestBody Filter filter,
+			@RequestParam(value="userId") long userId,
+			@RequestParam(value="status") int status,
+			HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productVarient.getAllActiveOrInactiveProductVariantOfUser(userId,filter,status));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
 	
 	
 	@RequestMapping(value="/getAllVarientsOfProducts",method=RequestMethod.GET)
@@ -199,21 +197,21 @@ public class ProductController {
 	@RequestMapping(value="/addVarientToProduct",method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> addVarientToProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam ProductVariantDTO productVarientDTO){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("dealOftheDay", productVarient.addVarientToProduct(productVarientDTO));
+		map.put("product", productVarient.addVarientToProduct(productVarientDTO));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
 	@RequestMapping(value="/deleteVarientToProduct",method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> deleteVarientToProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="prodId",required=true) long prodId,@RequestParam(value="prodVarId",required=true) long prodVarId){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("dealOftheDay", productVarient.deleteVarientToProduct(prodId,prodVarId));
+		map.put("product", productVarient.deleteVarientToProduct(prodId,prodVarId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
 	@RequestMapping(value="/searchProducts",method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> searchProducts(HttpServletRequest request,HttpServletResponse response,@RequestParam FilterDTO filterDTO){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("dealOftheDay", productVarient.searchProducts(filterDTO));
+		map.put("productList", productVarient.searchProducts(filterDTO));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 }
