@@ -103,6 +103,12 @@ export class AddProductDesciprionComponent implements OnInit {
     console.log(this.selectedVariation);
   }
 
+  removeAttribure(map,index){
+    this.selectedVariation[index].allAttributeMap.variationAttribute = this.selectedVariation[index].allAttributeMap.variationAttribute.filter(element=>{
+      return element != map;
+    })
+  }
+
   flushData() {
     this.selectedVariation = [];
   }

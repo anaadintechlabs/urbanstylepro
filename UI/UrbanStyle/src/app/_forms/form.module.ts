@@ -11,7 +11,8 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatRadioModule,
-  MatSelectModule
+  MatSelectModule,
+  MatCardModule
 } from "@angular/material";
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { BasicDetailsComponent } from './basic-details/basic-details.component';
@@ -43,6 +44,7 @@ import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.com
     MatStepperModule,
     MatFormFieldModule,
     MatCheckboxModule,
+    MatCardModule,
      MatInputModule, MatFormFieldModule, MatButtonModule, MatRadioModule, MatSelectModule,
      MatIconModule,  MatCheckboxModule, MatToolbarModule,     
     ],
