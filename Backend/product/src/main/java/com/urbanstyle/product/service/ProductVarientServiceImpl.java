@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductVariant;
 import com.mysql.fabric.xmlrpc.base.Array;
@@ -112,6 +116,42 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	@Override
 	public List<ProductVariant> getAllProducts() {
 		return productVarRepo.findByStatus(1);
+	}
+
+	@Override
+	public List<ProductVariant> getAllProductOfCategory(long catId, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return productVarRepo.findByProductCategoryIdAndStatus(catId,1,pagable);
+	}
+
+	@Override
+	public List<ProductVariant> getAllProductVariantOfUser(long userId, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return productVarRepo.findByProductUserId(userId,pagable);
+	}
+
+	@Override
+	public List<ProductVariant> getAllActiveOrInactiveProductVariantOfUser(long userId, Filter filter, int status) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return productVarRepo.findByStatusAndProductUserId(status,userId,pagable);
+	}
+
+	@Override
+	public void changeStatusOfProduct(long productId, int status) {
+		productVarRepo.changeStatusOfProduct(productId,status);
+		
 	}
 	
 	

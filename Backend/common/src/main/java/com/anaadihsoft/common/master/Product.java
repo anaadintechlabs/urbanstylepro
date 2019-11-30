@@ -94,6 +94,22 @@ public class Product {
 
 	
 
+	public boolean isVariantExist() {
+		return variantExist;
+	}
+
+	public void setVariantExist(boolean variantExist) {
+		this.variantExist = variantExist;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public Date getCreatedDate() {
 		return createdDate;
 	}

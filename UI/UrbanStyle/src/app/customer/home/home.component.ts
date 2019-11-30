@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
     const wishListObj: WishList = {
       id: 0,
       productVariant: productVar,
-    //  user: userObj,
+      user: undefined,
       status: 1
     };
 

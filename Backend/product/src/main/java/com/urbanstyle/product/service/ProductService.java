@@ -59,6 +59,12 @@ public interface ProductService {
 	List<Product> getBestSellingProducts(Filter filter);
 	
 	 void saveProductAttributeDetails(Map<Long, String> attributesMap, ProductVariant productVariant);
+
+	List<Product> getAllProductOfUser(long userId, Filter filter);
+
+	List<Product> getAllActiveOrInactiveProductOfUser(long userId, Filter filter, int status);
+
+	void changeStatusOfProduct(long productId, int status);
 	 
 
 }
