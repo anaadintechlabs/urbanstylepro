@@ -24,7 +24,7 @@ import { InventoryComponent } from './inventory/inventory.component';
         CommonModule,
         FormModule,
         ServicesModule,
-        NgbModule
+        NgbModule,
         ServicesModule,RouterModule
     ],
     

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { DataService } from "src/_services/data/data.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
@@ -15,6 +15,9 @@ export class AddBankDetailsComponent implements OnInit {
   public userId: any;
 
   public bankDetail: BankDetails;
+  @Input() fromVendorSignUp: boolean;
+  @Output()
+  bankDetailsVendor: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   constructor(
     private dataService: DataService,
@@ -67,12 +70,12 @@ export class AddBankDetailsComponent implements OnInit {
       Validators.minLength(2),
       Validators.maxLength(10)
     ]),
-      ifscCode: new FormControl("", [
+    ifscCode: new FormControl("", [
       Validators.required,
       Validators.minLength(2),
       Validators.maxLength(8)
     ]),
-    
+
     user: new FormGroup({
       id: new FormControl("")
     })
@@ -82,15 +85,13 @@ export class AddBankDetailsComponent implements OnInit {
     return this.bankDetailForm.controls;
   }
 
-
-
   getBankInformation(bankId) {
-    console.log("bank is ",bankId);
+    console.log("bank is ", bankId);
     this.dataService
       .getBankInformation("api/getBankDetailsById", bankId)
       .subscribe(data => {
         this.bankDetail = data;
-        console.log("bank is",this.bankDetail)
+        console.log("bank is", this.bankDetail);
         this.bankDetailForm.patchValue(this.bankDetail);
         this.bankDetailForm.controls.user.patchValue({
           id: this.userId
@@ -105,31 +106,31 @@ export class AddBankDetailsComponent implements OnInit {
       // this.toast.warning('Please fill all details in mandatory fields');
       return;
     } else {
-      //    console.log('form value is', this.createRoleForm.value);
-      this.bankDetailForm.controls.user.patchValue({
-        id: this.userId
-      });
+      if (this.fromVendorSignUp) {
+        console.log("from vendor sign up");
+        this.bankDetailsVendor.emit(this.bankDetailForm);
+      } else {
+        console.log("from add address");
+        this.bankDetailForm.controls.user.patchValue({
+          id: this.userId
+        });
 
-      // console.log("this.createRoleForm.value"+this.createRoleForm.value)
-      this.dataService
-        .saveBankDetails("api/saveBankDetails", this.bankDetailForm.value)
-        .subscribe(
-          data => {
-            if(data.duplicate)
-              {
+        this.dataService
+          .saveBankDetails("api/saveBankDetails", this.bankDetailForm.value)
+          .subscribe(
+            data => {
+              if (data.duplicate) {
                 alert("duplicte ifsc");
+              } else {
+                alert("sucess");
               }
-              else{
-
-              
-            alert("sucess");
-              }
-            //this.router.navigateByUrl("secure/" + this.customerId + "/admin/role/edit/" + data.role.id);
-          },
-          error => {
-            // this.toast.error('Something went wrong');
-          }
-        );
+              //this.router.navigateByUrl("secure/" + this.customerId + "/admin/role/edit/" + data.role.id);
+            },
+            error => {
+              // this.toast.error('Something went wrong');
+            }
+          );
+      }
     }
   }
 

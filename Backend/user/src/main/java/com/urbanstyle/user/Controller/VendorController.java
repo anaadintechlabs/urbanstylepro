@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anaadihsoft.common.DTO.VendorSignupDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.urbanstyle.user.Payload.SignUpRequest;
+import com.urbanstyle.user.Repository.BankRepository;
+import com.urbanstyle.user.Repository.UserRepository;
 import com.urbanstyle.user.Service.VendorService;
 import com.urbanstyle.user.util.CommonResponseSender;
 
@@ -26,6 +30,10 @@ public class VendorController {
 	
 	@Autowired
 	private VendorService vendorService;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private BankRepository bankRepository;
 	
 	@RequestMapping(value="/getAllVendors",method=RequestMethod.POST)
 	public Map<String,Object> getAllVendors(@RequestBody Filter filter,
@@ -38,5 +46,44 @@ public class VendorController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}
+	
+	
+	
+	@RequestMapping(value="/checkDuplicateEmailAndIfscCode",method=RequestMethod.GET)
+	public Map<String,Object> checkDuplicateEmailAndIfscCode(
+			@RequestParam(value="email") String email,
+			@RequestParam(value="ifscCode") String ifscCode,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("duplicateUsername", userRepository.existsByEmail(email));
+		map.put("duplicateIfscCode", bankRepository.existsByIfscCode(ifscCode));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	
+	@RequestMapping(value="/vendorSignUpIntegrated",method=RequestMethod.POST)
+	public Map<String,Object> vendorSignUpIntegrated(
+			@RequestBody VendorSignupDTO vendorSignupDTO,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		boolean duplicateUsername=userRepository.existsByEmail(vendorSignupDTO.getSignUp().getEmail());
+		boolean duplicateIfscCode= bankRepository.existsByIfscCode(vendorSignupDTO.getBankDetails().getIfscCode());
+		if(duplicateUsername || duplicateIfscCode)
+		{
+			map.put("duplicateUsername", duplicateUsername);
+			map.put("duplicateIfscCode", duplicateIfscCode);
+		}
+		else
+		{
+		map.put("signup", vendorService.vendorSignUpIntegrated(vendorSignupDTO));
+		}
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	
+	
+	
 
 }
