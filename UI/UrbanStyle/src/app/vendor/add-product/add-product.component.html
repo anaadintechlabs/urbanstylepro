@@ -14,32 +14,40 @@
         <div class="col-12">
             <div class="borderBox">
                 <div class="borderBox_header">
-                    <button class="btn btn-primary borderBox_headerLink" (click)="showVitalForm()" role="button">Vital Information</button>
-                    <button class="btn btn-primary borderBox_headerLink" (click)="showProduDesc()" [disabled]="!productDescTab" role="button">Product Description</button>
-                    <button class="btn btn-primary borderBox_headerLink"  (click)="showAdvanceOption()" [disabled]="!dispAdvanceOption" [hidden]="!advanceTabVisibility" role="button">Advance</button>
-                    <button class="btn btn-primary borderBox_headerLink"  (click)="showProductMedia()" role="button">Product Media</button>
-
+                    <button *ngFor="let btn of button" 
+                        class="btn btn-primary borderBox_headerLink" 
+                        [disabled]="!btn?.status" 
+                        [hidden]="!btn?.visible" 
+                        (click)="chooseAction(btn)" 
+                        role="button">
+                        {{btn.name}}
+                    </button>
                 </div>
                 <div class="borderBox_content">
-                    <div *ngIf="dispVitalForm" class="vitalBox">
+                    <div *ngIf="button[0].description" class="vitalBox">
                         <vital-information [vitalInfo]="vitalInfo" (status)="vitalFormStatus($event)"></vital-information>
                     </div>
-                    <div *ngIf="dispProduDesc" class="descBox">
-                        <product-desciprion [categoryAttribute]="allAttriblue" (allAttrMap)="getAllAttrMap($event)" (status)="activeAdvanceTab($event)" (productType)="selectedPtoductType($event)"  [selectedVariation]="selectedVariation" [selectedProductType]="selectedProductType"></product-desciprion>
+                    <div *ngIf="button[1].description" class="descBox">
+                        <product-desciprion [categoryAttribute]="allAttriblue" (allAttrMap)="getAllAttrMap($event)" 
+                                    (status)="activeAdvanceTab($event)" (productType)="selectedPtoductType($event)"  
+                                    [selectedVariation]="selectedVariation" [selectedProductType]="selectedProductType">
+                        </product-desciprion>
                     </div>
-                    <div *ngIf="showAdvanceTab && dispAdvanceOption && selectedProductType == 'ADVANCE'">
+                    <div *ngIf="button[2].description">
                         <div formArraryName="productVariantDTO" *ngFor="let item of productVariantDTO.controls;let i = index">
-                            <product-variation [productVariation]="item"  ></product-variation>
+                            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+                                    <ngb-panel title="Simple">
+                                        <ng-template ngbPanelContent>  
+                                            <product-variation [formGroup]="i" [productVariation]="item" [index]="i" ></product-variation>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
                         </div>
                     </div>
-<!--   -->
-                      <div *ngIf="dispProductMedia"  class="vitalBox">
+                    <div *ngIf="button[3].description"  class="vitalBox">
                         <product-media [myFiles]="myFiles" [urlArray]="urlArray" (myFilesEmit)="myFilesEmitFunction($event)" (urlArrayEmit)="myUrlArrayEmitFunction($event)"  ></product-media>
                     </div> 
-                     
                 </div>
-
-                
                 <div>
                     <button type ="button"  class="btn btn-success" (click)="saveProduct()">save</button>
                 </div>

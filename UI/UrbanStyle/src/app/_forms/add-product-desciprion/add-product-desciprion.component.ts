@@ -14,10 +14,7 @@ import { FormArray } from "@angular/forms/forms";
 export class AddProductDesciprionComponent implements OnInit {
   @Input() categoryAttribute: CategoryAttribute[];
   @Output() productType: EventEmitter<string> = new EventEmitter<string>();
-  @Output()
-  allAttrMap: EventEmitter<CategoryAttribute[]> = new EventEmitter<
-    CategoryAttribute[]
-  >();
+  @Output() allAttrMap: EventEmitter<CategoryAttribute[]> = new EventEmitter<CategoryAttribute[]>();
   @Output() status: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input() selectedProductType: string;
