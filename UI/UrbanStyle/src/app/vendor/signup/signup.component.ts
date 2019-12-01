@@ -63,7 +63,7 @@ export class SignupComponent implements OnInit {
   }
 
   addressForm(data: FormGroup): void {
-    this.addressDetails = data.value;
+    this.addressDetails = data;
     this.signUpform.controls.address.patchValue(this.addressDetails);
      console.log("save", this.signUpform.value);
     this.myStepper.next();

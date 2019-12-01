@@ -1,10 +1,13 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button (click)="sidvanToggle()">
+    <!-- <button mat-icon-button (click)="sidvanToggle()">
         <mat-icon>menu</mat-icon>
-    </button>
+    </button> -->
     <a routerLink="">URBAN STYLE</a>
     <div class="rightNav">
         <div *ngIf="loginStatus">
+            <a routerLink="/vendor/inventory">Manage Inventory</a>
+            <a routerLink="/vendor/account/addresses">Address</a>
+            <a routerLink="/vendor/account/bank_details">Bank Details</a>
             <a routerLink="/vendor/dashboard/addProduct">Add Product</a>
             <a class="rightNav_Link" (click)="logOut()">Logout</a>
         </div>

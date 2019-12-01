@@ -102,18 +102,7 @@ export class UserServiceService {
     ));
   }
 
-  attempIntegratedAuth(data)
-  {
-    console.log(data);
-    const route ='/vendorSignUpIntegrated';
-    return this.apiService.postUser('api/vendor' + route, data).pipe(
-      map(data => {
-        return data;
-      }
-    ));
 
-
-  }
 
   navigateToDashboardBasedOnUserType(userType)
   {
