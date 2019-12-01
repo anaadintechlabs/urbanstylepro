@@ -10,6 +10,8 @@ import {
 } from "@angular/material";
 import { DataService } from "src/_services/data/data.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { UserServiceService } from 'src/_services/http_&_login/user-service.service';
+import { User } from 'src/_modals/user.modal';
 
 @Component({
   selector: "app-address",
@@ -25,7 +27,7 @@ export class AddressComponent implements OnInit {
   displayedColumns: string[] = ["group", "groupDescription", "actions"];
   addressDetails: any = [];
   addressCount: number;
-  public userId: any=1;
+  public userId: number;
   public ELEMENT_DATA: any;
   public dataSource: any;
 
@@ -34,14 +36,22 @@ export class AddressComponent implements OnInit {
   public pageSize: any;
   public listLength: any;
   pageNumber: any;
+  user : User;
 
   constructor(
         private dataService: DataService,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private _userService : UserServiceService
   ) {
     //getUserId Dynamic
-    this.getAddressDetailsByUser(this.userId);
+    this.user =  JSON.parse(window.localStorage.getItem('user'));
+    if(this.user.token){
+      this.userId = this.user.id;
+      console.log(this.user);
+      console.log(this.userId);
+      this.getAddressDetailsByUser(this.userId);
+    } 
   }
 
   ngOnInit() {}

@@ -55,7 +55,7 @@
 
                                     <mat-form-field appearance="outline">
                                         <mat-label>Country</mat-label>
-                                         <mat-select (selectionChange)="countryOnChange($event.value)"   [ngClass]="{ 'is-invalid': submitted && f.zip.errors }"placeholder="id" class="common" matInput required formControlName="id"  >
+                                         <mat-select (selectionChange)="countryOnChange($event.value)"   [ngClass]="{ 'is-invalid': submitted && f.zip.errors }" placeholder="id" class="common" matInput required formControlName="id"  >
                                        
                                             <mat-option [value]="country.id" *ngFor="let country of countryList">{{country.countryName}}</mat-option>
 
