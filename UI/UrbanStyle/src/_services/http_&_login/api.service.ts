@@ -20,6 +20,7 @@ export class ApiService {
   ) {}
 
   private formatErrors(error: any) {
+    console.log("errir ",error)
     return throwError(error.error);
   }
 

@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BasicDetailsComponent } from 'src/app/_forms/basic-details/basic-details.component';
@@ -8,9 +9,9 @@ import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  selector: "app-signup",
+  templateUrl: "./signup.component.html",
+  styleUrls: ["./signup.component.scss"]
 })
 export class SignupComponent implements OnInit {
 
@@ -33,39 +34,41 @@ export class SignupComponent implements OnInit {
     bankDetails : new FormControl
    }) 
     this.basicDetails = this._fb.group({
-      name : ["",Validators.required],
-      lastname : [""],
-      username : ["",Validators.required],
-      email : ["",Validators.required],
-      password : ["",Validators.required],
-      userType : [""],
+      name: ["", Validators.required],
+      lastname: [""],
+      username: ["", Validators.required],
+      email: ["", Validators.required],
+      password: ["", Validators.required],
+      userType: [""]
     });
-   }
 
-  ngOnInit() {
-    
+    this.signUpform = this._fb.group({
+      signUp: this.basicDetails,
+      address: this.addressDetails,
+      bankDetails: this.bankDetails
+    });
   }
-  ngAfterViewInit() {
-  
+
+  ngOnInit() {}
+  ngAfterViewInit() {}
+
+  get f() {
+    return this.basicDetails.controls;
   }
 
-   get f() { return this.basicDetails.controls;}
-
-  basicdetialForm(data : FormGroup) : void {
-    console.log(data)
+  basicdetialForm(data: FormGroup): void {
     this.basicDetails = data;
-    this.f.userType.setValue('VENDOR');
+    this.f.userType.setValue("VENDOR");
     this.myStepper.next();
   }
 
-
-   addressForm(data : FormGroup) : void {
+  addressForm(data: FormGroup): void {
     this.addressDetails = data;
-   // this.f.userType.setValue('VENDOR');
-    // console.log(this.addressDetails);
-
+    this.signUpform.controls.address.patchValue(this.addressDetails);
+     console.log("save", this.signUpform.value);
     this.myStepper.next();
   }
+
 
 
    bankDetailsForm(data : FormGroup) : void {
@@ -84,5 +87,4 @@ export class SignupComponent implements OnInit {
       }
     );
   }
-
 }

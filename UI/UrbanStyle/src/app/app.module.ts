@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServicesModule } from 'src/_services/services.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
     FormsModule,
     BrowserAnimationsModule,
     ServicesModule,
-    NgbModule
+    NgbModule,
+    ToastrModule.forRoot()
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [],

@@ -63,7 +63,7 @@ export class AddAddressComponent implements OnInit {
     ]),
     addressTwo: new FormControl("", [
       Validators.required,
-      Validators.minLength(10),
+      Validators.minLength(5),
       Validators.maxLength(255)
     ]),
     status: new FormControl(1),

@@ -57,7 +57,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 	
 	
 	    
-	    private String generateFileNameFromMultipart(MultipartFile multiPart) {
+	    public String generateFileNameFromMultipart(MultipartFile multiPart) {
 	    	String fileName = multiPart.getOriginalFilename().replace("\\",SLASH).replace(" ", "_");
 	    	int lastIndex = fileName.lastIndexOf(SLASH);
 	    	if(lastIndex!=-1) {

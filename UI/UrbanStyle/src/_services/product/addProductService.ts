@@ -24,18 +24,22 @@ export class AddProductService {
     actualPrice: new FormControl("", [Validators.required]),
     discountPrice: new FormControl("", [Validators.required]),
     totalQuantity: new FormControl("", [Validators.required]),
-    reservedQuantity: new FormControl("", [Validators.required])
+    reservedQuantity: new FormControl("", )
   });
 
   /////// formGroup for vital information for product
   public productForm = new FormGroup({
+    user: new FormGroup({
+      id: new FormControl("")
+    }),
     productId: new FormControl("", []),
     productCode: new FormControl("", [Validators.required]),
     categoryId: new FormControl("", [Validators.required]),
     productName: new FormControl("", [Validators.required]),
     brandName: new FormControl("", []),
     manufacturer: new FormControl("", []),
-    coverPhoto: new FormControl("", [])
+    coverPhoto: new FormControl("", []),
+     
   });
 
   product: FormGroup;
@@ -45,8 +49,10 @@ export class AddProductService {
     this.productDTO = this._fb.group({
       product: this.productForm,
       productVariantDTO: this._fb.array([this.initializeProductVarientDto()]),
-      productMetaInfo: this._fb.array([this.addMetaInfo()])
+     
     });
+    // this will be added later
+    //  productMetaInfo: this._fb.array([this.addMetaInfo()])
     console.log(this.productDTO.value);
   }
 
@@ -81,7 +87,7 @@ export class AddProductService {
         actualPrice: new FormControl("", [Validators.required]),
         discountPrice: new FormControl("", [Validators.required]),
         totalQuantity: new FormControl("", [Validators.required]),
-        reservedQuantity: new FormControl("", [Validators.required])
+        reservedQuantity: new FormControl("", )
       })
     });
     return productVarientDto;
