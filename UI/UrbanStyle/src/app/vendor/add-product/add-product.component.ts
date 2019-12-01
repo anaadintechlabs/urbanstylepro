@@ -72,6 +72,7 @@ export class AddProductComponent implements OnInit {
     private el: ElementRef,
     private cdRef: ChangeDetectorRef
   ) {
+    this.setButtonWidth();
     this.vitalInfo = this._addProduct.productFormGroup;
     this.productVariantDTO = this._addProduct.productVariantDTO;
     this.productDTO = this._addProduct.productDTO;
@@ -86,9 +87,13 @@ export class AddProductComponent implements OnInit {
   } 
 
   ngDoCheck() {
+    this.setButtonWidth();
+  }
+
+  setButtonWidth(){
     let activeBtnArray = this.button.filter(el=>{
       return el.visible == true;
-    })
+    });
     const box = this.element.querySelector(".borderBox") as HTMLElement;
     const boxHeader = this.element.querySelector(".borderBox_header") as HTMLElement;
     const boxHeaderLink = this.element.querySelectorAll(".borderBox_headerLink");
