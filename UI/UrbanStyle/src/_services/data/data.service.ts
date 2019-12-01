@@ -22,8 +22,10 @@ export class DataService {
     private httpBackend: HttpBackend
   ) {}
 
-
-  getAllProductVariantOfUser(url: string, data: any): Observable<ProductVariant[]> {
+  getAllProductVariantOfUser(
+    url: string,
+    data: any
+  ): Observable<ProductVariant[]> {
     return new Observable<ProductVariant[]>(obs => {
       this._apiService.post(url, data).subscribe(res => {
         if (res.isSuccess) {
@@ -32,7 +34,10 @@ export class DataService {
       });
     });
   }
-  getAllActiveOrInactiveProductVariantOfUser(url: string, data: any): Observable<ProductVariant[]> {
+  getAllActiveOrInactiveProductVariantOfUser(
+    url: string,
+    data: any
+  ): Observable<ProductVariant[]> {
     return new Observable<ProductVariant[]>(obs => {
       this._apiService.post(url, data).subscribe(res => {
         if (res.isSuccess) {
@@ -42,7 +47,10 @@ export class DataService {
     });
   }
 
-  changeStatusOfProductVariant(url: string, data: any): Observable<ProductVariant[]> {
+  changeStatusOfProductVariant(
+    url: string,
+    data: any
+  ): Observable<ProductVariant[]> {
     return new Observable<ProductVariant[]>(obs => {
       this._apiService.post(url, data).subscribe(res => {
         if (res.isSuccess) {
@@ -255,4 +263,3 @@ export class DataService {
     });
   }
 }
-

@@ -4,6 +4,7 @@ import { AddProductService } from "src/_services/product/addProductService";
 import { Category } from "src/_modals/category.modal";
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from "@angular/forms";
 import { CategoryAttribute } from "src/_modals/categoryAttribute.modal";
+import { User } from "src/_modals/user.modal";
 
 @Component({
   selector: "app-add-product",
@@ -12,6 +13,8 @@ import { CategoryAttribute } from "src/_modals/categoryAttribute.modal";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddProductComponent implements OnInit {
+  user: User;
+    userId: any;
   allAttriblue: CategoryAttribute[];
   selectedProductType: string;
   selectedVariation: CategoryAttribute[];
@@ -83,7 +86,15 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.productVariantDTO);
-  } 
+    this.user =  JSON.parse(window.localStorage.getItem('user'));
+    // console.log("yser is ",this.user)
+    if(this.user && this.user.token){
+      this.userId = this.user.id;
+      // console.log(this.userId);
+     
+    }
+  }
+   
 
   ngDoCheck() {
     let activeBtnArray = this.button.filter(el=>{
@@ -132,18 +143,18 @@ export class AddProductComponent implements OnInit {
       this.button[2].visible = true; 
     } else {
      this.button[2].visible = false;
-     console.log("button", this.button[2]);
+    //  console.log("button", this.button[2]);
     }
   }
 
   myFilesEmitFunction(data) {
     this.myFiles = data;
-    console.log("myfiles",this.myFiles);
+    // console.log("myfiles",this.myFiles);
   }
 
   myUrlArrayEmitFunction(data) {
     this.urlArray = data;
-    console.log("urlarray",this.urlArray);
+    // console.log("urlarray",this.urlArray);
   }
 
   getAllAttrMap(data: CategoryAttribute[]) {
@@ -158,12 +169,15 @@ export class AddProductComponent implements OnInit {
     });
  
     let combinations = this._addProduct.makeCombinations(tempData);
-    //this.productVariantDTO = this._fb.array([]);
+    // console.log("productVariantDTO",this.productVariantDTO);
+ 
     while (this.productVariantDTO.length !== 0) {
+      console.log("data to be patched is",this.productVariantDTO.at(0).get('productVariant'));
       this.productVariantDTO.removeAt(0);
     }
     combinations.forEach(element => {
       ////here I have to set the values as well
+
       this.productVariantDTO.push(
         this._addProduct.initializeProductVarientDtoWithValue(
           element,
@@ -174,9 +188,9 @@ export class AddProductComponent implements OnInit {
   }
 
   activeAdvanceTab(status: boolean) {
-    console.log("status is",status)
+    // console.log("status is",status)
     this.button[2].status = status;
-    console.log("worked 2");
+    // console.log("worked 2");
   }
 
   selectedCategory(catId: number) {
@@ -192,9 +206,24 @@ export class AddProductComponent implements OnInit {
   }
 
   saveProduct() {
-    console.log("final FORM to be saved is ", this._addProduct.productDTO.value);
-    console.log("mtfiles",this.myFiles);
-    console.log("myurls ",this.urlArray);
+    console.log("form to be saev",this._addProduct.productDTO);
+    if(this._addProduct.productDTO.invalid)
+      {
+        alert("please fill the details")
+      }
+      else
+        {
+
+          this.vitalInfo.controls.user.patchValue({
+          id: this.userId
+        });
+
+        if(this.myFiles.length==0)
+          {
+            alert("Please select any image");
+          }
+          else
+            {
     const productData = this._addProduct.productDTO.value;
     const formData: FormData = new FormData();
     formData.append('dto', new Blob([JSON.stringify(productData)], { type: "application/json"}));
@@ -202,11 +231,13 @@ export class AddProductComponent implements OnInit {
     for (let i = 0; i < this.myFiles.length; i++) {
       formData.append('file', this.myFiles[i]);
     }
-    console.log('form data is '+ formData);
+    // console.log('form data is '+ formData);
     this._dataService.saveProduct('product/saveProduct', formData).subscribe(data => {
         console.log(data);
         this.allAttriblue = data;
     });
+    }
+        }
   }
 } 
 

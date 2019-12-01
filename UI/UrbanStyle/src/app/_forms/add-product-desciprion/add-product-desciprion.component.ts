@@ -30,8 +30,7 @@ export class AddProductDesciprionComponent implements OnInit {
     console.log(this.selectedProductType);
     if(this.selectedProductType==undefined)
       {
-        console.log("undefineddd")
-        this.selectedProductType="";
+                this.selectedProductType="";
       }
   }
 
@@ -50,11 +49,11 @@ export class AddProductDesciprionComponent implements OnInit {
     this.flushData();
     this.productType.emit(this.selectedProductType);
 
-    console.log("product variant dto us", this.productVariantDTO);
   }
 
   addvariation(event, data: CategoryAttribute) {
-    console.log("event isss", event);
+    console.log("data is ",data);
+    
     if (event.checked) {
       data.allAttributeMap = new allAtrrtibure();
       data.allAttributeMap.variationName = data.attributeMaster.variationName;
@@ -66,7 +65,6 @@ export class AddProductDesciprionComponent implements OnInit {
     }
 
     this.allAttrMap.emit(this.selectedVariation);
-    console.log("data to emit is ", this.selectedVariation);
   }
 
   ngDoCheck() {

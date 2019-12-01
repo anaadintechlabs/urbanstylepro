@@ -1,15 +1,18 @@
 package com.urbanstyle.product.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.DTO.ProductDTO;
@@ -29,6 +32,10 @@ import com.urbanstyle.product.repository.ProductRepository;
 public class ProductServiceImpl implements ProductService{
 
 	private static final int ACTIVE =	1;
+	private static final String SLASH = "/";
+	   @Value("${application.public.domain}")
+		private String applicationPublicDomain;
+
 	@Autowired
 	private ProductRepository productRepository;
 	@Autowired
@@ -59,9 +66,21 @@ public class ProductServiceImpl implements ProductService{
 			System.out.println("duplicate check");
 			return null;
 		}
+		
+		int i=0;
 
+		if(files!=null) {
+		 i=files.length;
+		}
+		
 		oldProduct=productRepository.save(productDTO.getProduct());
-		createProductVariant(productDTO.getProductVariantDTO(),oldProduct);
+		MultipartFile file = null;
+		if(i>0)
+		{
+			file=files[0];
+
+		}
+		createProductVariant(productDTO.getProductVariantDTO(),oldProduct,file);
 		if(productDTO.getProductMetaInfo()!=null)
 		{
 			List<ProductMeta> productMetaList = new ArrayList<>();
@@ -72,11 +91,7 @@ public class ProductServiceImpl implements ProductService{
 			}
 		}
 		
-		int i=0;
-
-		if(files!=null) {
-		 i=files.length;
-		}
+		
 		//BYPASSING CHECK AS OF NOW
 		if(i>0)
 		{
@@ -90,11 +105,34 @@ public class ProductServiceImpl implements ProductService{
 		return oldProduct;
 	}
 
-	private void createProductVariant(List<ProductVariantDTO> productVariantDTOList,Product product) {
+	   public String generateFileNameFromMultipart(MultipartFile multiPart) {
+	    	String fileName = multiPart.getOriginalFilename().replace("\\",SLASH).replace(" ", "_");
+	    	int lastIndex = fileName.lastIndexOf(SLASH);
+	    	if(lastIndex!=-1) {
+	    		fileName = fileName.substring(lastIndex+1);
+	    	}
+	        return new Date().getTime() + "-" + fileName;
+	    }
+	   
+		 public String generateFileUri(String fileName) {
+		    	return applicationPublicDomain+"/downloadFile/"+fileName;
+
+		    }
+		    
+		 
+	private void createProductVariant(List<ProductVariantDTO> productVariantDTOList,Product product, MultipartFile file) {
+		String mainImageUrl=null;
+		if(file!=null)
+		{
+	        String fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
+	        mainImageUrl=generateFileUri(fileName);
+	        
+		}
 		for(ProductVariantDTO productVariantDTO:productVariantDTOList)
 		{
 			ProductVariant productVariant=productVariantDTO.getProductVariant();
 			productVariant.setProduct(product);
+			productVariant.setMainImageUrl(mainImageUrl);
 			productVariant=productVariantRepository.save(productVariant);
 			if(productVariantDTO.getAttributesMap()!=null)
 			{

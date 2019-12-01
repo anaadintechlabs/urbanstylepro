@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserServiceService } from 'src/_services/http_&_login/user-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private _userService : UserServiceService
+    private _userService : UserServiceService,
+    private toastr: ToastrService
     ) {
 
      }
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit {
       password : this.f.password.value
     }
     this._userService.attemptAuth("",body).subscribe(res=>{
+      this.toastr.success('Login Successfull', 'Success');
       this.router.navigateByUrl("/vendor/dashboard")
     });
   }
