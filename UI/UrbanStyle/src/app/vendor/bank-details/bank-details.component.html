@@ -1,4 +1,46 @@
-<div class="container-fluid">
+<div *ngIf="bankDetails && bankDetails.length > 0" class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="blank_space"></div>
+    </div>
+    <div class="col-sm-12">
+      <h4>Add Bank Details</h4>
+    </div>
+    <div class="col-sm-4 pdBtm">
+      <div (click)="navigateToAddBankDetail()" class="add_address">
+        <div class="address_icon">
+          <i class="material-icons">
+            add
+          </i>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let bankDetail of bankDetails" class="col-sm-4 pdBtm">
+      <div class="currunt_address">
+        <div class="currunt_address_detail">
+          <h4>{{ user?.userName }}</h4>
+          <p>Bank Name: {{ bankDetail.bankName }}</p>
+          <p>Account Number : {{ bankDetail.accountNumber }}</p>
+          <p>IFSC Code0 : {{ bankDetail.ifscCode }}</p>
+        </div>
+        <div class="currunt_address_footer">
+          <a
+            class="currunt_address_footer_Link brR"
+            (click)="navigateToEditOrViewbankDetail('edit', bankDetail)"
+            >Edit</a
+          >
+          <a
+            class="currunt_address_footer_Link"
+            (click)="deletebankDetails(bankDetail)"
+            >Delete</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container-fluid">
   <div class="row ptop10 p0">
     <div class="col-md-12 col-sm-12 thc">
       <strong>Bank Details</strong>
@@ -9,37 +51,47 @@
       <div class="row pt-2 pb-2">
         <div class="col-xl-9 col-md-9 col-sm-9 col-12 pt-1">
           <button (click)="navigateToAddBankDetail()">
-            Add</button>
+            Add
+          </button>
         </div>
-        
       </div>
-      <!-- data-table start -->
-       <div  *ngIf="bankDetails && bankDetails.length>0" class="table-responsive">
-            <div class="card card-plain">
-              <div class="card-header card-header-danger">
-                  <h4 class="card-title mt-0">Bank List</h4>
-                  <p class="card-category"> </p>
-              </div>
-              <table class="table table-hover">
-                <thead class="attrTblHead">
-                    <th>Bank Name</th>
-                    <th> account    Type</th>
-                    <th>IFCs   Value</th>
-                    <th>Action</th>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let bankDetail of bankDetails">
-                    <td>{{bankDetail.bankName}}</td>
-                    <td>{{bankDetail.accountNumber}}</td>
-                    <td>{{bankDetail.ifscCode}}</td>
-                    <td><button (click)="navigateToEditOrViewbankDetail('edit',bankDetail)">
-            Edit</button>
-            <button (click)="deletebankDetails(bankDetail)">
-            Delete</button>
-                  </tr>
-                </tbody>
-            </table>
-            </div>
+      // /// // data-table start
+      <div
+        *ngIf="bankDetails && bankDetails.length > 0"
+        class="table-responsive"
+      >
+        <div class="card card-plain">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title mt-0">Bank List</h4>
+            <p class="card-category"></p>
+          </div>
+          <table class="table table-hover">
+            <thead class="attrTblHead">
+              <th>Bank Name</th>
+              <th>account Type</th>
+              <th>IFCs Value</th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let bankDetail of bankDetails">
+                <td>{{ bankDetail.bankName }}</td>
+                <td>{{ bankDetail.accountNumber }}</td>
+                <td>{{ bankDetail.ifscCode }}</td>
+                <td>
+                  <button
+                    (click)="navigateToEditOrViewbankDetail('edit', bankDetail)"
+                  >
+                    Edit
+                  </button>
+                  <button (click)="deletebankDetails(bankDetail)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-     
+      </div>
     </div>
+  </div>
+</div> -->
