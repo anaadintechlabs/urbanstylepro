@@ -10,6 +10,7 @@ import {
 } from "@angular/material";
 import { DataService } from "src/_services/data/data.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { User } from 'src/_modals/user.modal';
 @Component({
   selector: "app-inventory",
   templateUrl: "./inventory.component.html",
@@ -32,6 +33,7 @@ export class InventoryComponent implements OnInit {
   public pageSize: any;
   public listLength: any;
   pageNumber: any;
+  user : User;
 
   constructor(
     private dataService: DataService,
@@ -39,7 +41,13 @@ export class InventoryComponent implements OnInit {
     private router: Router
   ) {
     //getUserId Dynamic
-    this.getAllProductVariantOfUser();
+    this.user =  JSON.parse(window.localStorage.getItem('user'));
+    if(this.user.token){
+      this.userId = this.user.id;
+      console.log(this.user);
+      console.log(this.userId);
+      this.getAllProductVariantOfUser();
+    } 
   }
 
   ngOnInit() {}

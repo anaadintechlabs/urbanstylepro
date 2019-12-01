@@ -1,56 +1,107 @@
-<div class="container-fluid">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="blankSpace"></div>
+    </div>
+  </div>
   <div class="row ptop10 p0">
     <div class="col-md-12 col-sm-12 thc">
-      <strong>Inventory Details</strong>
+      <h4>Inventory Details</h4>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
       <div class="row pt-2 pb-2">
         <div class="col-xl-9 col-md-9 col-sm-9 col-12 pt-1">
-            <button (click)="getAllProductVariantOfUser(1)">
-            All</button>
-          <button (click)="getAllActiveOrInactiveProductVariantOfUser(1)">
-            Active</button>
-             <button (click)="getAllActiveOrInactiveProductVariantOfUser(0)">
-            Inactive</button>
+          <button class="btn actionBtn" (click)="getAllProductVariantOfUser(1)">
+            All
+          </button>
+          <button
+            class="btn actionBtn"
+            (click)="getAllActiveOrInactiveProductVariantOfUser(1)"
+          >
+            Active
+          </button>
+          <button
+            class="btn actionBtn"
+            (click)="getAllActiveOrInactiveProductVariantOfUser(0)"
+          >
+            Inactive
+          </button>
         </div>
-        
       </div>
       <!-- data-table start -->
-       <div  *ngIf="productList && productList.length>0" class="table-responsive">
-            <div class="card card-plain">
-              <div class="card-header card-header-danger">
-                  <h4 class="card-title mt-0">Product List</h4>
-                  <p class="card-category"> </p>
-              </div>
-              <table class="table table-hover">
-                <thead class="attrTblHead">
-                    <th>Product Name</th>
-                    <th> Product Codee</th>
-                    <th>Brand Name</th>
-                     <th>SKU</th>
-                    <th>Action</th>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let productvar of productList">
-                    <td>{{productvar.product.productName}}</td>
-                    <td>{{productvar.product.productCode}}</td>
-                    <td>{{productvar.product.brandName}}</td>
-                    <td>{{productvar.sku}}</td>
-                    <td><img width="200" height="200" src="{{productvar.mainImageUrl}}"></td>
-                    <div *ngIf="productvar.status==1">
-                    <td><button (click)="changeStatusOfProductVariant(productvar.productVariantId,0)">
-            Make Inactive</button></td>
-                    </div>
-         <div *ngIf="productvar.status==0">
-                    <td><button (click)="changeStatusOfProductVariant(productvar.productVariantId,1)">
-            Make Active</button></td>
-                    </div>
-                  </tr>
-                </tbody>
-            </table>
-            </div>
+      <div
+        *ngIf="productList && productList.length > 0"
+        class="table-responsive"
+      >
+        <div class="card card-plain">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title mt-0">Product List</h4>
+            <p class="card-category"></p>
+          </div>
+          <table class="table table-hover">
+            <thead class="attrTblHead">
+              <th>Product Image</th>
+              <th>SKU</th>
+              <th>Product Code</th>
+              <th>Product Name</th>
+              <th>Brand Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let productvar of productList">
+                <td>
+                  <img
+                    class="productImage"
+                    src="{{ productvar.mainImageUrl }}"
+                  />
+                </td>
+                <td>{{ productvar.sku }}</td>
+                <td>{{ productvar.product.productCode }}</td>
+                <td>{{ productvar.product.productName }}</td>
+                <td>
+                  {{
+                    productvar.product.brandName.length > 0
+                      ? productvar.product.brandName
+                      : "NA"
+                  }}
+                </td>
+                <div *ngIf="productvar.status == 1">
+                  <td>
+                    <button
+                      class="btn actionBtn"
+                      (click)="
+                        changeStatusOfProductVariant(
+                          productvar.productVariantId,
+                          0
+                        )
+                      "
+                    >
+                      Inactive
+                    </button>
+                  </td>
+                </div>
+                <div *ngIf="productvar.status == 0">
+                  <td>
+                    <button
+                      class="btn actionBtn"
+                      (click)="
+                        changeStatusOfProductVariant(
+                          productvar.productVariantId,
+                          1
+                        )
+                      "
+                    >
+                      Active
+                    </button>
+                  </td>
+                </div>
+              </tr>
+            </tbody>
+          </table>
         </div>
-     
+      </div>
     </div>
+  </div>
+</div>

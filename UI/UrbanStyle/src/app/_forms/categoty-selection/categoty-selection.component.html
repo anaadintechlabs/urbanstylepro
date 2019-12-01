@@ -1,8 +1,9 @@
 
 <div *ngIf="category && category?.length > 0">
+    <div class="blankSpace"></div>
     <div class="category">
         <div class="category_map">
-            <p>Select a category to continue</p> 
+            <h4>Select a category to continue</h4> 
         </div>
     </div>
     <div class="fixWidth" *ngFor="let item of category; let i = index">
