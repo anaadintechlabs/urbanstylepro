@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody; 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.order.Service.OrderService;
@@ -30,10 +31,10 @@ public class OrderController {
 
 	//@ResponseBody
 	@RequestMapping(value= {"/saveOrder"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestBody UserOrder userOrder){
+	public Map<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestParam UserOrderSaveDTO userDetailSave){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 		try {
-			resultMap.put("addressDetails",orderService.saveorUpdate(userOrder));
+			resultMap.put("addressDetails",orderService.saveorUpdate(userDetailSave));
 			resultMap.put("RESPONSE", "SUCCESS");
 		}catch(Exception e) {
 			resultMap.put("RESPONSE", "ERROR");	
@@ -71,9 +72,6 @@ public class OrderController {
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 		//return resultMap;
 	}
-	
-	
-	
 	
 	
 }
