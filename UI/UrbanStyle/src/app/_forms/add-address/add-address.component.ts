@@ -148,7 +148,9 @@ export class AddAddressComponent implements OnInit {
           .saveAddressDetails("api/saveAddressDetails", this.addressForm.value)
           .subscribe(
             data => {
-              alert("sucess");
+             
+                   this.router.navigateByUrl('/vendor/account/addresses');
+
               //this.router.navigateByUrl("secure/" + this.customerId + "/admin/role/edit/" + data.role.id);
             },
             error => {
