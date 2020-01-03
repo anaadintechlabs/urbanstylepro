@@ -1,4 +1,4 @@
-package com.anaadihsoft.order.util;
+package com.urbanstyle.order.util;
 
 import java.util.HashMap;
 import java.util.Map;

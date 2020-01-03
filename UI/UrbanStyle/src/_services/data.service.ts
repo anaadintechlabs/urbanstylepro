@@ -13,9 +13,9 @@ export class DataService{
     getAllCategory(url:string,data:any): Observable<Category[]>{
         return new Observable<Category[]>(obs =>{
             this._apiService.post(url,data).subscribe((res) =>{
-                if(res.isSuccess){
-                    obs.next(res.data.categoryList);
-                }
+                
+                    obs.next(res);
+                
             });
         });
     }

@@ -1,4 +1,4 @@
-package com.anaadihsoft.order.Repository;
+package com.urbanstyle.order.Repository;
 
 import java.util.List;
 

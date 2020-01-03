@@ -35,6 +35,14 @@ public class UserOrder {
 	
 	private Date orderPaidDate;
 	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	private double orderTotalPrice;
 	
 	private String remarks;

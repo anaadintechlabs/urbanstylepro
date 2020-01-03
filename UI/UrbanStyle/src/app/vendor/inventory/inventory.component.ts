@@ -44,8 +44,7 @@ export class InventoryComponent implements OnInit {
     this.user =  JSON.parse(window.localStorage.getItem('user'));
     if(this.user.token){
       this.userId = this.user.id;
-      console.log(this.user);
-      console.log(this.userId);
+
       this.getAllProductVariantOfUser();
     } 
   }

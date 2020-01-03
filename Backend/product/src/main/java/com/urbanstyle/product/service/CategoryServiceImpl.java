@@ -5,10 +5,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.AttributeMaster;
 import com.anaadihsoft.common.master.Category;
@@ -51,14 +54,24 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category saveCategory(Category category) {
+	public Category saveCategory(Category category, MultipartFile[] files) {
 			return categoryRepository.save(category);
 	}
 	
 
 	@Override
-	public List<Category> getAllCategories() {
-		return (List<Category>) categoryRepository.findAll();
+	public List<Category> getAllCategories(Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		Page<Category> categoryPage= categoryRepository.findAll(pagable);
+		if(categoryPage!=null && categoryPage.hasContent())
+		{
+			return categoryPage.getContent();
+		}
+		return null;
 	}
 
 
@@ -67,5 +80,13 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<AttributeMaster> fetchallAttributeDtail(long categoryId) {
 		return categoryRepository.fetchallAttributeDtail(categoryId);
+	}
+
+
+
+
+	@Override
+	public void changeStatusOfCategory(long categoryId, int status) {
+		 categoryRepository.changeStatusOfCategory(categoryId,status);
 	}
 }

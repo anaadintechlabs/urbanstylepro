@@ -194,8 +194,8 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
-	@RequestMapping(value="/addVarientToProduct",method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> addVarientToProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam ProductVariantDTO productVarientDTO){
+	@RequestMapping(value="/addVarientToProduct",method= {RequestMethod.POST})
+	public Map<String,Object> addVarientToProduct(HttpServletRequest request,HttpServletResponse response,@RequestBody ProductVariantDTO productVarientDTO){
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("product", productVarient.addVarientToProduct(productVarientDTO));
 		return CommonResponseSender.createdSuccessResponse(map, response);
@@ -208,8 +208,8 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
-	@RequestMapping(value="/searchProducts",method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> searchProducts(HttpServletRequest request,HttpServletResponse response,@RequestParam FilterDTO filterDTO){
+	@RequestMapping(value="/searchProducts",method= {RequestMethod.POST})
+	public Map<String,Object> searchProducts(HttpServletRequest request,HttpServletResponse response,@RequestBody FilterDTO filterDTO){
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("productList", productVarient.searchProducts(filterDTO));
 		return CommonResponseSender.createdSuccessResponse(map, response);

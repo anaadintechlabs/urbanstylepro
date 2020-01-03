@@ -1,4 +1,4 @@
-package com.anaadihsoft.order.Contoller;
+package com.urbanstyle.order.Contoller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody; 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.UserOrder;
-import com.anaadihsoft.order.Service.OrderService;
-import com.urbanstyle.user.util.CommonResponseSender;
+import com.urbanstyle.order.Service.OrderService;
+import com.urbanstyle.order.util.CommonResponseSender;
 
 @RestController
 @RequestMapping("/api")
@@ -30,14 +31,14 @@ public class OrderController {
 
 	//@ResponseBody
 	@RequestMapping(value= {"/saveOrder"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestBody UserOrder userOrder){
+	public Map<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestBody UserOrderSaveDTO userDetailSave){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		try {
-			resultMap.put("addressDetails",orderService.saveorUpdate(userOrder));
+		//try {
+			resultMap.put("order",orderService.saveorUpdate(userDetailSave));
 			resultMap.put("RESPONSE", "SUCCESS");
-		}catch(Exception e) {
-			resultMap.put("RESPONSE", "ERROR");	
-		}
+//		}catch(Exception e) {
+//			resultMap.put("RESPONSE", "ERROR");	
+//		}
 		return CommonResponseSender.createdSuccessResponse(resultMap, response);
 		//return resultMap;
 	}
@@ -71,9 +72,6 @@ public class OrderController {
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 		//return resultMap;
 	}
-	
-	
-	
 	
 	
 }
