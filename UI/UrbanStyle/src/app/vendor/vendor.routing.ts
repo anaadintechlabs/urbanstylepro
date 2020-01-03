@@ -36,35 +36,41 @@ export const VendorRoutes: Routes=[
             // account component needs to be changed
              {
                 path : 'account/addresses',
+                 canActivate : [UserGuardGuard],
                 component : AddressComponent,
             },
              {
                 path : 'account/addresses/:action',
+                 canActivate : [UserGuardGuard],
                 component : AddAddressComponent,
             },
 
              {
                 path : 'account/addresses/:action/:id',
+                 canActivate : [UserGuardGuard],
                 component : AddAddressComponent,
             },
              {
                 path : 'account/bank_details',
+                 canActivate : [UserGuardGuard],
                 component : BankDetailsComponent,
             },
              {
                 path : 'account/bank_details/:action',
+                 canActivate : [UserGuardGuard],
                 component : AddBankDetailsComponent,
             },
 
              {
                 path : 'account/bank_details/:action/:id',
+                 canActivate : [UserGuardGuard],
                 component : AddBankDetailsComponent,
             },
 
             {
                 path : 'dashboard',
                 component : DashboardComponent,
-                // canActivate : [UserGuardGuard],
+                 canActivate : [UserGuardGuard],
                 children : [
                     {
                         path : 'addProduct',

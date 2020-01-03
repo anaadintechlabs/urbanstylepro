@@ -1,0 +1,93 @@
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="row">
+                <div class="col-xl-6">
+                </div>
+                <div class="col-xl-6 text-right">
+                    <button  type="button" mat-button (click)="backButton()">
+                        Back
+                    </button>
+                </div>
+            </div>
+            <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+                <div class="row pt-3">
+                    <div class="col-xl-12 pb-3">
+                        <div class="shadow bg-white plr-15 pt-3 pb-3">
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 pt-2 pb-2">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>name</mat-label>
+                                        <input matInput formControlName="categoryName" id="name"
+                                            [ngClass]="{ 'is-invalid': submitted && f.categoryName.errors }">
+
+                                        <mat-error ngxErrors="categoryForm.categoryName" [ngClass]="['dirty', 'touched']">
+                                            Enter valid name
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 pt-2 pb-2">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>categoryCode*</mat-label>
+                                        <input matInput formControlName="categoryCode" id="namse"
+                                            [ngClass]="{ 'is-invalid': submitted && f.categoryCode.errors }">
+
+                                        <mat-error ngxErrors="categoryForm.categoryCode" [ngClass]="['dirty', 'touched']">
+                                            Enter valid categoryCode
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+
+                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 pt-2 pb-2">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>isParent*</mat-label>
+                                 <mat-checkbox matInput formControlName="isParent"  (change)="isParentCheck($event.value)">isParent</mat-checkbox>
+
+
+                                        <mat-error ngxErrors="categoryForm.categoryCode" [ngClass]="['dirty', 'touched']">
+                                            Enter valid categoryCode
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+
+                               
+                                 <div *ngIf="shoParent" class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 pt-2 pb-2">
+                                    <fieldset formGroupName="parentCategory">
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>parentCategory</mat-label>
+                                         <mat-select (selectionChange)="countryOnChange($event.value)"   [ngClass]="{ 'is-invalid': submitted && f.parentCategory.errors }" placeholder="id" class="common" matInput required formControlName="categoryId"  >
+                                       
+                                            <mat-option [value]="country.id" *ngFor="let country of countryList">{{country.countryName}}</mat-option>
+
+                                    </mat-select>
+                                
+                                        <mat-error ngxErrors="categoryForm.parentCategory" [ngClass]="['dirty', 'touched']">
+                                            Enter valid parentCategory
+                                        </mat-error>
+                                    </mat-form-field>
+                                    </fieldset>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row" *ngIf="action=='add' || action == 'edit'">
+                    <div class="col-md-12 text-right pt-2 pb-2">
+                        
+                        <button mat-raised-button [disabled]="!categoryForm.valid" id="saveRole"
+                            >SAVE
+                        </button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>

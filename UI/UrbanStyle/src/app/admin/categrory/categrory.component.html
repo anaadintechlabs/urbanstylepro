@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="blankSpace"></div>
+    </div>
+  </div>
+  <div class="row ptop10 p0">
+    <div class="col-md-12 col-sm-12 thc">
+      <h4>Category Details</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+      <div class="row pt-2 pb-2">
+        <div class="col-xl-9 col-md-9 col-sm-9 col-12 pt-1">
+           <button class="btn actionBtn" (click)="navigateToAddCategory()">
+            Add Category
+          </button>
+        </div>
+      </div>
+      <!-- data-table start -->
+      <div
+        *ngIf="categoryList && categoryList.length > 0"
+        class="table-responsive"
+      >
+        <div class="card card-plain">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title mt-0">Product List</h4>
+            <p class="card-category"></p>
+          </div>
+          <table class="table table-hover">
+            <thead class="attrTblHead">
+              <th>Category Image</th>
+              <th>Category Name</th>
+              <th>Category Code</th>
+              <th>Parent Category</th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let category of categoryList">
+                <td>
+                  <!-- <img
+                    class="productImage"
+                    src="{{ productvar.mainImageUrl }}"
+                  /> -->
+                </td>
+                <td>{{ category.categoryName }}</td>
+                <td>{{ category.categoryId }}</td>
+                <td>
+                  {{
+                    category.parentCategory
+                      ? category.parentCategory.categoryName
+                      : "--"
+                  }}
+                </td>
+                <div *ngIf="category.status == 0">
+                  <td>
+                    <button
+                      class="btn actionBtn"
+                      (click)="
+                        changeStatusOfCategory(
+                          category.categoryId,
+                          1
+                        )
+                      "
+                    >
+                      Active
+                    </button>
+                  </td>
+                </div>
+                <div *ngIf="category.status == 1">
+                  <td>
+                    <button
+                      class="btn actionBtn"
+                      (click)="
+                        changeStatusOfCategory(
+                          category.categoryId,
+                          0
+                        )
+                      "
+                    >
+                      InActive
+                    </button>
+                  </td>
+                </div>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

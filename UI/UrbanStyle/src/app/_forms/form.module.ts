@@ -24,13 +24,14 @@ import { AddProductVariationComponent } from './add-product-variation/add-produc
 import { AddProductMediaComponent } from './add-product-media/add-product-media.component';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.component';
+import { AddCategoryComponent } from './add-category/add-category.component';
 
 
 
 @NgModule({
   declarations: [CategotySelectionComponent, 
     BasicDetailsComponent, 
-    LoginComponent, VitalInformationComponent, AddProductDesciprionComponent, AddProductVariationComponent, AddProductMediaComponent, AddBankDetailsComponent,AddAddressComponent
+    LoginComponent, VitalInformationComponent, AddProductDesciprionComponent, AddProductVariationComponent, AddProductMediaComponent, AddBankDetailsComponent,AddAddressComponent, AddCategoryComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +69,8 @@ import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.com
     AddProductVariationComponent,
     AddProductMediaComponent,
     AddAddressComponent,
-    AddBankDetailsComponent
+    AddBankDetailsComponent,
+    AddCategoryComponent
   ]
 })
 export class FormModule { }

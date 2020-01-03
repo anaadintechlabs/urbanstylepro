@@ -17,11 +17,13 @@ public class UserOrderProducts {
 	private UserOrder userOrder;
 	
 	@ManyToOne
-	private Product product;
+	private ProductVariant product;
 	
 	private double quantity;
 	
 	private String comment;
+	
+	
 
 	public long getId() {
 		return id;
@@ -39,11 +41,11 @@ public class UserOrderProducts {
 		this.userOrder = userOrder;
 	}
 
-	public Product getProduct() {
+	public ProductVariant getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductVariant product) {
 		this.product = product;
 	}
 

@@ -34,6 +34,19 @@ export class DataService {
       });
     });
   }
+  getAllCategories(
+    url: string,
+    data: any
+  ): Observable<Category[]> {
+    return new Observable<Category[]>(obs => {
+      this._apiService.post(url, data).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.categoryList);
+        }
+      });
+    });
+  }
+
   getAllActiveOrInactiveProductVariantOfUser(
     url: string,
     data: any
@@ -60,6 +73,19 @@ export class DataService {
     });
   }
 
+changeStatusOfCategory(
+    url: string,
+    data: any
+  ): Observable<Category[]> {
+    return new Observable<Category[]>(obs => {
+      this._apiService.post(url, data).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.categoryList);
+        }
+      });
+    });
+  }
+  
   getAllCategory(url: string, data: any): Observable<Category[]> {
     return new Observable<Category[]>(obs => {
       this._apiService.post(url, data).subscribe(res => {

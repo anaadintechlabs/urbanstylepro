@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path : 'affiliate',
     loadChildren: () => import('./affiliate/affiliate.module').then(m=> m.AffiliateModule),
+  },
+  {
+    path:'admin',
+    loadChildren: () => import("./admin/admin.module").then(m=> m.AdminModule)
   }
 ];
 

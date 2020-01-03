@@ -120,9 +120,11 @@ export class AddBankDetailsComponent implements OnInit {
           .subscribe(
             data => {
               if (data.duplicate) {
-                alert("duplicte ifsc");
+                alert("duplicte ifsc code");
               } else {
-                alert("sucess");
+                // alert("sucess");
+                this.router.navigateByUrl('/vendor/account/bank_details');
+
               }
               //this.router.navigateByUrl("secure/" + this.customerId + "/admin/role/edit/" + data.role.id);
             },

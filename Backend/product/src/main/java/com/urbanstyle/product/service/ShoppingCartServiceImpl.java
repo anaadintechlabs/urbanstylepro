@@ -36,10 +36,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	//if yes update the quantity
 //	@Override
 	public Object addProductToShoppingCart(ShoppingCartDTO shoppingCartDTO) {
-
+		System.out.println("DTO IS"+shoppingCartDTO);
 		ShoppingCart previousUserCart = shoppingCartRepository.findByUserId(shoppingCartDTO.getUser().getId());
 		if (previousUserCart!=null) {
-				List<ShoppingCartItemDTO> itemDTO = shoppingCartDTO.getShoppingCartProductDTO();
+				List<ShoppingCartItemDTO> itemDTO = shoppingCartDTO.getShoppingCartItemDTO();
 			
 				List<ShoppingCartItem> shoppingCartList = new ArrayList<>();
 				double totalCost =0.0;
@@ -81,7 +81,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 			shoppingCart=shoppingCartRepository.save(shoppingCart);
 			double totalCost =0.0;
 			int totalQuantity=0;
-			List<ShoppingCartItemDTO> itemDTO = shoppingCartDTO.getShoppingCartProductDTO();
+			List<ShoppingCartItemDTO> itemDTO = shoppingCartDTO.getShoppingCartItemDTO();
 			List<ShoppingCartItem> shoppingCartList = new ArrayList<>();
 			for(int i =0;i<itemDTO.size();i++)
 			{
