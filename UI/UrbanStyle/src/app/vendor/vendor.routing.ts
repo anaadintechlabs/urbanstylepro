@@ -64,7 +64,7 @@ export const VendorRoutes: Routes=[
             {
                 path : 'dashboard',
                 component : DashboardComponent,
-                // canActivate : [UserGuardGuard],
+                canActivate : [UserGuardGuard],
                 children : [
                     {
                         path : 'addProduct',
