@@ -1,6 +1,7 @@
 package com.urbanstyle.product.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -142,14 +143,14 @@ public class ProductController {
 	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,
 			@RequestPart(value="file",required=false) MultipartFile[] files,@RequestPart("dto") ProductDTO productDTO) throws Exception{
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("product", productService.createProduct(productDTO,files));
+		map.put("product", productService.createProduct(productDTO,files,false));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 
 	@PutMapping(value="/updateProduct")
-	public Map<String,Object> updateProduct(HttpServletRequest request,HttpServletResponse response,@RequestBody Product product){
+	public Map<String,Object> updateProduct(HttpServletRequest request,HttpServletResponse response,@RequestPart(value="file",required=false) MultipartFile[] files,@RequestPart("dto") ProductDTO productDTO){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("product", productService.updateProduct(product));
+		map.put("product", productService.updateProduct(productDTO,files));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
@@ -212,6 +213,13 @@ public class ProductController {
 	public Map<String,Object> searchProducts(HttpServletRequest request,HttpServletResponse response,@RequestBody FilterDTO filterDTO){
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("productList", productVarient.searchProducts(filterDTO));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/getCompleteProduct",method= {RequestMethod.POST})
+	public Map<String,Object> getCompleteProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="prodId",required=true) long prodId){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productService.getCompleteProduct(prodId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 }
