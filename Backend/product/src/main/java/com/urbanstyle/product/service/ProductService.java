@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.DTO.ProductDTO;
+import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
@@ -52,9 +53,9 @@ public interface ProductService {
 	
 	List<Product> getAllProducts();
 	
-	Product createProduct(ProductDTO productDTO, MultipartFile[] files) throws Exception;
+	Product createProduct(ProductDTO productDTO, MultipartFile[] files,boolean fromUpdate) throws Exception;
 
-	Product updateProduct(Product product);
+	Product updateProduct(ProductDTO productDTO, MultipartFile[] files);
 
 	List<Product> getBestSellingProducts(Filter filter);
 	
@@ -65,6 +66,8 @@ public interface ProductService {
 	List<Product> getAllActiveOrInactiveProductOfUser(long userId, Filter filter, int status);
 
 	void changeStatusOfProduct(long productId, int status);
+
+	ProductDTO getCompleteProduct(long prodId);
 	 
 
 }
