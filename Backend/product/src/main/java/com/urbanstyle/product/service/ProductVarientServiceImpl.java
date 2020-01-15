@@ -2,6 +2,7 @@ package com.urbanstyle.product.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
+import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductVariant;
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.urbanstyle.product.DAO.ProductVarientDAO;
@@ -33,6 +35,9 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Autowired
 	private ProductVarientDAO productVarientDAO;
+	
+	@Autowired
+	private ProductAttributeService productAttributeServce;
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
@@ -152,6 +157,20 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	public void changeStatusOfProduct(long productId, int status) {
 		productVarRepo.changeStatusOfProduct(productId,status);
 		
+	}
+
+	@Override
+	public List<ProductVariantDTO> getALLProductVarientDTO(int i, long prodId) {
+		List<ProductVariantDTO> allDTO = new ArrayList<ProductVariantDTO>();
+		List<ProductVariant> allVarients = getAllVarients(1,prodId);
+		for(ProductVariant varient : allVarients) {
+			ProductVariantDTO DTO = new ProductVariantDTO();
+			 Map<Long,String> attributesMap = productAttributeServce.findAllAttributeList(varient.getProductVariantId());
+			DTO.setAttributesMap(attributesMap);
+			DTO.setProductVariant(varient);
+			allDTO.add(DTO);
+		}
+		return allDTO;
 	}
 	
 	

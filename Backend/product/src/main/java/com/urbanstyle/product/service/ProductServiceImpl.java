@@ -52,6 +52,12 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private ProductImagesRepository productImagesRepository;
 	
+	@Autowired
+	private ProductVarientService productVarientSerice;
+	
+	@Autowired 
+	private ProductMetaService productMetaService;
+	
 
 
 	@Override
@@ -60,10 +66,10 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Product createProduct(ProductDTO productDTO, MultipartFile[] files) throws Exception {
+	public Product createProduct(ProductDTO productDTO, MultipartFile[] files,boolean fromUpdate) throws Exception {
 		Product oldProduct=productRepository.findByProductCode(productDTO.getProduct().getProductCode());
-		if(oldProduct!=null) {
-			System.out.println("duplicate check");
+		if(oldProduct!=null && !fromUpdate) {
+			System.out.println("duplicate check"); // for new product 
 			return null;
 		}
 		
@@ -179,10 +185,15 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Product updateProduct(Product product) {
-		Product oldProduct=productRepository.findByProductId(product.getProductId());
-		//updatProduct(oldProduct,product);
-		return productRepository.save(oldProduct);
+	public Product updateProduct(ProductDTO productDTO, MultipartFile[] files) {
+		Product oldProduct=productRepository.findByProductId(productDTO.getProduct().getProductId());
+		productVariantRepository.deleteAllProductVarient(oldProduct.getProductId());
+		try {
+			return  createProduct(productDTO, files,true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return  null;
+		}
 	}
 //
 	@Override
@@ -217,6 +228,20 @@ public class ProductServiceImpl implements ProductService{
 	public void changeStatusOfProduct(long productId, int status) {
 		 productRepository.changeStatusOfProduct(productId,status);
 		
+	}
+
+	@Override
+	public ProductDTO getCompleteProduct(long prodId) {
+		ProductDTO productDTO = new ProductDTO();
+		Product oldProduct=productRepository.findByProductId(prodId);
+		List<ProductVariantDTO> productVarientDTOList = productVarientSerice.getALLProductVarientDTO(1,prodId);
+		List<ProductMeta> allproductMetaInfo = productMetaService.findAllMetaInfo(prodId);
+		
+		productDTO.setProduct(oldProduct);
+		productDTO.setProductMetaInfo(allproductMetaInfo);
+		productDTO.setProductVariantDTO(productVarientDTOList);
+		
+		return productDTO;
 	}
 
 
