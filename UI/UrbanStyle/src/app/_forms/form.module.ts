@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CategotySelectionComponent } from './categoty-selection/categoty-selection.component';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { CategotySelectionComponent } from "./categoty-selection/categoty-selection.component";
+
 import {
   MatCheckboxModule,
   MatSidenavModule,
@@ -14,26 +15,35 @@ import {
   MatSelectModule,
   MatCardModule
 } from "@angular/material";
-import { ReactiveFormsModule,FormsModule } from '@angular/forms';
-import { BasicDetailsComponent } from './basic-details/basic-details.component';
-import { LoginComponent } from './login/login.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { VitalInformationComponent } from './vital-information/vital-information.component';
-import { AddProductDesciprionComponent } from './add-product-desciprion/add-product-desciprion.component';
-import { AddProductVariationComponent } from './add-product-variation/add-product-variation.component';
-import { AddProductMediaComponent } from './add-product-media/add-product-media.component';
-import { AddAddressComponent } from './add-address/add-address.component';
-import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.component';
-
-
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { BasicDetailsComponent } from "./basic-details/basic-details.component";
+import { LoginComponent } from "./login/login.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { VitalInformationComponent } from "./vital-information/vital-information.component";
+import { AddProductDesciprionComponent } from "./add-product-desciprion/add-product-desciprion.component";
+import { AddProductVariationComponent } from "./add-product-variation/add-product-variation.component";
+import { AddProductMediaComponent } from "./add-product-media/add-product-media.component";
+import { AddAddressComponent } from "./add-address/add-address.component";
+import { AddBankDetailsComponent } from "./add-bank-details/add-bank-details.component";
+import { AddCategoryComponent } from "./add-category/add-category.component";
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [CategotySelectionComponent, 
-    BasicDetailsComponent, 
-    LoginComponent, VitalInformationComponent, AddProductDesciprionComponent, AddProductVariationComponent, AddProductMediaComponent, AddBankDetailsComponent,AddAddressComponent
+  declarations: [
+    CategotySelectionComponent,
+    BasicDetailsComponent,
+    LoginComponent,
+    VitalInformationComponent,
+    AddProductDesciprionComponent,
+    AddProductVariationComponent,
+    AddProductMediaComponent,
+    AddBankDetailsComponent,
+    AddAddressComponent,
+    AddCategoryComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
     ReactiveFormsModule,
     FormsModule,
     MatSidenavModule,
@@ -45,9 +55,15 @@ import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.com
     MatFormFieldModule,
     MatCheckboxModule,
     MatCardModule,
-     MatInputModule, MatFormFieldModule, MatButtonModule, MatRadioModule, MatSelectModule,
-     MatIconModule,  MatCheckboxModule, MatToolbarModule,     
-    ],
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatToolbarModule
+  ],
   exports: [
     CommonModule,
     ReactiveFormsModule,
@@ -68,7 +84,8 @@ import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.com
     AddProductVariationComponent,
     AddProductMediaComponent,
     AddAddressComponent,
-    AddBankDetailsComponent
+    AddBankDetailsComponent,
+    AddCategoryComponent
   ]
 })
-export class FormModule { }
+export class FormModule {}

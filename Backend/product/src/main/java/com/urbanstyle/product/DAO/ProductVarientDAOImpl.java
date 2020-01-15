@@ -71,7 +71,7 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		 if(StringUtils.isNotBlank(SortingByPrice)) {
 			 query += " pv.displayPrice " + SortingByPrice;
 		 }
-		 
+		 System.out.println("Query is "+query);
 		 Query managerQuery =  session.createQuery(query);
 		 managerQuery.setParameter("prodDesc",  "%"+searchString+"%");
 		 managerQuery.setParameter("prodName",  "%"+searchString+"%");
@@ -80,20 +80,20 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		 }
 		 
 		 List<ProductVariant> returnData = managerQuery.list();
-		 
+		 System.out.println("output of query is "+returnData);
 		 // Now check categry if data not exist i varient table 
 		 
-		 query = "";
 		 
 		 if(returnData == null || returnData.size() == 0) {
+			 query = "";
 			 query += "FROM ProductVariant where categoryId in(select categoryId FROM Category where categoryName like :categoryName )";
-		 }
+		 
 		 
 		 managerQuery =  session.createQuery(query);
 		 managerQuery.setParameter("categoryName", "%"+searchString+"%");
-		 
+		 }
 		 returnData = managerQuery.list();
-		 
+		 System.out.println("output of query 2 is "+returnData);
 		return returnData;
 	}
 }

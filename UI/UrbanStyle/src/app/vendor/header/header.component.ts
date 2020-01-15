@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
   logOut(){
     console.log("worked");
     this._userService.purgeAuth();
-    this._router.navigateByUrl("vendor")
+    this._router.navigate(['account/login']);
   }
 
   sidvanToggle(){

@@ -23,10 +23,16 @@ public class Category {
 	
 	private String categoryName;
 	
+	private String categoryCode;
+	
+	
+	
 	private long parentCategoryId;
 
 	@ManyToOne
 	private Category parentCategory;
+	
+	private boolean isParent;
 	
 	private boolean lastCategory;
 	
@@ -57,6 +63,22 @@ public class Category {
 	}
 
 	
+	public boolean isParent() {
+		return isParent;
+	}
+
+	public void setParent(boolean isParent) {
+		this.isParent = isParent;
+	}
+
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+
 	public double getCommissionPercentage() {
 		return commissionPercentage;
 	}

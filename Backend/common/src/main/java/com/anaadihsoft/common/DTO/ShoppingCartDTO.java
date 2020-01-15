@@ -19,13 +19,15 @@ public class ShoppingCartDTO {
 		this.user = user;
 	}
 
-	public List<ShoppingCartItemDTO> getShoppingCartProductDTO() {
+	public List<ShoppingCartItemDTO> getShoppingCartItemDTO() {
 		return shoppingCartItemDTO;
 	}
 
-	public void setShoppingCartProductDTO(List<ShoppingCartItemDTO> shoppingCartItemDTO) {
+	public void setShoppingCartItemDTO(List<ShoppingCartItemDTO> shoppingCartItemDTO) {
 		this.shoppingCartItemDTO = shoppingCartItemDTO;
 	}
+
+	
 	
 		
 

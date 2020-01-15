@@ -30,7 +30,7 @@ export class UserGuardGuard implements  CanActivate {
           this.router.navigateByUrl("");
         } else {
             this.user= JSON.parse(this._userService.getUser())
-            alert(this.user.userType)
+            
             if(this.user.userType == 'USER') {
               this.router.navigateByUrl("/home");
             } else if (this.user.userType == 'VENDOR'){
@@ -41,7 +41,7 @@ export class UserGuardGuard implements  CanActivate {
         }
      }
     else {
-       this.router.navigateByUrl("");
+       this.router.navigateByUrl("/account");
     }
     //
     return true;
