@@ -18,14 +18,14 @@ import com.urbanstyle.product.util.CommonResponseSender;
 @CrossOrigin(origins="*")
 public class CategoryMetaController {
 
-	@RequestMapping(value="/getAllMetaOfCategory",method=RequestMethod.GET)
-	public Map<String,Object> getAllMetaOfCategory(
-			@RequestParam(value="categoryId") long categoryId,
-			HttpServletRequest request,HttpServletResponse response)
-	{
-		final HashMap<String, Object> map = new HashMap<>();
-		map.put("metaList", categoryVariationService.getAllVariationOfCategory(categoryId));
-		return CommonResponseSender.createdSuccessResponse(map, response);
-		
-	}
+//	@RequestMapping(value="/getAllMetaOfCategory",method=RequestMethod.GET)
+//	public Map<String,Object> getAllMetaOfCategory(
+//			@RequestParam(value="categoryId") long categoryId,
+//			HttpServletRequest request,HttpServletResponse response)
+//	{
+//		final HashMap<String, Object> map = new HashMap<>();
+//		map.put("metaList", categoryVariationService.getAllVariationOfCategory(categoryId));
+//		return CommonResponseSender.createdSuccessResponse(map, response);
+//		
+//	}
 }
