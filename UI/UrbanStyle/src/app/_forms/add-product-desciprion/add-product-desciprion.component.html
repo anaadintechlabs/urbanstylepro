@@ -28,8 +28,8 @@
                     <h4>{{ 'Add ' + item?.attributeMaster?.variationName }}</h4>
                 </div>
                 <label for=""></label>
-                <input #attr [type]="item?.attributeMaster?.typeOfInput" name="" id="">
-                <button (click)="addVariation(attr,i)">Add value</button>
+                <input #attr (change)="addVariation(attr,i)" [type]="item?.attributeMaster?.typeOfInput" name="" id="">
+                <!-- <button (click)="addVariation(attr,i)">Add value</button> -->
                 <div class="attribute">
                     <p *ngFor="let map of item?.allAttributeMap?.variationAttribute" class="attribute_map">{{ map }}
                         <button class="cancelBtn" (click)="removeAttribure(map,i)">
