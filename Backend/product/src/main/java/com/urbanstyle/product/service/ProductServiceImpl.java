@@ -21,10 +21,14 @@ import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductImages;
+import com.anaadihsoft.common.master.ProductInventory;
 import com.anaadihsoft.common.master.ProductMeta;
 import com.anaadihsoft.common.master.ProductVariant;
+import com.anaadihsoft.common.master.User;
+import com.anaadihsoft.common.master.WarehouseInfo;
 import com.urbanstyle.product.repository.ProductAttributeDetailsRepository;
 import com.urbanstyle.product.repository.ProductImagesRepository;
+import com.urbanstyle.product.repository.ProductInventoryRepo;
 import com.urbanstyle.product.repository.ProductMetaRepository;
 import com.urbanstyle.product.repository.ProductRepository;
 
@@ -57,6 +61,9 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired 
 	private ProductMetaService productMetaService;
+	
+	@Autowired
+	private ProductInventoryRepo productInventRepo;
 	
 
 
@@ -107,11 +114,15 @@ public class ProductServiceImpl implements ProductService{
 				productImagesRepository.saveAll(productMedias);
 			}
 		}
+		
+		// save all inventory
+		
+		updateInventory(productDTO);
 
 		return oldProduct;
 	}
 
-	   public String generateFileNameFromMultipart(MultipartFile multiPart) {
+	public String generateFileNameFromMultipart(MultipartFile multiPart) {
 	    	String fileName = multiPart.getOriginalFilename().replace("\\",SLASH).replace(" ", "_");
 	    	int lastIndex = fileName.lastIndexOf(SLASH);
 	    	if(lastIndex!=-1) {
@@ -258,6 +269,27 @@ public class ProductServiceImpl implements ProductService{
 //			}
 //	}
 //	
-	
+	 private void updateInventory(ProductDTO productDTO) {
+		 List<ProductVariantDTO> allVariantsDTO = productDTO.getProductVariantDTO();
+		 List<ProductInventory> allInventory = new ArrayList<>();
+		 for(ProductVariantDTO prodvrDTO : allVariantsDTO) {
+			 ProductInventory inventory = new ProductInventory();
+			 inventory.setAvgSalesPrice(100);
+			 inventory.setCreatedBy("");
+			 inventory.setCreatedDate((java.sql.Date) new Date());
+			 inventory.setHoldingBalance(100);
+			 inventory.setModifiedBy("");
+			 inventory.setProductVariant(prodvrDTO.getProductVariant());
+			 inventory.setQty((long) prodvrDTO.getProductVariant().getTotalQuantity());
+			 inventory.setReminderPoint(0);
+			 inventory.setReservedQty((long) prodvrDTO.getProductVariant().getReservedQuantity());
+			 inventory.setStandardSalesPrice(prodvrDTO.getProductVariant().getDisplayPrice());
+			 inventory.setStockCost(100);
+			 inventory.setUser(new User());
+			 inventory.setWarehouse(new WarehouseInfo());
+			 allInventory.add(inventory);
+		 }
+		 productInventRepo.saveAll(allInventory);	  
+	}
 
 }
