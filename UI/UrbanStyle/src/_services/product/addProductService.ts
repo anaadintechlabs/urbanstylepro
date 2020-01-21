@@ -6,11 +6,17 @@ import {
   FormBuilder,
   FormArray
 } from "@angular/forms";
+import { CategoryAttribute } from 'src/_modals/categoryAttribute.modal';
+import { DataService } from '../data/data.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class AddProductService {
+
+  public selectedVariation : CategoryAttribute[] = [];
+  public categoryAttribute: CategoryAttribute[] = [];
+  public selectedProductType : string = 'ADVANCE';
   /////// FormGroup for productmeta (key value pair)
   public productMetaForm = new FormGroup({
     metaKey: new FormControl("", [Validators.required]),
@@ -45,11 +51,13 @@ export class AddProductService {
   product: FormGroup;
   productDTO: FormGroup;
 
-  constructor(protected _fb: FormBuilder) {
+  constructor(
+    protected _fb: FormBuilder,
+    private _dataService : DataService
+  ) {
     this.productDTO = this._fb.group({
       product: this.productForm,
       productVariantDTO: this._fb.array([this.initializeProductVarientDto()]),
-     
     });
     // this will be added later
     //  productMetaInfo: this._fb.array([this.addMetaInfo()])
@@ -103,6 +111,17 @@ export class AddProductService {
 
   get productVariantDTO(): FormArray {
     return this.productDTO.get("productVariantDTO") as FormArray;
+  }
+
+  selectedCategory(catId: number) {
+    console.log(catId);
+    // this.vitalInfo.get("categoryId").setValue(catId);
+    this._dataService
+      .getAllVariationOfCategory("variation/getAllVariationOfCategory", catId)
+      .subscribe(data => {
+        console.log(data);
+        this.categoryAttribute = data;
+      });
   }
 
 

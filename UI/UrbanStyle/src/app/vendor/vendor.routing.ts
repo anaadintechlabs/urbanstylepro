@@ -21,18 +21,17 @@ export const VendorRoutes: Routes=[
             {
                 path : 'dashboard',
                 component : DashboardComponent,
-                children : [
-                    {
-                        path : 'addProduct',
-                        component : AddProductComponent
-                    },
-                ]
+            },
+            {
+                path : 'addProduct',
+                loadChildren : ()=> import('./add-product/addProduct.module').then(m => m.AddProductModule)
+
             }
         ]
     }
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(VendorRoutes)],
+  imports: [RouterModule.forChild(VendorRoutes)],
   exports: [RouterModule]
 })
 export class VendorRoutingModule { }

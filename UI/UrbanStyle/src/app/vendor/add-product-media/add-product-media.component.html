@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="upload-image">
+            <input id="filebutton" name="filebutton" #inputFile (change)="onSelectFile($event)" type="file">
+            <label class="col-md-12 control-label upload" for="filebutton">
+                <span>Drop file anywhere to upload</span>
+                <span>or</span>
+                <span>(the file size must be less than 2MB)</span>
+            </label>
+        </div>
+        <div>
+            <img *ngFor="let url of urlArray" [src]="url" height="70px" style="padding:10px;"> <br />
+        </div>
+        <div class="note">
+            <p>
+                <strong> Note:</strong> “Ads with 1-4 photos get 5x more responses, use original photos. Avoid copying
+                from internet ensure the item is properly
+                visible from multiple angles. Accepted formats are .jpg, .gif & .png. Size < 2MB. Ensure that the
+                    image(s) does not contain any human face.” 
+            </p> 
+        </div> 
+    </div> 
+</div>

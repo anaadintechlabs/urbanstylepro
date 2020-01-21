@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Category } from "../../../_modals/category.modal";
 import { NgbCarouselConfig } from "@ng-bootstrap/ng-bootstrap";
 import { DataService } from "src/_services/data/data.service";
+import { Router } from '@angular/router';
+import { AddProductService } from 'src/_services/product/addProductService';
 
 @Component({
   selector: "categoty-selection",
@@ -9,11 +11,14 @@ import { DataService } from "src/_services/data/data.service";
   styleUrls: ["./categoty-selection.component.scss"]
 })
 export class CategotySelectionComponent implements OnInit {
-  category: totalCategory[] = [];
   catList: Category[];
   @Output() submit: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(protected _dataService: DataService) {
+  constructor(
+    protected _dataService: DataService,
+    protected _addProductService : AddProductService,
+    private _router : Router
+  ) {
     console.log(this.catList);
   }
 
@@ -33,44 +38,31 @@ export class CategotySelectionComponent implements OnInit {
       .getAllCategory("category/getAllParentCategories", body)
       .subscribe(data => {
         this.catList = data;
-        let temp: totalCategory = new totalCategory();
-        temp.category = this.catList;
-        this.category.push(temp);
       });
   }
 
   getCategoryById(cat: Category, index: number): void {
-    this._dataService
+    if(cat.lastCategory){
+      this.pickedCategory(cat.categoryId)
+    } else {
+      this._dataService
       .getAllSubCategoriesOfCategory(
         "category/getAllSubCategoriesOfCategory",
         cat.categoryId
       )
       .subscribe(data => {
         console.log(data);
-        let temp: totalCategory = new totalCategory();
-        temp.category = data;
-        this.modifyTotalCategory(temp, cat, index);
+        this.catList = data;
       });
-  }
 
-  modifyTotalCategory(data: totalCategory, cat: Category, index: number): void {
-    if (cat.lastCategory) {
-      this.pickedCategory(cat.categoryId);
-    } else {
-      console.log(index + 1, data);
-      this.category.splice(index + 1, this.category.length);
-      this.category.push(data);
     }
   }
 
   pickedCategory(id: number): void {
-    this.submit.emit(id);
+    this._addProductService.productFormGroup.get("categoryId").setValue(id);
+    this._addProductService.selectedCategory(id);
+    this._router.navigateByUrl('/vendor/addProduct/vitalInfo');
   }
 }
 
-export class totalCategory {
-  category: Category[];
-  constructor() {
-    this.category = [];
-  }
-}
+

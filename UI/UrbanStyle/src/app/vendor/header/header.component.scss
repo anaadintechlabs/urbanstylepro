@@ -1,29 +1,29 @@
-a {
-    text-decoration: none;
-    color: white;
-    font-size: 14px;
-    padding: 0 8px;
-}
+// a {
+//     text-decoration: none;
+//     color: white;
+//     font-size: 14px;
+//     padding: 0 8px;
+// }
 
-.rightNav{
-    position: absolute;
-    right: 5%;
-}
+// .rightNav{
+//     position: absolute;
+//     right: 5%;
+// }
  
-a:hover, a:active{
-    color: lightgray;
-}
+// a:hover, a:active{
+//     color: lightgray;
+// }
  
- .rightNav_Link{
-     cursor: pointer;
- }
+//  .rightNav_Link{
+//      cursor: pointer;
+//  }
  
-mat-toolbar{
-    border-radius: 3px;
-}
+// mat-toolbar{
+//     border-radius: 3px;
+// }
  
-@media(max-width: 959px){
-    mat-toolbar{
-        border-radius: 0px;
-    }
-}
+// @media(max-width: 959px){
+//     mat-toolbar{
+//         border-radius: 0px;
+//     }
+// }

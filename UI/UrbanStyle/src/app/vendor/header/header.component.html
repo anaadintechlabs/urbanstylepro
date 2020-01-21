@@ -1,8 +1,8 @@
-<mat-toolbar color="primary">
-    <!-- <button mat-icon-button (click)="sidvanToggle()">
+<!-- <mat-toolbar color="primary"> -->
+<!-- <button mat-icon-button (click)="sidvanToggle()">
         <mat-icon>menu</mat-icon>
     </button> -->
-    <a routerLink="">URBAN STYLE</a>
+<!-- <a routerLink="">URBAN STYLE</a>
     <div class="rightNav">
         <div *ngIf="loginStatus">
             <a routerLink="/vendor/inventory">Manage Inventory</a>
@@ -11,10 +11,90 @@
             <a routerLink="/vendor/dashboard/addProduct">Add Product</a>
             <a class="rightNav_Link" (click)="logOut()">Logout</a>
         </div>
-        <div *ngIf="!loginStatus">
-            <!-- <a routerLink="/vendor/dashboard/addProduct">Add Product</a> -->
-            <a routerLink="/vendor/login">Login</a>
+        <div *ngIf="!loginStatus"> -->
+<!-- <a routerLink="/vendor/dashboard/addProduct">Add Product</a> -->
+<!-- <a routerLink="/vendor/login">Login</a>
             <a routerLink="/vendor/signup">SignUp</a>
         </div>
     </div>      
-</mat-toolbar>
+</mat-toolbar> -->
+<nav>
+    <div class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <a [routerLink]="['dashboard']" routerLinkActive="router-link-active" class="navbar-brand">
+            <h3>Urban Style Decor</h3>
+            <!-- <img src="../../../assets/img/logo.png" alt="" class="img-fluid"> -->
+        </a>
+        <a href="" class="navbar-brand"><i class="far fa-bell-slash"></i>
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#topbar"><span
+                class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="topbar">
+            <span class="mx-auto"></span>
+            <ul class="navbar-nav text-capitalize">
+                <li class="nav-item py-2"><span class="nav-link"><b>urban style decor</b></span></li>
+                <li class="nav-item">
+                    <form action="" class="nav-link">
+                        <div class="">
+                            <select name="" id="" class="custom-select rounded-0">
+                                <option value="">www.amazon.com</option>
+                                <option value="">www.amazon.ca</option>
+                            </select>
+                        </div>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <form action="" class="nav-link">
+                        <div class="">
+                            <select name="" id="" class="custom-select rounded-0">
+                                <option value="">www.amazon.com</option>
+                                <option value="">www.amazon.ca</option>
+                            </select>
+                        </div>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <form action="" class="nav-link">
+                        <div class="">
+                            <input type="text" class="form-control w-75 float-left rounded-0" placeholder="Search">
+                            <button class="btn btn-info rounded-0"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                </li>
+                <li class="nav-item"><a href="" class="nav-link border-right">Message</a></li>
+                <li class="nav-item"><a href="" class="nav-link border-right">Help</a></li>
+                <li class="nav-item"><a href="" class="nav-link">Setting</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<nav>
+    <div class="navbar navbar-expand-md navbar-light bg-transparanet">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#mymenu"><span
+                class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="mymenu">
+
+            <ul class="navbar-nav text-capitalize">
+
+                <li class="nav-item"><a href="" class="nav-link ">Catalog</a>
+                </li>
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                        style="cursor:pointer;">Inventory </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="category.php" class="nav-link">Category</a></li>
+                        <li class="dropdown-item"><a [routerLink]="['addProduct']" routerLinkActive="router-link-active"
+                                class="nav-link">Add Product</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="" class="nav-link">Pricing</a></li>
+                <li class="nav-item"><a href="" class="nav-link">Order</a></li>
+                <li class="nav-item"><a href="" class="nav-link">Advertise</a></li>
+                <li class="nav-item"><a href="" class="nav-link">Stores</a></li>
+                <li class="nav-item"><a href="" class="nav-link">Reports</a></li>
+                <li class="nav-item"><a href="" class="nav-link">Performance</a></li>
+                <li class="nav-item"><a href="" class="nav-link">App And services</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
