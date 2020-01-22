@@ -16,6 +16,7 @@ export interface AttributeMaster{
 	typeOfInput : string; //If variationType is input then text,number or what
 	variantDummy : string; //Showing Size dummy like XL,XXL label show
 	status : number;
+	checked?: boolean;
 }
 
 export class allAtrrtibure {

@@ -55,6 +55,16 @@ public class Product {
 	
 	private String modifiedBy;
 	
+	private int totalVarients;
+	
+	public int getTotalVarients() {
+		return totalVarients;
+	}
+
+	public void setTotalVarients(int totalVarients) {
+		this.totalVarients = totalVarients;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;

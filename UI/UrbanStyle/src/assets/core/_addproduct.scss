@@ -1,0 +1,97 @@
+#topbar2{
+	margin-left: 26rem;
+	a{
+		color:#000 !important;
+		font-weight: 700;
+	}
+}
+.product-add-sec{
+	background: #81ecec;
+	.pro_inner{
+		background: #fff;
+	}
+	.custom{
+		.star{
+			font-size: 16px !important;
+		}
+		label{
+			padding:0.5rem 0;
+			font-weight: bold;
+		}
+		input{
+			width:100%;
+			padding: 0.65rem;
+			border:1px solid #cc0c39; 
+			outline:0;
+		}
+		input[type='radio'],input[type='checkbox']{
+			width:10%;
+			padding: 0.65rem;
+			border:1px solid #cc0c39; 
+			outline:0;
+		}
+		select{
+			width:100%;
+			//padding: 0.65rem;
+			border-color:#cc0c39; 
+
+		}
+		.row{
+			margin-bottom: 1rem;
+		}
+		
+	}
+	.btn-class{
+		padding:1rem 0;
+			.btn-first{
+				background: #cce2ff;
+				color:#000;
+			}
+			.btn-second{
+				background: #002f36;
+				color:#fff;
+			}
+		}
+		#tab2{
+			select{
+				border: 1px solid  #008296; 
+			}
+			input{
+				width:100%;
+			padding: 0.65rem;
+			border: 1px solid  #008296; 
+			outline:0;
+			}
+			.btn-second{
+				background: #008296;
+				color: #fff;
+				border: 1px solid  #008296;
+			}
+			.second-btn{
+				button{
+					background: #e3eced;
+					border: 1px solid #e3eced;
+					font-size: 13px;
+				}
+			}
+			table{
+				th{
+					font-size: 13px;
+				}
+				.input-group{
+					input{
+					width:84%;
+				}
+				}
+				select{
+					width:100%;
+				}
+				
+			}
+		}
+		.img-up{
+			background: #e2eced;
+			padding: 5rem;
+			margin-bottom: 1.5rem; 
+		}
+}
