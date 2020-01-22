@@ -1,0 +1,221 @@
+<div class="tab-pane fade show active text-capitalize" id="tab1">
+  <div  class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="pro_inner py-3">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="py-3"></p>
+            <p class="alert alert-info text-capitalize">
+              <i class="far fa-question-circle"></i>
+              <b> When multiple sellers sell the same product through a single detail page, we combine and present the best product data to ensure customers get the best experience</b>
+            </p>
+            <form [formGroup]="_addProductService.productFormGroup" (ngSubmit)="onSubmit()" class="custom">
+              <div class="row ">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Product ID
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6 col-10">
+                  <div class="form-group">
+                    <input type="text" formControlName="productCode" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.productCode?.errors }" />
+                    <div *ngIf="submitted && f.email?.errors" class="invalid-feedback">
+                      <div *ngIf="f.email?.errors.required">Product Code is required</div>
+                    </div>
+                    <p class="py-3">To list your products you require a unique identifier for your product such as UPC, EAN, or GCID. You can request exemptions to list products that do not have standard product IDs for certain categories. <a href="">Learn more</a></p>
+                  </div>
+                </div>
+                <div class="col-md-2 col-2 col-2">
+                  <i class="fas fa-lock py-2"></i>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Product ID Type
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6 col-10">
+                  <div class="form-group">
+                    <select name="" id="" class="custom-select">
+                      <option value="">1</option>
+                      <option value="">1</option>
+                      <option value="">1</option>
+                      <option value="">1</option>
+                    </select>
+                    
+                  </div>
+                </div>
+                <div class="col-md-2 col-2">
+                  <i class="fas fa-lock py-2"></i>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Product Name
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="productName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.productName?.errors }" />
+                    <div *ngIf="submitted && f.productName?.errors" class="invalid-feedback">
+                      <div *ngIf="f.productName?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Brand Name
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="brandName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.brandName?.errors }" />
+                    <div *ngIf="submitted && f.brandName?.errors" class="invalid-feedback">
+                      <div *ngIf="f.brandName?.errors.required">Brand is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Manufacturer
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="manufacturer" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.manufacturer?.errors }" />
+                    <div *ngIf="submitted && f.manufacturer?.errors" class="invalid-feedback">
+                      <div *ngIf="f.manufacturer?.errors.required">
+                        Manufacturer is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Manufacturer Part Number
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" placeholder="52515451154">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  
+                </div>
+              </div>
+              <div class="btn-class float-right">
+                <button class="btn btn-first">Cancel</button>
+                <button class="btn btn-second" type="submit">Next</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <form [formGroup]="_addProductService.productFormGroup" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="email">
+          <p>Product Code</p>
+        </label>
+        <input type="text" formControlName="productCode" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.productCode?.errors }" />
+        <div *ngIf="submitted && f.email?.errors" class="invalid-feedback">
+          <div *ngIf="f.email?.errors.required">Product Code is required</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="password">
+          <p>Product Name</p>
+        </label>
+        <input type="text" formControlName="productName" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.productName?.errors }" />
+        <div *ngIf="submitted && f.productName?.errors" class="invalid-feedback">
+          <div *ngIf="f.productName?.errors.required">
+            Product Name is required
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="password">
+          <p>Brand</p>
+        </label>
+        <input type="text" formControlName="brandName" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.brandName?.errors }" />
+        <div *ngIf="submitted && f.brandName?.errors" class="invalid-feedback">
+          <div *ngIf="f.brandName?.errors.required">Brand is required</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="password">
+          <p>Manufacturer</p>
+        </label>
+        <input type="text" formControlName="manufacturer" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.manufacturer?.errors }" />
+        <div *ngIf="submitted && f.manufacturer?.errors" class="invalid-feedback">
+          <div *ngIf="f.manufacturer?.errors.required">
+            Manufacturer is required
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </div>
+  <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
+</form> -->

@@ -270,3 +270,22 @@ export interface Button {
   status: boolean;
   description: boolean;
 }
+
+const addProductroutes = [
+  {
+    name : "Vital Info",
+    url : ''
+  },
+  {
+    name : "Product Info",
+    url : ""
+  },
+  {
+    name : "Advance",
+    url : ""
+  },
+  {
+    name : "Media",
+    url : ""
+  }
+]

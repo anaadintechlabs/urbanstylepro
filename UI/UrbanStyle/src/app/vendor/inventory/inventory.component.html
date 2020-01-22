@@ -16,25 +16,16 @@
           <button class="btn actionBtn" (click)="getAllProductVariantOfUser(1)">
             All
           </button>
-          <button
-            class="btn actionBtn"
-            (click)="getAllActiveOrInactiveProductVariantOfUser(1)"
-          >
+          <button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(1)">
             Active
           </button>
-          <button
-            class="btn actionBtn"
-            (click)="getAllActiveOrInactiveProductVariantOfUser(0)"
-          >
+          <button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(0)">
             Inactive
           </button>
         </div>
       </div>
       <!-- data-table start -->
-      <div
-        *ngIf="productList && productList.length > 0"
-        class="table-responsive"
-      >
+      <div *ngIf="productList && productList.length > 0" class="table-responsive">
         <div class="card card-plain">
           <div class="card-header card-header-danger">
             <h4 class="card-title mt-0">Product List</h4>
@@ -52,10 +43,7 @@
             <tbody>
               <tr *ngFor="let productvar of productList">
                 <td>
-                  <img
-                    class="productImage"
-                    src="{{ productvar.mainImageUrl }}"
-                  />
+                  <img class="productImage" src="{{ productvar.mainImageUrl }}" />
                 </td>
                 <td>{{ productvar.sku }}</td>
                 <td>{{ productvar.product.productCode }}</td>
@@ -69,30 +57,24 @@
                 </td>
                 <div *ngIf="productvar.status == 1">
                   <td>
-                    <button
-                      class="btn actionBtn"
-                      (click)="
+                    <button class="btn actionBtn" (click)="
                         changeStatusOfProductVariant(
                           productvar.productVariantId,
                           0
                         )
-                      "
-                    >
+                      ">
                       Inactive
                     </button>
                   </td>
                 </div>
                 <div *ngIf="productvar.status == 0">
                   <td>
-                    <button
-                      class="btn actionBtn"
-                      (click)="
+                    <button class="btn actionBtn" (click)="
                         changeStatusOfProductVariant(
                           productvar.productVariantId,
                           1
                         )
-                      "
-                    >
+                      ">
                       Active
                     </button>
                   </td>
