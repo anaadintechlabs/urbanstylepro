@@ -272,11 +272,12 @@ public class ProductServiceImpl implements ProductService{
 	 private void updateInventory(ProductDTO productDTO) {
 		 List<ProductVariantDTO> allVariantsDTO = productDTO.getProductVariantDTO();
 		 List<ProductInventory> allInventory = new ArrayList<>();
+		 User user = productDTO.getProduct().getUser();
 		 for(ProductVariantDTO prodvrDTO : allVariantsDTO) {
 			 ProductInventory inventory = new ProductInventory();
 			 inventory.setAvgSalesPrice(100);
 			 inventory.setCreatedBy("");
-			 inventory.setCreatedDate((java.sql.Date) new Date());
+			 inventory.setCreatedDate( new Date());
 			 inventory.setHoldingBalance(100);
 			 inventory.setModifiedBy("");
 			 inventory.setProductVariant(prodvrDTO.getProductVariant());
@@ -285,7 +286,8 @@ public class ProductServiceImpl implements ProductService{
 			 inventory.setReservedQty((long) prodvrDTO.getProductVariant().getReservedQuantity());
 			 inventory.setStandardSalesPrice(prodvrDTO.getProductVariant().getDisplayPrice());
 			 inventory.setStockCost(100);
-			 inventory.setUser(new User());
+			 
+			 inventory.setUser(user);
 			 inventory.setWarehouse(new WarehouseInfo());
 			 allInventory.add(inventory);
 		 }
