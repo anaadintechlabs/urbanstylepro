@@ -1,38 +1,75 @@
-
-  <td>
-    <input type="checkbox" class="custom-checkbox">
-  </td>
-  <td>
-    <input type="text" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
-  </td>
-  <td></td>
-  <td>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">$</span>
+  <div class="row" *ngIf="_addProduct.productVariantDTO && _addProduct.productVariantDTO.length > 0" class="col-md-12">
+    <div class="second-tab py-3 px-2 bg-white mt-5 border-top">
+      <p>Your variation child ASINs have been created. To complete your listings, find the variation child listings in your inventory and select ‘Edit’ to add an image for each variation child.  Please note that each variation child listing requires an image to be active on the Amazon website</p>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="second-btn">
+            <button class="btn">Apply Changes</button>
+            <button class="btn">Delete Selected</button>
+            <button class="btn mr-2">Undelete Selected</button>
+            <span><b>3 Variation</b></span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="second-btn float-md-right">
+            <button class="btn">Offer Condition Note</button>
+            <button class="btn">Minimum Advertise</button>
+          </div>
+        </div>
+        <div class="col-md-12 mt-3">
+          <table class="table table-responsive">
+            <thead>
+              <tr>
+                <th></th>
+                <th>* Seller SKU</th>
+                <th>* Actual Price</th>
+                <th>* Your Price</th>
+                <th>* Discount Price</th>
+                <th>* Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr formArraryName="_addProduct.productVariantDTO" *ngFor="let item of _addProduct.productVariantDTO.controls; let i = index">                  
+                  <td [formGroup]="item.controls.productVariant">
+                    <input type="checkbox" class="custom-checkbox">
+                  </td>
+                  <td [formGroup]="item.controls.productVariant">
+                    <input type="text" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+                  </td>
+                  <td [formGroup]="item.controls.productVariant">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" id="actualPrice" name="username" class="form-control" formControlName="actualPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.actualPrice?.errors }">
+                    </div>
+                  </td>
+                  <td [formGroup]="item.controls.productVariant">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" id="username" name="username" class="form-control" formControlName="displayPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.displayPrice?.errors }">
+                    </div>
+                  </td>
+                  <td  [formGroup]="item.controls.productVariant">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" id="email" name="email" formControlName="discountPrice" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.discountPrice?.errors }">
+                    </div>
+                  </td>
+                  <td  [formGroup]="item.controls.productVariant">
+                    <input type="number" id="password" name="totalQuantity" class="form-control" formControlName="totalQuantity" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.totalQuantity?.errors }">
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <input type="number" id="actualPrice" name="username" class="form-control" formControlName="actualPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.actualPrice?.errors }">
     </div>
-  </td>
-  <td>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">$</span>
-      </div>
-      <input type="number" id="username" name="username" class="form-control" formControlName="displayPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.displayPrice?.errors }">
-    </div>
-  </td>
-  <td>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">$</span>
-      </div>
-      <input type="number" id="email" name="email" formControlName="discountPrice" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.discountPrice?.errors }">
-    </div>
-  </td>
-  <td>
-    <input type="number" id="password" name="totalQuantity" class="form-control" formControlName="totalQuantity" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.totalQuantity?.errors }">
-  </td>
+  </div>
 
 
 

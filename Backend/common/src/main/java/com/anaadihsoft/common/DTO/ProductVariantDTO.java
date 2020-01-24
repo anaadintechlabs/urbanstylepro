@@ -33,6 +33,11 @@ public class ProductVariantDTO {
 		this.attributesMap = attributesMap;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductVariantDTO [productVariant=" + productVariant + ", attributesMap=" + attributesMap + "]";
+	}
+
 	
 	
 	

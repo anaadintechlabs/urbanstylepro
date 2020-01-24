@@ -118,7 +118,7 @@ public class ProductServiceImpl implements ProductService{
 		
 		// save all inventory
 		
-		updateInventory(productDTO);
+		//updateInventory(productDTO);
 
 		return oldProduct;
 	}

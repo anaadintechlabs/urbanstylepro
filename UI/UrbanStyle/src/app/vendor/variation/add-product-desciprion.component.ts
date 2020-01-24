@@ -59,6 +59,10 @@ export class AddProductDesciprionComponent implements OnInit {
     var tempAttributeData: any = [];
 
     data.forEach(element => {
+      if(element.allAttributeMap.variationAttribute.length > 1) {
+        element.allAttributeMap.variationAttribute.pop();
+      }
+      console.log(element.allAttributeMap.variationAttribute)
       tempData.push(element.allAttributeMap.variationAttribute);
       tempAttributeData.push(element.attributeMaster.id);
     });
@@ -85,10 +89,13 @@ export class AddProductDesciprionComponent implements OnInit {
     console.log(this._addProduct.productDTO);
   }
 
-  addVariation(value, index: number) {
-    this._addProduct.selectedVariation[
-      index
-    ].allAttributeMap.variationAttribute.push("");
+  addVariation(value, index: number, index2:number) {
+    this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute.push("");
+    // this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute.push("");
+    console.log(value,index,index2);
+    this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute[index2] = value;
+  
+    this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute[index2+1] = "";
     console.log(this._addProduct.selectedVariation);
   }
 
@@ -103,6 +110,7 @@ export class AddProductDesciprionComponent implements OnInit {
   }
 
   nextStep() {
-    this._router.navigateByUrl('/vendor/addProduct/extraDetails');
+    // this._router.navigateByUrl('/vendor/addProduct/extraDetails');
+    this._router.navigateByUrl('/vendor/addProduct/imageUpload');
   }
 }

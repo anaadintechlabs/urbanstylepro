@@ -38,6 +38,12 @@ public class ProductDTO {
 	public void setProductMetaInfo(List<ProductMeta> productMetaInfo) {
 		this.productMetaInfo = productMetaInfo;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductDTO [product=" + product + ", productVariantDTO=" + productVariantDTO + ", productMetaInfo="
+				+ productMetaInfo + "]";
+	}
 	
 	
 	 

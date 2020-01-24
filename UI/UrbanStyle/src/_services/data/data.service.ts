@@ -15,6 +15,7 @@ import { BankDetails } from "src/_modals/bankdetails";
 import { WishList } from "src/_modals/wishlist";
 import { ProductVariant } from "src/_modals/productVariant";
 import { Product } from "src/_modals/product";
+import { MetaInfo } from 'src/_modals/productMeta';
 @Injectable()
 export class DataService {
   constructor(
@@ -250,6 +251,22 @@ changeStatusOfCategory(
       });
     });
   }
+
+  getAllMetaInfo(
+    url: string,
+    categoryId: any
+  ): Observable<MetaInfo[]> {
+    const param: HttpParams = new HttpParams().set("categoryId", categoryId);
+    console.log(param);
+    return new Observable<MetaInfo[]>(obs => {
+      this._apiService.get(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.metaList);
+        }
+      });
+    });
+  }
+
 
   saveProduct(url, data): Observable<CategoryAttribute[]> {
     return new Observable<any[]>(obs => {

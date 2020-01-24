@@ -28,9 +28,9 @@
                 <div class="col-md-12">
                   <label for="">{{ 'Add ' + item?.attributeMaster?.variationName }}  <i class="far fa-question-circle"></i></label>
                 </div>
-                <div *ngFor="let map of item?.allAttributeMap?.variationAttribute" class="col-md-3">
+                <div *ngFor="let map of item?.allAttributeMap?.variationAttribute; let z = index" class="col-md-3">
                   <div class="form-group">
-                    <input [(ngModel)]="map" (change)="addVariation(map,i)" type="text">
+                    <input [(ngModel)]="map" (change)="addVariation(map,i,z)" type="text">
                   </div>
                 </div>
               </div>
@@ -44,55 +44,13 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="_addProduct.productVariantDTO && _addProduct.productVariantDTO.length > 1" class="col-md-12">
-      <div class="second-tab py-3 px-2 bg-white mt-5 border-top">
-        <p>Your variation child ASINs have been created. To complete your listings, find the variation child listings in your inventory and select ‘Edit’ to add an image for each variation child.  Please note that each variation child listing requires an image to be active on the Amazon website</p>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="second-btn">
-              <button class="btn">Apply Changes</button>
-              <button class="btn">Delete Selected</button>
-              <button class="btn mr-2">Undelete Selected</button>
-              <span><b>3 Variation</b></span>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="second-btn float-md-right">
-              <button class="btn">Offer Condition Note</button>
-              <button class="btn">Minimum Advertise</button>
-            </div>
-          </div>
-          <div class="col-md-12 mt-3">
-            <table class="table table-responsive">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>* Seller SKU</th>
-                  <th>* Product ID</th>
-                  <th>* Actual Price</th>
-                  <th>* Your Price</th>
-                  <th>* Discount Price</th>
-                  <th>* Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr formArraryName="_addProduct.productVariantDTO" *ngFor="let item of _addProduct.productVariantDTO.controls; let i = index">
-                  <product-variation
-                      [productVariation]=""
-                      [formGroup]="item0"
-                      [index]="i"
-                    ></product-variation>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    <product-variation></product-variation>
     <div class="col-md-8 offset-md-2">
       <div class="btn-class float-right">
         <!-- <button class="btn btn-first rounded-0">Cancel</button> -->
+        <!-- <button class="btn btn-second rounded-0" (click)="_addProduct.saveChanges()">Save Changes</button> -->
         <button class="btn btn-second rounded-0" (click)="nextStep()">Save Changes</button>
+
       </div>
     </div>
   </div>
