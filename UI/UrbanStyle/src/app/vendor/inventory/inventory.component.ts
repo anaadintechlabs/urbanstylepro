@@ -63,6 +63,7 @@ export class InventoryComponent implements OnInit {
       .getAllProductVariantOfUser("product/getAllProductVariantOfUser?userId=" + this.userId, body)
       .subscribe(
         data => {
+          console.log("datais ",data);
           this.productList = data;
           this.ELEMENT_DATA = this.productList;
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);

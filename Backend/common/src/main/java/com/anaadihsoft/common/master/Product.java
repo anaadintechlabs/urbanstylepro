@@ -55,6 +55,16 @@ public class Product {
 	
 	private String modifiedBy;
 	
+	private int totalVarients;
+	
+	public int getTotalVarients() {
+		return totalVarients;
+	}
+
+	public void setTotalVarients(int totalVarients) {
+		this.totalVarients = totalVarients;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
@@ -198,12 +208,6 @@ public class Product {
 
 	public void setDefaultColor(String defaultColor) {
 		this.defaultColor = defaultColor;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [productCode=" + productCode + ", productName=" + productName + ", categoryId=" + categoryId
-				+ ", status=" + status + ", brandName=" + brandName + ", manufacturer=" + manufacturer + "]";
 	}
 	
 	
