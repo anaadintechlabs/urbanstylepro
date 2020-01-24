@@ -13,9 +13,7 @@ export class DataService{
     getAllCategory(url:string,data:any): Observable<Category[]>{
         return new Observable<Category[]>(obs =>{
             this._apiService.post(url,data).subscribe((res) =>{
-                
-                    obs.next(res);
-                
+                obs.next(res);
             });
         });
     }
@@ -46,7 +44,4 @@ export class DataService{
             });
         });
     }
-    
-
-
 }

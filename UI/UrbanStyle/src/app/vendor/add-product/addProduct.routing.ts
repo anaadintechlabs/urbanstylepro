@@ -6,6 +6,7 @@ import { VitalInformationComponent } from '../vital-information/vital-informatio
 import { AddProductDesciprionComponent } from '../variation/add-product-desciprion.component';
 import { ExtraDetailsComponent } from '../extra-details/extra-details.component';
 import { MetaInfoComponent } from '../meta-info/meta-info.component';
+import { AddProductMediaComponent } from '../add-product-media/add-product-media.component';
 
 
 export const AddProduct: Routes=[
@@ -29,6 +30,10 @@ export const AddProduct: Routes=[
             {
                 path : 'prodDesc',
                 component : AddProductDesciprionComponent,
+            },
+            {
+                path : 'imageUpload',
+                component : AddProductMediaComponent
             },
             {
                 path : 'extraDetails',

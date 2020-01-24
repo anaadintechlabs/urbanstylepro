@@ -11,6 +11,7 @@ import { MatSidenavModule, MatToolbarModule, MatIconModule, MatButtonModule, Mat
 import { ExtraDetailsComponent } from '../extra-details/extra-details.component';
 import { MetaInfoComponent } from '../meta-info/meta-info.component';
 
+
 @NgModule({
   imports: [
     AddProductRoutes,
@@ -43,7 +44,7 @@ import { MetaInfoComponent } from '../meta-info/meta-info.component';
     AddProductVariationComponent,
     AddProductMediaComponent,
     ExtraDetailsComponent,
-    MetaInfoComponent
+    MetaInfoComponent,
   ],
 })
 export class AddProductModule {}
