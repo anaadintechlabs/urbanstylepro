@@ -24,6 +24,8 @@ public class CategoryMeta {
 	
 	private String metaKey;
 	
+	private int status;
+	
 	private Date createdDate;
 	
 	private String createdBy;
@@ -62,6 +64,16 @@ public class CategoryMeta {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+	
+	
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public String getCreatedBy() {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.urbanstyle.product.service.CategoryMetaService;
 import com.urbanstyle.product.service.CategoryVariationService;
 import com.urbanstyle.product.util.CommonResponseSender;
 
@@ -23,7 +24,8 @@ public class CategoryVariationController {
 
 	@Autowired
 	private CategoryVariationService categoryVariationService;
-	
+	@Autowired
+	private CategoryMetaService categoryMetaService; 
 	
 	@RequestMapping(value="/getAllVariationOfCategory",method=RequestMethod.GET)
 	public Map<String,Object> getAllVariationOfCategory(
@@ -32,6 +34,7 @@ public class CategoryVariationController {
 	{
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("variationList", categoryVariationService.getAllVariationOfCategory(categoryId));
+		map.put("metaList", categoryMetaService.getAllMetaOfCategory(categoryId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}

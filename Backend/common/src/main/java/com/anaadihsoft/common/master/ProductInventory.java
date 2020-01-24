@@ -1,6 +1,7 @@
 package com.anaadihsoft.common.master;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ public class ProductInventory {
 	
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private Long id;
+		private long id;
 
 		@ManyToOne 
 		@JoinColumn(name = "Variant")
@@ -48,6 +49,13 @@ public class ProductInventory {
 
 		private Date createdDate;
 
+
+		private Date modifiedDate;
+
+		private String createdBy;
+		private String modifiedBy;
+		
+		
 		public long getId() {
 			return id;
 		}
@@ -114,18 +122,7 @@ public class ProductInventory {
 		public void setReminderPoint(double reminderPoint) {
 			this.reminderPoint = reminderPoint;
 		}
-		public Date getCreatedDate() {
-			return createdDate;
-		}
-		public void setCreatedDate(Date createdDate) {
-			this.createdDate = createdDate;
-		}
-		public Date getModifiedDate() {
-			return modifiedDate;
-		}
-		public void setModifiedDate(Date modifiedDate) {
-			this.modifiedDate = modifiedDate;
-		}
+		
 		public String getCreatedBy() {
 			return createdBy;
 		}
@@ -138,9 +135,18 @@ public class ProductInventory {
 		public void setModifiedBy(String modifiedBy) {
 			this.modifiedBy = modifiedBy;
 		}
-		private Date modifiedDate;
-
-		private String createdBy;
-		private String modifiedBy;
+		public Date getCreatedDate() {
+			return createdDate;
+		}
+		public void setCreatedDate(Date createdDate) {
+			this.createdDate = createdDate;
+		}
+		public Date getModifiedDate() {
+			return modifiedDate;
+		}
+		public void setModifiedDate(Date modifiedDate) {
+			this.modifiedDate = modifiedDate;
+		}
+		
 
 }

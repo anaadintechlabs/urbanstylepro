@@ -142,6 +142,7 @@ public class ProductController {
 	@ResponseBody
 	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,
 			@RequestPart(value="file",required=false) MultipartFile[] files,@RequestPart("dto") ProductDTO productDTO) throws Exception{
+		System.out.println("method caleed"+productDTO);
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("product", productService.createProduct(productDTO,files,false));
 		return CommonResponseSender.createdSuccessResponse(map, response);

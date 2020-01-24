@@ -39,6 +39,7 @@
               <th>Product Name</th>
               <th>Brand Name</th>
               <th>Action</th>
+              <th>Edit</th>
             </thead>
             <tbody>
               <tr *ngFor="let productvar of productList">
@@ -54,6 +55,11 @@
                       ? productvar.product.brandName
                       : "NA"
                   }}
+                </td>
+                <td>
+                  <button (click)="">Edit
+                  </button>
+
                 </td>
                 <div *ngIf="productvar.status == 1">
                   <td>
