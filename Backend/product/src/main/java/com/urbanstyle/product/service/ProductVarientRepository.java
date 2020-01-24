@@ -49,6 +49,8 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	void changeStatusOfProduct(long productId, int status);
 
 	@Query(value="delete from ProductVariant where product.productId = :productId")
+	@Modifying
+	@Transactional
 	void deleteAllProductVarient(long productId);
 
 }
