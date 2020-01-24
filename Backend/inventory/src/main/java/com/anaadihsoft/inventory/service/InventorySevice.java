@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductInventory;
 
 @Service

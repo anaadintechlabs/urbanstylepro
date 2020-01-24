@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.master.ProductInventory;
 import com.anaadihsoft.inventory.service.InventorySevice;
 import com.urbanstyle.inventory.util.CommonResponseSender;
@@ -54,4 +55,5 @@ public class InvntoryController {
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
+	
 }

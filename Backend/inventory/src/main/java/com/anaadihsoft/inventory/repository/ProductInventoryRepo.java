@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductInventory;
 
 @Repository

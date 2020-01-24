@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductInventory;
 import com.anaadihsoft.inventory.repository.ProductInventoryRepo;
 

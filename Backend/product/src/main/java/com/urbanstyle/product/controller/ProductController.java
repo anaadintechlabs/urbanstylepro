@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
+import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.urbanstyle.product.service.ProductService;
@@ -221,5 +223,21 @@ public class ProductController {
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("productList", productService.getCompleteProduct(prodId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/updateVarientDTO",method= {RequestMethod.POST})
+	public Map<String,Object> updateVarientDTO(HttpServletRequest request,HttpServletResponse response,@RequestBody List<VariantPriceUpdateDTO> allVarientDTO){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("allVarientDTO", productVarient.updateVarientDTO(allVarientDTO));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
+	@RequestMapping(value="/searchInventory",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> searchInventory(@RequestBody InventorySearchDTO inventorySearchDTO, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("inventoryList", productVarient.searchInventory(inventorySearchDTO));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
 	}
 }
