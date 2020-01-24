@@ -1,4 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import { AddProductService } from 'src/_services/product/addProductService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "product-media",
@@ -6,11 +8,14 @@ import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
   styleUrls: ["./add-product-media.component.scss"]
 })
 export class AddProductMediaComponent implements OnInit {
-   @Output() myFilesEmit : EventEmitter<string[]> = new EventEmitter<string[]>();
-    @Output() urlArrayEmit : EventEmitter<any> = new EventEmitter<any>();
- @Input() myFiles: string[] = [];
- @Input() urlArray: any = [];
-  constructor() {}
+  @Output() myFilesEmit: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() urlArrayEmit: EventEmitter<any> = new EventEmitter<any>();
+  @Input() myFiles: string[] = [];
+  @Input() urlArray: any = [];
+  constructor(
+    private _addProduct : AddProductService,
+    private _router:Router
+  ) {}
 
   ngOnInit() {}
 
@@ -19,13 +24,9 @@ export class AddProductMediaComponent implements OnInit {
       if (event.target.files[i].size <= 2048000) {
         this.myFiles.push(event.target.files[i]);
         var reader = new FileReader();
-
-        reader.readAsDataURL(event.target.files[i]); // read file as data url
-
+        reader.readAsDataURL(event.target.files[i]);
         reader.onload = event => {
-          // called once readAsDataURL is completed
           this.urlArray.push(reader.result);
-
           this.urlArrayEmit.emit(this.urlArray);
           this.myFilesEmit.emit(this.myFiles);
         };
@@ -33,6 +34,11 @@ export class AddProductMediaComponent implements OnInit {
         alert("Please select image less than 2MB.");
       }
     }
-    console.log("total imags" + this.myFiles.length);
+    console.log("total imags" + this.myFiles);
+  }
+
+  nextStep() {
+    // this._router.navigateByUrl('/vendor/addProduct/extraDetails');
+    this._router.navigateByUrl('/vendor/addProduct/metaInfo');
   }
 }

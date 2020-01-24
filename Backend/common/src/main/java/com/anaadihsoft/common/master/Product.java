@@ -199,6 +199,12 @@ public class Product {
 	public void setDefaultColor(String defaultColor) {
 		this.defaultColor = defaultColor;
 	}
+
+	@Override
+	public String toString() {
+		return "Product [productCode=" + productCode + ", productName=" + productName + ", categoryId=" + categoryId
+				+ ", status=" + status + ", brandName=" + brandName + ", manufacturer=" + manufacturer + "]";
+	}
 	
 	
 

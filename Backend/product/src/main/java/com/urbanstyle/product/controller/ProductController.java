@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,10 @@ import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.urbanstyle.product.service.ProductService;
 import com.urbanstyle.product.service.ProductVarientService;
 import com.urbanstyle.product.util.CommonResponseSender;
@@ -137,12 +142,23 @@ public class ProductController {
 	}
 	
 	
-	
+//	
+//	/
 	@RequestMapping(value = "/saveProduct",method = RequestMethod.POST, consumes = "multipart/form-data")
 	@ResponseBody
 	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,
-			@RequestPart(value="file",required=false) MultipartFile[] files,@RequestPart("dto") ProductDTO productDTO) throws Exception{
+			@RequestPart(value="file",required=false) MultipartFile[] files,
+			@RequestParam String productDTOString) throws Exception{
 		final HashMap<String, Object> map = new HashMap<>();
+		System.out.println("files"+files+"empty0"+files.length);
+		System.out.println("productDTOString"+productDTOString);
+		ObjectMapper objMapper= new ObjectMapper();
+
+		objMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		TypeReference<ProductDTO> typeRefernce = new TypeReference<ProductDTO>() {
+		};
+		ProductDTO productDTO=objMapper.readValue(productDTOString, typeRefernce);
+		System.out.println("dto"+productDTO);
 		map.put("product", productService.createProduct(productDTO,files,false));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}

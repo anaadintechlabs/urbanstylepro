@@ -1,23 +1,42 @@
-<div class="row">
-    <div class="col-md-12">
-        <div class="upload-image">
-            <input id="filebutton" name="filebutton" #inputFile (change)="onSelectFile($event)" type="file">
-            <label class="col-md-12 control-label upload" for="filebutton">
-                <span>Drop file anywhere to upload</span>
-                <span>or</span>
-                <span>(the file size must be less than 2MB)</span>
-            </label>
+<div class="tab-pane fade show active text-capitalize" id="tab4">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="pro_inner py-3">
+          <div class="row">
+            <div class="col-md-12">
+              <p class="py-3"></p>
+              <p class="alert alert-info text-capitalize">
+                <i class="far fa-question-circle"></i>
+                <b>When multiple sellers sell the same product through a single detail page, we combine and present the best product data to ensure customers get the best experience</b>
+              </p>
+              <div class="row p-3">
+                <div class="col-md-12 mb-5">
+                  <h4>Your image recommendations</h4>
+                  <p>Upload your recommendations for product images</p>
+                  <a>Hide Image Guidelines</a>
+                  <ul class="ml-5">
+                    <li>Choose images that are clear, information-rich and attractive.</li>
+                    <li>Products must fill at least 85% of the image</li>
+                    <li>Images must show only the products that is for sale, with few or no props and with no logos,watermarks, or inset images. </li>
+                    <li> Images must be at least 1000 pixels on the longest side and at least 500 pixels on the shortest side to be zoom-able.</li>
+                    <li>Images must not exceed 10000 pixels on the longest side. </li>
+                  </ul>
+                </div>
+                <input type="file" name="" id="" (change)="onSelectFile($event)">upload
+                <!-- <div class="col-md-3" *ngFor="let item of items">
+                  <div class="text-center img-up">
+                      <i class="fas fa-camera fa-2x"></i><br>
+                      <span>Upload</span>
+                   </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-            <img *ngFor="let url of urlArray" [src]="url" height="70px" style="padding:10px;"> <br />
+        <div class="btn-class float-right">
+          <button class="btn btn-first">Cancel</button>
+          <button class="btn btn-second" (click)="nextStep()">Next</button>
         </div>
-        <div class="note">
-            <p>
-                <strong> Note:</strong> “Ads with 1-4 photos get 5x more responses, use original photos. Avoid copying
-                from internet ensure the item is properly
-                visible from multiple angles. Accepted formats are .jpg, .gif & .png. Size < 2MB. Ensure that the
-                    image(s) does not contain any human face.” 
-            </p> 
-        </div> 
-    </div> 
+      </div>
+    </div>
 </div>

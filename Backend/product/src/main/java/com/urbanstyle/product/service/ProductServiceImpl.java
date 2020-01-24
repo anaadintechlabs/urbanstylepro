@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService{
 		if(files!=null) {
 		 i=files.length;
 		}
-		
+		productDTO.getProduct().setUser(null);
 		oldProduct=productRepository.save(productDTO.getProduct());
 		MultipartFile file = null;
 		if(i>0)
@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService{
 		
 		// save all inventory
 		
-		updateInventory(productDTO);
+		//updateInventory(productDTO);
 
 		return oldProduct;
 	}
