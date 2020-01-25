@@ -20,7 +20,7 @@
                     <h4><b>Select a product category</b></h4>
                     <p class="lead">Choosing the best category ensures that you see the most appropriate data fields for
                         your product. Browse the categories directly or use search <a href="" class="lead">See if your
-                            product already exists on Amazon.</a>
+                            product already exists on Site.</a>
                     </p>
                     <!-- <h5><b>Favorites</b></h5>
                     <p class="p-3 border bg-white">You haven't added any favorite categories yet.</p>
@@ -60,13 +60,13 @@
                             </div>
                         </div>
                     </div> -->
-                    <h5><b>Search</b></h5>
+                    <!-- <h5><b>Search</b></h5>
                     <form action="">
                         <div class="form-group">
                             <input type="text" class="float-left" placeholder="Search For A Category">
                             <button><i class="fas fa-search"></i></button>
                         </div>
-                    </form>
+                    </form> -->
                     <!-- <h6><b><i>3 matching categories found</i></b></h6> -->
                     <div *ngIf="catList && catList?.length > 0" class="srch-result">
                         <p *ngFor="let cat of catList" (click)="getCategoryById(cat,i)" class="p-3 border bg-white" style="cursor:pointer;">

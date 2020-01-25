@@ -103,10 +103,11 @@ export class AddProductComponent implements OnInit {
   ngOnInit() {
     console.log(this.productVariantDTO);
     this.user = JSON.parse(window.localStorage.getItem("user"));
-    // console.log("yser is ",this.user)
     if (this.user && this.user.token) {
       this.userId = this.user.id;
-      // console.log(this.userId);
+      this._addProduct.productFormGroup.controls.user.patchValue({
+        id : this.userId
+      });
     }
   }
 
@@ -216,17 +217,17 @@ export class AddProductComponent implements OnInit {
     // console.log("worked 2");
   }
 
-  selectedCategory(catId: number) {
-    console.log(catId);
-    this.categorySelected = true;
-    this.vitalInfo.get("categoryId").setValue(catId);
-    this._dataService
-      .getAllVariationOfCategory("variation/getAllVariationOfCategory", catId)
-      .subscribe(data => {
-        console.log(data);
-        this.allAttriblue = data;
-      });
-  }
+  // selectedCategory(catId: number) {
+  //   console.log(catId);
+  //   this.categorySelected = true;
+  //   this.vitalInfo.get("categoryId").setValue(catId);
+  //   this._dataService
+  //     .getAllVariationOfCategory("variation/getAllVariationOfCategory", catId)
+  //     .subscribe(data => {
+  //       console.log(data);
+  //       this.allAttriblue = data;
+  //     });
+  // }
 
   saveProduct() {
     console.log("form to be saev", this._addProduct.productDTO);
