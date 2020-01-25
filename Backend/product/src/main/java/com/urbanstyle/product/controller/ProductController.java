@@ -147,11 +147,10 @@ public class ProductController {
 	@RequestMapping(value = "/saveProduct",method = RequestMethod.POST, consumes = "multipart/form-data")
 	@ResponseBody
 	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,
-			@RequestPart(value="file",required=false) MultipartFile[] files,@RequestPart("dto") ProductDTO productDTO) throws Exception{
-		System.out.println("method caleed"+productDTO);
+			@RequestPart(value="file",required=false) MultipartFile[] files,@RequestParam(value="productDTOString") String productDTOString) throws Exception{
+		
 		final HashMap<String, Object> map = new HashMap<>();
-		System.out.println("files"+files+"empty0"+files.length);
-		System.out.println("productDTOString"+productDTOString);
+	
 		ObjectMapper objMapper= new ObjectMapper();
 
 		objMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
