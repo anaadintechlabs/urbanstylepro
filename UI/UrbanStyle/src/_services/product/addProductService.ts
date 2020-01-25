@@ -41,11 +41,11 @@ export class AddProductService {
       id: new FormControl("")
     }),
     productId: new FormControl("", []),
-    productCode: new FormControl("", [Validators.required]),
+    productCode: new FormControl("", [Validators.required,Validators.maxLength(40)]),
     categoryId: new FormControl("", [Validators.required]),
-    productName: new FormControl("", [Validators.required]),
-    brandName: new FormControl("", []),
-    manufacturer: new FormControl("", []),
+    productName: new FormControl("", [Validators.required,Validators.maxLength(100)]),
+    brandName: new FormControl("", [,Validators.maxLength(80)]),
+    manufacturer: new FormControl("", [,Validators.maxLength(80)]),
     coverPhoto: new FormControl("", [])
   });
 
@@ -90,7 +90,6 @@ export class AddProductService {
     data,
     tempAttributeData
   ): FormGroup {
-    console.log("tempAttributeData", data);
     let myMap = {};
     let productVarientDto: FormGroup;
     let commaSepratedString = data[0];

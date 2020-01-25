@@ -12,7 +12,7 @@ import { AddProductService } from 'src/_services/product/addProductService';
 })
 export class VitalInformationComponent implements OnInit {
 
-
+  public submitted:false;
   constructor(
     private _addProductService : AddProductService,
     private _router : Router,
@@ -24,11 +24,15 @@ export class VitalInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Awwwwww",this._addProductService.productFormGroup.value);
+    console.log("form here is",this._addProductService.productFormGroup.controls)
   }
 
   onSubmit() {
-    console.log('worked');
+     console.log("form here on is",this._addProductService.productFormGroup.controls)
     this._router.navigateByUrl('/vendor/addProduct/prodDesc');
+  }
+  cancelButton() {
+    this.submitted=false;
+    this._router.navigateByUrl('/vendor/addProduct/categorySelection');
   }
 }

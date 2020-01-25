@@ -148,16 +148,14 @@ public class ProductController {
 	@ResponseBody
 	public Map<String,Object> createProduct(HttpServletRequest request,HttpServletResponse response,
 			@RequestPart(value="file",required=false) MultipartFile[] files,@RequestParam(value="productDTOString") String productDTOString) throws Exception{
-		
-		final HashMap<String, Object> map = new HashMap<>();
-	
-		ObjectMapper objMapper= new ObjectMapper();
 
+		final HashMap<String, Object> map = new HashMap<>();
+
+		ObjectMapper objMapper= new ObjectMapper();
 		objMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		TypeReference<ProductDTO> typeRefernce = new TypeReference<ProductDTO>() {
 		};
 		ProductDTO productDTO=objMapper.readValue(productDTOString, typeRefernce);
-		System.out.println("dto"+productDTO);
 		map.put("product", productService.createProduct(productDTO,files,false));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}

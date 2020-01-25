@@ -201,6 +201,13 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product updateProduct(ProductDTO productDTO, MultipartFile[] files) {
 		Product oldProduct=productRepository.findByProductId(productDTO.getProduct().getProductId());
+		//first delete all meta information
+		//then delete all media
+		//then all product details
+		//then allvariant
+		productMetaRepository.deleteAllMeta(oldProduct.getProductId());
+		productImagesRepository.deleteAllImage(oldProduct.getProductId());
+		productAttrRepo.deleteAllProductAttribute(oldProduct.getProductId());
 		productVariantRepository.deleteAllProductVarient(oldProduct.getProductId());
 		try {
 			return  createProduct(productDTO, files,true);

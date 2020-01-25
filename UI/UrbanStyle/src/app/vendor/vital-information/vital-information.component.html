@@ -25,7 +25,7 @@
                     <div *ngIf="submitted && f.email?.errors" class="invalid-feedback">
                       <div *ngIf="f.email?.errors.required">Product Code is required</div>
                     </div>
-                    <p class="py-3">To list your products you require a unique identifier for your product such as UPC, EAN, or GCID. You can request exemptions to list products that do not have standard product IDs for certain categories. <a href="">Learn more</a></p>
+                    <p class="py-3">To list your products you require a unique identifier for your product such as UPC, EAN, or GCID. You can request exemptions to list products that do not have standard product IDs for certain categories. </p>
                   </div>
                 </div>
                 <div class="col-md-2 col-2 col-2">
@@ -43,10 +43,10 @@
                 <div class="col-md-6 col-10">
                   <div class="form-group">
                     <select name="" id="" class="custom-select">
-                      <option value="">1</option>
-                      <option value="">1</option>
-                      <option value="">1</option>
-                      <option value="">1</option>
+                      <option value="">ASIN</option>
+                      <option value="">GTIN</option>
+                      <option value="">EAN</option>
+                      <option value="">UPC</option>
                     </select>
                     
                   </div>
@@ -139,8 +139,8 @@
                 </div>
               </div>
               <div class="btn-class float-right">
-                <button class="btn btn-first">Cancel</button>
-                <button class="btn btn-second" type="submit">Next</button>
+                <button class="btn btn-first" (click)="cancelButton()">Cancel</button>
+                <button class="btn btn-second" (click)="submitted=true;" [disabled]="_addProductService.productFormGroup.invalid" type="submit">Next</button>
               </div>
             </form>
           </div>

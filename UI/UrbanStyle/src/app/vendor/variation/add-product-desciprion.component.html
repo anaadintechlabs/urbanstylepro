@@ -30,12 +30,15 @@
                 </div>
                 <div *ngFor="let map of item?.allAttributeMap?.variationAttribute; let z = index" class="col-md-3">
                   <div class="form-group">
-                    <input [(ngModel)]="map" (change)="addVariation(map,i,z)" type="text">
+                    <input  [value]="map" (change)="addVariation($event.target.value,i,z)" type="text">
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-12">
+                 <div class="col-md-6">
+                  <button class="btn btn-primary" (click)="backButton()">Back</button>
+                </div>
+                <div class="col-md-6">
                   <button class="btn btn-primary" (click)="getAllAttrMap()">Add Variation</button>
                 </div>
               </div>
