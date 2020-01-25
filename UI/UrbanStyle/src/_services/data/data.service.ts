@@ -236,38 +236,6 @@ changeStatusOfCategory(
     });
   }
 
-  //Method for getting all variations of category
-  getAllVariationOfCategory(
-    url: string,
-    categoryId: any
-  ): Observable<CategoryAttribute[]> {
-    const param: HttpParams = new HttpParams().set("categoryId", categoryId);
-    console.log(param);
-    return new Observable<CategoryAttribute[]>(obs => {
-      this._apiService.get(url, param).subscribe(res => {
-        if (res.isSuccess) {
-          obs.next(res.data.variationList);
-        }
-      });
-    });
-  }
-
-  getAllMetaInfo(
-    url: string,
-    categoryId: any
-  ): Observable<MetaInfo[]> {
-    const param: HttpParams = new HttpParams().set("categoryId", categoryId);
-    console.log(param);
-    return new Observable<MetaInfo[]>(obs => {
-      this._apiService.get(url, param).subscribe(res => {
-        if (res.isSuccess) {
-          obs.next(res.data.metaList);
-        }
-      });
-    });
-  }
-
-
   saveProduct(url, data): Observable<CategoryAttribute[]> {
     return new Observable<any[]>(obs => {
       this._apiService.postWithMedia(url, data).subscribe(res => {

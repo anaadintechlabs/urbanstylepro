@@ -1,1 +1,23 @@
-<p>meta-info works!</p>
+<div *ngIf="_addProduct.productMetaInfo && _addProduct.productMetaInfo.length > 0">
+    <div formArraryName="_addProduct.productMetaInfo" *ngFor="let item of _addProduct.productMetaInfo.controls; let i = index">
+        <div [formGroupName]="i">
+            <div class="row ">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                        {{ item.value.metaKey }}
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6 col-10">
+                  <div class="form-group">
+                    <input type="text" formControlName="metaValue" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-2 col-2 col-2">
+                  <i class="fas fa-lock py-2"></i>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>

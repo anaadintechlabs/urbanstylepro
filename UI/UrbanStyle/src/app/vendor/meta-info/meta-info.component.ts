@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AddProductService } from 'src/_services/product/addProductService';
 
 @Component({
   selector: 'app-meta-info',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MetaInfoComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _addProduct : AddProductService
+  ) { 
+    this._addProduct.getmetaInfo();
+    console.log("metalist",this._addProduct.productMetaInfo);
+  }
 
   ngOnInit() {
   }

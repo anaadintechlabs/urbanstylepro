@@ -7,11 +7,10 @@ import {
   FormArray
 } from "@angular/forms";
 import { CategoryAttribute } from "src/_modals/categoryAttribute.modal";
-import { DataService } from "../data/data.service";
 import { ApiService } from "../http_&_login/api.service";
-import { HttpHeaders } from '@angular/common/http';
-import { JwtServiceService } from '../http_&_login/jwt-service.service';
+import { HttpParams } from '@angular/common/http';
 import { MetaInfo } from 'src/_modals/productMeta';
+import { ThrowStmt } from '@angular/compiler';
 
 @Injectable({
   providedIn: "root"
@@ -57,14 +56,12 @@ export class AddProductService {
 
   constructor(
     protected _fb: FormBuilder,
-    private _dataService: DataService,
     private _apiService: ApiService,
-    private _jwtTokenService : JwtServiceService
   ) {
     this.productDTO = this._fb.group({
       product: this.productForm,
       productVariantDTO: this._fb.array([this.initializeProductVarientDto()]),
-      productMetaInfo : this._fb.array([this.intializeproductMetaInfo()])
+      productMetaInfo : this._fb.array([])
     });
     // this will be added later
     //  productMetaInfo: this._fb.array([this.addMetaInfo()])
@@ -127,19 +124,20 @@ export class AddProductService {
     return this.productDTO.get("productVariantDTO") as FormArray;
   }
 
+  get productMetaInfo(): FormArray {
+    return this.productDTO.get("productMetaInfo") as FormArray;
+  }
+
   selectedCategory(catId: number) {
     console.log(catId);
+    const param: HttpParams = new HttpParams().set("categoryId", catId.toString());
     // this.vitalInfo.get("categoryId").setValue(catId);
-    this._dataService
-      .getAllVariationOfCategory("variation/getAllVariationOfCategory", catId)
-      .subscribe(data => {
-        console.log(data);
-        this.categoryAttribute = data;
+    this._apiService.get("variation/getAllVariationOfCategory", param).subscribe(res => {
+      if (res.isSuccess) {
+        this.categoryAttribute = res.data.variationList;
+        this.metaList = res.data.metaList;
+      }
     });
-    this._dataService.getAllMetaInfo('',catId).subscribe(data=>{
-      console.log(data);
-      this.metaList = data;
-    })
   }
 
   makeCombinations(arr) {
@@ -171,12 +169,27 @@ export class AddProductService {
         this._apiService
       .postWithMedia("product/saveProduct", frmData)
       .subscribe(res => {
-        console.log("save doen");
+        console.log("save done");
       });
   }
 
-  getmetaInfo() {
+  getMetaInfoArray() {
+    return this.productDTO.get('productMeta') as FormArray;
+  }
 
+  getmetaInfo() {
+    console.log(this.metaList);
+    if(this.metaList.length){
+      this.productMetaInfo.push(this.intializeproductMetaInfo());
+    } else {
+      this.metaList.forEach(element=>{
+        let tempGrp = this._fb.group({
+          metaKey : new FormControl(element.metaKey),
+          metaValue : new FormControl('')
+        });
+        this.productMetaInfo.push(tempGrp);
+      })
+    }
   }
 
   uploadPhoto(myFiles) {
