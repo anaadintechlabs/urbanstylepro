@@ -124,7 +124,7 @@ export class AddProductService {
     return this.productDTO.get("productVariantDTO") as FormArray;
   }
 
-  get productMetaInfo(): FormArray {
+  get getProductMetaAllInfo(): FormArray {
     return this.productDTO.get("productMetaInfo") as FormArray;
   }
 
@@ -165,12 +165,11 @@ export class AddProductService {
     console.log(this.uploadedPhoto);
     console.log(this.productDTO.value);
     console.log(JSON.stringify(frmData));
-
-        this._apiService
+    this._apiService
       .postWithMedia("product/saveProduct", frmData)
       .subscribe(res => {
         console.log("save done");
-      });
+    });
   }
 
   getMetaInfoArray() {
@@ -179,15 +178,15 @@ export class AddProductService {
 
   getmetaInfo() {
     console.log(this.metaList);
-    if(this.metaList.length){
-      this.productMetaInfo.push(this.intializeproductMetaInfo());
+    if(!this.metaList.length){
+      this.getProductMetaAllInfo.push(this.intializeproductMetaInfo());
     } else {
       this.metaList.forEach(element=>{
         let tempGrp = this._fb.group({
           metaKey : new FormControl(element.metaKey),
           metaValue : new FormControl('')
         });
-        this.productMetaInfo.push(tempGrp);
+        this.getProductMetaAllInfo.push(tempGrp);
       })
     }
   }

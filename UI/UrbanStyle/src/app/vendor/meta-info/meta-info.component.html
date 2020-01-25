@@ -1,23 +1,43 @@
-<div *ngIf="_addProduct.productMetaInfo && _addProduct.productMetaInfo.length > 0">
-    <div formArraryName="_addProduct.productMetaInfo" *ngFor="let item of _addProduct.productMetaInfo.controls; let i = index">
-        <div [formGroupName]="i">
-            <div class="row ">
-                <div class="col-md-4">
-                  <label for="" class="float-md-right">
-                    <i class="fas fa-star mr-2"></i>
-                        {{ item.value.metaKey }}
-                    <i class="far fa-question-circle ml-2"></i>
-                  </label>
-                </div>
-                <div class="col-md-6 col-10">
-                  <div class="form-group">
-                    <input type="text" formControlName="metaValue" class="form-control">
+<div *ngIf="_addProduct.getProductMetaAllInfo && _addProduct.getProductMetaAllInfo.length > 0" class="tab-pane fade show active text-capitalize" id="tab1">
+    <div  class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="pro_inner py-3">
+          <div class="row">
+            <div class="col-md-12">
+              <p class="py-3"></p>
+              <p class="alert alert-info text-capitalize">
+                <i class="far fa-question-circle"></i>
+                <b> When multiple sellers sell the same product through a single detail page, we combine and present the best product data to ensure customers get the best experience</b>
+              </p>
+              <div formArraryName="_addProduct.getProductMetaAllInfo" *ngFor="let item of _addProduct.getProductMetaAllInfo.controls; let i = index">
+                <form [formGroup]="item" (ngSubmit)="onSubmit()" class="custom">
+                    <div class="row ">
+                        <div class="col-md-4">
+                          <label for="" class="float-md-right">
+                            <i class="fas fa-star mr-2"></i>
+                                {{ item.value.metaKey }}
+                            <i class="far fa-question-circle ml-2"></i>
+                          </label>
+                        </div>
+                        <div class="col-md-6 col-10">
+                          <div class="form-group">
+                            <input type="text" formControlName="metaValue" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-2 col-2">
+                          <i class="fas fa-lock py-2"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-2 col-2">
-                  <i class="fas fa-lock py-2"></i>
-                </div>
+    
+                    <div class="btn-class float-right">
+                      <button class="btn btn-first">Cancel</button>
+                      <button class="btn btn-second" type="submit">Next</button>
+                    </div>
+                  </form>
               </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>

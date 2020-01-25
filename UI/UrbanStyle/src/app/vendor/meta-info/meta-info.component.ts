@@ -12,10 +12,15 @@ export class MetaInfoComponent implements OnInit {
     private _addProduct : AddProductService
   ) { 
     this._addProduct.getmetaInfo();
-    console.log("metalist",this._addProduct.productMetaInfo);
+    console.log("metalist",this._addProduct.getProductMetaAllInfo);
   }
 
   ngOnInit() {
+  }
+
+  onSubmit(){
+    console.log(this._addProduct.productDTO);
+    this._addProduct.saveChanges();
   }
 
 }
