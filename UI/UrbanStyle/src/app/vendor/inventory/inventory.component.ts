@@ -11,6 +11,7 @@ import {
 import { DataService } from "src/_services/data/data.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { User } from 'src/_modals/user.modal';
+import { ApiService } from 'src/_services/http_&_login/api.service';
 @Component({
   selector: "app-inventory",
   templateUrl: "./inventory.component.html",
@@ -38,18 +39,32 @@ export class InventoryComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _apiService : ApiService
   ) {
     //getUserId Dynamic
     this.user =  JSON.parse(window.localStorage.getItem('user'));
     if(this.user.token){
       this.userId = this.user.id;
 
-      this.getAllProductVariantOfUser();
+      // this.getAllProductVariantOfUser();
+      this.getAllProductOfUser();
     } 
   }
 
   ngOnInit() {}
+
+  getAllProductOfUser() {
+    let body = {
+      "limit":15,
+      "offset":0,
+      "sortingDirection":"DESC",
+      "sortingField":"modifiedDate"
+    }
+    this.dataService.getAllProductOfUser(this.userId,body).subscribe(data=> {
+      this.productList = data.productList;
+    })
+  }
 
   getAllProductVariantOfUser() {
     let body = {
@@ -72,6 +87,7 @@ export class InventoryComponent implements OnInit {
           console.log("error======", error);
         }
       );
+      console.log(this.productList);
   }
 
   getAllActiveOrInactiveProductVariantOfUser(status) {
@@ -97,6 +113,7 @@ export class InventoryComponent implements OnInit {
         console.log("error======", error);
       }
     );
+    console.log(this.productList);
   }
 
   changeStatusOfProductVariant(productId, status) {
@@ -124,6 +141,7 @@ export class InventoryComponent implements OnInit {
         console.log("error======", error);
       }
     );
+    console.log(this.productList);
   }
 
   pageEvent(event) {}
