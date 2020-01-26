@@ -100,6 +100,10 @@ else{
   alert("Please fill all th value")
 }
       }
+else
+  {
+    alert("Please select any variantion")
+  }
     console.log(this._addProduct.productDTO);
   }
 
@@ -137,8 +141,35 @@ else{
   }
 
   nextStep() {
-    // this._router.navigateByUrl('/vendor/addProduct/extraDetails');
-    this._router.navigateByUrl('/vendor/addProduct/imageUpload');
+    console.log("variation vale",this._addProduct.productVariantDTO.value);
+    if(this._addProduct.productVariantDTO.length==0)
+      {
+        alert("Please enter variant details");
+      }
+      else
+        { 
+          let check=true;
+          //If any value in vairant details is not filled then do not go ahead
+          this._addProduct.productVariantDTO.value.forEach(element=>{
+            Object.keys(element.productVariant).forEach(variantKey=>{
+              if(element.productVariant[variantKey]==undefined || element.productVariant[variantKey]=="" )
+                {
+                 check=false;
+                  
+                }
+            });
+          });
+          
+          if(check)
+            {
+          this._router.navigateByUrl('/vendor/addProduct/imageUpload');   
+            }
+        else
+          {
+            alert("Please fill all the details")
+          }
+        }
+   
   }
   backButton()
   {

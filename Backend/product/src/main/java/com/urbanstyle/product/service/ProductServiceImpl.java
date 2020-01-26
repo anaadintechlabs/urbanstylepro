@@ -114,6 +114,7 @@ public class ProductServiceImpl implements ProductService{
 			List<ProductImages> productMedias=fileUploadService.storeMediaForProduct(files,oldProduct);
 			if(productMedias!=null && !productMedias.isEmpty())
 			{
+				System.out.println("stroing image");
 				productImagesRepository.saveAll(productMedias);
 			}
 		}

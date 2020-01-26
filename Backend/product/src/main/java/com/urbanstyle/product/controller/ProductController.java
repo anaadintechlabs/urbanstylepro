@@ -127,7 +127,8 @@ public class ProductController {
 	
 	
 	@RequestMapping(value="/getAllVarientsOfProducts",method=RequestMethod.GET)
-	public Map<String,Object> getAllVarientsOfProducts(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="prodId",required = true)long prodId){
+	public Map<String,Object> getAllVarientsOfProducts(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="prodId",required = true)long prodId){
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("product", productVarient.getAllVarients(1,prodId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
