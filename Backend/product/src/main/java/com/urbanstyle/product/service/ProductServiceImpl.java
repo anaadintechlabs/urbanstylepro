@@ -87,8 +87,7 @@ public class ProductServiceImpl implements ProductService{
 		}
 		Product product = productDTO.getProduct();
 		product.setTotalVarients(productDTO.getProductVariantDTO() != null ?productDTO.getProductVariantDTO().size():0);
-		System.out.println("iooo"+product.getUser());
-		product.setUser(null);
+		
 		oldProduct=productRepository.save(product);
 		MultipartFile file = null;
 		if(i>0)

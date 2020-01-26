@@ -4,9 +4,9 @@ public class VariantPriceUpdateDTO {
 
 	private long productVariantId;
 	
-	private long actualPrice;
+	private double actualPrice;
 	
-	private long displayPrice;
+	private double displayPrice;
 
 	public long getProductVariantId() {
 		return productVariantId;
@@ -16,21 +16,22 @@ public class VariantPriceUpdateDTO {
 		this.productVariantId = productVariantId;
 	}
 
-	public long getActualPrice() {
+	public double getActualPrice() {
 		return actualPrice;
 	}
 
-	public void setActualPrice(long actualPrice) {
+	public void setActualPrice(double actualPrice) {
 		this.actualPrice = actualPrice;
 	}
 
-	public long getDisplayPrice() {
+	public double getDisplayPrice() {
 		return displayPrice;
 	}
 
-	public void setDisplayPrice(long displayPrice) {
+	public void setDisplayPrice(double displayPrice) {
 		this.displayPrice = displayPrice;
 	}
-	
+
+
 	
 }
