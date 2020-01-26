@@ -12,7 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
+import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
@@ -174,4 +176,16 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	}
 	
 	
+	@Override
+	public List<VariantPriceUpdateDTO> updateVarientDTO(List<VariantPriceUpdateDTO> allVarientDTO) {
+		for (VariantPriceUpdateDTO variantPriceUpdateDTO : allVarientDTO) {
+			productVarRepo.updateVarientDTO(variantPriceUpdateDTO.getProductVariantId(),variantPriceUpdateDTO.getActualPrice(),variantPriceUpdateDTO.getDisplayPrice());
+		}
+		return allVarientDTO;
+	}
+
+	@Override
+	public List<ProductVariant> searchInventory(InventorySearchDTO inventorySearchDTO) {
+		return productVarientDAO.searchInventory(inventorySearchDTO);
+	}
 }
