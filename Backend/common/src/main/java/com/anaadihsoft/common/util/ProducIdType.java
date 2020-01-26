@@ -2,5 +2,5 @@ package com.anaadihsoft.common.util;
 
 public enum ProducIdType {
 
-	ASIN,ISBN
+	ASIN,ISBN,GTIN,EAN,UPC
 }

@@ -99,7 +99,7 @@
 		<button class="navbar-toggler" data-toggle="collapse" data-target="#mymenu3"><span class="navbar-toggler-icon"></span></button>
 		<div class="collapse navbar-collapse" id="mymenu3">
 			
-			<ul class="navbar-nav text-capitalize">
+			<!-- <ul class="navbar-nav text-capitalize">
 				
 				<li class="nav-item"><a href="">All Inventory</a>
 			</li>
@@ -111,7 +111,7 @@
 			<li class="nav-item"><a href=""> Inventory Amazon Fulfills </a></li>
 			<li class="nav-item"><a href="">Shipping Queue</a></li>
 			<li class="nav-item"><a href=""> Inventory Dashboard </a></li>
-		</ul>
+		</ul> -->
 	</div>
 </div>
 </nav>
@@ -124,15 +124,15 @@
 					<div class="col-md-5">
 						<h3 class="">Manage Inventory</h3>
 					</div>
-					<div class="col-md-7 py-2">
+					<!-- <div class="col-md-7 py-2">
 						<a href="">Learn More</a>
 						<a href="">Take The Tour New</a>
 						<a href="">Rate This Page</a>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
+		<!-- <div class="col-md-6">
 			<div class="v_inventory_btn float-right py-2">
 				<button>
 				Add A variation
@@ -144,7 +144,7 @@
 				Preferences 12 columns hidden
 				</button>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -152,9 +152,9 @@
 				<div class="row">
 					<div class="col-md-2">
 					<div class="dropdown">
-					<button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<!-- <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Action On Zero Selected
-					</button>
+					</button> -->
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						<a class="dropdown-item" href="#">Action</a>
 					</div>
@@ -166,7 +166,7 @@
 					</div>
 					<div class="col-md-7 py-1">
 						<span>
-							3 Proudct(s)
+							{{productList.length}} Proudct(s)
 						</span>
 					</div>
 				</div>
@@ -226,9 +226,9 @@
 							<th>Date Created Status Changed Date</th>
 							<th>Available</th>
 							<th>Fee Preview</th>
-							<th>Price + Shipping</th>
-							<th>Business Price + Shipping</th>
-							<th>Lowest Price</th>
+							<th>Price </th>
+							<th>Business Price </th>
+							<th>Sales Price</th>
 							<th><input type="text" class="px-2" placeholder="Save All"></th>
 						</tr>
 					</thead>
@@ -246,7 +246,8 @@
 							<td>{{ item.createdDate | date }}</td>
 							<td></td>
 							<td>-</td>
-							<td>Add Qantity Discount</td>
+							<td>-</td>
+							<!-- <td>Add Qantity Discount</td> -->
 							<td></td>
 							<td></td>
 							<td>

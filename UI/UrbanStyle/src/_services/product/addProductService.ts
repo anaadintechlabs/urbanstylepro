@@ -46,7 +46,8 @@ export class AddProductService {
     productName: new FormControl("", [Validators.required,Validators.maxLength(100)]),
     brandName: new FormControl("", [,Validators.maxLength(80)]),
     manufacturer: new FormControl("", [,Validators.maxLength(80)]),
-    coverPhoto: new FormControl("", [])
+    coverPhoto: new FormControl("", []),
+    productIdType:new FormControl('ASIN')
   });
 
   product: FormGroup;
@@ -168,6 +169,7 @@ export class AddProductService {
       .postWithMedia("product/saveProduct", frmData)
       .subscribe(res => {
         console.log("save done");
+        alert("product saved")
     });
   }
 
