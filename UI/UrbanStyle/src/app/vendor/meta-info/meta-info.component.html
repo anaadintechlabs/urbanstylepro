@@ -10,7 +10,7 @@
                 <b> When multiple sellers sell the same product through a single detail page, we combine and present the best product data to ensure customers get the best experience</b>
               </p>
               <div formArraryName="_addProduct.getProductMetaAllInfo" *ngFor="let item of _addProduct.getProductMetaAllInfo.controls; let i = index">
-                <form [formGroup]="item" (ngSubmit)="onSubmit()" class="custom">
+                <form [formGroup]="item"  class="custom">
                     <div class="row ">
                         <div class="col-md-4">
                           <label for="" class="float-md-right">
@@ -29,12 +29,13 @@
                         </div>
                     </div>
     
-                    <div class="btn-class float-right">
-                      <button class="btn btn-first">Cancel</button>
-                      <button class="btn btn-second" type="submit">Next</button>
-                    </div>
+                   
                   </form>
               </div>
+                 <div class="btn-class float-right">
+                      <button class="btn btn-first" (click)='cancelButton()'>Cancel</button>
+                      <button class="btn btn-second" (click)="onSubmit()" type="submit">Next</button>
+                    </div>
             </div>
           </div>
         </div>

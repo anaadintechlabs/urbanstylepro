@@ -38,7 +38,19 @@ export class AddProductMediaComponent implements OnInit {
   }
 
   nextStep() {
-    // this._router.navigateByUrl('/vendor/addProduct/extraDetails');
+    console.log("myfile",this.myFiles);
+    if(this.myFiles.length==0)
+      {
+alert("Please enter atleast one image")
+      }
+      else
+        {
     this._router.navigateByUrl('/vendor/addProduct/metaInfo');
+        }
+  }
+
+  cancelButton()
+  {
+     this._router.navigateByUrl('/vendor/addProduct/prodDesc');
   }
 }

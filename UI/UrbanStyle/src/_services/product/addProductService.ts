@@ -32,7 +32,7 @@ export class AddProductService {
     actualPrice: new FormControl("", [Validators.required]),
     discountPrice: new FormControl("", [Validators.required]),
     totalQuantity: new FormControl("", [Validators.required]),
-    reservedQuantity: new FormControl("")
+    reservedQuantity: new FormControl("0")
   });
 
   /////// formGroup for vital information for product
@@ -105,7 +105,7 @@ export class AddProductService {
         actualPrice: new FormControl("", [Validators.required]),
         discountPrice: new FormControl("", [Validators.required]),
         totalQuantity: new FormControl("", [Validators.required]),
-        reservedQuantity: new FormControl("")
+        reservedQuantity: new FormControl("0")
       })
     });
     return productVarientDto;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AddProductService } from 'src/_services/product/addProductService';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-meta-info',
@@ -9,7 +10,8 @@ import { AddProductService } from 'src/_services/product/addProductService';
 export class MetaInfoComponent implements OnInit {
 
   constructor(
-    private _addProduct : AddProductService
+    private _addProduct : AddProductService,
+    private _router:Router
   ) { 
     this._addProduct.getmetaInfo();
     console.log("metalist",this._addProduct.getProductMetaAllInfo);
@@ -23,4 +25,9 @@ export class MetaInfoComponent implements OnInit {
     this._addProduct.saveChanges();
   }
 
+  cancelButton()
+  {
+    console.log(this._addProduct.getProductMetaAllInfo)
+    this._router.navigateByUrl('/vendor/addProduct/imageUpload');
+  }
 }
