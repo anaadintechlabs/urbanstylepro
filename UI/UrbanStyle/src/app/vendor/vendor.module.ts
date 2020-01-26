@@ -16,7 +16,6 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { InventoryComponent } from "./inventory/inventory.component";
 import { FooterComponent } from './footer/footer.component';
 
-
 @NgModule({
   imports: [
     VendorRoutingModule,

@@ -273,4 +273,14 @@ changeStatusOfCategory(
       });
     });
   }
+
+  getAllProductOfUser(data,body) : Observable<any>{
+    return new Observable<any>(obs => {
+      this._apiService.post(`product/getAllProductOfUser?userId=${data}`,body).subscribe(res=> {
+        if (res.isSuccess) {
+          obs.next(res.data);
+        }
+      });
+    });
+  }
 }
