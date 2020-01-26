@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
+import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.ProductVariant;
 
@@ -40,5 +42,11 @@ public interface ProductVarientService {
 	void changeStatusOfProduct(long productId, int status);
 
 	List<ProductVariantDTO> getALLProductVarientDTO(int i, long prodId);
+	
+	List<VariantPriceUpdateDTO>  updateVarientDTO(List<VariantPriceUpdateDTO> allVarientDTO);
 
+	
+	List<ProductVariant> searchInventory(InventorySearchDTO inventorySearchDTO);
+
+ 
 }
