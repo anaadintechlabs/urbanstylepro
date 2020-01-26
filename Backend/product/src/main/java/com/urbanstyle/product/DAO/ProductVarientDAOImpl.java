@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
+import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.master.ProductVariant;
 
 import io.micrometer.core.instrument.util.StringUtils;
@@ -96,4 +97,79 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		 System.out.println("output of query 2 is "+returnData);
 		return returnData;
 	}
+	
+	
+	@Override
+	public List<ProductVariant> searchInventory(InventorySearchDTO inventorySearchDTO) {
+		String search = inventorySearchDTO.getSearch();
+		 long grtPrice = inventorySearchDTO.getGrtPrice(); 
+		 long lessPrice = inventorySearchDTO.getLessPrice();
+		 long grtDate = inventorySearchDTO.getGrtDate();
+		 long lessDate = inventorySearchDTO.getLessDate();
+		 String status = inventorySearchDTO.getStatus();
+		 String sortField = inventorySearchDTO.getSortField();
+		 String sortdir = inventorySearchDTO.getSortdir();
+		 int limit  = inventorySearchDTO.getLimit();
+		 int offset = inventorySearchDTO.getOffset();
+		 
+		 Session session = entityManager.unwrap(Session.class);
+		 
+		 String query = "FROM ProductVariant pv WHERE";
+		 
+		 if(StringUtils.isNotBlank(search)) {
+			 query += " (pv.sku like :sku or pv.prodName like :sku or pv.prodDesc like :sku)  ";
+		 }
+		 
+		 if(Long.valueOf(grtPrice) != null) {
+			 query += " and pv.actualPrice > :grtPrice";
+		 }
+		 
+		 if(Long.valueOf(lessPrice) != null) {
+			 query += " and pv.actualPrice < :lessPrice";
+		 }
+		 
+		 if(Long.valueOf(grtDate) != null) {
+			 query += " and pv.createdDate > :grtDate";
+		 }
+		 
+		 if(Long.valueOf(lessDate) != null) {
+			 query += " and pv.createdDate < :lessDate";		 
+		}
+		 
+		 if(StringUtils.isNotBlank(status)) {
+			 query += " and pv.status = :status";
+		 }
+		 
+		 if(StringUtils.isNotBlank(sortField)) {
+			 query += " Order by :sortField";
+		 }
+		 
+		 if(StringUtils.isNotBlank(sortdir)) {
+			 query += " "+sortdir;
+		 }
+		 Query managerQuery =  session.createQuery(query);
+		 if(StringUtils.isNotBlank(search)) {
+			 managerQuery.setParameter("sku",  "%"+search+"%");			 
+		 }
+		 if(Long.valueOf(grtPrice) != null) {
+			 managerQuery.setParameter("grtPrice",  grtPrice);			
+		 }
+		 if(Long.valueOf(lessPrice) != null) {
+			 managerQuery.setParameter("lessPrice",  lessPrice);			
+		 }
+		 if(Long.valueOf(grtDate) != null) {
+			 managerQuery.setParameter("grtDate",  grtDate);			
+		 }
+		 if(Long.valueOf(grtPrice) != null) {
+			 managerQuery.setParameter("lessDate",  lessDate);			
+		 }
+		 if(StringUtils.isNotBlank(status)) {
+			 managerQuery.setParameter("status",  status);
+		 }
+		 List<ProductVariant> returnData = managerQuery.list();
+		return returnData;
+	}
+
+
+
 }

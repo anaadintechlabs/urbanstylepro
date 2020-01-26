@@ -49,6 +49,12 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	void changeStatusOfProduct(long productId, int status);
 
 	@Query(value="delete from ProductVariant where product.productId = :productId")
+	@Modifying
+	@Transactional
 	void deleteAllProductVarient(long productId);
+	
+	@Query(value="update ProductVariant wl set wl.displayPrice =?3 and wl.actualPrice =?2 where wl.productVariantId =?1 ")
+	@Transactional
+	void updateVarientDTO(long productVariantId, long actualPrice, long displayPrice);
 
 }
