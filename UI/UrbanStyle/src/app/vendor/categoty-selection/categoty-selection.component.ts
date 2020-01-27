@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { Category } from "../../../_modals/category.modal";
-import { NgbCarouselConfig } from "@ng-bootstrap/ng-bootstrap";
 import { DataService } from "src/_services/data/data.service";
 import { Router } from '@angular/router';
 import { AddProductService } from 'src/_services/product/addProductService';
@@ -8,23 +7,23 @@ import { AddProductService } from 'src/_services/product/addProductService';
 @Component({
   selector: "categoty-selection",
   templateUrl: "./categoty-selection.component.html",
-  styleUrls: ["./categoty-selection.component.scss"]
+  styleUrls: ["./categoty-selection.component.scss"],
 })
 export class CategotySelectionComponent implements OnInit {
-  catList: Category[];
-  @Output() submit: EventEmitter<number> = new EventEmitter<number>();
+  catListData: any;
 
   constructor(
     protected _dataService: DataService,
     protected _addProductService : AddProductService,
-    private _router : Router
+    private _router : Router,
   ) {
-    console.log(this.catList);
+    // console.log(this.catList);
+    this.getAllCategory();
+
   }
 
   ngOnInit() {
-    console.log(this.catList);
-    this.getAllCategory();
+    // console.log(this.catList);
   }
 
   getAllCategory() {
@@ -37,11 +36,12 @@ export class CategotySelectionComponent implements OnInit {
     this._dataService
       .getAllCategory("category/getAllParentCategories", body)
       .subscribe(data => {
-        this.catList = data;
+        this.catListData = data;
+        console.log(this.catListData);
       });
   }
 
-  getCategoryById(cat: Category, index: number): void {
+  getCategoryById(cat: Category): void {
     if(cat.lastCategory){
       this.pickedCategory(cat.categoryId)
     } else {
@@ -52,7 +52,7 @@ export class CategotySelectionComponent implements OnInit {
       )
       .subscribe(data => {
         console.log(data);
-        this.catList = data;
+        this.catListData = data;
       });
 
     }

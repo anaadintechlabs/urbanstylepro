@@ -1,20 +1,7 @@
-<!-- <div *ngIf="category && category?.length > 0">
-    <div class="blankSpace"></div>
-    <div class="category">
-        <div class="category_map">
-            <h4>Select a category to continue</h4>
-        </div>
-    </div>
-    <div class="fixWidth" *ngFor="let item of category; let i = index">
-        <mat-card class="card" *ngFor="let cat of item?.category" (click)="getCategoryById(cat,i)">
-            <p class="card_title"> {{ cat?.categoryName | uppercase }}</p>
-        </mat-card>
-    </div>
-</div> -->
-
 <section class="category-sec py-5 text-capitalize">
     <div class="container">
-        <div class="row">
+        {{ catListData.length }}
+        <div class="row" *ngIf="catListData && catListData.length">
             <div class="col-md-8 offset-md-2">
                 <div class="category-det">
                     <h4><b>Select a product category</b></h4>
@@ -68,8 +55,8 @@
                         </div>
                     </form> -->
                     <!-- <h6><b><i>3 matching categories found</i></b></h6> -->
-                    <div *ngIf="catList && catList?.length > 0" class="srch-result">
-                        <p *ngFor="let cat of catList" (click)="getCategoryById(cat,i)" class="p-3 border bg-white" style="cursor:pointer;">
+                    <div  class="srch-result">
+                        <p *ngFor="let cat of catListData" (click)="getCategoryById(cat)" class="p-3 border bg-white" style="cursor:pointer;">
                             <i class="fas fa-star mr-3"></i> {{ cat?.categoryName | uppercase }} 
                             <span class="float-right">
                                 <i class="fas fa-chevron-right"></i>
