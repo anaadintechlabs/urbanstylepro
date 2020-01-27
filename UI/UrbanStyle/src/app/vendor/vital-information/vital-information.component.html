@@ -42,11 +42,11 @@
                 </div>
                 <div class="col-md-6 col-10">
                   <div class="form-group">
-                    <select name="" id="" class="custom-select">
-                      <option value="">ASIN</option>
-                      <option value="">GTIN</option>
-                      <option value="">EAN</option>
-                      <option value="">UPC</option>
+                    <select formControlName='productIdType' id="" class="custom-select">
+                      <option value="ASIN">ASIN</option>
+                      <option value="GTIN">GTIN</option>
+                      <option value="EAN">EAN</option>
+                      <option value="UPC">UPC</option>
                     </select>
                     
                   </div>
@@ -121,7 +121,7 @@
                   
                 </div>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-md-4">
                   <label for="" class="float-md-right">
                     <i class="fas fa-star mr-2"></i>
@@ -137,7 +137,7 @@
                 <div class="col-md-2">
                   
                 </div>
-              </div>
+              </div> -->
               <div class="btn-class float-right">
                 <button class="btn btn-first" (click)="cancelButton()">Cancel</button>
                 <button class="btn btn-second" (click)="submitted=true;" [disabled]="_addProductService.productFormGroup.invalid" type="submit">Next</button>

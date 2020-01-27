@@ -29,7 +29,7 @@ public class Product {
 	
 	private String productCode;
 	
-	
+	private ProducIdType productIdType;
 		
 	private String productName;
 	
@@ -82,6 +82,15 @@ public class Product {
 	{
 		this.modifiedDate= new Date();
 		this.modifiedBy="Admin";
+	}
+
+	
+	public ProducIdType getProductIdType() {
+		return productIdType;
+	}
+
+	public void setProductIdType(ProducIdType productIdType) {
+		this.productIdType = productIdType;
 	}
 
 	public String getProductName() {
