@@ -66,6 +66,11 @@ export class InventoryComponent implements OnInit {
     })
   }
 
+  getVariationBasedOnProductId(productId)
+  {
+    
+  }
+
   getAllProductVariantOfUser() {
     let body = {
       limit: 15,
