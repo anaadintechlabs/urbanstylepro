@@ -12,7 +12,7 @@ public class InventorySearchDTO {
 	private String sortdir;
 	private int limit ;
 	private int offset;
-	
+	private long userId;
 	
 	private InventorySearchDTO(String search,long grtPrice,long lessPrice,long grtDate,long lessDate,String status,String sortField,String sortdir,int limit,int offset) {
 		
