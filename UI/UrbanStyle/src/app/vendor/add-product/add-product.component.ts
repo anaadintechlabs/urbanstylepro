@@ -22,9 +22,7 @@ export class AddProductComponent implements OnInit {
     protected _addProduct: AddProductService,
     private cdRef: ChangeDetectorRef,
   ) {
-    if(window.localStorage.getItem('addProduct')){
-      this._addProduct.productDTO.patchValue(JSON.parse(window.localStorage.getItem('addProduct')));
-    }
+    
   }
 
   ngOnInit() {
@@ -39,14 +37,13 @@ export class AddProductComponent implements OnInit {
   }
 
   ngDoCheck() {
-    localStorage.setItem('addProduct', JSON.stringify(this._addProduct.productDTO.value));
+    sessionStorage.setItem('addProduct', JSON.stringify(this._addProduct.productDTO.value));
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this._addProduct.productDTO.reset();
-    window.localStorage.removeItem('addProduct')
+    window.sessionStorage.removeItem('addProduct');
+    this._addProduct.changeHeaderStaus(false);
   }
 }
 

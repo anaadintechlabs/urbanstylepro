@@ -7,6 +7,7 @@ import { AddProductDesciprionComponent } from '../variation/add-product-descipri
 import { ExtraDetailsComponent } from '../extra-details/extra-details.component';
 import { MetaInfoComponent } from '../meta-info/meta-info.component';
 import { AddProductMediaComponent } from '../add-product-media/add-product-media.component';
+import { AddProductGuard } from 'src/_gaurds/addProduct/addProduct.gaurd';
 
 
 export const AddProduct: Routes=[
@@ -25,23 +26,28 @@ export const AddProduct: Routes=[
             },
             {
                 path : 'vitalInfo',
-                component : VitalInformationComponent
+                component : VitalInformationComponent,
+                canActivate : [AddProductGuard]
             },
             {
                 path : 'prodDesc',
                 component : AddProductDesciprionComponent,
+                canActivate : [AddProductGuard]
             },
             {
                 path : 'imageUpload',
-                component : AddProductMediaComponent
+                component : AddProductMediaComponent,
+                canActivate : [AddProductGuard]
             },
             {
                 path : 'extraDetails',
-                component : ExtraDetailsComponent
+                component : ExtraDetailsComponent,
+                canActivate : [AddProductGuard]
             },
             {
                 path : 'metaInfo',
-                component : MetaInfoComponent
+                component : MetaInfoComponent,
+                canActivate : [AddProductGuard]
             }
         ]
     },

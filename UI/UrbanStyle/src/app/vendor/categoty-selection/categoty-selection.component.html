@@ -1,6 +1,5 @@
 <section class="category-sec py-5 text-capitalize">
     <div class="container">
-        {{ catListData.length }}
         <div class="row" *ngIf="catListData && catListData.length">
             <div class="col-md-8 offset-md-2">
                 <div class="category-det">
@@ -63,6 +62,9 @@
                             </span>
                         </p>
                     </div>
+                </div>
+                <div class="btn-class float-right">
+                    <button style="padding: 0.5rem 1.15rem;" class="btn btn-second" (click)="getAllCategory()" >Reset</button>
                 </div>
             </div>
         </div>

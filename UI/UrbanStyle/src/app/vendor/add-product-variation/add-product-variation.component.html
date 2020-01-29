@@ -21,6 +21,7 @@
             <thead>
               <tr>
                 <th></th>
+                <th>Varients</th>
                 <th>* Seller SKU</th>
                 <th>* Actual Price</th>
                 <th>* Your Price</th>
@@ -33,6 +34,11 @@
                   <td [formGroup]="item.controls.productVariant">
                     <input type="checkbox" class="custom-checkbox">
                   </td>
+                  <td>
+                    {{ 
+                      getVarient(item)
+                     }}
+                  </td>  
                   <td [formGroup]="item.controls.productVariant">
                     <input type="text" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
                   </td>

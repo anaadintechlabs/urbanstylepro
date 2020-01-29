@@ -15,6 +15,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { InventoryComponent } from "./inventory/inventory.component";
 import { FooterComponent } from './footer/footer.component';
+import { AddProductHeaderComponent } from './add-product-header/add-product-header.component';
+import { ModalModule } from 'ngx-modal'
 
 @NgModule({
   imports: [
@@ -24,6 +26,7 @@ import { FooterComponent } from './footer/footer.component';
     ServicesModule,
     NgbModule,
     ServicesModule,
+    ModalModule 
     // RouterModule
   ],
 
@@ -35,6 +38,7 @@ import { FooterComponent } from './footer/footer.component';
     DashboardComponent,
     InventoryComponent,
     FooterComponent,
+    AddProductHeaderComponent,
   ],
   bootstrap: [VendorComponent]
 })

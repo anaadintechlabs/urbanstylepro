@@ -1,37 +1,39 @@
-// @mixin blank_space($value) {
-//     height: (10 * $value) + px;
-// }
-
-
-// .productImage { 
-//     width: 60px;
-//     height: 60px;
-//     object-fit: cover;
-// }
-// p,h1,h2,h3,h4,h5,h6{
-//     color: #5f5f5f;
-// }
-// p,tr{
-//    font-size: 12px;
-// }
-// h4,th{
-//     font-size: 16px;
-//     margin-bottom: 0;
-// }
 button.btn.actionBtn {
-    border: 1px solid;
-    border-color: #999;
-    margin-right: 10px;
-    border-radius: 0;
-    font-size: 12px;
+  border: 1px solid;
+  border-color: #999;
+  margin-right: 10px;
+  border-radius: 0;
+  font-size: 12px;
 }
-
-.table td {
-    padding: .75rem 0.2rem;
-    // vertical-align: top;
-    border-top: 1px solid #dee2e6;
+.mainTable {
+  table {
+    float: left;
+    width: 100%;
+  }
+  .table th {
+    border-bottom: none !important;
+  }
+  thead {
+    display: block;
+    float: left;
+    width: 100%;
+  }
+  th.checkBox,
+  td.checkBox {
+    width: 2%;
+  }
+  tr {
+    float: left;
+    width: 100%;
+    border-top: 1px solid #c0c0c0;
+  }
+  th,
+  td {
+    float: left;
+    text-align: center;
+    width: 15.5%;
+  }
+  span {
+    word-wrap: break-word;
+  }
 }
-
-// .blankSpace {
-//     @include blank_space(10);
-// }

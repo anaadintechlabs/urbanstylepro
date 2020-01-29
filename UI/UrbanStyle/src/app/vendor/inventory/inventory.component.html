@@ -1,99 +1,3 @@
-<!-- <div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="blankSpace"></div>
-    </div>
-  </div>
-  <div class="row ptop10 p0">
-    <div class="col-md-12 col-sm-12 thc">
-      <h4>Inventory Details</h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 col-lg-12 col-sm-12">
-      <div class="row pt-2 pb-2">
-        <div class="col-xl-9 col-md-9 col-sm-9 col-12 pt-1">
-          <button class="btn actionBtn" (click)="getAllProductVariantOfUser(1)">
-            All
-          </button>
-          <button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(1)">
-            Active
-          </button>
-          <button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(0)">
-            Inactive
-          </button>
-        </div>
-      </div>
-      <div *ngIf="productList && productList.length > 0" class="table-responsive">
-        <div class="card card-plain">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title mt-0">Product List</h4>
-            <p class="card-category"></p>
-          </div>
-          <table class="table table-hover">
-            <thead class="attrTblHead">
-              <th>Product Image</th>
-              <th>SKU</th>
-              <th>Product Code</th>
-              <th>Product Name</th>
-              <th>Brand Name</th>
-              <th>Action</th>
-              <th>Edit</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let productvar of productList">
-                <td>
-                  <img class="productImage" src="{{ productvar.mainImageUrl }}" />
-                </td>
-                <td>{{ productvar.sku }}</td>
-                <td>{{ productvar.product.productCode }}</td>
-                <td>{{ productvar.product.productName }}</td>
-                <td>
-                  {{
-                    productvar.product.brandName.length > 0
-                      ? productvar.product.brandName
-                      : "NA"
-                  }}
-                </td>
-                <td>
-                  <button >Edit
-                  </button>
-
-                </td>
-                <div *ngIf="productvar.status == 1">
-                  <td>
-                    <button class="btn actionBtn" (click)="
-                        changeStatusOfProductVariant(
-                          productvar.productVariantId,
-                          0
-                        )
-                      ">
-                      Inactive
-                    </button>
-                  </td>
-                </div>
-                <div *ngIf="productvar.status == 0">
-                  <td>
-                    <button class="btn actionBtn" (click)="
-                        changeStatusOfProductVariant(
-                          productvar.productVariantId,
-                          1
-                        )
-                      ">
-                      Active
-                    </button>
-                  </td>
-                </div>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
 <nav class="border-top">
 	<div class="navbar navbar-expand-md navbar-light bg-transparanet">
 		<button class="navbar-toggler" data-toggle="collapse" data-target="#mymenu3"><span class="navbar-toggler-icon"></span></button>
@@ -116,7 +20,7 @@
 </div>
 </nav>
 <section class="v_inventory py-5">
-<div class="container-fluid">
+<div class="container">
 	<div class="row">
 		<div class="col-md-6">
 			<div class="v_inventor_heading">
@@ -132,9 +36,9 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="col-md-6">
+		<div class="col-md-6">
 			<div class="v_inventory_btn float-right py-2">
-				<button>
+				<!-- <button>
 				Add A variation
 				</button>
 				<button>
@@ -142,9 +46,9 @@
 				</button>
 				<button>
 				Preferences 12 columns hidden
-				</button>
+				</button> -->
 			</div>
-		</div> -->
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -203,67 +107,57 @@
 	</div>
 	</div>
 	<div class="v_inventory_list p-2 text-capitalize">
-		<div class="row">
-			<div class="col-md-12">
-				<table class="table table-responsive table-hover">
-					<thead class="bg-light">
-						<tr>
-							<th>
-								<input type="checkbox">
-							</th>
-							<th>
-								Status <i class="fas fa-caret-down"></i>
-							</th>
-							<th>
-								Image
-							</th>
-							<th>
-								<span class="text-primary">SKU</span> Condition
-							</th>
-							<th>
-								<span class="text-primary">Product Name</span> ASIN
-							</th>
-							<th>Date Created Status Changed Date</th>
-							<th>Available</th>
-							<th>Fee Preview</th>
-							<th>Price </th>
-							<th>Business Price </th>
-							<th>Sales Price</th>
-							<th><input type="text" class="px-2" placeholder="Save All"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr *ngFor="let item of productList">
-							<td><input type="checkbox"></td>
-							<td><i class="fas fa-chevron-right"></i> variation ( {{ item.totalVarients }} )</td>
-							<td></td>
-							<td>{{ item.productCode }}</td>
-							<td><a href="">
-								{{ item.productName }}
-							</a>
-
-							</td>
-							<td>{{ item.createdDate | date }}</td>
-							<td></td>
-							<td>-</td>
-							<td>-</td>
-							<!-- <td>Add Qantity Discount</td> -->
-							<td></td>
-							<td></td>
-							<td>
-								<select name="" id="" class="custom-select">
-									<option value=""> Edit</option>
-									<option value=""> Edit</option>
-									<option value=""> Edit</option>
-								</select>
-							</td>
-						</tr>						
-					</tbody>
-				</table>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 mainTable">
+					<table class="table table-responsive table-hover">
+						<thead class="bg-light">
+							<tr>
+								<th class="checkBox">
+									<input type="checkbox">
+								</th>
+								<th>
+									Status <i class="fas fa-caret-down"></i>
+								</th>
+								<th>
+									Image
+								</th>
+								<th>
+									<span class="text-primary">SKU</span> Condition
+								</th>
+								<th>
+									<span class="text-primary">Product Name</span> ASIN
+								</th>
+								<th>Date Created Status Changed Date</th>
+								<th>Available</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of productList">
+								<td class="checkBox"><input type="checkbox"></td>
+								<td (click)="getAllVeriant(item)">
+									<i class="fas fa-chevron-right"></i> 
+									variation ({{ item.totalVarients }})
+								</td>
+								<td></td>
+								<td>{{ item.productCode }}</td>
+								<td><a href="">
+									{{ item.productName }}
+								</a>
+	
+								</td>
+								<td>{{ item.createdDate | date }}</td>
+								<td></td>
+								
+							</tr>						
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
+	
 	</div>
-	<div class="v_pagination">
+	<!-- <div class="v_pagination">
 		<div class="row">
 		<div class="col-md-3">
 			<span class="float-left my-2 mr-2">Page</span>
@@ -282,6 +176,88 @@
 				</div>
 		</div>
 	</div>
-	</div>
+	</div> -->
 </div>
 </section>
+
+
+   
+<modal #variant  title="Edit Varients"
+        modalClass="modal-lg modal-sm inventory_modal"
+        [hideCloseButton]="true"
+        [closeOnEscape]="true"
+        [closeOnOutsideClick]="true"
+        (onOpen)="actionOnOpen()"
+        (onClose)="actionOnClose()"
+        (onSubmit)="actionOnSubmit()">
+ 
+    <modal-header>
+        <button class="btn icon" (click)="variant.close()">
+			<i class="fas fa-window-close"></i>
+		</button>
+    </modal-header>
+ 
+    <modal-content>
+		<div class="v_inventory_list p-2 text-capitalize">
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-responsive table-hover">
+						<thead class="bg-light">
+							<tr>
+								<th>
+									<input type="checkbox">
+								</th>
+								<th>
+									Status <i class="fas fa-caret-down"></i>
+								</th>
+								<th>
+									Image
+								</th>
+								<th>
+									<span class="text-primary">SKU</span> Condition
+								</th>
+								<th>
+									<span class="text-primary">Product Name</span> ASIN
+								</th>
+								<th>Date Created Status Changed Date</th>
+								<th>Available</th>
+								<th>Fee Preview</th>
+								<th>Price </th>
+								<th>Business Price </th>
+								<th>Sales Price</th>
+								<th><input type="text" class="px-2" placeholder="Save All"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of productList">
+								<td><input type="checkbox"></td>
+								<td><i class="fas fa-chevron-right"></i> variation ( {{ item.totalVarients }} )</td>
+								<td></td>
+								<td>{{ item.productCode }}</td>
+								<td><a href="">
+									{{ item.productName }}
+								</a>
+	
+								</td>
+								<td>{{ item.createdDate | date }}</td>
+								<td></td>
+								<td>-</td>
+								<td>-</td>
+								<!-- <td>Add Qantity Discount</td> -->
+								<td></td>
+								<td></td>
+								<td>
+									<select name="" id="" class="custom-select">
+										<option value=""> Edit</option>
+										<option value=""> Edit</option>
+										<option value=""> Edit</option>
+									</select>
+								</td>
+							</tr>						
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+    </modal-content>
+</modal>

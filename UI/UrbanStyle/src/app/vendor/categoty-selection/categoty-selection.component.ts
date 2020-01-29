@@ -18,12 +18,13 @@ export class CategotySelectionComponent implements OnInit {
     private _router : Router,
   ) {
     // console.log(this.catList);
+    this._addProductService.changeHeaderStaus(false);
     this.getAllCategory();
-
   }
 
   ngOnInit() {
     // console.log(this.catList);
+  
   }
 
   getAllCategory() {
@@ -60,6 +61,8 @@ export class CategotySelectionComponent implements OnInit {
 
   pickedCategory(id: number): void {
     this._addProductService.productFormGroup.get("categoryId").setValue(id);
+    this._addProductService.changeHeaderStaus(true);
+    this._addProductService.selectedCatID = id;
     this._addProductService.selectedCategory(id);
     this._router.navigateByUrl('/vendor/addProduct/vitalInfo');
   }

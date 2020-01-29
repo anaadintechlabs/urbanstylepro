@@ -17,6 +17,7 @@ export class VitalInformationComponent implements OnInit {
     private _addProductService : AddProductService,
     private _router : Router,
   ) {
+    this._addProductService.changeHeaderStaus(true);
   }
 
   get f() {
