@@ -17,6 +17,7 @@ import { InventoryComponent } from "./inventory/inventory.component";
 import { FooterComponent } from './footer/footer.component';
 import { AddProductHeaderComponent } from './add-product-header/add-product-header.component';
 import { ModalModule } from 'ngx-modal'
+import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { ModalModule } from 'ngx-modal'
     ServicesModule,
     NgbModule,
     ServicesModule,
-    ModalModule 
+    ModalModule ,
+    ToastrModule.forRoot() // ToastrModule added
     // RouterModule
   ],
 

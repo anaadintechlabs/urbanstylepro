@@ -107,52 +107,65 @@
 	</div>
 	</div>
 	<div class="v_inventory_list p-2 text-capitalize">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 mainTable">
-					<table class="table table-responsive table-hover">
-						<thead class="bg-light">
-							<tr>
-								<th class="checkBox">
-									<input type="checkbox">
-								</th>
-								<th>
-									Status <i class="fas fa-caret-down"></i>
-								</th>
-								<th>
-									Image
-								</th>
-								<th>
-									<span class="text-primary">SKU</span> Condition
-								</th>
-								<th>
-									<span class="text-primary">Product Name</span> ASIN
-								</th>
-								<th>Date Created Status Changed Date</th>
-								<th>Available</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let item of productList">
-								<td class="checkBox"><input type="checkbox"></td>
-								<td (click)="getAllVeriant(item)">
-									<i class="fas fa-chevron-right"></i> 
-									variation ({{ item.totalVarients }})
-								</td>
-								<td></td>
-								<td>{{ item.productCode }}</td>
-								<td><a href="">
-									{{ item.productName }}
-								</a>
-	
-								</td>
-								<td>{{ item.createdDate | date }}</td>
-								<td></td>
-								
-							</tr>						
-						</tbody>
-					</table>
-				</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-responsive table-hover">
+					<thead class="bg-light">
+						<tr>
+							<th>
+								<input type="checkbox">
+							</th>
+							<th>
+								Status <i class="fas fa-caret-down"></i>
+							</th>
+							<th>
+								Image
+							</th>
+							<th>
+								<span class="text-primary">SKU</span> Condition
+							</th>
+							<th>
+								<span class="text-primary">Product Name</span> ASIN
+							</th>
+							<th>Date Created Status Changed Date</th>
+							<th>Available</th>
+							<th>Fee Preview</th>
+							<th>Price </th>
+							<th>Business Price </th>
+							<th>Sales Price</th>
+							<th><input type="text" class="px-2" placeholder="Save All"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let item of productList">
+							<td><input type="checkbox"></td>
+							<td (click)="getVariationBasedOnProductId(item.productId)"><i class="fas fa-chevron-right"></i> variation ( {{ item.totalVarients }} )</td>
+							<td></td>
+							<td>{{ item.productCode }}</td>
+							<td><a href="">
+								{{ item.productName }}
+							</a>
+
+							</td>
+							<td>{{ item.createdDate | date }}</td>
+							<td></td>
+							<td>-</td>
+							<td>-</td>
+							<!-- <td>Add Qantity Discount</td> -->
+							<td></td>
+							<td></td>
+							<td>
+								<select name="" id="" class="custom-select">
+									<option value=""> Edit</option>
+									<option value=""> Edit</option>
+									<option value=""> Edit</option>
+								</select>
+							</td>
+						</tr>						
+					</tbody>
+				</table>
+
 			</div>
 		</div>
 	

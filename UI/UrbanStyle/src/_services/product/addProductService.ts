@@ -12,6 +12,7 @@ import { HttpParams } from '@angular/common/http';
 import { MetaInfo } from 'src/_modals/productMeta';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root"
@@ -47,7 +48,8 @@ export class AddProductService {
   constructor(
     protected _fb: FormBuilder,
     private _apiService: ApiService,
-    private _router : Router
+    private _router : Router,
+    private toastr: ToastrService
   ) {
     this.productDTO = this._fb.group({
       product: this.productForm,
@@ -184,14 +186,15 @@ export class AddProductService {
       frmData.append("file", this.uploadedPhoto[i]);  
     } 
     frmData.append("productDTOString", JSON.stringify(this.productDTO.value));
-    console.log(this.uploadedPhoto);
-    console.log(this.productDTO.value);
-    console.log(JSON.stringify(frmData));
+    
     this._apiService
       .postWithMedia("product/saveProduct", frmData)
       .subscribe(res => {
         console.log("save done");
         this._router.navigateByUrl('/vendor/inventory');
+         this.toastr.success('Product saved successfully', 'Success');
+    },error=>{
+      this.toastr.success('Something went wrong!', 'Failure');
     });
   }
 

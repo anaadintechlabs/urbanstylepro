@@ -8,6 +8,8 @@ import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { AccountRoutes } from './account.routing';
 import { RouterModule } from '@angular/router';
 import { FormModule } from '../_forms/form.module';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from "ngx-toastr";
 
 
 
@@ -23,7 +25,8 @@ import { FormModule } from '../_forms/form.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    FormModule
+    FormModule,
+    ToastrModule.forRoot() // ToastrModule added
   ]
 })
 export class AccountModule { }

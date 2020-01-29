@@ -40,6 +40,9 @@ export class LoginComponent implements OnInit {
     this._userService.attemptAuth("",body).subscribe(res=>{
       this.toastr.success('Login Successfull', 'Success');
       this.router.navigateByUrl("/vendor/dashboard")
+    },error=>{
+      this.toastr.error("Please Enter valid Credentials!","Oops!")
+      //alert("Please Enter valid Credentials");
     });
   }
 
