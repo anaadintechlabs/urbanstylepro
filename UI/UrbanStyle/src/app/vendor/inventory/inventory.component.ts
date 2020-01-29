@@ -1,27 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatPaginator,
-  MatSort,
-  MatTableDataSource
-} from "@angular/material";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { DataService } from "src/_services/data/data.service";
-import { Router, ActivatedRoute } from "@angular/router";
 import { User } from 'src/_modals/user.modal';
-import { ApiService } from 'src/_services/http_&_login/api.service';
 @Component({
   selector: "app-inventory",
   templateUrl: "./inventory.component.html",
   styleUrls: ["./inventory.component.scss"]
 })
 export class InventoryComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true })
-  paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true })
-  sort: MatSort;
 
   productList: any = [];
   bankDetailCount: number;
@@ -36,11 +21,10 @@ export class InventoryComponent implements OnInit {
   pageNumber: any;
   user : User;
 
+  @ViewChild('variant',{static: false}) modal;
+
   constructor(
     private dataService: DataService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private _apiService : ApiService
   ) {
     //getUserId Dynamic
     this.user =  JSON.parse(window.localStorage.getItem('user'));
@@ -86,7 +70,6 @@ export class InventoryComponent implements OnInit {
           console.log("datais ",data);
           this.productList = data;
           this.ELEMENT_DATA = this.productList;
-          this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
         },
         error => {
           console.log("error======", error);
@@ -112,7 +95,6 @@ export class InventoryComponent implements OnInit {
       data => {
         this.productList = data;
         this.ELEMENT_DATA = this.productList;
-        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       },
       error => {
         console.log("error======", error);
@@ -140,13 +122,17 @@ export class InventoryComponent implements OnInit {
       data => {
         this.productList = data;
         this.ELEMENT_DATA = this.productList;
-        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       },
       error => {
         console.log("error======", error);
       }
     );
     console.log(this.productList);
+  }
+
+  getAllVeriant(item) {
+    console.log(item);
+    this.modal.open();
   }
 
   pageEvent(event) {}

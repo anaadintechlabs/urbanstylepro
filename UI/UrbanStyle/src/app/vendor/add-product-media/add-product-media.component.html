@@ -22,7 +22,7 @@
                     <li>Images must not exceed 10000 pixels on the longest side. </li>
                   </ul>
                 </div>
-                <input type="file" name="" id="" (change)="onSelectFile($event)">
+                <input type="file" name="" id="" (change)="_addProduct.onSelectFile($event)">
                 <!-- <div class="col-md-3" *ngFor="let item of items">
                   <div class="text-center img-up">
                       <i class="fas fa-camera fa-2x"></i><br>
@@ -32,10 +32,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="btn-class float-right">
-          <button class="btn btn-first" (click)="cancelButton()">Cancel</button>
-          <button class="btn btn-second" (click)="nextStep()">Next</button>
         </div>
       </div>
     </div>

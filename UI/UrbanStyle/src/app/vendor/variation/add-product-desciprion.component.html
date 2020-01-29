@@ -15,7 +15,10 @@
                   <label for="">Variation Theme</label>
                 </div>
                 <div class="col-md-3" *ngFor="let item of _addProduct.categoryAttribute">
-                  <input type="checkbox"  [(ngModel)]="item.attributeMaster.checked"  (change)="addvariation($event,item)">{{ item.attributeMaster.variationName }}
+                  <input type="checkbox" style="width: 10%;"  [(ngModel)]="item.attributeMaster.checked"  (change)="addvariation($event,item)">
+                  <span >
+                    {{ item.attributeMaster.variationName }}
+                  </span> 
                 </div>
               </div>
             </div>
@@ -36,9 +39,9 @@
                 </div>
               </div>
               <div class="row">
-                 <div class="col-md-6">
+                 <!-- <div class="col-md-6">
                   <button class="btn btn-primary" (click)="backButton()">Back</button>
-                </div>
+                </div> -->
                 <div class="col-md-6">
                   <button class="btn btn-primary" (click)="getAllAttrMap()">Add Variation</button>
                 </div>
@@ -49,80 +52,13 @@
       </div>
     </div>
     <product-variation></product-variation>
-    <div class="col-md-8 offset-md-2">
+    <!-- <div class="col-md-8 offset-md-2">
       <div class="btn-class float-right">
-        <!-- <button class="btn btn-first rounded-0">Cancel</button> -->
-        <!-- <button class="btn btn-second rounded-0" (click)="_addProduct.saveChanges()">Save Changes</button> -->
+         <button class="btn btn-first rounded-0">Cancel</button>
+         <button class="btn btn-second rounded-0" (click)="_addProduct.saveChanges()">Save Changes</button>
         <button class="btn btn-second rounded-0" (click)="nextStep()">Save Changes</button>
 
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
-
-
-
-
-
-<!-- <div class="form-group">
-  <label for=""></label>
-  <select [value]="_addProduct.selectedProductType" class="form-control" (change)="onChange($event.target.value)" name="" id="" placeholder="select product type">
-    <option  value="" disabled> Select Product type </option>
-    <option value="SIMPLE"> Simple Product </option>
-    <option value="ADVANCE"> Advance Product </option>
-  </select>
-</div> -->
-
-
-<!-- <div *ngIf="_addProduct.selectedProductType == 'SIMPLE'">
-    <div formArraryName="_addProduct.productVariantDTO" *ngFor="let item of _addProduct.productVariantDTO.controls;let i = index">
-            <product-variation [productVariation]="item"  ></product-variation>
-     </div>
-</div> -->
-
-<!-- <div *ngIf="_addProduct.selectedProductType == 'ADVANCE' && _addProduct.categoryAttribute.length > 0">
-    <p>Select Category for Variation</p>
-    <div class="chkBox" *ngFor="let item of _addProduct.categoryAttribute">
-        <input type="checkbox"  [(ngModel)]="item.attributeMaster.checked"  (change)="addvariation($event,item)">{{ item.attributeMaster.variationName }}
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div *ngFor="let item of _addProduct.selectedVariation; let i = index;" class="col-md-12">
-                <div class="header">
-                    <h4>{{ 'Add ' + item?.attributeMaster?.variationName }}</h4>
-                </div>
-                <label for=""></label>
-                <input #attr (change)="addVariation(attr,i)" [type]="item?.attributeMaster?.typeOfInput" name="" id="">
-
-                <div class="attribute">
-                    <p *ngFor="let map of item?.allAttributeMap?.variationAttribute" class="attribute_map">{{ map }}
-                        <button class="cancelBtn" (click)="removeAttribure(map,i)">
-                                <i class="material-icons">
-                                        cancel
-                                        </i>
-                        </button>
-                    </p>
-                </div>
-            </div>
-            <div class="col" >
-                <button class="btn btn-primary" (click)="getAllAttrMap()">Add Variation</button>
-            </div>
-        </div>
-        <div class="row" *ngIf="_addProduct.productVariantDTO && _addProduct.productVariantDTO.length > 1">
-            <div class="col-md-12" formArraryName="_addProduct.productVariantDTO"
-              *ngFor="let item of _addProduct.productVariantDTO.controls; let i = index" >
-                    <product-variation
-                      [productVariation]="item"
-                      [index]="i"
-                    ></product-variation>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <button type="submit" (click)="nextStep()"></button>
-            </div>
-        </div>
-    </div>
-</div> -->
-
