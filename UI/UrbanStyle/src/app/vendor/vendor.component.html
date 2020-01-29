@@ -1,12 +1,4 @@
-<!-- <mat-sidenav-container>
-    <mat-sidenav #sidenav role="navigation">
-        <vendor-sidebar></vendor-sidebar>
-    </mat-sidenav>
-    <mat-sidenav-content> -->
-        <vendor-header (sidenavToggle)="sidenav.toggle()"></vendor-header>
-        <!-- <main> -->
-            <router-outlet></router-outlet>
-        <!-- </main>
-    </mat-sidenav-content>
-</mat-sidenav-container> -->
+<vendor-header *ngIf="!header_status"></vendor-header>
+<addProductHeader *ngIf="header_status"></addProductHeader>
+    <router-outlet></router-outlet>
 <vendor-footer></vendor-footer>

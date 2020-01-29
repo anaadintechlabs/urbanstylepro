@@ -2,6 +2,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AddProductService } from 'src/_services/product/addProductService';
+import { element } from 'protractor';
 
 @Component({
   selector: 'product-variation',
@@ -39,6 +40,20 @@ export class AddProductVariationComponent implements OnInit {
       console.log(this.productVariation);
       this.productVariationEmit.emit(this.productVariation);
     }
+  }
+
+  getVarient(item) {
+    let temp : string[]=[]; 
+    let data = item.value.attributesMap;
+    var result = Object.keys(data).map(function (key) {    
+      // Using Number() to convert key to number type 
+      // Using obj[key] to retrieve key value 
+      return [data[key]]; 
+    });
+    result.forEach(ele=>{
+      temp.push(ele[0])
+    });
+    return temp.join('-');
   }
 
 }

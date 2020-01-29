@@ -10,20 +10,65 @@ import { CategoryAttribute } from "src/_modals/categoryAttribute.modal";
 import { ApiService } from "../http_&_login/api.service";
 import { HttpParams } from '@angular/common/http';
 import { MetaInfo } from 'src/_modals/productMeta';
-import { ThrowStmt } from '@angular/compiler';
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: "root"
 })
 export class AddProductService {
+  private header_status : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  readonly headerStatus$ = this.header_status.asObservable();
+
   public selectedVariation: CategoryAttribute[] = [];
   public categoryAttribute: CategoryAttribute[] = [];
   public selectedProductType: string = "ADVANCE";
+  selectedCatID : number = 0;
+  myFiles: string[] = [];
+  urlArray: any = [];
+
+  get productDescFormGroup() : FormGroup {
+    return this.productDTO.get('productDesc') as FormGroup
+  }
+
+  get productFormGroup(): FormGroup {
+    return this.productDTO.get("product") as FormGroup;
+  }
+
+  get productVariantDTO(): FormArray {
+    return this.productDTO.get("productVariantDTO") as FormArray;
+  }
+
+  get getProductMetaAllInfo(): FormArray {
+    return this.productDTO.get("productMetaInfo") as FormArray;
+  }
+
+  
+  constructor(
+    protected _fb: FormBuilder,
+    private _apiService: ApiService,
+    private _router : Router
+  ) {
+    this.productDTO = this._fb.group({
+      product: this.productForm,
+      productDesc : this.productDescription,
+      productVariantDTO: this._fb.array([]),
+      productMetaInfo : this._fb.array([])
+    });
+
+    console.log(this.productDTO.value);
+  }
+
   /////// FormGroup for productmeta (key value pair)
   public productMetaForm = new FormGroup({
     metaKey: new FormControl("", [Validators.required]),
     metaValue: new FormControl("", [Validators.required])
   });
+
+  public productDescription = new FormGroup({
+    feature : new FormControl(''),
+    description: new FormControl('')
+  })
 
   /////// product variation formGroup
   public productVariantForm = new FormGroup({
@@ -55,19 +100,6 @@ export class AddProductService {
   uploadedPhoto : string[] = [];
   metaList: MetaInfo[];
 
-  constructor(
-    protected _fb: FormBuilder,
-    private _apiService: ApiService,
-  ) {
-    this.productDTO = this._fb.group({
-      product: this.productForm,
-      productVariantDTO: this._fb.array([this.initializeProductVarientDto()]),
-      productMetaInfo : this._fb.array([])
-    });
-    // this will be added later
-    //  productMetaInfo: this._fb.array([this.addMetaInfo()])
-    console.log(this.productDTO.value);
-  }
 
   public initializeProductVarientDto(): FormGroup {
     let productVarientDto: FormGroup;
@@ -116,19 +148,8 @@ export class AddProductService {
     return this.productMetaForm;
   }
 
-  get productFormGroup(): FormGroup {
-    return this.productDTO.get("product") as FormGroup;
-  }
-
-  get productVariantDTO(): FormArray {
-    return this.productDTO.get("productVariantDTO") as FormArray;
-  }
-
-  get getProductMetaAllInfo(): FormArray {
-    return this.productDTO.get("productMetaInfo") as FormArray;
-  }
-
   selectedCategory(catId: number) {
+    this.selectedCatID = catId;
     console.log(catId);
     const param: HttpParams = new HttpParams().set("categoryId", catId.toString());
     // this.vitalInfo.get("categoryId").setValue(catId);
@@ -157,6 +178,7 @@ export class AddProductService {
   }
 
   saveChanges() {
+    this.uploadedPhoto = this.myFiles;
     const frmData = new FormData();  
     for (var i = 0; i < this.uploadedPhoto.length; i++) {  
       frmData.append("file", this.uploadedPhoto[i]);  
@@ -169,7 +191,7 @@ export class AddProductService {
       .postWithMedia("product/saveProduct", frmData)
       .subscribe(res => {
         console.log("save done");
-        alert("product saved")
+        this._router.navigateByUrl('/vendor/inventory');
     });
   }
 
@@ -192,8 +214,28 @@ export class AddProductService {
     }
   }
 
+  onSelectFile(event) {
+    for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[i].size <= 2048000) {
+        this.myFiles.push(event.target.files[i]);
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[i]);
+        reader.onload = event => {
+          this.urlArray.push(reader.result);
+        };
+      } else {
+        alert("Please select image less than 2MB.");
+      }
+    }
+    console.log("total imags" + this.myFiles);
+  }
+
   uploadPhoto(myFiles) {
     this.uploadedPhoto = myFiles;
     this.saveChanges();
+  }
+
+  changeHeaderStaus(value : boolean){
+    this.header_status.next(value);
   }
 }
