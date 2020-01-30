@@ -45,8 +45,7 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this._addProduct.productDTO.reset();
-    window.sessionStorage.removeItem('addProduct');
+    this._addProduct.flushData();
     this._addProduct.changeHeaderStaus(false);
   }
 }

@@ -159,6 +159,8 @@ export class AddProductService {
       if (res.isSuccess) {
         this.categoryAttribute = res.data.variationList;
         this.metaList = res.data.metaList;
+        this.getProductMetaAllInfo.clear();
+        this.getmetaInfo();
       }
     });
   }
@@ -230,7 +232,7 @@ export class AddProductService {
         alert("Please select image less than 2MB.");
       }
     }
-    console.log("total imags" + this.myFiles);
+    console.log("total imags" + this.urlArray);
   }
 
   uploadPhoto(myFiles) {
@@ -240,5 +242,14 @@ export class AddProductService {
 
   changeHeaderStaus(value : boolean){
     this.header_status.next(value);
+  }
+
+  flushData() {
+    this.productDTO.reset();
+    this.productVariantDTO.clear();
+    this.getProductMetaAllInfo.clear();
+    this.myFiles = [];
+    this.urlArray =[];
+    window.sessionStorage.removeItem('addProduct');
   }
 }

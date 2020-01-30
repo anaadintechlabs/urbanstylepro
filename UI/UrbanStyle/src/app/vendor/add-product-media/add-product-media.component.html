@@ -22,13 +22,16 @@
                     <li>Images must not exceed 10000 pixels on the longest side. </li>
                   </ul>
                 </div>
-                <input type="file" name="" id="" (change)="_addProduct.onSelectFile($event)">
-                <!-- <div class="col-md-3" *ngFor="let item of items">
+                <div class="col-md-12" >
                   <div class="text-center img-up">
+                    <input multiple type="file" name="" id="" class="img-up-btn" (change)="_addProduct.onSelectFile($event)">
                       <i class="fas fa-camera fa-2x"></i><br>
                       <span>Upload</span>
                    </div>
-                </div> -->
+                </div>
+                <div class="col-md-3 preview" *ngFor="let item of _addProduct.urlArray">
+                  <img class="preview_Image" [src]="item" alt="" srcset="">
+                </div>
               </div>
             </div>
           </div>

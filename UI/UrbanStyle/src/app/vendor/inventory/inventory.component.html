@@ -61,7 +61,7 @@
 										Image
 									</th> 
 									 <th>
-										<span class="text-primary">SKU</span> Condition
+										<span class="text-primary">Condition/SKU</span> 
 									</th> 
 									<th>
 										<span class="text-primary">Product Name</span> ASIN
@@ -74,33 +74,29 @@
 									<th>Action</th>
 								</tr>
 							</thead>
-							<tbody>
-								<div *ngIf="showProducts">
+							<tbody *ngIf="showProducts">
 								<tr  *ngFor="let item of productList">
 									<!-- <td class="checkBox"><input type="checkbox"></td> -->
 									<td (click)="getAllVeriant(item)">
 										<i class="fas fa-chevron-right"></i>
 										Variations ({{ item.totalVarients }})
 									</td>
-									<td></td>
+									<td>-</td>
 									
 									
 									
 									<td>{{ item.productCode }}</td>
-									<td><a >
-											{{ item.productName }}
-										</a>
-
-									</td>
+									<td><a>{{ item.productName }}</a></td>
 									<td>{{ item.createdDate | date }}</td>
 									<td>--</td>
 									<td>--</td>
 									<td>--</td>
-									<td><button>Edit</button></td>
+									<td></td>
+									<td><button class="btn editBtn" (click)="goToEdit(item)">Edit</button></td>
 								</tr>
-								</div>
+							</tbody>
 							<!--For Variant   -->
-							<div *ngIf="showVariants">
+							<tbody *ngIf="showVariants">
 							<tr  *ngFor="let item of productList">
 								<!-- <td><input type="checkbox"></td> -->
 								<td>{{item.status?'ACTIVE':'INACTIVE'}}</td>
@@ -136,7 +132,7 @@
 									</select>
 								</td>
 							</tr>			
-							</div>
+							
 							</tbody>
 						</table>
 					</div>
