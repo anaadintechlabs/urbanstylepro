@@ -1,5 +1,7 @@
 package com.urbanstyle.product.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,5 +16,8 @@ public interface ProductImagesRepository extends PagingAndSortingRepository<Prod
 	@Modifying
 	@Transactional
 	void deleteAllImage(long productId);
+
+	@Query(value="select pi.productImageUrl from ProductImages pi where pi.product.productId = :prodId")
+	List<String> findUrlByProduct(long prodId);
 
 }

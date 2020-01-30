@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.DTO.ProductDTO;
+import com.anaadihsoft.common.DTO.ProductDTOWithImage;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
@@ -67,7 +68,7 @@ public interface ProductService {
 
 	void changeStatusOfProduct(long productId, int status);
 
-	ProductDTO getCompleteProduct(long prodId);
+	ProductDTOWithImage getCompleteProduct(long prodId);
 	 
 
 }

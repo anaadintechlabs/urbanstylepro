@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.DTO.ProductDTO;
+import com.anaadihsoft.common.DTO.ProductDTOWithImage;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
@@ -253,16 +254,16 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ProductDTO getCompleteProduct(long prodId) {
-		ProductDTO productDTO = new ProductDTO();
+	public ProductDTOWithImage getCompleteProduct(long prodId) {
+		ProductDTOWithImage productDTO = new ProductDTOWithImage();
 		Product oldProduct=productRepository.findByProductId(prodId);
 		List<ProductVariantDTO> productVarientDTOList = productVarientSerice.getALLProductVarientDTO(1,prodId);
 		List<ProductMeta> allproductMetaInfo = productMetaService.findAllMetaInfo(prodId);
-		
+		List<String> imageUrl=productImagesRepository.findUrlByProduct(prodId);
 		productDTO.setProduct(oldProduct);
 		productDTO.setProductMetaInfo(allproductMetaInfo);
 		productDTO.setProductVariantDTO(productVarientDTOList);
-		
+		productDTO.setImageUrls(imageUrl);
 		return productDTO;
 	}
 
