@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService{
 			file=files[0];
 
 		}
-		createProductVariant(productDTO.getProductVariantDTO(),oldProduct,file);
+		String mainImageUrl=createProductVariant(productDTO.getProductVariantDTO(),oldProduct,file);
 		if(productDTO.getProductMetaInfo()!=null)
 		{
 			List<ProductMeta> productMetaList = new ArrayList<>();
@@ -110,7 +110,7 @@ public class ProductServiceImpl implements ProductService{
 		//BYPASSING CHECK AS OF NOW
 		if(i>0)
 		{
-			List<ProductImages> productMedias=fileUploadService.storeMediaForProduct(files,oldProduct);
+			List<ProductImages> productMedias=fileUploadService.storeMediaForProduct(files,oldProduct,mainImageUrl);
 			if(productMedias!=null && !productMedias.isEmpty())
 			{
 				System.out.println("stroing image");
@@ -140,11 +140,12 @@ public class ProductServiceImpl implements ProductService{
 		    }
 		    
 		 
-	private void createProductVariant(List<ProductVariantDTO> productVariantDTOList,Product product, MultipartFile file) {
+	private String createProductVariant(List<ProductVariantDTO> productVariantDTOList,Product product, MultipartFile file) {
 		String mainImageUrl=null;
+		String fileName=null;
 		if(file!=null)
 		{
-	        String fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
+	         fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
 	        mainImageUrl=generateFileUri(fileName);
 	        
 		}
@@ -162,7 +163,7 @@ public class ProductServiceImpl implements ProductService{
 			
 			
 		}
-		
+		return fileName;
 	}
 
 	public void saveProductMetaInformation(List<ProductMeta> productMetaInfo, Product product,List<ProductMeta> productMetaList) {

@@ -11,35 +11,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="row">
-			<div class="col-md-12">
-				<div class="v_inventory-serch">
-					<div class="row">
-						<!-- <div class="col-md-2">
-							<div class="dropdown">
-								<button class="dropdown-toggle" type="button" id="dropdownMenuButton"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Action On Zero Selected
-								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<a class="dropdown-item" href="#">Action</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<input type="search" placeholder="Search SKU,Title"
-								class="form-control rounded-0 w-75 float-left">
-							<button class="v_srch_btn"><I class="fas fa-search"></I></button>
-						</div>
-						<div class="col-md-7 py-1">
-							<span>
-								{{productList.length}} Proudct(s)
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
+		
 		<div class="p-2 v_filter-sec">
 			<div class="row py-3 bg-light">
 				<!-- <div class="col-md-1">
@@ -47,7 +19,7 @@
 				</div> -->
 				<div class="col-md-6">
 					<span>Status </span>
-					<button class="btn actionBtn" (click)="getAllProductVariantOfUser(1)">
+					<button class="btn actionBtn" (click)="getAllProductOfUser()">
 						All
 					</button>
 					<button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(1)">
@@ -74,46 +46,97 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 mainTable">
-						<table class="table table-responsive table-hover">
+						 <!-- class="table table-responsive table-hover" -->
+						<table>
 							<thead class="bg-light">
 								<tr>
-									<th class="checkBox">
+									<!-- <th class="checkBox">
 										<input type="checkbox">
-									</th>
+									</th> -->
 									<th>
-										Status <i class="fas fa-caret-down"></i>
+										Status
 									</th>
-									<th>
+									
+									 <th>
 										Image
-									</th>
-									<th>
+									</th> 
+									 <th>
 										<span class="text-primary">SKU</span> Condition
-									</th>
+									</th> 
 									<th>
 										<span class="text-primary">Product Name</span> ASIN
 									</th>
 									<th>Date Created Status Changed Date</th>
 									<th>Available</th>
+									<th>Price</th>
+									<th>Business Price</th>
+									<th>Sales Price</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let item of productList">
-									<td class="checkBox"><input type="checkbox"></td>
+								<div *ngIf="showProducts">
+								<tr  *ngFor="let item of productList">
+									<!-- <td class="checkBox"><input type="checkbox"></td> -->
 									<td (click)="getAllVeriant(item)">
 										<i class="fas fa-chevron-right"></i>
-										variation ({{ item.totalVarients }})
+										Variations ({{ item.totalVarients }})
 									</td>
 									<td></td>
+									
+									
+									
 									<td>{{ item.productCode }}</td>
-									<td><a href="">
+									<td><a >
 											{{ item.productName }}
 										</a>
 
 									</td>
 									<td>{{ item.createdDate | date }}</td>
-									<td></td>
-
+									<td>--</td>
+									<td>--</td>
+									<td>--</td>
+									<td><button>Edit</button></td>
 								</tr>
+								</div>
+							<!--For Variant   -->
+							<div *ngIf="showVariants">
+							<tr  *ngFor="let item of productList">
+								<!-- <td><input type="checkbox"></td> -->
+								<td>{{item.status?'ACTIVE':'INACTIVE'}}</td>
+								<td>
+									<img class="v_modal_productImage" [src]="item.mainImageUrl" alt="" srcset="">
+								</td>
+								<td>{{ item.sku }}</td>
+								<td><a href="">
+										{{ item?.product?.productCode }}
+									</a>
+
+								</td>
+								<td>{{ item.createdDate | date }}</td>
+								<td>
+									{{ item.totalQuantity }}
+								</td>
+								<!-- <td>
+									{{ item }}
+								</td> -->
+								<td>
+									{{ item.displayPrice }}
+								</td>
+								<!-- <td>Add Qantity Discount</td> -->
+								<td>
+									{{ item.discountPrice }}
+								</td>
+								<td>
+									{{ item.actualPrice }}
+								</td>
+								<td>
+									<select name="" id="" class="custom-select">
+										<option value=""> Edit</option>
+									</select>
+								</td>
+							</tr>			
+							</div>
 							</tbody>
 						</table>
 					</div>
@@ -165,6 +188,7 @@
 								<!-- <th>
 									<input type="checkbox">
 								</th> -->
+							
 								<th>
 									Status 
 									<!-- <i class="fas fa-caret-down"></i> -->
@@ -196,7 +220,7 @@
 								</td>
 								<td>{{ item.sku }}</td>
 								<td><a href="">
-										{{ item.productName }}
+										{{ item?.product?.productCode }}
 									</a>
 
 								</td>
@@ -219,8 +243,6 @@
 								</td>
 								<td>
 									<select name="" id="" class="custom-select">
-										<option value=""> Edit</option>
-										<option value=""> Edit</option>
 										<option value=""> Edit</option>
 									</select>
 								</td>

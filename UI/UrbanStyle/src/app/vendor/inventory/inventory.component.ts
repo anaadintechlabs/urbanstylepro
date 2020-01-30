@@ -10,6 +10,8 @@ import { isNgTemplate } from '@angular/compiler';
 })
 export class InventoryComponent implements OnInit {
 
+  public showProducts:boolean=true;
+  public showVariants:boolean;
   productList: any[] = [];
   filterList : any[] = [];
   variantList : any[] = [];
@@ -58,13 +60,15 @@ export class InventoryComponent implements OnInit {
 
   getAllProductOfUser() {
     let body = {
-      "limit":15,
+      "limit":25,
       "offset":0,
       "sortingDirection":"DESC",
       "sortingField":"modifiedDate"
     }
     this.dataService.getAllProductOfUser(this.userId,body).subscribe(data=> {
       this.productList = data.productList;
+      this.showProducts=true;
+          this.showVariants=false;
     })
   }
 
@@ -99,6 +103,8 @@ export class InventoryComponent implements OnInit {
       .subscribe(
         data => {
           console.log("datais ",data);
+          this.showProducts=false;
+          this.showVariants=true;
           this.productList = data;
           this.ELEMENT_DATA = this.productList;
         },
@@ -135,6 +141,8 @@ export class InventoryComponent implements OnInit {
     this.dataService.getAllActiveOrInactiveProductVariantOfUser(url, body).subscribe(
       data => {
         this.productList = data;
+        this.showProducts=false;
+          this.showVariants=true;
         this.ELEMENT_DATA = this.productList;
       },
       error => {

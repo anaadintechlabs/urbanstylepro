@@ -207,12 +207,23 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 
 
-
+//Just a check bexause original image was not getting displayed due to millisecond issye
 	@Override
-	public List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct) {
+	public List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct,String mainImageUrl) {
 		List<ProductImages> productImages = new ArrayList<>();
+		int i =0;
 		for(MultipartFile file : files){
-			productImages.add(storeSingleMediaForProduct(file,oldProduct));
+			if(i==0)
+			{
+				productImages.add(storeSingleMediaForProduct(file,oldProduct,true,mainImageUrl));
+				i++;
+
+			}
+			else
+			{
+				productImages.add(storeSingleMediaForProduct(file,oldProduct,false,null));
+
+			}
 		}
 		System.out.println("product images");
 		return productImages;
@@ -222,9 +233,16 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 
 	@Override
-	public ProductImages storeSingleMediaForProduct(MultipartFile file, Product oldProduct) {
-	    String fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
-
+	public ProductImages storeSingleMediaForProduct(MultipartFile file, Product oldProduct, boolean firstVariant, String mainImageUrl) {
+	    String fileName="";
+		if(firstVariant)
+	    {
+	    	 fileName = mainImageUrl;
+	    }
+	    else
+	    {
+		 fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
+	    }
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -234,6 +252,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+           
             return new ProductImages(fileName,generateFileUri(fileName),file.getContentType(),file.getSize(),oldProduct);
           //  return new UploadFileResponse(fileName, generateFileUri(fileName),file.getContentType(), file.getSize());
         } catch (IOException ex) {
