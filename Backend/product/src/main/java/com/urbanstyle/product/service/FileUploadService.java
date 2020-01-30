@@ -24,9 +24,9 @@ public interface FileUploadService {
 
 	Resource loadFileAsResource(String fileName) throws UnsupportedEncodingException, CustomException;
 
-	List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct);
+	List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct, String mainImageUrl);
 	
-	ProductImages storeSingleMediaForProduct(MultipartFile files, Product oldProduct);
+	ProductImages storeSingleMediaForProduct(MultipartFile files, Product oldProduct,boolean firstVariant,String imageUrl);
 
 
 }
