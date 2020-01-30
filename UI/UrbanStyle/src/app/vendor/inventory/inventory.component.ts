@@ -192,6 +192,7 @@ export class InventoryComponent implements OnInit {
   pageEvent(event) {}
 
   goToEdit(item) {
+    this._addProduct.changeProductStaus('EDIT');
     this._apiService.post(`product/getCompleteProduct?prodId=${item.productId}`).subscribe(res=>{
       if(res.isSuccess) {
         console.log(res.data.productList);
@@ -204,6 +205,7 @@ export class InventoryComponent implements OnInit {
         });
         this._addProduct.metaList = res.data.productList.productMetaInfo;
         this._addProduct.getmetaInfo();
+        this._addProduct.urlArray = res.data.productList.imageUrls;
         console.log(this._addProduct.productDTO.value);
         sessionStorage.setItem('addProduct', JSON.stringify(this._addProduct.productDTO.value));
         this._router.navigateByUrl('/vendor/addProduct/vitalInfo');
