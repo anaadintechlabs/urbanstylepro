@@ -87,8 +87,27 @@
 			}
 		}
 		.img-up{
-			background: #e2eced;
-			padding: 5rem;
-			margin-bottom: 1.5rem; 
+			// background: #e2eced;
+			background-color: aliceblue;
+			border: 2px dashed #e2eced;
+			padding: 4rem;
+			margin-bottom: 1.5rem;
+			position: relative;
+			.img-up-btn{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+			}
+		}
+		
+		.preview {
+
+			&_Image{
+				width: 100%;
+				height: auto;
+			}
 		}
 }

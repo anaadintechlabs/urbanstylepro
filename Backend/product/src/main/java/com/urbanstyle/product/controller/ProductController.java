@@ -28,8 +28,10 @@ import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.urbanstyle.product.service.ProductService;
@@ -163,9 +165,15 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 
-	@PutMapping(value="/updateProduct")
-	public Map<String,Object> updateProduct(HttpServletRequest request,HttpServletResponse response,@RequestPart(value="file",required=false) MultipartFile[] files,@RequestPart("dto") ProductDTO productDTO){
+//	@PutMapping(value="/updateProduct")
+	@RequestMapping(value="/updateProduct",method=RequestMethod.POST)
+	public Map<String,Object> updateProduct(HttpServletRequest request,HttpServletResponse response,@RequestPart(value="file",required=false) MultipartFile[] files,@RequestParam(value="productDTOString") String productDTOString) throws JsonMappingException, JsonProcessingException{
 		final HashMap<String, Object> map = new HashMap<>();
+		ObjectMapper objMapper= new ObjectMapper();
+		objMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		TypeReference<ProductDTO> typeRefernce = new TypeReference<ProductDTO>() {
+		};
+		ProductDTO productDTO=objMapper.readValue(productDTOString, typeRefernce);
 		map.put("product", productService.updateProduct(productDTO,files));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
