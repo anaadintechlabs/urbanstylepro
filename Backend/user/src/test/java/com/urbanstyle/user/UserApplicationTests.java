@@ -1,4 +1,4 @@
-package com.anaadihsoft.user;
+package com.urbanstyle.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
