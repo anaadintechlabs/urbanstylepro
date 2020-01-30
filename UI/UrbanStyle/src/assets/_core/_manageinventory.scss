@@ -5,6 +5,9 @@
 		// font-weight: 700;
 	}
 }
+.v_modal_productImage {
+    width: 80px;
+}
 .v_inventory{
 	.v_inventor_heading{
 		a{
@@ -25,11 +28,17 @@
 	.v_inventory-serch{
 		@extend .v_inventory_btn;
 		.v_srch_btn{
-			padding: 0.6rem;
-			background: rgba(0,0,0,0.9);
-			color:#fff;
+			padding: 0.5rem;
+			background: transparent;
+			color: #999999;
+			margin-right: 10px;
+			border-radius: 0;
+			font-size: 12px;
+			border: 2px solid #999999;
 			&:hover{
-				background: rgba(0,0,0,1);
+				background: transparent;
+				border-color: rgba(0,0,0,1);
+				color: rgba(0,0,0,1);
 			}
 		}
 	}
@@ -41,11 +50,16 @@
 			font-size: 0.85rem
 		}
 		button{
-			padding: 0.3rem;
-			background: rgba(0,0,0,0.9);
-			color:#fff;
+			padding: 0.3rem 0.8rem;
+			background: transparent;
+			color:#999999;
+			border: 2px solid #999999;
+			margin-right: 10px;
+			border-radius: 0;
+			font-size: 12px;
 			&:hover{
-				background: rgba(0,0,0,1);
+				border-color: rgba(0,0,0,1);
+				color: rgba(0,0,0,1);
 			}
 		}
 	}

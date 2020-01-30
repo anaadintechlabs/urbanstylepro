@@ -1,176 +1,127 @@
-<nav class="border-top">
-	<div class="navbar navbar-expand-md navbar-light bg-transparanet">
-		<button class="navbar-toggler" data-toggle="collapse" data-target="#mymenu3"><span class="navbar-toggler-icon"></span></button>
-		<div class="collapse navbar-collapse" id="mymenu3">
-			
-			<!-- <ul class="navbar-nav text-capitalize">
-				
-				<li class="nav-item"><a href="">All Inventory</a>
-			</li>
-			<li class="nav-item"><a href=""> Inactive (23) <small>New</small> </a></li>
-			<li class="nav-item"><a href="">Remove Unfulfillable Inventory (20)</a></li>
-			<li class="nav-item"><a href="">Fix stranded inventory (5)</a></li>
-			<li class="nav-item"><a href=""> Suppressed </a></li>
-			<li class="nav-item"><a href="">Manage Pricing</a></li>
-			<li class="nav-item"><a href=""> Inventory Amazon Fulfills </a></li>
-			<li class="nav-item"><a href="">Shipping Queue</a></li>
-			<li class="nav-item"><a href=""> Inventory Dashboard </a></li>
-		</ul> -->
-	</div>
-</div>
-</nav>
 <section class="v_inventory py-5">
-<div class="container">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="v_inventor_heading">
-				<div class="row">
-					<div class="col-md-5">
-						<h3 class="">Manage Inventory</h3>
-					</div>
-					<!-- <div class="col-md-7 py-2">
-						<a href="">Learn More</a>
-						<a href="">Take The Tour New</a>
-						<a href="">Rate This Page</a>
-					</div> -->
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="v_inventory_btn float-right py-2">
-				<!-- <button>
-				Add A variation
-				</button>
-				<button>
-				Add A Product
-				</button>
-				<button>
-				Preferences 12 columns hidden
-				</button> -->
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="v_inventory-serch">
-				<div class="row">
-					<div class="col-md-2">
-					<div class="dropdown">
-					<!-- <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Action On Zero Selected
-					</button> -->
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" href="#">Action</a>
-					</div>
-				</div>
-				</div>
-					<div class="col-md-3">
-						<input type="search" placeholder="Search SKU,Title" class="form-control rounded-0 w-75 float-left">
-						<button class="border-0 v_srch_btn"><I class="fas fa-search"></I></button>
-					</div>
-					<div class="col-md-7 py-1">
-						<span>
-							{{productList.length}} Proudct(s)
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="p-2 v_filter-sec">
-		<div class="row py-3 bg-light">
-		<div class="col-md-1">
-			<span>Filters</span>
-		</div>
-		<div class="col-md-3">
-			<span>Status </span>
-      <button class="btn actionBtn" (click)="getAllProductVariantOfUser(1)">
-        All
-      </button>
-      <button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(1)">
-        Active
-      </button>
-      <button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(0)">
-        Inactive
-      </button>
-		</div>
-		<div class="col-md-7">
-			<div class="dropdown">
-					<button class="dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Additional Filters
-					</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-						<a class="dropdown-item" href="#">Action</a>
-					</div>
-				</div>
-		</div>
-	</div>
-	</div>
-	<div class="v_inventory_list p-2 text-capitalize">
-
+	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<table class="table table-responsive table-hover">
-					<thead class="bg-light">
-						<tr>
-							<th>
-								<input type="checkbox">
-							</th>
-							<th>
-								Status <i class="fas fa-caret-down"></i>
-							</th>
-							<th>
-								Image
-							</th>
-							<th>
-								<span class="text-primary">SKU</span> Condition
-							</th>
-							<th>
-								<span class="text-primary">Product Name</span> ASIN
-							</th>
-							<th>Date Created Status Changed Date</th>
-							<th>Available</th>
-							<th>Fee Preview</th>
-							<th>Price </th>
-							<th>Business Price </th>
-							<th>Sales Price</th>
-							<th><input type="text" class="px-2" placeholder="Save All"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr *ngFor="let item of productList">
-							<td><input type="checkbox"></td>
-							<td (click)="getVariationBasedOnProductId(item.productId)"><i class="fas fa-chevron-right"></i> variation ( {{ item.totalVarients }} )</td>
-							<td></td>
-							<td>{{ item.productCode }}</td>
-							<td><a href="">
-								{{ item.productName }}
-							</a>
-
-							</td>
-							<td>{{ item.createdDate | date }}</td>
-							<td></td>
-							<td>-</td>
-							<td>-</td>
-							<!-- <td>Add Qantity Discount</td> -->
-							<td></td>
-							<td></td>
-							<td>
-								<select name="" id="" class="custom-select">
-									<option value=""> Edit</option>
-									<option value=""> Edit</option>
-									<option value=""> Edit</option>
-								</select>
-							</td>
-						</tr>						
-					</tbody>
-				</table>
-
+				<div class="v_inventor_heading">
+					<div class="row">
+						<div class="col-md-5">
+							<h3 class="">Manage Inventory</h3>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-	
-	</div>
-	<!-- <div class="v_pagination">
+		<!-- <div class="row">
+			<div class="col-md-12">
+				<div class="v_inventory-serch">
+					<div class="row">
+						<!-- <div class="col-md-2">
+							<div class="dropdown">
+								<button class="dropdown-toggle" type="button" id="dropdownMenuButton"
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Action On Zero Selected
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<a class="dropdown-item" href="#">Action</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<input type="search" placeholder="Search SKU,Title"
+								class="form-control rounded-0 w-75 float-left">
+							<button class="v_srch_btn"><I class="fas fa-search"></I></button>
+						</div>
+						<div class="col-md-7 py-1">
+							<span>
+								{{productList.length}} Proudct(s)
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div class="p-2 v_filter-sec">
+			<div class="row py-3 bg-light">
+				<!-- <div class="col-md-1">
+					<span>Filters</span>
+				</div> -->
+				<div class="col-md-6">
+					<span>Status </span>
+					<button class="btn actionBtn" (click)="getAllProductVariantOfUser(1)">
+						All
+					</button>
+					<button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(1)">
+						Active
+					</button>
+					<button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(0)">
+						Inactive
+					</button>
+				</div>
+				<!-- <div class="col-md-7">
+					<div class="dropdown">
+						<button class="dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							Additional Filters
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+							<a class="dropdown-item" href="#">Action</a>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+		<div class="v_inventory_list p-2 text-capitalize">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 mainTable">
+						<table class="table table-responsive table-hover">
+							<thead class="bg-light">
+								<tr>
+									<th class="checkBox">
+										<input type="checkbox">
+									</th>
+									<th>
+										Status <i class="fas fa-caret-down"></i>
+									</th>
+									<th>
+										Image
+									</th>
+									<th>
+										<span class="text-primary">SKU</span> Condition
+									</th>
+									<th>
+										<span class="text-primary">Product Name</span> ASIN
+									</th>
+									<th>Date Created Status Changed Date</th>
+									<th>Available</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let item of productList">
+									<td class="checkBox"><input type="checkbox"></td>
+									<td (click)="getAllVeriant(item)">
+										<i class="fas fa-chevron-right"></i>
+										variation ({{ item.totalVarients }})
+									</td>
+									<td></td>
+									<td>{{ item.productCode }}</td>
+									<td><a href="">
+											{{ item.productName }}
+										</a>
+
+									</td>
+									<td>{{ item.createdDate | date }}</td>
+									<td></td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- <div class="v_pagination">
 		<div class="row">
 		<div class="col-md-3">
 			<span class="float-left my-2 mr-2">Page</span>
@@ -190,38 +141,33 @@
 		</div>
 	</div>
 	</div> -->
-</div>
+	</div>
 </section>
 
 
-   
-<modal #variant  title="Edit Varients"
-        modalClass="modal-lg modal-sm inventory_modal"
-        [hideCloseButton]="true"
-        [closeOnEscape]="true"
-        [closeOnOutsideClick]="true"
-        (onOpen)="actionOnOpen()"
-        (onClose)="actionOnClose()"
-        (onSubmit)="actionOnSubmit()">
- 
-    <modal-header>
-        <button class="btn icon" (click)="variant.close()">
+
+<modal #variant title="Edit Varients" modalClass="modal-lg modal-sm inventory_modal" [hideCloseButton]="true"
+	[closeOnEscape]="true" [closeOnOutsideClick]="true" >
+
+	<modal-header>
+		<button class="btn icon" (click)="variant.close()">
 			<i class="fas fa-window-close"></i>
 		</button>
-    </modal-header>
- 
-    <modal-content>
+	</modal-header>
+
+	<modal-content>
 		<div class="v_inventory_list p-2 text-capitalize">
 			<div class="row">
 				<div class="col-md-12">
 					<table class="table table-responsive table-hover">
 						<thead class="bg-light">
 							<tr>
-								<th>
+								<!-- <th>
 									<input type="checkbox">
-								</th>
+								</th> -->
 								<th>
-									Status <i class="fas fa-caret-down"></i>
+									Status 
+									<!-- <i class="fas fa-caret-down"></i> -->
 								</th>
 								<th>
 									Image
@@ -234,7 +180,7 @@
 								</th>
 								<th>Date Created Status Changed Date</th>
 								<th>Available</th>
-								<th>Fee Preview</th>
+								<!-- <th>Fee Preview</th> -->
 								<th>Price </th>
 								<th>Business Price </th>
 								<th>Sales Price</th>
@@ -242,23 +188,35 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr *ngFor="let item of productList">
-								<td><input type="checkbox"></td>
-								<td><i class="fas fa-chevron-right"></i> variation ( {{ item.totalVarients }} )</td>
-								<td></td>
-								<td>{{ item.productCode }}</td>
+							<tr *ngFor="let item of variantList">
+								<!-- <td><input type="checkbox"></td> -->
+								<td>ACTIVE</td>
+								<td>
+									<img class="v_modal_productImage" [src]="item.mainImageUrl" alt="" srcset="">
+								</td>
+								<td>{{ item.sku }}</td>
 								<td><a href="">
-									{{ item.productName }}
-								</a>
-	
+										{{ item.productName }}
+									</a>
+
 								</td>
 								<td>{{ item.createdDate | date }}</td>
-								<td></td>
-								<td>-</td>
-								<td>-</td>
+								<td>
+									{{ item.totalQuantity }}
+								</td>
+								<!-- <td>
+									{{ item }}
+								</td> -->
+								<td>
+									{{ item.displayPrice }}
+								</td>
 								<!-- <td>Add Qantity Discount</td> -->
-								<td></td>
-								<td></td>
+								<td>
+									{{ item.discountPrice }}
+								</td>
+								<td>
+									{{ item.actualPrice }}
+								</td>
 								<td>
 									<select name="" id="" class="custom-select">
 										<option value=""> Edit</option>
@@ -266,11 +224,11 @@
 										<option value=""> Edit</option>
 									</select>
 								</td>
-							</tr>						
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-    </modal-content>
+	</modal-content>
 </modal>

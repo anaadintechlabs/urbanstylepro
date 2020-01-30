@@ -7,6 +7,7 @@ import {
 import { DataService } from "src/_services/data/data.service";
 import { AddProductService } from "src/_services/product/addProductService";
 import { User } from "src/_modals/user.modal";
+import { Refresh } from '../../app.component'
 
 @Component({
   selector: "app-add-product",
@@ -20,9 +21,8 @@ export class AddProductComponent implements OnInit {
   constructor(
     protected _dataService: DataService,
     protected _addProduct: AddProductService,
-    private cdRef: ChangeDetectorRef,
   ) {
-    
+
   }
 
   ngOnInit() {
@@ -33,6 +33,10 @@ export class AddProductComponent implements OnInit {
       this._addProduct.productFormGroup.controls.user.patchValue({
         id : this.userId
       });
+    }
+    console.log(Refresh);
+    if(Refresh){
+      alert('asdfwedf');
     }
   }
 

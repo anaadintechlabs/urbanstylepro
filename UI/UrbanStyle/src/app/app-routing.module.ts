@@ -6,7 +6,9 @@ import { UserGuardGuard } from 'src/_services/http_&_login/user-guard.guard';
 const routes: Routes = [
   {
     path : '',
-    loadChildren: () => import('./customer/customer.module').then(m=> m.CustomerModule),
+    redirectTo : 'vendor',
+    pathMatch : 'full'
+    // loadChildren: () => import('./customer/customer.module').then(m=> m.CustomerModule),
     // canActivate : [UserGuardGuard]
   },
   {
