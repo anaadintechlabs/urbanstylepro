@@ -207,13 +207,16 @@ public class ProductServiceImpl implements ProductService{
 		//then delete all media
 		//then all product details
 		//then allvariant
+		System.out.println("delete data");
 		productMetaRepository.deleteAllMeta(oldProduct.getProductId());
-		productImagesRepository.deleteAllImage(oldProduct.getProductId());
+		//productImagesRepository.deleteAllImage(oldProduct.getProductId());
+
 		List<ProductVariant> pvList = productVariantRepository.findByProductProductId(oldProduct.getProductId());
 		if(pvList!=null && !pvList.isEmpty())
 		{		
 		productAttrRepo.deleteAllProductAttribute(pvList);
 		}
+
 		productVariantRepository.deleteAllProductVarient(oldProduct.getProductId());
 		try {
 			return  createProduct(productDTO, files,true);

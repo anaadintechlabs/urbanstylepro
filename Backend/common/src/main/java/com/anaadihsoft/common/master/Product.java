@@ -80,6 +80,7 @@ public class Product {
 	@PreUpdate
 	public void  update()
 	{
+		this.createdDate=new Date();
 		this.modifiedDate= new Date();
 		this.modifiedBy="Admin";
 	}

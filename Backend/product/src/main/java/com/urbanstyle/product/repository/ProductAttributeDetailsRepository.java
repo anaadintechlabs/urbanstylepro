@@ -13,6 +13,7 @@ import com.anaadihsoft.common.master.ProductVariant;
 
 public interface ProductAttributeDetailsRepository extends PagingAndSortingRepository<ProductAttributeDetails,Long>  {
 
+
 	@Query(value="delete from ProductAttributeDetails where productVariant in (?1)")
 	@Modifying
 	@Transactional

@@ -3,6 +3,9 @@ import { DataService } from "src/_services/data/data.service";
 import { User } from 'src/_modals/user.modal';
 import { ApiService } from 'src/_services/http_&_login/api.service';
 import { isNgTemplate } from '@angular/compiler';
+import { AddProductService } from 'src/_services/product/addProductService';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: "app-inventory",
   templateUrl: "./inventory.component.html",
@@ -33,7 +36,9 @@ export class InventoryComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private _apiService : ApiService
+    private _apiService : ApiService,
+    private _addProduct : AddProductService,
+    private _router : Router
   ) {
     //getUserId Dynamic
     this.user =  JSON.parse(window.localStorage.getItem('user'));
@@ -185,6 +190,28 @@ export class InventoryComponent implements OnInit {
   }
 
   pageEvent(event) {}
+
+  goToEdit(item) {
+    this._addProduct.changeProductStaus('EDIT');
+    this._apiService.post(`product/getCompleteProduct?prodId=${item.productId}`).subscribe(res=>{
+      if(res.isSuccess) {
+        console.log(res.data.productList);
+        this._addProduct.productFormGroup.patchValue(res.data.productList.product);
+        console.log(this._addProduct.productFormGroup.value);
+        res.data.productList.productVariantDTO.forEach(element => {
+          let temp:FormGroup = this._addProduct.initializeProductVarientDto();
+          temp.patchValue(element)
+          this._addProduct.productVariantDTO.push(temp);
+        });
+        this._addProduct.metaList = res.data.productList.productMetaInfo;
+        this._addProduct.getmetaInfo();
+        this._addProduct.urlArray = res.data.productList.imageUrls;
+        console.log(this._addProduct.productDTO.value);
+        sessionStorage.setItem('addProduct', JSON.stringify(this._addProduct.productDTO.value));
+        this._router.navigateByUrl('/vendor/addProduct/vitalInfo');
+      }
+    })
+  }
 }
 
 interface search {

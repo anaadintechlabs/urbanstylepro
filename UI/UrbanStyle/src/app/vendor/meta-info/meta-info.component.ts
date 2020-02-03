@@ -15,7 +15,7 @@ export class MetaInfoComponent implements OnInit {
     private _router:Router,
      
   ) { 
-    this._addProduct.getmetaInfo();
+    // this._addProduct.getmetaInfo();
     console.log("metalist",this._addProduct.getProductMetaAllInfo);
   }
 

@@ -6,7 +6,8 @@
 	}
 }
 .v_modal_productImage {
-    width: 80px;
+	width: 80px;
+	padding: 5px;
 }
 .v_inventory{
 	.v_inventor_heading{
@@ -62,5 +63,21 @@
 				color: rgba(0,0,0,1);
 			}
 		}
+	}
+
+}
+
+button.btn.editBtn {
+	font-size: 12px;
+	background: transparent;
+	border: 2px solid #c1c1c1;
+	border-radius: 0;
+	padding: 0.2rem 1rem;
+	color: #c1c1c1;
+	color: #999999;
+	border: 2px solid #999999;
+	&:hover{
+		border-color: rgba(0,0,0,1);
+		color: rgba(0,0,0,1);
 	}
 }

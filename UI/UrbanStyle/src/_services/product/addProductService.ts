@@ -21,6 +21,10 @@ export class AddProductService {
   private header_status : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   readonly headerStatus$ = this.header_status.asObservable();
 
+  //// edit or add status
+  private product_status : BehaviorSubject<string> = new BehaviorSubject<string>('');
+  readonly productStatus$ = this.product_status.asObservable();
+
   public selectedVariation: CategoryAttribute[] = [];
   public categoryAttribute: CategoryAttribute[] = [];
   public selectedProductType: string = "ADVANCE";
@@ -159,6 +163,8 @@ export class AddProductService {
       if (res.isSuccess) {
         this.categoryAttribute = res.data.variationList;
         this.metaList = res.data.metaList;
+        this.getProductMetaAllInfo.clear();
+        this.getmetaInfo();
       }
     });
   }
@@ -181,14 +187,20 @@ export class AddProductService {
 
   saveChanges() {
     this.uploadedPhoto = this.myFiles;
+    let url : string = '';
     const frmData = new FormData();  
     for (var i = 0; i < this.uploadedPhoto.length; i++) {  
       frmData.append("file", this.uploadedPhoto[i]);  
     } 
     frmData.append("productDTOString", JSON.stringify(this.productDTO.value));
-    
-    this._apiService
-      .postWithMedia("product/saveProduct", frmData)
+    this.productStatus$.subscribe(data=>{
+      if(data == 'EDIT') {
+        url = "product/updateProduct";  
+      } else {
+        url = "product/saveProduct";
+      }
+      this._apiService
+      .postWithMedia(url, frmData)
       .subscribe(res => {
         console.log("save done");
         this._router.navigateByUrl('/vendor/inventory');
@@ -196,6 +208,7 @@ export class AddProductService {
     },error=>{
       this.toastr.success('Something went wrong!', 'Failure');
     });
+    })
   }
 
   getMetaInfoArray() {
@@ -210,7 +223,7 @@ export class AddProductService {
       this.metaList.forEach(element=>{
         let tempGrp = this._fb.group({
           metaKey : new FormControl(element.metaKey),
-          metaValue : new FormControl('')
+          metaValue : new FormControl(element.metaValue)
         });
         this.getProductMetaAllInfo.push(tempGrp);
       })
@@ -230,7 +243,7 @@ export class AddProductService {
         alert("Please select image less than 2MB.");
       }
     }
-    console.log("total imags" + this.myFiles);
+    console.log("total imags" + this.urlArray);
   }
 
   uploadPhoto(myFiles) {
@@ -240,5 +253,18 @@ export class AddProductService {
 
   changeHeaderStaus(value : boolean){
     this.header_status.next(value);
+  }
+
+  changeProductStaus(value : string){
+    this.product_status.next(value);
+  }
+
+  flushData() {
+    this.productDTO.reset();
+    this.productVariantDTO.clear();
+    this.getProductMetaAllInfo.clear();
+    this.myFiles = [];
+    this.urlArray =[];
+    window.sessionStorage.removeItem('addProduct');
   }
 }
