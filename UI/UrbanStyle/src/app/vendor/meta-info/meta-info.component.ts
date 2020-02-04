@@ -11,7 +11,7 @@ import { ToastrService } from "ngx-toastr";
 export class MetaInfoComponent implements OnInit {
 
   constructor(
-    private _addProduct : AddProductService,
+    public _addProduct : AddProductService,
     private _router:Router,
      
   ) { 

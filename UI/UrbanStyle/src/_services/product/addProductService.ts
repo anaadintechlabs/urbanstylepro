@@ -8,32 +8,33 @@ import {
 } from "@angular/forms";
 import { CategoryAttribute } from "src/_modals/categoryAttribute.modal";
 import { ApiService } from "../http_&_login/api.service";
-import { HttpParams } from '@angular/common/http';
-import { MetaInfo } from 'src/_modals/productMeta';
-import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
+import { HttpParams } from "@angular/common/http";
+import { MetaInfo } from "src/_modals/productMeta";
+import { BehaviorSubject } from "rxjs";
+import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root"
 })
 export class AddProductService {
-  private header_status : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private header_status: BehaviorSubject<boolean> = new BehaviorSubject<
+    boolean
+  >(false);
   readonly headerStatus$ = this.header_status.asObservable();
 
   //// edit or add status
-  private product_status : BehaviorSubject<string> = new BehaviorSubject<string>('');
-  readonly productStatus$ = this.product_status.asObservable();
+  public productStatus: string = "";
 
   public selectedVariation: CategoryAttribute[] = [];
   public categoryAttribute: CategoryAttribute[] = [];
   public selectedProductType: string = "ADVANCE";
-  selectedCatID : number = 0;
+  selectedCatID: number = 0;
   myFiles: string[] = [];
   urlArray: any = [];
 
-  get productDescFormGroup() : FormGroup {
-    return this.productDTO.get('productDesc') as FormGroup
+  get productDescFormGroup(): FormGroup {
+    return this.productDTO.get("productDesc") as FormGroup;
   }
 
   get productFormGroup(): FormGroup {
@@ -48,18 +49,17 @@ export class AddProductService {
     return this.productDTO.get("productMetaInfo") as FormArray;
   }
 
-  
   constructor(
     protected _fb: FormBuilder,
     private _apiService: ApiService,
-    private _router : Router,
+    private _router: Router,
     private toastr: ToastrService
   ) {
     this.productDTO = this._fb.group({
       product: this.productForm,
-      productDesc : this.productDescription,
+      productDesc: this.productDescription,
       productVariantDTO: this._fb.array([]),
-      productMetaInfo : this._fb.array([])
+      productMetaInfo: this._fb.array([])
     });
 
     console.log(this.productDTO.value);
@@ -72,9 +72,9 @@ export class AddProductService {
   });
 
   public productDescription = new FormGroup({
-    feature : new FormControl(''),
-    description: new FormControl('')
-  })
+    feature: new FormControl(""),
+    description: new FormControl("")
+  });
 
   /////// product variation formGroup
   public productVariantForm = new FormGroup({
@@ -92,20 +92,27 @@ export class AddProductService {
       id: new FormControl("")
     }),
     productId: new FormControl("", []),
-    productCode: new FormControl("", [Validators.required,Validators.maxLength(40)]),
+    productCode: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(40)
+    ]),
     categoryId: new FormControl("", [Validators.required]),
-    productName: new FormControl("", [Validators.required,Validators.maxLength(100)]),
-    brandName: new FormControl("", [,Validators.maxLength(80)]),
-    manufacturer: new FormControl("", [,Validators.maxLength(80)]),
+    productName: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(100)
+    ]),
+    brandName: new FormControl("", [, Validators.maxLength(80)]),
+    manufacturer: new FormControl("", [, Validators.maxLength(80)]),
     coverPhoto: new FormControl("", []),
-    productIdType:new FormControl('ASIN')
+    defaultSize : new FormControl("",[Validators.required]),
+    defaultColor : new FormControl("",[Validators.required]),
+    productIdType: new FormControl("ASIN")
   });
 
   product: FormGroup;
   productDTO: FormGroup;
-  uploadedPhoto : string[] = [];
+  uploadedPhoto: string[] = [];
   metaList: MetaInfo[];
-
 
   public initializeProductVarientDto(): FormGroup {
     let productVarientDto: FormGroup;
@@ -118,11 +125,11 @@ export class AddProductService {
     return productVarientDto;
   }
 
-  intializeproductMetaInfo() : FormGroup {
+  intializeproductMetaInfo(): FormGroup {
     return this._fb.group({
-      metaKey : new FormControl(''),
-      metaValue : new FormControl('')
-    })
+      metaKey: new FormControl(""),
+      metaValue: new FormControl("")
+    });
   }
 
   public initializeProductVarientDtoWithValue(
@@ -157,16 +164,21 @@ export class AddProductService {
   selectedCategory(catId: number) {
     this.selectedCatID = catId;
     console.log(catId);
-    const param: HttpParams = new HttpParams().set("categoryId", catId.toString());
+    const param: HttpParams = new HttpParams().set(
+      "categoryId",
+      catId.toString()
+    );
     // this.vitalInfo.get("categoryId").setValue(catId);
-    this._apiService.get("variation/getAllVariationOfCategory", param).subscribe(res => {
-      if (res.isSuccess) {
-        this.categoryAttribute = res.data.variationList;
-        this.metaList = res.data.metaList;
-        this.getProductMetaAllInfo.clear();
-        this.getmetaInfo();
-      }
-    });
+    this._apiService
+      .get("variation/getAllVariationOfCategory", param)
+      .subscribe(res => {
+        if (res.isSuccess) {
+          this.categoryAttribute = res.data.variationList;
+          this.metaList = res.data.metaList;
+          this.getProductMetaAllInfo.clear();
+          this.getmetaInfo();
+        }
+      });
   }
 
   makeCombinations(arr) {
@@ -187,46 +199,45 @@ export class AddProductService {
 
   saveChanges() {
     this.uploadedPhoto = this.myFiles;
-    let url : string = '';
-    const frmData = new FormData();  
-    for (var i = 0; i < this.uploadedPhoto.length; i++) {  
-      frmData.append("file", this.uploadedPhoto[i]);  
-    } 
+    let url: string = "";
+    const frmData = new FormData();
+    for (var i = 0; i < this.uploadedPhoto.length; i++) {
+      frmData.append("file", this.uploadedPhoto[i]);
+    }
     frmData.append("productDTOString", JSON.stringify(this.productDTO.value));
-    this.productStatus$.subscribe(data=>{
-      if(data == 'EDIT') {
-        url = "product/updateProduct";  
-      } else {
-        url = "product/saveProduct";
-      }
-      this._apiService
-      .postWithMedia(url, frmData)
-      .subscribe(res => {
+    if (this.productStatus == "EDIT") {
+      url = "product/updateProduct";
+    } else {
+      url = "product/saveProduct";
+    }
+    this._apiService.postWithMedia(url, frmData).subscribe(
+      res => {
         console.log("save done");
-        this._router.navigateByUrl('/vendor/inventory');
-         this.toastr.success('Product saved successfully', 'Success');
-    },error=>{
-      this.toastr.success('Something went wrong!', 'Failure');
-    });
-    })
+        this._router.navigateByUrl("/vendor/inventory");
+        this.toastr.success("Product saved successfully", "Success");
+      },
+      error => {
+        this.toastr.success("Something went wrong!", "Failure");
+      }
+    );
   }
 
   getMetaInfoArray() {
-    return this.productDTO.get('productMeta') as FormArray;
+    return this.productDTO.get("productMeta") as FormArray;
   }
 
   getmetaInfo() {
     console.log(this.metaList);
-    if(!this.metaList.length){
+    if (!this.metaList.length) {
       this.getProductMetaAllInfo.push(this.intializeproductMetaInfo());
     } else {
-      this.metaList.forEach(element=>{
+      this.metaList.forEach(element => {
         let tempGrp = this._fb.group({
-          metaKey : new FormControl(element.metaKey),
-          metaValue : new FormControl(element.metaValue)
+          metaKey: new FormControl(element.metaKey),
+          metaValue: new FormControl(element.metaValue)
         });
         this.getProductMetaAllInfo.push(tempGrp);
-      })
+      });
     }
   }
 
@@ -248,15 +259,11 @@ export class AddProductService {
 
   uploadPhoto(myFiles) {
     this.uploadedPhoto = myFiles;
-    this.saveChanges();
+    // this.saveChanges();
   }
 
-  changeHeaderStaus(value : boolean){
+  changeHeaderStaus(value: boolean) {
     this.header_status.next(value);
-  }
-
-  changeProductStaus(value : string){
-    this.product_status.next(value);
   }
 
   flushData() {
@@ -264,7 +271,9 @@ export class AddProductService {
     this.productVariantDTO.clear();
     this.getProductMetaAllInfo.clear();
     this.myFiles = [];
-    this.urlArray =[];
-    window.sessionStorage.removeItem('addProduct');
+    this.urlArray = [];
+    this.selectedVariation = [];
+    this.categoryAttribute = [];
+    window.sessionStorage.removeItem("addProduct");
   }
 }
