@@ -222,20 +222,25 @@
 								</td>
 								<td>{{ item.createdDate | date }}</td>
 								<td>
-									{{ item.totalQuantity }}
+									<input type="text" value="{{ item.totalQuantity }}"/>
 								</td>
 								<!-- <td>
 									{{ item }}
 								</td> -->
 								<td>
-									{{ item.displayPrice }}
+									<input type="text" value="{{ item.displayPrice }}"/>
+									<!-- {{ item.displayPrice }} -->
 								</td>
 								<!-- <td>Add Qantity Discount</td> -->
 								<td>
-									{{ item.discountPrice }}
+									<input type="text" value="{{ item.actualPrice }}"/>
+									<!-- {{ item.discountPrice }} -->
 								</td>
 								<td>
-									{{ item.actualPrice }}
+									
+									<input type="text" value="{{ item.discountPrice }}"/>
+									
+									<!-- {{ item.actualPrice }} -->
 								</td>
 								<td>
 									<select name="" id="" class="custom-select">

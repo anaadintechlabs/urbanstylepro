@@ -55,6 +55,8 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	
 	@Query(value="update ProductVariant wl set wl.displayPrice =?3 , wl.actualPrice =?2 where wl.productVariantId =?1 ")
 	@Transactional
+	@Modifying
+
 	void updateVarientDTO(long productVariantId, double d, double e);
 
 }
