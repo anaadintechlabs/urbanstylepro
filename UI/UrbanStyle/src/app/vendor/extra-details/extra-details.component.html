@@ -9,7 +9,7 @@
                 <i class="far fa-question-circle"></i>
                 <b>When multiple sellers sell the same product through a single detail page, we combine and present the best product data to ensure customers get the best experience.</b>
               </p>
-              <form [formGroup]="_addProductService.productDescFormGroup" (ngSubmit)="onSubmit()" class="custom">
+              <form [formGroup]="_addProductService.productFormGroup" (ngSubmit)="onSubmit()" class="custom">
                 <div class="row ">
                   <div class="col-md-4">
                     <label for="" class="float-md-right">
@@ -20,7 +20,7 @@
                   </div>
                   <div class="col-md-6 col-10">
                     <div class="form-group">
-                      <input type="text" formControlName="feature" class="form-control"
+                      <input type="text" formControlName="defaultSize" class="form-control"
                       [ngClass]="{ 'is-invalid': submitted && f.feature?.errors }" />
                       <div *ngIf="submitted && f.feature?.errors" class="invalid-feedback">
                         <div *ngIf="f.feature?.errors.required">Product Code is required</div>
@@ -42,7 +42,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <input type="text" formControlName="description" class="form-control"
+                      <input type="text" formControlName="defaultColor" class="form-control"
                       [ngClass]="{ 'is-invalid': submitted && f.description?.errors }" />
                       <div *ngIf="submitted && f.description?.errors" class="invalid-feedback">
                         <div *ngIf="f.description?.errors.required">

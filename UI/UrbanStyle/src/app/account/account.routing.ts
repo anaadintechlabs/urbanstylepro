@@ -3,10 +3,10 @@ import { LoginComponent } from "../account/login/login.component";
 import { SignupComponent } from "../account/signup/signup.component";
 import { UserGuardGuard } from "src/_services/http_&_login/user-guard.guard";
 import { AddressComponent } from "src/app/account/address/address.component";
-import { AddAddressComponent } from "src/app/_forms/add-address/add-address.component";
 import { NgModule } from "@angular/core";
 import { BankDetailsComponent } from "src/app/account/bank-details/bank-details.component";
-import { AddBankDetailsComponent } from "src/app/_forms/add-bank-details/add-bank-details.component";
+import { AddAddressComponent } from '../_forms/add-address/add-address.component';
+import { AddBankDetailsComponent } from '../_forms/add-bank-details/add-bank-details.component';
 
 export const AccountRoutes: Routes = [
   {
