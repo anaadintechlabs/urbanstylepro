@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AddProductDesciprionComponent implements OnInit {
   constructor(
-    protected _addProduct: AddProductService,
+    public _addProduct: AddProductService,
     private _router : Router
   ) {}
 

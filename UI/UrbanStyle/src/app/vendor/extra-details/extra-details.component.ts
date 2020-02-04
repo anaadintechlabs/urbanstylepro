@@ -9,11 +9,15 @@ import { AddProductService } from 'src/_services/product/addProductService';
 export class ExtraDetailsComponent implements OnInit {
 
   constructor(
-    private _addProductService : AddProductService
+    public _addProductService : AddProductService
   ) { }
 
   ngOnInit() {
     console.log(this._addProductService.productDTO.value);
+  }
+
+  get f() {
+    return this._addProductService.productDescFormGroup.controls;
   }
 
 }
