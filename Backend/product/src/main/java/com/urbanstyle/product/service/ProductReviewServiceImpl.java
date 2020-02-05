@@ -65,8 +65,7 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 	}
 	@Override
 	public List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId) {
-		productReviewRepository.getAllReviewsforSPV(prodVarId,ACTIVE);
-		return null;
+		return	productReviewRepository.getAllReviewsforSPV(prodVarId,ACTIVE);
 	}
 
 }
