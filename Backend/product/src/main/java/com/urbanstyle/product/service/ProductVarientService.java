@@ -8,6 +8,7 @@ import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.SingleProductDTO;
 import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.ProductVariant;
@@ -47,6 +48,8 @@ public interface ProductVarientService {
 
 	
 	List<ProductVariant> searchInventory(InventorySearchDTO inventorySearchDTO);
+
+	SingleProductDTO getSingleProductDetail(long prodVarId);
 
  
 }

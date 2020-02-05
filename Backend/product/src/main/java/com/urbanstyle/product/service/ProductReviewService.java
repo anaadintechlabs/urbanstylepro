@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.ProductReview;
 
@@ -20,6 +21,8 @@ public interface ProductReviewService {
 	boolean softDeleteProductReview(long userId, long productId);
 
 	List<ProductReview> getTop10ProductReviews(Filter filter);
+	
+	List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId);
 
 	@Query(value="select avg(pr.rating) from ProductReview pr where  pr.product.id=?1 and pr.status=?2")
 	double getAverageRatingOnProduct(long productId, String active);

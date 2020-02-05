@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.master.ProductReview;
 
 public interface ProductReviewRepository extends PagingAndSortingRepository<ProductReview, Long>{
@@ -18,5 +19,8 @@ public interface ProductReviewRepository extends PagingAndSortingRepository<Prod
 	void changeStatusOfProduct(long userId, long productId, int inactive);
 
 	List<ProductReview> findByStatus(int active, Pageable pagable);
+
+	@Query(value="select new com.urbanstyle.common.ProductReviewDTO(pr) from ProductReview pr where pr.productVariant.id=?1 ")
+	List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId, int active);
 
 }
