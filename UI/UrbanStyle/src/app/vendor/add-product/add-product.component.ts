@@ -22,7 +22,7 @@ export class AddProductComponent implements OnInit {
     protected _dataService: DataService,
     protected _addProduct: AddProductService,
   ) {
-
+    // this._addProduct.changeProductStaus('ADD');
   }
 
   ngOnInit() {
@@ -34,10 +34,10 @@ export class AddProductComponent implements OnInit {
         id : this.userId
       });
     }
-    console.log(Refresh);
-    if(Refresh){
-      alert('asdfwedf');
-    }
+    // console.log(Refresh);
+    // if(Refresh){
+    //   alert('asdfwedf');
+    // }
   }
 
   ngDoCheck() {

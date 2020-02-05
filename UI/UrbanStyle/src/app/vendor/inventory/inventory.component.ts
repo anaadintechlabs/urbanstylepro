@@ -37,7 +37,7 @@ export class InventoryComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private _apiService : ApiService,
-    private _addProduct : AddProductService,
+    public _addProduct : AddProductService,
     private _router : Router
   ) {
     //getUserId Dynamic
@@ -192,7 +192,7 @@ export class InventoryComponent implements OnInit {
   pageEvent(event) {}
 
   goToEdit(item) {
-    this._addProduct.changeProductStaus('EDIT');
+    this._addProduct.productStatus = 'EDIT';
     this._apiService.post(`product/getCompleteProduct?prodId=${item.productId}`).subscribe(res=>{
       if(res.isSuccess) {
         console.log(res.data.productList);
