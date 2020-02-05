@@ -264,4 +264,13 @@ public class ProductController {
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
+	
+	@RequestMapping(value="/getSingleProductDetail",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> getSingleProductDetail(@RequestParam(value="prodVarId") long prodVarId, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("SingleProductDetail", productVarient.getSingleProductDetail(prodVarId));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
 }

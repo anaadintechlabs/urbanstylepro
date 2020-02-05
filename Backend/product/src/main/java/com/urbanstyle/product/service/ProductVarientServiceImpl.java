@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.InventorySearchDTO;
+import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.ProductVarientPacketDTO;
+import com.anaadihsoft.common.DTO.SingleProductDTO;
 import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
@@ -21,6 +24,7 @@ import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductVariant;
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.urbanstyle.product.DAO.ProductVarientDAO;
+import com.urbanstyle.product.repository.ProductImagesRepository;
 import com.urbanstyle.product.repository.ProductRepository;
 
 @Service
@@ -40,6 +44,12 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Autowired
 	private ProductAttributeService productAttributeServce;
+	
+	@Autowired
+	private ProductImagesRepository productImagesRepository;
+	
+	@Autowired
+	private ProductReviewService productReviewService; 
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
@@ -187,5 +197,54 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	@Override
 	public List<ProductVariant> searchInventory(InventorySearchDTO inventorySearchDTO) {
 		return productVarientDAO.searchInventory(inventorySearchDTO);
+	}
+
+	@Override
+	public SingleProductDTO getSingleProductDetail(long prodVarId) {
+		SingleProductDTO singleProductDTO = new SingleProductDTO();
+		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
+		List<ProductVarientPacketDTO> relatedProductsPackets = new ArrayList<>();
+		Optional<ProductVariant> optprodVarient =  productVarRepo.findById(prodVarId);
+		ProductVariant prodVarient = null;
+		if(optprodVarient.isPresent()) {
+			prodVarient = optprodVarient.get();
+		}
+		Map<Long, String> attrDetails = productAttributeServce.findAllAttributeList(prodVarId);
+		List<String> allImagesMain = productImagesRepository.findUrlByProduct(prodVarId);
+		
+		long categoryId = prodVarient.getCategoryId();
+		List<ProductVariant> allRelatedProducts = getRelatedProducts(prodVarId,categoryId);
+		
+		// set mainProductPacket
+		ProductVariantDTO mainProdDto = new ProductVariantDTO();
+		mainProdDto.setAttributesMap(attrDetails);
+		mainProdDto.setProductVariant(prodVarient);
+		mainProductPacket.setAllImages(allImagesMain);
+		mainProductPacket.setMainProduct(mainProdDto);
+		
+		for(ProductVariant prVar : allRelatedProducts) {
+			ProductVarientPacketDTO relProductPacket = new ProductVarientPacketDTO();
+			ProductVariantDTO relProdDto = new ProductVariantDTO();
+			Map<Long, String> relattrDetails = productAttributeServce.findAllAttributeList(prodVarId);
+			List<String> relallImagesMain = productImagesRepository.findUrlByProduct(prodVarId);
+			relProdDto.setAttributesMap(relattrDetails);
+			relProdDto.setProductVariant(prVar);
+			relProductPacket.setAllImages(relallImagesMain);
+			relProductPacket.setMainProduct(relProdDto);
+			relatedProductsPackets.add(relProductPacket);
+		}
+		
+		List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
+		
+		singleProductDTO.setMainProductPacket(mainProductPacket);
+		singleProductDTO.setRelatedProductsPackets(relatedProductsPackets);
+		singleProductDTO.setAllReviews(allReviews);
+		
+		return singleProductDTO;
+	}
+	
+	public List<ProductVariant> getRelatedProducts(long prodVarId,long categoryId){
+		List<ProductVariant> allrelatedPoducts = productVarRepo.getRelatedProducts(prodVarId,categoryId);
+		return allrelatedPoducts;
 	}
 }

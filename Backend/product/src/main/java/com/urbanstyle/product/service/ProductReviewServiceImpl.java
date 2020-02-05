@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.ProductReview;
 import com.urbanstyle.product.repository.ProductReviewRepository;
@@ -61,6 +62,10 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 	public double getAverageRatingOnProduct(long productId, String active) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	@Override
+	public List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId) {
+		return	productReviewRepository.getAllReviewsforSPV(prodVarId,ACTIVE);
 	}
 
 }
