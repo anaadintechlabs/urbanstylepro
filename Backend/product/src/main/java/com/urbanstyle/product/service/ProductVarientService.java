@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
+import com.anaadihsoft.common.DTO.HomePageFilterDTO;
 import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
@@ -50,6 +51,8 @@ public interface ProductVarientService {
 	List<ProductVariant> searchInventory(InventorySearchDTO inventorySearchDTO);
 
 	SingleProductDTO getSingleProductDetail(long prodVarId);
+
+	HomePageFilterDTO applyHomePageFilter(String searchString);
 
  
 }

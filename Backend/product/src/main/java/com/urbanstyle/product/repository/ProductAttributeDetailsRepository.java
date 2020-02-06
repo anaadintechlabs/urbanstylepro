@@ -1,6 +1,7 @@
 package com.urbanstyle.product.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -17,5 +18,9 @@ public interface ProductAttributeDetailsRepository extends PagingAndSortingRepos
 	@Modifying
 	@Transactional
 	void deleteAllProductAttribute(List<ProductVariant> pvList);
+	
+	@Query(value="from ProductAttributeDetails pad where pad.attributeMasterId in(?1) and pad.productVariant in (?2) ")
+	@Modifying
+	List<ProductAttributeDetails> findByAttrIdAndVarId(Set<Long> allAttributeIdList, List<Long> listVarId);
 
 }

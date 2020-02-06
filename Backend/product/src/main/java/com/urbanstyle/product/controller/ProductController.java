@@ -273,4 +273,13 @@ public class ProductController {
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
+	
+	@RequestMapping(value="/applyHomePageFilter",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> applyHomePageFilter(@RequestParam(value="searchString") String searchString, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("HomePageFilter", productVarient.applyHomePageFilter(searchString));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
 }
