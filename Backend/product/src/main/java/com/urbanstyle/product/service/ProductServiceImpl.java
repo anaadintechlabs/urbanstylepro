@@ -72,7 +72,12 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> getAllProducts() {
 		return (List<Product>) productRepository.findAll();
 	}
-
+//updating single producct
+	private Product updateProductForSingleVariant(ProductDTO productDTO, MultipartFile[] files, boolean fromUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public Product createProduct(ProductDTO productDTO, MultipartFile[] files,boolean fromUpdate) throws Exception {
 		Product oldProduct=productRepository.findByProductCode(productDTO.getProduct().getProductCode());
@@ -90,6 +95,7 @@ public class ProductServiceImpl implements ProductService{
 		product.setTotalVarients(productDTO.getProductVariantDTO() != null ?productDTO.getProductVariantDTO().size():0);
 		
 		oldProduct=productRepository.save(product);
+		
 		MultipartFile file = null;
 		if(i>0)
 		{
@@ -114,7 +120,6 @@ public class ProductServiceImpl implements ProductService{
 			List<ProductImages> productMedias=fileUploadService.storeMediaForProduct(files,oldProduct,mainImageUrl);
 			if(productMedias!=null && !productMedias.isEmpty())
 			{
-				System.out.println("stroing image");
 				productImagesRepository.saveAll(productMedias);
 			}
 		}
@@ -154,6 +159,10 @@ public class ProductServiceImpl implements ProductService{
 		{
 			ProductVariant productVariant=productVariantDTO.getProductVariant();
 			productVariant.setProduct(product);
+			productVariant.setCategoryId(product.getCategoryId());
+			productVariant.setProdName(product.getProductName());
+			//it will be changed
+			productVariant.setProdDesc(product.getProductCode());
 			productVariant.setMainImageUrl(mainImageUrl);
 			productVariant=productVariantRepository.save(productVariant);
 			if(productVariantDTO.getAttributesMap()!=null)
@@ -207,11 +216,11 @@ public class ProductServiceImpl implements ProductService{
 		//then delete all media
 		//then all product details
 		//then allvariant
-		System.out.println("delete data");
+		
 		productMetaRepository.deleteAllMeta(oldProduct.getProductId());
 
 	//roductImagesRepository.deleteAllImage(oldProduct.getProductId());
-		System.out.println("delete dat 232");
+		
 		List<ProductVariant> pvList=productVariantRepository.findByProductProductId(oldProduct.getProductId());
 		if(pvList!=null && !pvList.isEmpty())
 		{		
@@ -226,7 +235,25 @@ public class ProductServiceImpl implements ProductService{
 			return  null;
 		}
 	}
-//
+	
+	@Override
+	public Product updateSingleProductVariant(ProductDTO productDTO, MultipartFile[] files, long productVariantId) {
+		Product oldProduct=productRepository.findByProductId(productDTO.getProduct().getProductId());
+
+		productMetaRepository.deleteAllMeta(oldProduct.getProductId());
+		productAttrRepo.deleteSingleVariantProductAttribute(productVariantId);
+		//Now delete that variant
+		productVariantRepository.deleteById(productVariantId);
+		try {
+			return  updateProductForSingleVariant(productDTO, files,true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return  null;
+		}
+	}
+
+
+	//
 	@Override
 	public List<Product> getBestSellingProducts(Filter filter) {
 
@@ -313,5 +340,25 @@ public class ProductServiceImpl implements ProductService{
 		 }
 		 productInventRepo.saveAll(allInventory);	  
 	}
+
+	 /**
+	  * Method for getting single variant but in the similar fashion as complete variant
+	  * In list there will be only one variant
+	  */
+	@Override
+	public ProductDTOWithImage getCompleteVariant(long productVariantId, long prodId) {
+		ProductDTOWithImage productDTO = new ProductDTOWithImage();
+		Product oldProduct=productRepository.findByProductId(prodId);
+		List<ProductVariantDTO> productVarientDTOList = productVarientSerice.getSingleProductVarientDTOList(1,prodId,productVariantId);
+		List<ProductMeta> allproductMetaInfo = productMetaService.findAllMetaInfo(prodId);
+		List<String> imageUrl=productImagesRepository.findUrlByProduct(prodId);
+		productDTO.setProduct(oldProduct);
+		productDTO.setProductMetaInfo(allproductMetaInfo);
+		productDTO.setProductVariantDTO(productVarientDTOList);
+		productDTO.setImageUrls(imageUrl);
+		return productDTO;
+	}
+
+
 
 }

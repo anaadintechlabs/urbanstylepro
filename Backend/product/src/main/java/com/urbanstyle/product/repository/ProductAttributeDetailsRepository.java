@@ -19,4 +19,9 @@ public interface ProductAttributeDetailsRepository extends PagingAndSortingRepos
 	@Transactional
 	void deleteAllProductAttribute(List<ProductVariant> pvList);
 
+	@Query(value="delete from ProductAttributeDetails pad where pad.productVariant.productVariantId is (?1)")
+	@Modifying
+	@Transactional
+	void deleteSingleVariantProductAttribute(long productVariantId);
+
 }

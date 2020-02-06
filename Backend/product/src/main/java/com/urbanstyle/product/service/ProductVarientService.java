@@ -51,5 +51,7 @@ public interface ProductVarientService {
 
 	SingleProductDTO getSingleProductDetail(long prodVarId);
 
+	List<ProductVariantDTO> getSingleProductVarientDTOList(int i, long prodId, long productVariantId);
+
  
 }

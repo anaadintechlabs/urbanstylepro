@@ -187,6 +187,23 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	
 	@Override
+	public List<ProductVariantDTO> getSingleProductVarientDTOList(int i, long prodId, long productVariantId) {
+		List<ProductVariantDTO> allDTO = new ArrayList<ProductVariantDTO>();
+		List<ProductVariant> allVarients = new ArrayList<>();
+		Optional<ProductVariant> productVariantOpt=productVarRepo.findById(productVariantId);
+		if(productVariantOpt.isPresent())
+		{
+			ProductVariant productVariant= productVariantOpt.get();
+			 Map<Long,String> attributesMap = productAttributeServce.findAllAttributeList(productVariant.getProductVariantId());
+			 ProductVariantDTO DTO = new ProductVariantDTO();
+			 DTO.setAttributesMap(attributesMap);
+				DTO.setProductVariant(productVariant);
+				allDTO.add(DTO);
+		}
+		return allDTO;
+	}
+	
+	@Override
 	public List<VariantPriceUpdateDTO> updateVarientDTO(List<VariantPriceUpdateDTO> allVarientDTO) {
 		for (VariantPriceUpdateDTO variantPriceUpdateDTO : allVarientDTO) {
 			productVarRepo.updateVarientDTO(variantPriceUpdateDTO.getProductVariantId(),variantPriceUpdateDTO.getActualPrice(),variantPriceUpdateDTO.getDisplayPrice());
@@ -247,4 +264,6 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		List<ProductVariant> allrelatedPoducts = productVarRepo.getRelatedProducts(prodVarId,categoryId);
 		return allrelatedPoducts;
 	}
+
+
 }
