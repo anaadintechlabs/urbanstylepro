@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
+import com.anaadihsoft.common.DTO.HomePageFilterDTO;
 import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
@@ -266,4 +267,9 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	}
 
 
+	@Override
+	public HomePageFilterDTO applyHomePageFilter(String searchString) {
+		return productVarientDAO.applyHomePageFilter(searchString);
+	}
+ 
 }
