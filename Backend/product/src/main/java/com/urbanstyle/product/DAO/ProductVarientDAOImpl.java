@@ -24,7 +24,9 @@ import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductVariant;
 import com.urbanstyle.product.repository.CategoryVariationRepository;
 import com.urbanstyle.product.repository.ProductAttributeDetailsRepository;
+import com.urbanstyle.product.service.ProductAttributeService;
 import com.urbanstyle.product.service.ProductVarientRepository;
+import com.urbanstyle.product.service.ProductVarientService;
 
 import io.micrometer.core.instrument.util.StringUtils;
 
@@ -43,6 +45,9 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 	
 	@Autowired
 	private ProductVarientRepository prdVarRepo;
+	
+	@Autowired
+	private ProductAttributeService productAttributeServce;
 	    	
 	
 	protected EntityManager getEntityManager() {
@@ -275,6 +280,39 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		 
 		return resultData;
 		 
+	}
+
+
+	@Override
+	public List<ProductVariantDTO> applySideBarFilter(String searchString, HashMap<Long, List<String>> filterData) {
+		Session session = entityManager.unwrap(Session.class);
+		
+		Set<Long> allKeys = filterData.keySet();
+		int count = 0;
+		
+		String query = "FROM ProductVariant pv inner join ProductAttributeDetails pad on pv.productVariantId = pad.productVariant.productVariantId WHERE (pv.sku like :sku or pv.prodName like :sku or pv.prodDesc like :sku) ";
+		 Query managerQuery =  session.createQuery(query);
+		 managerQuery.setParameter("sku", searchString);
+		 for(Long key : allKeys) {
+			 count++;
+			 query += " and pad.attributeMasterId = :"+key+" and pad.attributeValue in (:attrVal"+count+")"; 
+			 managerQuery =  session.createQuery(query);
+			 managerQuery.setParameter(""+key, key);
+			 managerQuery.setParameterList("attrVal"+count, filterData.get(key));
+			 
+		}
+		 List<ProductVariant> returnData = managerQuery.list();
+		 
+				List<ProductVariantDTO> allDTO = new ArrayList<ProductVariantDTO>();
+				for(ProductVariant varient : returnData) {
+					ProductVariantDTO DTO = new ProductVariantDTO();
+					 Map<Long,String> attributesMap = productAttributeServce.findAllAttributeList(varient.getProductVariantId());
+					DTO.setAttributesMap(attributesMap);
+					DTO.setProductVariant(varient);
+					allDTO.add(DTO);
+				}
+		 
+		return allDTO;
 	}
 
 

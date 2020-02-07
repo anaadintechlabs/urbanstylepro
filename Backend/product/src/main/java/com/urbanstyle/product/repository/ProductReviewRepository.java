@@ -13,14 +13,14 @@ public interface ProductReviewRepository extends PagingAndSortingRepository<Prod
 
 	List<ProductReview> findByUserIdAndStatus(long userId, int active, Pageable pagable);
 
-	List<ProductReview> findByProductProductIdAndStatus(long productId, int active, Pageable pagable);
+	List<ProductReview> findByProductProductVariantIdAndStatus(long productId, int active, Pageable pagable);
 
-	@Query(value="update ProductReview pr set pr.status =?3 where pr.user.id = ?1 and pr.product.productId= ?2 ")
+	@Query(value="update ProductReview pr set pr.status =?3 where pr.user.id = ?1 and pr.product.productVariantId= ?2 ")
 	void changeStatusOfProduct(long userId, long productId, int inactive);
 
 	List<ProductReview> findByStatus(int active, Pageable pagable);
 
-	@Query(value="select new com.urbanstyle.common.ProductReviewDTO(pr) from ProductReview pr where pr.productVariant.id=?1 ")
+	@Query(value="select new com.anaadihsoft.common.DTO.ProductReviewDTO(pr) from ProductReview pr where pr.product.productVariantId=?1 ")
 	List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId, int active);
 
 }
