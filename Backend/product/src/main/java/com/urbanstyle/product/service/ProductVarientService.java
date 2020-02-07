@@ -1,5 +1,6 @@
 package com.urbanstyle.product.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -57,6 +58,10 @@ public interface ProductVarientService {
 
 	HomePageFilterDTO applyHomePageFilter(String searchString);
 
+
+		List<ProductVariantDTO> applySideBarFilter(String searchString, HashMap<Long, List<String>> filterData);
+
+		ProductVariant findByProdVarId(long l);
 
  
 }

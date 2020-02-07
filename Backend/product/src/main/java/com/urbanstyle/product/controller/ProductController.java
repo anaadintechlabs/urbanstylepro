@@ -303,4 +303,13 @@ public class ProductController {
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
+	
+	@RequestMapping(value="/applySideBarFilter",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> applySideBarFilter(@RequestParam(value="searchString") String searchString,@RequestBody(required=true) HashMap<Long,List<String>> filterData, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("HomePageFilter", productVarient.applySideBarFilter(searchString,filterData));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
 }

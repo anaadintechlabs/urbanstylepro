@@ -1,6 +1,7 @@
 package com.urbanstyle.product.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -271,5 +272,20 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	public HomePageFilterDTO applyHomePageFilter(String searchString) {
 		return productVarientDAO.applyHomePageFilter(searchString);
 	}
- 
+
+
+	@Override
+	public List<ProductVariantDTO> applySideBarFilter(String searchString, HashMap<Long, List<String>> filterData) {
+		return productVarientDAO.applySideBarFilter(searchString,filterData);
+	}
+
+	@Override
+	public ProductVariant findByProdVarId(long prodVarId) {
+		Optional<ProductVariant> pv = productVarRepo.findById(prodVarId);
+		ProductVariant prodVar = null;
+		if(pv.isPresent()) {
+			prodVar = pv.get();
+		}
+		return prodVar;
+	}
 }

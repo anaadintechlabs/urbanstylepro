@@ -13,6 +13,7 @@ import com.anaadihsoft.common.DTO.ShoppingCartDTO;
 import com.anaadihsoft.common.DTO.ShoppingCartItemDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
+import com.anaadihsoft.common.master.ProductVariant;
 import com.anaadihsoft.common.master.ShoppingCart;
 import com.anaadihsoft.common.master.ShoppingCartItem;
 import com.urbanstyle.product.repository.ShoppingCartItemRepository;
@@ -28,6 +29,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	
 	@Autowired
 	private ShoppingCartItemRepository shoppingCartItemRepository;
+	
+	@Autowired
+	private ProductVarientService prodVarService;
 	
 	//ALGO
 	//Check whether Cart of that user exists or not
@@ -55,7 +59,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 				shoppingCartItem.setShoppingCart(previousUserCart);
 				shoppingCartItem.setProductVariant(itemDTO.get(i).getProductVariant());
 				//Cost I have to calculate again
-				shoppingCartItem.setCost(itemDTO.get(i).getCost());
+				ProductVariant prodVar  =  prodVarService.findByProdVarId(itemDTO.get(i).getProductVariant().getProductVariantId());
+				shoppingCartItem.setCost(prodVar!=null ? prodVar.getDisplayPrice():itemDTO.get(i).getCost());
 				}
 				else
 				{
@@ -89,7 +94,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 			shoppingCartItem.setQuantity(itemDTO.get(i).getQuantity());
 			//Set proper product
 			shoppingCartItem.setProductVariant(itemDTO.get(i).getProductVariant());
-			shoppingCartItem.setCost(itemDTO.get(i).getCost());
+			ProductVariant prodVar  =  prodVarService.findByProdVarId(itemDTO.get(i).getProductVariant().getProductVariantId());
+			shoppingCartItem.setCost(prodVar!=null ? prodVar.getDisplayPrice():itemDTO.get(i).getCost());
 			shoppingCartItem.setShoppingCart(shoppingCart);
 			
 			totalCost += itemDTO.get(i).getCost();
