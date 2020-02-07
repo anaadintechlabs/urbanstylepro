@@ -208,9 +208,11 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		ListVarId = allVarAndCat.get("VARIENTS");
 		
 		// now find all attributes id in cat attribute table
-		
-		List<CategoryAttributeMapping> catAttr= catAttRep.findAllAttribute(ListCat);
-		
+		List<CategoryAttributeMapping> catAttr= new ArrayList<>();
+		if(ListCat!=null && !ListCat.isEmpty())
+		{
+		catAttr= catAttRep.findAllAttribute(ListCat);
+		}
 		HashMap<Long, String> attrVal = new HashMap<>(); 
 		for(CategoryAttributeMapping cam : catAttr) {
 			attrVal.put(cam.getAttributeMaster().getId(), cam.getAttributeMaster().getVariationName());

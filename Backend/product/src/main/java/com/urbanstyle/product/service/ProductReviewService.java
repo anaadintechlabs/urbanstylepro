@@ -23,8 +23,8 @@ public interface ProductReviewService {
 	List<ProductReview> getTop10ProductReviews(Filter filter);
 	
 	List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId);
-
+	
 	@Query(value="select avg(pr.rating) from ProductReview pr where  pr.product.id=?1 and pr.status=?2")
-	double getAverageRatingOnProduct(long productId, String active);
+	double getAverageRatingOnProduct(long productId, int active);
 
 }

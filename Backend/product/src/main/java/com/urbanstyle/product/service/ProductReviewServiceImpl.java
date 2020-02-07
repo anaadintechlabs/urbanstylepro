@@ -58,14 +58,16 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 						filter.getSortingField());
 		return productReviewRepository.findByStatus(ACTIVE,pagable);
 	}
-	@Override
-	public double getAverageRatingOnProduct(long productId, String active) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 	@Override
 	public List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId) {
 		return	productReviewRepository.getAllReviewsforSPV(prodVarId,ACTIVE);
+	}
+	@Override
+	public double getAverageRatingOnProduct(long productId, int active) {
+		return	productReviewRepository.getAverageRatingOnProduct(productId,active);
+		
+
 	}
 
 }
