@@ -14,13 +14,19 @@ import com.anaadihsoft.common.master.ProductVariant;
 
 public interface ProductAttributeDetailsRepository extends PagingAndSortingRepository<ProductAttributeDetails,Long>  {
 
-	@Query(value="delete from ProductAttributeDetails pad where pad.productVariant in (?1)")
+
+	@Query(value="delete from ProductAttributeDetails where productVariant in (?1)")
 	@Modifying
 	@Transactional
 	void deleteAllProductAttribute(List<ProductVariant> pvList);
 	
-	@Query(value="from ProductAttributeDetails pad where pad.attributeMasterId in(?1) and pad.productVariant in (?2) ")
+	@Query(value="from ProductAttributeDetails pad where pad.attributeMasterId in(?1) and pad.productVariant.productVariantId in (?2) ")
 	@Modifying
 	List<ProductAttributeDetails> findByAttrIdAndVarId(Set<Long> allAttributeIdList, List<Long> listVarId);
+
+	@Query(value="delete from ProductAttributeDetails pad where pad.productVariant.productVariantId is (?1)")
+	@Modifying
+	@Transactional
+	void deleteSingleVariantProductAttribute(long productVariantId);
 
 }

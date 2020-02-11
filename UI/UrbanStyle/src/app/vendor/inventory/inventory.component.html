@@ -117,19 +117,20 @@
 									{{ item }}
 								</td> -->
 								<td>
-									{{ item.displayPrice }}
+									<input type="number"  [(ngModel)]=" item.displayPrice" value="{{ item.displayPrice }}">
+									
 								</td>
 								<!-- <td>Add Qantity Discount</td> -->
 								<td>
-									{{ item.discountPrice }}
+									<input type="number"  [(ngModel)]=" item.actualPrice" value="{{ item.actualPrice }}">
+									
 								</td>
 								<td>
-									{{ item.actualPrice }}
+									{{ item.discountPrice }}
+									
 								</td>
-								<td>--
-									<!-- <select name="" id="" class="custom-select">
-										<option value=""> Edit</option>
-									</select> -->
+								<td>
+									<button (click)="updatePrices(item)">Save</button>
 								</td>
 							</tr>			
 							
@@ -204,6 +205,7 @@
 								<th>Price </th>
 								<th>Business Price </th>
 								<th>Sales Price</th>
+								<th>Action</th>
 								<!-- <th><input type="text" class="px-2" placeholder="Save All"></th> -->
 							</tr>
 						</thead>
@@ -223,25 +225,29 @@
 								<td>{{ item.createdDate | date }}</td>
 								<td>
 									{{ item.totalQuantity }}
+									
 								</td>
 								<!-- <td>
 									{{ item }}
 								</td> -->
 								<td>
-									{{ item.displayPrice }}
+									<input type="text" [(ngModel)]=" item.displayPrice" value="{{ item.displayPrice }}"/>
+									<!-- {{ item.displayPrice }} -->
 								</td>
 								<!-- <td>Add Qantity Discount</td> -->
 								<td>
-									{{ item.discountPrice }}
+									<input type="text"  [(ngModel)]="item.actualPrice" value="{{ item.actualPrice }}"/>
+									<!-- {{ item.discountPrice }} -->
 								</td>
 								<td>
-									{{ item.actualPrice }}
+									
+									<!-- <input type="text" value="{{ item.discountPrice }}"/> -->
+									
+									 {{ item.discountPrice }} 
 								</td>
-								<!-- <td>
-									<select name="" id="" class="custom-select">
-										<option value=""> Edit</option>
-									</select>
-								</td> -->
+								 <td>
+									<button (click)="updatePrices(item)">Save</button>
+								</td>
 							</tr>
 						</tbody>
 					</table>

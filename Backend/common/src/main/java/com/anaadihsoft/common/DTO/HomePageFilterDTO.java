@@ -4,17 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.anaadihsoft.common.master.ProductVariant;
+
 public class HomePageFilterDTO {
 
-	private List<ProductVariantDTO> allVarients;
+	private List<ProductVariant> allVarients;
 	
 	private HashMap<Long,Map<String,  List<String>>> attributeDataMap;
 
-	public List<ProductVariantDTO> getAllVarients() {
+	
+ 
+	public List<ProductVariant> getAllVarients() {
 		return allVarients;
 	}
 
-	public void setAllVarients(List<ProductVariantDTO> allVarients) {
+	public void setAllVarients(List<ProductVariant> allVarients) {
 		this.allVarients = allVarients;
 	}
 

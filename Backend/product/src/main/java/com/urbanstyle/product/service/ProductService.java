@@ -69,6 +69,10 @@ public interface ProductService {
 	void changeStatusOfProduct(long productId, int status);
 
 	ProductDTOWithImage getCompleteProduct(long prodId);
+
+	ProductDTOWithImage getCompleteVariant(long productVariantId, long prodId);
+
+	Product updateSingleProductVariant(ProductDTO productDTO, MultipartFile[] files, long productVariantId);
 	 
 
 }

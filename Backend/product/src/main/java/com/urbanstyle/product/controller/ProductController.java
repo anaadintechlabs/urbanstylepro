@@ -178,6 +178,19 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
+	@RequestMapping(value="/updateSingleProductVariant",method=RequestMethod.POST)
+	public Map<String,Object> updateSingleProductVariant(HttpServletRequest request,HttpServletResponse response,@RequestPart(value="file",required=false) MultipartFile[] files,@RequestParam(value="productDTOString") String productDTOString,
+			@RequestParam(value="productVariantId") long productVariantId) throws JsonMappingException, JsonProcessingException{
+		final HashMap<String, Object> map = new HashMap<>();
+		ObjectMapper objMapper= new ObjectMapper();
+		objMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		TypeReference<ProductDTO> typeRefernce = new TypeReference<ProductDTO>() {
+		};
+		ProductDTO productDTO=objMapper.readValue(productDTOString, typeRefernce);
+		map.put("product", productService.updateSingleProductVariant(productDTO,files,productVariantId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
 	// FEATURED PRODUCTS
 	
 	@RequestMapping(value="/getAllFeaturedProducts",method= {RequestMethod.POST,RequestMethod.GET})
@@ -247,6 +260,14 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
+	@RequestMapping(value="/getCompleteVariant",method= {RequestMethod.POST})
+	public Map<String,Object> getCompleteVariant(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="productVariantId",required=true) long productVariantId,
+			@RequestParam(value="prodId",required=true) long prodId){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("completeVariant", productService.getCompleteVariant(productVariantId,prodId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
 	
 	
 	@RequestMapping(value="/updateVarientDTO",method= {RequestMethod.POST})
@@ -288,6 +309,16 @@ public class ProductController {
 		
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("HomePageFilter", productVarient.applySideBarFilter(searchString,filterData));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
+	
+	
+	@RequestMapping(value="/getAllVariantOfCategoryWithFilter",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> getAllVariantOfCategoryWithFilter(@RequestParam(value="catId") long catId, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productVariants", productVarient.getAllVariantOfCategoryWithFilter(catId));
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}

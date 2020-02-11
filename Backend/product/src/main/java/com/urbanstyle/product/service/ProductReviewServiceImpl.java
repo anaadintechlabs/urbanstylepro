@@ -41,7 +41,7 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return productReviewRepository.findByProductProductIdAndStatus(productId,ACTIVE,pagable);
+		return productReviewRepository.findByProductProductVariantIdAndStatus(productId,ACTIVE,pagable);
 	}
 	@Override
 	public boolean softDeleteProductReview(long userId, long productId) {
@@ -58,14 +58,16 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 						filter.getSortingField());
 		return productReviewRepository.findByStatus(ACTIVE,pagable);
 	}
-	@Override
-	public double getAverageRatingOnProduct(long productId, String active) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 	@Override
 	public List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId) {
 		return	productReviewRepository.getAllReviewsforSPV(prodVarId,ACTIVE);
+	}
+	@Override
+	public double getAverageRatingOnProduct(long productId, int active) {
+		return	productReviewRepository.getAverageRatingOnProduct(productId,active);
+		
+
 	}
 
 }

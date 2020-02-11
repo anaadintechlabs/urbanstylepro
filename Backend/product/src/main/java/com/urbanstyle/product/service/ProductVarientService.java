@@ -53,11 +53,17 @@ public interface ProductVarientService {
 
 	SingleProductDTO getSingleProductDetail(long prodVarId);
 
+
+	List<ProductVariantDTO> getSingleProductVarientDTOList(int i, long prodId, long productVariantId);
+
 	HomePageFilterDTO applyHomePageFilter(String searchString);
+
 
 		List<ProductVariantDTO> applySideBarFilter(String searchString, HashMap<Long, List<String>> filterData);
 
 		ProductVariant findByProdVarId(long l);
+
+		HomePageFilterDTO getAllVariantOfCategoryWithFilter(long catId);
 
  
 }

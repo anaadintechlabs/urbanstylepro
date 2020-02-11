@@ -19,5 +19,7 @@ public interface ProductVarientDAO {
 
 	List<ProductVariantDTO> applySideBarFilter(String searchString, HashMap<Long, List<String>> filterData);
 
+	HomePageFilterDTO getAllVariantOfCategoryWithFilter(long catId);
+
 
 }
