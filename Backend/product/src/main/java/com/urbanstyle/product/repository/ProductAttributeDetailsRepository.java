@@ -20,7 +20,7 @@ public interface ProductAttributeDetailsRepository extends PagingAndSortingRepos
 	@Transactional
 	void deleteAllProductAttribute(List<ProductVariant> pvList);
 	
-	@Query(value="from ProductAttributeDetails pad where pad.attributeMasterId in(?1) and pad.productVariant in (?2) ")
+	@Query(value="from ProductAttributeDetails pad where pad.attributeMasterId in(?1) and pad.productVariant.productVariantId in (?2) ")
 	@Modifying
 	List<ProductAttributeDetails> findByAttrIdAndVarId(Set<Long> allAttributeIdList, List<Long> listVarId);
 

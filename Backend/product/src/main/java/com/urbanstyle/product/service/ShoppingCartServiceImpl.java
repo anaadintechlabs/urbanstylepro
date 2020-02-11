@@ -51,28 +51,39 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 				for(int i =0;i<itemDTO.size();i++)
 				{
 				ShoppingCartItem  shoppingCartItem = shoppingCartItemRepository.findByShoppingCartAndProductVariant(previousUserCart,itemDTO.get(i).getProductVariant());
-				
+				ProductVariant prodVar  =  prodVarService.findByProdVarId(itemDTO.get(i).getProductVariant().getProductVariantId());
+
 				if(shoppingCartItem==null)
 				{
 				 shoppingCartItem = new ShoppingCartItem();
-				shoppingCartItem.setQuantity(itemDTO.get(i).getQuantity());
+					int quantity=itemDTO.get(i).getQuantity();
+					shoppingCartItem.setQuantity(quantity);
+				
 				shoppingCartItem.setShoppingCart(previousUserCart);
 				shoppingCartItem.setProductVariant(itemDTO.get(i).getProductVariant());
 				//Cost I have to calculate again
-				ProductVariant prodVar  =  prodVarService.findByProdVarId(itemDTO.get(i).getProductVariant().getProductVariantId());
-				shoppingCartItem.setCost(prodVar!=null ? prodVar.getDisplayPrice():itemDTO.get(i).getCost());
+				double cost =prodVar!=null ? prodVar.getDisplayPrice():itemDTO.get(i).getCost();
+				shoppingCartItem.setCost(cost*quantity);
+				totalCost += cost*quantity;
 				}
 				else
 				{
+					int quantity=itemDTO.get(i).getQuantity();
+					double cost =prodVar!=null ? prodVar.getDisplayPrice():itemDTO.get(i).getCost();
 					shoppingCartItem.setQuantity(shoppingCartItem.getQuantity() + itemDTO.get(i).getQuantity());	
+					shoppingCartItem.setCost(shoppingCartItem.getCost() + (cost*quantity));	
+					
+					totalCost += cost*quantity;
 				}
 				
 				//Set proper product
 
-				totalCost += itemDTO.get(i).getCost();
+				
 				totalQuantity += itemDTO.get(i).getQuantity();
 				shoppingCartList.add(shoppingCartItem);
 				}
+				System.out.println("total cost to add is"+totalCost);
+				
 				previousUserCart.setTotalCost(previousUserCart.getTotalCost()+totalCost);
 				previousUserCart.setCartCount(previousUserCart.getCartCount()+totalQuantity);
 				shoppingCartRepository.save(previousUserCart);
@@ -91,14 +102,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 			for(int i =0;i<itemDTO.size();i++)
 			{
 			ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
-			shoppingCartItem.setQuantity(itemDTO.get(i).getQuantity());
+			int quantity=itemDTO.get(i).getQuantity();
+			shoppingCartItem.setQuantity(quantity);
+			
 			//Set proper product
 			shoppingCartItem.setProductVariant(itemDTO.get(i).getProductVariant());
 			ProductVariant prodVar  =  prodVarService.findByProdVarId(itemDTO.get(i).getProductVariant().getProductVariantId());
-			shoppingCartItem.setCost(prodVar!=null ? prodVar.getDisplayPrice():itemDTO.get(i).getCost());
+			double cost =prodVar!=null ? prodVar.getDisplayPrice():itemDTO.get(i).getCost();
+			shoppingCartItem.setCost(cost*quantity);
 			shoppingCartItem.setShoppingCart(shoppingCart);
 			
-			totalCost += itemDTO.get(i).getCost();
+			totalCost += (cost*quantity);
 			totalQuantity += itemDTO.get(i).getQuantity();
 			
 			shoppingCartList.add(shoppingCartItem);

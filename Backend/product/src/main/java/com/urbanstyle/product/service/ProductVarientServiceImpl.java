@@ -288,4 +288,9 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		}
 		return prodVar;
 	}
+
+	@Override
+	public HomePageFilterDTO getAllVariantOfCategoryWithFilter(long catId) {
+		return productVarientDAO.getAllVariantOfCategoryWithFilter(catId);
+	}
 }

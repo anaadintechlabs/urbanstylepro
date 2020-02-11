@@ -64,4 +64,9 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	@Query(value=" from  ProductVariant wl where  wl.categoryId =?2 and wl.productVariantId <>?1")
 	List<ProductVariant> getRelatedProducts(long prodVarId, long categoryId);
 
+	@Query(value="select wl from  ProductVariant wl where wl.productVariantId in (?1)")
+	List<ProductVariant> findByIdIn(List<Long> listVarId);
+
+	
+
 }

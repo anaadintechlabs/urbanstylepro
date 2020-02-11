@@ -211,7 +211,8 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		List<Long> ListVarId = new ArrayList<>();
 		
 		ListVarId = allVarAndCat.get("VARIENTS");
-		
+		System.out.println("ListVarId"+ListVarId);
+		System.out.println("ListCat"+ListCat);
 		// now find all attributes id in cat attribute table
 		List<CategoryAttributeMapping> catAttr= new ArrayList<>();
 		if(ListCat!=null && !ListCat.isEmpty())
@@ -224,7 +225,10 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		}
 		
 		Set<Long> allAttributeIdList = attrVal.keySet();
+		System.out.println("catAttr"+catAttr);
 		
+		if(allAttributeIdList!=null && !allAttributeIdList.isEmpty() && ListVarId!=null && !ListVarId.isEmpty())
+		{
 		List<ProductAttributeDetails> allattrData = prodAttrMap.findByAttrIdAndVarId(allAttributeIdList,ListVarId);
 		
 		HashMap<Long,Map<String,  List<String>>> attributeDataMap  = new HashMap<Long,Map<String,  List<String>>>();
@@ -244,19 +248,27 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		  }
 		}
 		
-		List<ProductVariant> allVarients = new ArrayList<>();
-		Iterable<ProductVariant> allIterVar = prdVarRepo.findAllById(ListVarId);
+		System.out.println("attributeDataMap"+attributeDataMap);
 		
-		allVarients.forEach(allVarients :: add);
+		//List<ProductVariant> allVarients = new ArrayList<>();
+		
+		List<ProductVariant> allIterVar = prdVarRepo.findByIdIn(ListVarId);
 		
 		homePageDTO.setAttributeDataMap(attributeDataMap);
-		return null;
+		homePageDTO.setAllVarients(allIterVar);
+		}
+		
+		
+		//allVarients.forEach(allVarients :: add);
+		
+		
+		return homePageDTO;
 	}
 
 
 	private HashMap<String, List<Long>> getAllVarientsAndCategories(String searchString) {
 		Session session = entityManager.unwrap(Session.class);
-		
+		searchString="%"+searchString+"%";
 		HashMap<String, List<Long>> resultData = new HashMap<>();
 		
 		List<Long> ListCat = new ArrayList<>();
@@ -276,6 +288,7 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 				 ListVarId.add(pv.getProductVariantId());
 			 }
 		 }
+		 
 		 
 		 resultData.put("CATEGORIES", ListCat);
 		 resultData.put("VARIENTS", ListVarId);
@@ -315,6 +328,13 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 				}
 		 
 		return allDTO;
+	}
+
+
+	@Override
+	public HomePageFilterDTO getAllVariantOfCategoryWithFilter(long catId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

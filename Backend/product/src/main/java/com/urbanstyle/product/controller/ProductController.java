@@ -312,4 +312,14 @@ public class ProductController {
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
+	
+	
+	@RequestMapping(value="/getAllVariantOfCategoryWithFilter",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> getAllVariantOfCategoryWithFilter(@RequestParam(value="catId") long catId, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productVariants", productVarient.getAllVariantOfCategoryWithFilter(catId));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
 }
