@@ -28,6 +28,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private PaymentConn paymentConn;
 
 	//@ResponseBody
 	@RequestMapping(value= {"/saveOrder"},method= {RequestMethod.POST,RequestMethod.GET})
@@ -73,5 +76,20 @@ public class OrderController {
 		//return resultMap;
 	}
 	
+	@RequestMapping(value= {"/madePayment"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> madePayment(HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		try {
+			//paymentConn.createCustomer();
+			//paymentConn.getCustomer("cus_GibhGlFT9kXSxE");
+			//paymentConn.updateCardToCustomer("cus_GjLGxkPFyFLaS7");
+			paymentConn.chargePayment("cus_GjLGxkPFyFLaS7");
+			resultMap.put("RESPONSE", "SUCCESS");
+		}catch(Exception e) {
+			resultMap.put("RESPONSE", "ERROR");	
+		}
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+		//return resultMap;
+	}
 	
 }

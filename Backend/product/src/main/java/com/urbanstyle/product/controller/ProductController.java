@@ -38,6 +38,8 @@ import com.urbanstyle.product.service.ProductService;
 import com.urbanstyle.product.service.ProductVarientService;
 import com.urbanstyle.product.util.CommonResponseSender;
 
+import io.micrometer.core.instrument.util.StringUtils;
+
 @RestController
 @RequestMapping("/product")
 @CrossOrigin(origins="*")
@@ -296,30 +298,56 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/applyHomePageFilter",method= {RequestMethod.GET,RequestMethod.POST})
-	public Map<String,Object> applyHomePageFilter(@RequestParam(value="searchString") String searchString, HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> applyHomePageFilter(@RequestParam(value="searchString") String searchString,@RequestBody(required=true) HashMap<Long,List<String>> filterData,@RequestParam(value="catId") long catId, HttpServletRequest request,HttpServletResponse response){
 		
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("HomePageFilter", productVarient.applyHomePageFilter(searchString));
+		if(filterData.isEmpty() && StringUtils.isNotBlank(searchString)) {
+			map.put("HomePageFilter", productVarient.applyHomePageFilter(searchString));
+		}else if(!filterData.isEmpty() && StringUtils.isNotBlank(searchString)) {
+			map.put("HomePageFilter", productVarient.applySideBarFilter(searchString,filterData));
+		}else {
+			map.put("productVariants", productVarient.getAllVariantOfCategoryWithFilter(catId));
+		}
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
 	
-	@RequestMapping(value="/applySideBarFilter",method= {RequestMethod.GET,RequestMethod.POST})
-	public Map<String,Object> applySideBarFilter(@RequestParam(value="searchString") String searchString,@RequestBody(required=true) HashMap<Long,List<String>> filterData, HttpServletRequest request,HttpServletResponse response){
-		
-		final HashMap<String, Object> map = new HashMap<>();
-		map.put("HomePageFilter", productVarient.applySideBarFilter(searchString,filterData));
-		return CommonResponseSender.getRecordSuccessResponse(map, response);
-		
-	}
-	
-	
-	@RequestMapping(value="/getAllVariantOfCategoryWithFilter",method= {RequestMethod.GET,RequestMethod.POST})
-	public Map<String,Object> getAllVariantOfCategoryWithFilter(@RequestParam(value="catId") long catId, HttpServletRequest request,HttpServletResponse response){
-		
-		final HashMap<String, Object> map = new HashMap<>();
-		map.put("productVariants", productVarient.getAllVariantOfCategoryWithFilter(catId));
-		return CommonResponseSender.getRecordSuccessResponse(map, response);
-		
-	}
+	/*
+	 * @RequestMapping(value="/applyHomePageFilter",method=
+	 * {RequestMethod.GET,RequestMethod.POST}) public Map<String,Object>
+	 * applyHomePageFilter(@RequestParam(value="searchString") String searchString,
+	 * HttpServletRequest request,HttpServletResponse response){
+	 * 
+	 * final HashMap<String, Object> map = new HashMap<>();
+	 * map.put("HomePageFilter", productVarient.applyHomePageFilter(searchString));
+	 * return CommonResponseSender.getRecordSuccessResponse(map, response);
+	 * 
+	 * }
+	 * 
+	 * @RequestMapping(value="/applySideBarFilter",method=
+	 * {RequestMethod.GET,RequestMethod.POST}) public Map<String,Object>
+	 * applySideBarFilter(@RequestParam(value="searchString") String
+	 * searchString,@RequestBody(required=true) HashMap<Long,List<String>>
+	 * filterData, HttpServletRequest request,HttpServletResponse response){
+	 * 
+	 * final HashMap<String, Object> map = new HashMap<>();
+	 * map.put("HomePageFilter",
+	 * productVarient.applySideBarFilter(searchString,filterData)); return
+	 * CommonResponseSender.getRecordSuccessResponse(map, response);
+	 * 
+	 * }
+	 * 
+	 * 
+	 * @RequestMapping(value="/getAllVariantOfCategoryWithFilter",method=
+	 * {RequestMethod.GET,RequestMethod.POST}) public Map<String,Object>
+	 * getAllVariantOfCategoryWithFilter(@RequestParam(value="catId") long catId,
+	 * HttpServletRequest request,HttpServletResponse response){
+	 * 
+	 * final HashMap<String, Object> map = new HashMap<>();
+	 * map.put("productVariants",
+	 * productVarient.getAllVariantOfCategoryWithFilter(catId)); return
+	 * CommonResponseSender.getRecordSuccessResponse(map, response);
+	 * 
+	 * }
+	 */
 }
