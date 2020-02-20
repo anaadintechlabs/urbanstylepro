@@ -21,7 +21,7 @@ public class ProductReview {
 	private long id;
 	
 	@ManyToOne
-	private Product product;
+	private ProductVariant product;
 	
 	@ManyToOne
 	private User user;
@@ -51,11 +51,11 @@ public class ProductReview {
 		this.id = id;
 	}
 
-	public Product getProduct() {
+	public ProductVariant getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductVariant product) {
 		this.product = product;
 	}
 

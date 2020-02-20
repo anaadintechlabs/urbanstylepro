@@ -1,13 +1,16 @@
 package com.urbanstyle.product.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.FilterDTO;
+import com.anaadihsoft.common.DTO.HomePageFilterDTO;
 import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.SingleProductDTO;
 import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.ProductVariant;
@@ -47,6 +50,20 @@ public interface ProductVarientService {
 
 	
 	List<ProductVariant> searchInventory(InventorySearchDTO inventorySearchDTO);
+
+	SingleProductDTO getSingleProductDetail(long prodVarId);
+
+
+	List<ProductVariantDTO> getSingleProductVarientDTOList(int i, long prodId, long productVariantId);
+
+	HomePageFilterDTO applyHomePageFilter(String searchString);
+
+
+		List<ProductVariantDTO> applySideBarFilter(String searchString, HashMap<Long, List<String>> filterData);
+
+		ProductVariant findByProdVarId(long l);
+
+		HomePageFilterDTO getAllVariantOfCategoryWithFilter(long catId);
 
  
 }

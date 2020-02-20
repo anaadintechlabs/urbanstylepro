@@ -6,18 +6,18 @@ import { isNgTemplate } from '@angular/compiler';
 import { AddProductService } from 'src/_services/product/addProductService';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-inventory",
   templateUrl: "./inventory.component.html",
   styleUrls: ["./inventory.component.scss"]
 })
 export class InventoryComponent implements OnInit {
-
-  public showProducts:boolean=true;
-  public showVariants:boolean;
+  public showProducts: boolean = true;
+  public showVariants: boolean;
   productList: any[] = [];
-  filterList : any[] = [];
-  variantList : any[] = [];
+  filterList: any[] = [];
+  variantList: any[] = [];
 
   bankDetailCount: number;
   public userId: any = 1;
@@ -29,68 +29,72 @@ export class InventoryComponent implements OnInit {
   public pageSize: any;
   public listLength: any;
   pageNumber: any;
-  user : User;
+  user: User;
 
-  @ViewChild('variant',{static: false}) modal;
-  private filter : search;
+  @ViewChild("variant", { static: false })
+  modal;
+  private filter: search;
 
   constructor(
     private dataService: DataService,
-    private _apiService : ApiService,
-    public _addProduct : AddProductService,
-    private _router : Router
+    private _apiService: ApiService,
+    public _addProduct: AddProductService,
+    private _router: Router,
+    private toastr: ToastrService
   ) {
     //getUserId Dynamic
-    this.user =  JSON.parse(window.localStorage.getItem('user'));
-    if(this.user.token){
+    this.user = JSON.parse(window.localStorage.getItem("user"));
+    if (this.user.token) {
       this.userId = this.user.id;
       this.getAllProductOfUser();
-    } 
+    }
   }
 
   ngOnInit() {
     this.filter = {
-      search : "",
-      grtPrice : "", 
-      lessPrice : "",
-      grtDate : "",
-      lessDate : "",
-      status : null,
-      sortField : "",
-      sortdir : "",
-      limit : 50,
-      offset : 0
-    }
+      search: "",
+      grtPrice: "",
+      lessPrice: "",
+      grtDate: "",
+      lessDate: "",
+      status: null,
+      sortField: "",
+      sortdir: "",
+      limit: 50,
+      offset: 0
+    };
   }
 
   getAllProductOfUser() {
     let body = {
-      "limit":25,
-      "offset":0,
-      "sortingDirection":"DESC",
-      "sortingField":"modifiedDate"
-    }
-    this.dataService.getAllProductOfUser(this.userId,body).subscribe(data=> {
+      limit: 25,
+      offset: 0,
+      sortingDirection: "DESC",
+      sortingField: "modifiedDate"
+    };
+    this.dataService.getAllProductOfUser(this.userId, body).subscribe(data => {
       this.productList = data.productList;
-      this.showProducts=true;
-          this.showVariants=false;
-    })
+      this.showProducts = true;
+      this.showVariants = false;
+    });
   }
 
   getFilterProduct() {
-    this._apiService.post('/product/searchInventory',this.filter).subscribe(res=>{
-      if(res.isSuccess){
-        this.filterList = res.data;
-      }
-    })
+    this._apiService
+      .post("/product/searchInventory", this.filter)
+      .subscribe(res => {
+        if (res.isSuccess) {
+          this.filterList = res.data;
+        }
+      });
   }
 
-  getAllInactiveVariant(){
+  getAllInactiveVariant() {
     this.filter.status = 0;
     this.getFilterProduct();
   }
-  
-  getAllActiveVariant(){
+
+  getAllActiveVariant() {
     this.filter.status = 1;
     this.getFilterProduct();
   }
@@ -104,12 +108,15 @@ export class InventoryComponent implements OnInit {
     };
 
     this.dataService
-      .getAllProductVariantOfUser("product/getAllProductVariantOfUser?userId=" + this.userId, body)
+      .getAllProductVariantOfUser(
+        "product/getAllProductVariantOfUser?userId=" + this.userId,
+        body
+      )
       .subscribe(
         data => {
-          console.log("datais ",data);
-          this.showProducts=false;
-          this.showVariants=true;
+          console.log("datais ", data);
+          this.showProducts = false;
+          this.showVariants = true;
           this.productList = data;
           this.ELEMENT_DATA = this.productList;
         },
@@ -117,17 +124,18 @@ export class InventoryComponent implements OnInit {
           console.log("error======", error);
         }
       );
-      console.log(this.productList);
+    console.log(this.productList);
   }
 
   getAllProductOfVarient(item) {
-   
-    this._apiService.get('product/getAllVarientsOfProducts?prodId='+item.productId).subscribe(res=>{
-      if(res.isSuccess){
-        console.log(res.product)
-        this.variantList = res.data.product;
-      }
-    })
+    this._apiService
+      .get("product/getAllVarientsOfProducts?prodId=" + item.productId)
+      .subscribe(res => {
+        if (res.isSuccess) {
+          console.log(res.product);
+          this.variantList = res.data.product;
+        }
+      });
   }
 
   getAllActiveOrInactiveProductVariantOfUser(status) {
@@ -143,17 +151,19 @@ export class InventoryComponent implements OnInit {
       this.userId +
       "&status=" +
       status;
-    this.dataService.getAllActiveOrInactiveProductVariantOfUser(url, body).subscribe(
-      data => {
-        this.productList = data;
-        this.showProducts=false;
-          this.showVariants=true;
-        this.ELEMENT_DATA = this.productList;
-      },
-      error => {
-        console.log("error======", error);
-      }
-    );
+    this.dataService
+      .getAllActiveOrInactiveProductVariantOfUser(url, body)
+      .subscribe(
+        data => {
+          this.productList = data;
+          this.showProducts = false;
+          this.showVariants = true;
+          this.ELEMENT_DATA = this.productList;
+        },
+        error => {
+          console.log("error======", error);
+        }
+      );
     console.log(this.productList);
   }
 
@@ -165,7 +175,8 @@ export class InventoryComponent implements OnInit {
       sortingField: "modifiedDate"
     };
 
-    let url = "product/changeStatusOfProductVariant?userId=" +
+    let url =
+      "product/changeStatusOfProductVariant?userId=" +
       this.userId +
       "&productId=" +
       productId +
@@ -189,28 +200,55 @@ export class InventoryComponent implements OnInit {
     this.modal.open();
   }
 
+  updatePrices(updatedDTO) {
+    console.log(updatedDTO);
+    let obj = [
+      {
+        productVariantId: updatedDTO.productVariantId,
+        actualPrice: updatedDTO.actualPrice,
+        displayPrice: updatedDTO.displayPrice
+      }
+    ];
+    let url = "product/updateVarientDTO";
+    this.dataService.updateVarientDTO(url, obj).subscribe(
+      data => {
+        this.toastr.success("Prices updated successfully");
+      },
+      error => {
+        console.log("error======", error);
+         this.toastr.warning("Something went wrong");
+      }
+    );
+  }
   pageEvent(event) {}
 
   goToEdit(item) {
-    this._addProduct.productStatus = 'EDIT';
-    this._apiService.post(`product/getCompleteProduct?prodId=${item.productId}`).subscribe(res=>{
-      if(res.isSuccess) {
-        console.log(res.data.productList);
-        this._addProduct.productFormGroup.patchValue(res.data.productList.product);
-        console.log(this._addProduct.productFormGroup.value);
-        res.data.productList.productVariantDTO.forEach(element => {
-          let temp:FormGroup = this._addProduct.initializeProductVarientDto();
-          temp.patchValue(element)
-          this._addProduct.productVariantDTO.push(temp);
-        });
-        this._addProduct.metaList = res.data.productList.productMetaInfo;
-        this._addProduct.getmetaInfo();
-        this._addProduct.urlArray = res.data.productList.imageUrls;
-        console.log(this._addProduct.productDTO.value);
-        sessionStorage.setItem('addProduct', JSON.stringify(this._addProduct.productDTO.value));
-        this._router.navigateByUrl('/vendor/addProduct/vitalInfo');
-      }
-    })
+    this._addProduct.productStatus = "EDIT";
+    this._apiService
+      .post(`product/getCompleteProduct?prodId=${item.productId}`)
+      .subscribe(res => {
+        if (res.isSuccess) {
+          console.log(res.data.productList);
+          this._addProduct.productFormGroup.patchValue(
+            res.data.productList.product
+          );
+          console.log(this._addProduct.productFormGroup.value);
+          res.data.productList.productVariantDTO.forEach(element => {
+            let temp: FormGroup = this._addProduct.initializeProductVarientDto();
+            temp.patchValue(element);
+            this._addProduct.productVariantDTO.push(temp);
+          });
+          this._addProduct.metaList = res.data.productList.productMetaInfo;
+          this._addProduct.getmetaInfo();
+          this._addProduct.urlArray = res.data.productList.imageUrls;
+          console.log(this._addProduct.productDTO.value);
+          sessionStorage.setItem(
+            "addProduct",
+            JSON.stringify(this._addProduct.productDTO.value)
+          );
+          this._router.navigateByUrl("/vendor/addProduct/vitalInfo");
+        }
+      });
   }
 }
 

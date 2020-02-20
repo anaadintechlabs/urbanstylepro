@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.ProductReview;
 import com.urbanstyle.product.repository.ProductReviewRepository;
@@ -40,7 +41,7 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return productReviewRepository.findByProductProductIdAndStatus(productId,ACTIVE,pagable);
+		return productReviewRepository.findByProductProductVariantIdAndStatus(productId,ACTIVE,pagable);
 	}
 	@Override
 	public boolean softDeleteProductReview(long userId, long productId) {
@@ -57,10 +58,16 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 						filter.getSortingField());
 		return productReviewRepository.findByStatus(ACTIVE,pagable);
 	}
+	
 	@Override
-	public double getAverageRatingOnProduct(long productId, String active) {
-		// TODO Auto-generated method stub
-		return 0;
+	public List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId) {
+		return	productReviewRepository.getAllReviewsforSPV(prodVarId,ACTIVE);
+	}
+	@Override
+	public double getAverageRatingOnProduct(long productId, int active) {
+		return	productReviewRepository.getAverageRatingOnProduct(productId,active);
+		
+
 	}
 
 }

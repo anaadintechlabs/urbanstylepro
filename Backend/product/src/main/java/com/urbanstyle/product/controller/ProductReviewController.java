@@ -38,7 +38,7 @@ public class ProductReviewController {
 	 * 
 	 */
 	
-	private static final String ACTIVE="ACTIVE";
+	private static final int ACTIVE=1;
 	@RequestMapping(value="/productReviewSave",method=RequestMethod.POST)
 	public Map<String,Object> reviewProductSave(@RequestBody ProductReview productReview,
 			HttpServletRequest request,HttpServletResponse response)

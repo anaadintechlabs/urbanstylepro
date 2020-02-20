@@ -74,6 +74,14 @@ export class DataService {
     });
   }
 
+  updateVarientDTO(url,data):Observable<any> {
+    return new Observable<any>(obs=>{
+        this._apiService.post(url,data).subscribe(res=>{
+          obs.next(res);
+        })
+    });
+  }
+
 changeStatusOfCategory(
     url: string,
     data: any

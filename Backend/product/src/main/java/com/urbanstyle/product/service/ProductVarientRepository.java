@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.ProductVariant;
 
@@ -55,6 +56,17 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	
 	@Query(value="update ProductVariant wl set wl.displayPrice =?3 , wl.actualPrice =?2 where wl.productVariantId =?1 ")
 	@Transactional
+	@Modifying
+
 	void updateVarientDTO(long productVariantId, double d, double e);
+
+
+	@Query(value=" from  ProductVariant wl where  wl.categoryId =?2 and wl.productVariantId <>?1")
+	List<ProductVariant> getRelatedProducts(long prodVarId, long categoryId);
+
+	@Query(value="select wl from  ProductVariant wl where wl.productVariantId in (?1)")
+	List<ProductVariant> findByIdIn(List<Long> listVarId);
+
+	
 
 }
