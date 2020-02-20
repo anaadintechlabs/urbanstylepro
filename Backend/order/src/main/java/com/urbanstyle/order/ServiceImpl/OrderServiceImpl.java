@@ -1,6 +1,7 @@
 package com.urbanstyle.order.ServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,16 +16,25 @@ import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Address;
+import com.anaadihsoft.common.master.BankDetails;
+import com.anaadihsoft.common.master.PaymentDetails;
+import com.anaadihsoft.common.master.PaymentTransaction;
 import com.anaadihsoft.common.master.ProductVariant;
 import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.common.master.UserOrderProducts;
+import com.urbanstyle.order.Contoller.PaymentConn;
 import com.urbanstyle.order.Repository.AddressRepository;
 import com.urbanstyle.order.Repository.OrderRepository;
+import com.urbanstyle.order.Repository.PaymentDetailsRepo;
+import com.urbanstyle.order.Repository.PaymentTransactionRepo;
 import com.urbanstyle.order.Repository.ProductVarientRepository;
 import com.urbanstyle.order.Repository.UserOrderProductRepository;
 import com.urbanstyle.order.Repository.UserRepository;
 import com.urbanstyle.order.Service.OrderService;
+import com.urbanstyle.order.Service.PaymentTransactionService;
+import com.urbanstyle.user.Repository.BankRepository;
+import com.urbanstyle.user.Service.BankService;
 
 
 @Service
@@ -49,6 +59,21 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private UserOrderProductRepository userOrderProdRepo;
+	
+	@Autowired
+	private BankRepository bankRepo;
+	
+	@Autowired
+	private PaymentConn paymentConn;
+	
+	@Autowired
+	private PaymentTransactionService paymenttransactionService;
+	
+	@Autowired
+	private PaymentTransactionRepo paymantTransactionRepo;
+	
+	@Autowired
+	private PaymentDetailsRepo paymentDettailsRepo;
 	
 	@Override
 	public UserOrder saveorUpdate(UserOrderSaveDTO userOrder) {
@@ -96,6 +121,8 @@ public class OrderServiceImpl implements OrderService {
 			
 			// save user Product order
 			
+			double totalAmount = 0;
+			
 			List<UserOrderProducts> TotalProducts = new ArrayList<UserOrderProducts>();
 			
 			for(UserOrderQtyDTO userDTO : userOrderList) {
@@ -111,10 +138,64 @@ public class OrderServiceImpl implements OrderService {
 				userOrderProduct.setQuantity(quantity);
 				userOrderProduct.setUserOrder(userOrderSave);
 				userOrderProduct.setComment("COMMENT...");
+				
+				totalAmount += productVar.getActualPrice()*quantity;
+				
 				TotalProducts.add(userOrderProduct);
 			}
 			
 			userOrderProdRepo.saveAll(TotalProducts);
+			
+			Optional<BankDetails> bankDetails = bankRepo.findById(userOrder.getBankInfo().getId());
+			BankDetails reqDetails = new BankDetails();
+			if(!bankDetails.isPresent()) {
+				reqDetails =  bankRepo.save(userOrder.getBankInfo());
+			}else {
+				reqDetails = bankDetails.get();
+			}
+			
+			// paymentWork
+			PaymentTransaction pt = new PaymentTransaction();
+			//paymentConn.chargePayment(CustomerName);
+			pt.setAmount(totalAmount);
+			pt.setCard(reqDetails);
+			pt.setCreatedBy(String.valueOf(userId));
+			pt.setCreatedDate(new Date());
+			pt.setCustId("");
+			pt.setPaymentDesc("");
+			
+			pt = paymantTransactionRepo.save(pt);
+			
+			List<PaymentDetails> TotalPaymentRef = new ArrayList<PaymentDetails>();
+			
+			for(UserOrderQtyDTO userDTO : userOrderList) {
+				long prodVarId = userDTO.getProductVariantId();
+				int quantity = userDTO.getQty();
+				Optional<ProductVariant> optionalp = productVariantRepo.findById(prodVarId);
+				ProductVariant productVar = null;
+				if(optionalp.isPresent()) {
+					productVar = optionalp.get();
+				}
+				
+				Optional<User> vendorUser = userRepo.findById(Long.valueOf(productVar.getCreatedBy()));
+				User userVndor  = null;
+				if(vendorUser.isPresent()) {
+					System.out.println("user present");
+					userVndor = vendorUser.get();
+				}
+				
+				PaymentDetails pd = new PaymentDetails();
+				pd.setAmount(productVar.getActualPrice());
+				pd.setCreatedBy(String.valueOf(loginUser.getId()));
+				pd.setCreatedDate(new Date());
+				pd.setProdVar(productVar);
+				pd.setPt(pt);
+				pd.setUser(loginUser);
+				pd.setUserVendor(userVndor);
+				TotalPaymentRef.add(pd);
+			}
+			paymentDettailsRepo.saveAll(TotalPaymentRef);
+			
 			
 		return null;
 	}

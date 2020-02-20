@@ -3,6 +3,7 @@ package com.anaadihsoft.common.DTO;
 import java.util.List;
 
 import com.anaadihsoft.common.master.Address;
+import com.anaadihsoft.common.master.BankDetails;
 
 
 public class UserOrderSaveDTO {
@@ -14,6 +15,14 @@ public class UserOrderSaveDTO {
 	private  String from;
 	private  String to;
 	
+	private BankDetails bankInfo;
+	
+	public BankDetails getBankInfo() {
+		return bankInfo;
+	}
+	public void setBankInfo(BankDetails bankInfo) {
+		this.bankInfo = bankInfo;
+	}
 	public long getUserId() {
 		return userId;
 	}
