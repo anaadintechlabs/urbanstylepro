@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -23,7 +24,17 @@ public class UserOrderProducts {
 	
 	private String comment;
 	
+	@ManyToOne
+	@JoinColumn(name="vendor_Id",nullable = false)
+	private User vendor;
 	
+	public User getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(User vendor) {
+		this.vendor = vendor;
+	}
 
 	public long getId() {
 		return id;
