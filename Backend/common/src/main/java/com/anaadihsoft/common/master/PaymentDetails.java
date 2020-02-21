@@ -32,6 +32,18 @@ public class PaymentDetails {
 	@JoinColumn(name="payId", nullable=false,updatable=false)
 	private PaymentTransaction pt;
 	
+	public UserOrder getOrder() {
+		return order;
+	}
+
+	public void setOrder(UserOrder order) {
+		this.order = order;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="order_id", nullable=false,updatable=false)
+	private UserOrder order;
+	
 	private double amount;
 	
 	private Date createdDate;
