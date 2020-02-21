@@ -40,7 +40,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	//if yes update the quantity
 //	@Override
 	public Object addProductToShoppingCart(ShoppingCartDTO shoppingCartDTO) {
-		System.out.println("DTO IS"+shoppingCartDTO);
+		
 		ShoppingCart previousUserCart = shoppingCartRepository.findByUserId(shoppingCartDTO.getUser().getId());
 		if (previousUserCart!=null) {
 				List<ShoppingCartItemDTO> itemDTO = shoppingCartDTO.getShoppingCartItemDTO();
@@ -82,7 +82,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 				totalQuantity += itemDTO.get(i).getQuantity();
 				shoppingCartList.add(shoppingCartItem);
 				}
-				System.out.println("total cost to add is"+totalCost);
 				
 				previousUserCart.setTotalCost(previousUserCart.getTotalCost()+totalCost);
 				previousUserCart.setCartCount(previousUserCart.getCartCount()+totalQuantity);
@@ -138,14 +137,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 						: Sort.Direction.ASC,
 						filter.getSortingField());
 		
-		return shoppingCartItemRepository.findByShoppingCartUserIdAndStatus(userId,ACTIVE,pagable);
+		return shoppingCartItemRepository.findByShoppingCartUserIdAndStatus(Long.parseLong(userId),ACTIVE,pagable);
 	}
 
 
 	@Override
 	public Object changeStatusOfShoppingCart(String userId, List<Long> productIds, int status) {
 		//shoppingCartItemRepository.changeStatusOfShoppingCart(userId,productId,status);
-		List<ShoppingCartItem> shoppingCartItems =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductVariantProductVariantIdIn(userId, productIds);
+		List<ShoppingCartItem> shoppingCartItems =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductVariantProductVariantIdInAndStatus(Long.parseLong(userId), productIds,ACTIVE);
 		if(shoppingCartItems!=null)
 		{
 			double totalCostToRemove=0;
@@ -189,7 +188,34 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Override
 	public Object updateQuantityOfProduct(String userId, Long productIds, int quantity) {
 		
-		ShoppingCartItem shoppingCartItem =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductVariantProductVariantId(userId, productIds);
+		ShoppingCartItem shoppingCartItem =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductVariantProductVariantIdAndStatus(Long.parseLong(userId), productIds,ACTIVE);
+		if(shoppingCartItem!=null && quantity>0)
+		{
+			//I will get the Previous Item, make the changes in parent as well
+			//then set the new quantity and new cost in parent also
+			ShoppingCart parentCart=shoppingCartItem.getShoppingCart();
+			if(parentCart!=null)
+			{
+				//reset the quantity of 
+				parentCart.setCartCount(parentCart.getCartCount() - (int)shoppingCartItem.getQuantity());
+				parentCart.setTotalCost(parentCart.getTotalCost() - shoppingCartItem.getCost());
+				
+				//Now setting the quantity in item coming from UI
+				shoppingCartItem.setQuantity(quantity);				
+				ProductVariant prodVar  =  prodVarService.findByProdVarId(productIds);
+				double cost =prodVar!=null ? prodVar.getDisplayPrice():110;
+				shoppingCartItem.setCost(cost*quantity);
+				
+				
+				parentCart.setTotalCost(parentCart.getTotalCost()+shoppingCartItem.getCost());
+				parentCart.setCartCount(parentCart.getCartCount()+(int)shoppingCartItem.getQuantity());
+				shoppingCartItemRepository.save(shoppingCartItem);
+				shoppingCartRepository.save(parentCart);
+				
+				
+			}
+			
+		}
 		return null;
 	}
 

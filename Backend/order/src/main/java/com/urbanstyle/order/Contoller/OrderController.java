@@ -33,7 +33,7 @@ public class OrderController {
 	private PaymentConn paymentConn;
 
 	//@ResponseBody
-	@RequestMapping(value= {"/saveOrder"},method= {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= {"/saveOrder"},method= {RequestMethod.POST})
 	public Map<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestBody UserOrderSaveDTO userDetailSave){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 		//try {

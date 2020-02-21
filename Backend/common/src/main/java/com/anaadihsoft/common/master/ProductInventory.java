@@ -32,7 +32,7 @@ public class ProductInventory {
 		private User user;		
 
 
-
+		//Actual 
 		private long qty;
 
 		private double stockCost;
@@ -41,8 +41,11 @@ public class ProductInventory {
 
 		private double standardSalesPrice;
 
+		//Reserved
 		private long reservedQty;
 
+		
+		//On UI available = qty-reserved
 		private long holdingBalance;
 
 		private double reminderPoint;
