@@ -24,10 +24,20 @@ public class UserOrderProducts {
 	
 	private String comment;
 	
+	private String status;
+	
 	@ManyToOne
 	@JoinColumn(name="vendor_Id",nullable = false)
 	private User vendor;
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public User getVendor() {
 		return vendor;
 	}

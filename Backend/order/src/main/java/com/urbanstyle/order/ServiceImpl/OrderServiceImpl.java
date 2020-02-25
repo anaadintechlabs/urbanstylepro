@@ -25,6 +25,7 @@ import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.common.master.UserOrderProducts;
 import com.urbanstyle.order.Contoller.PaymentConn;
 import com.urbanstyle.order.Repository.AddressRepository;
+import com.urbanstyle.order.Repository.BankRepository;
 import com.urbanstyle.order.Repository.OrderRepository;
 import com.urbanstyle.order.Repository.PaymentDetailsRepo;
 import com.urbanstyle.order.Repository.PaymentTransactionRepo;
@@ -33,8 +34,6 @@ import com.urbanstyle.order.Repository.UserOrderProductRepository;
 import com.urbanstyle.order.Repository.UserRepository;
 import com.urbanstyle.order.Service.OrderService;
 import com.urbanstyle.order.Service.PaymentTransactionService;
-import com.urbanstyle.user.Repository.BankRepository;
-import com.urbanstyle.user.Service.BankService;
 
 
 @Service
@@ -63,11 +62,7 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private BankRepository bankRepo;
 	
-	@Autowired
-	private PaymentConn paymentConn;
-	
-	@Autowired
-	private PaymentTransactionService paymenttransactionService;
+
 	
 	@Autowired
 	private PaymentTransactionRepo paymantTransactionRepo;
@@ -93,6 +88,7 @@ public class OrderServiceImpl implements OrderService {
 		for(UserOrderQtyDTO userDTO : userOrderList) {
 			long prodVarId = userDTO.getProductVariantId();
 			Optional<ProductVariant> optionalp = productVariantRepo.findById(prodVarId);
+	
 			if(optionalp.isPresent()) {
 				ProductVariant product  = optionalp.get();
 				totalPrice  += (product.getDisplayPrice() * userDTO.getQty()) ;
@@ -117,8 +113,9 @@ public class OrderServiceImpl implements OrderService {
 			userOrderSave.setOrderTotalPrice(totalPrice);
 			
 			userOrderSave.setOrderStatus("PLACED");
+		if(totalPrice > 0) {
 			orderRepo.save(userOrderSave);
-			
+		}
 			// save user Product order
 			
 			double totalAmount = 0;
@@ -133,6 +130,7 @@ public class OrderServiceImpl implements OrderService {
 				if(optionalp.isPresent()) {
 					productVar = optionalp.get();
 				}
+				if(productVar != null) {
 				UserOrderProducts userOrderProduct = new UserOrderProducts();
 				userOrderProduct.setProduct(productVar);
 				userOrderProduct.setQuantity(quantity);
@@ -151,6 +149,7 @@ public class OrderServiceImpl implements OrderService {
 				totalAmount += productVar.getActualPrice()*quantity;
 				
 				TotalProducts.add(userOrderProduct);
+			  }
 			}
 			
 			userOrderProdRepo.saveAll(TotalProducts);
@@ -246,6 +245,61 @@ public class OrderServiceImpl implements OrderService {
 		
 		 
 		 return userOrderFetch;
+	}
+
+	/*
+	 * Method To get Order for Vendor
+	 * @see com.urbanstyle.order.Service.OrderService#getVendorOrder(long)
+	 */
+	
+	@Override
+	public List<UserOrderProducts> getVendorOrder(long vendorId) {
+		
+		List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByvendorvendor_Id(vendorId);
+		for(UserOrderProducts userOrder : userOrderProducts) {
+			
+		}
+		return null;
+	}
+
+	@Override
+	public UserOrder setStatusbyUser(long orderId,String status) {
+		Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
+		if(userOrder.isPresent()) {
+			UserOrder usrOrdr = userOrder.get();
+			usrOrdr.setOrderStatus(status);
+			orderRepo.save(usrOrdr);
+			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
+			for(UserOrderProducts userOrdrProd :userOrderProducts) {
+				userOrdrProd.setStatus(status);
+				userOrderProdRepo.save(userOrdrProd);
+			}
+			return userOrder.get();
+		}else {
+			return null;
+		}
+	}
+
+	@Override
+	public UserOrderProducts setStatusbyVendor(long orderProdId, String status) {
+		
+		Optional<UserOrderProducts> userordrProd = userOrderProdRepo.findById(orderProdId);
+		if(userordrProd.isPresent()) {
+			UserOrderProducts userOrderProd = userordrProd.get();
+			UserOrder userOrder  =  userOrderProd.getUserOrder();
+			boolean updateStatus = true;
+			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(userOrder.getId());
+			for(UserOrderProducts userOrdrProd :userOrderProducts) {
+				if(!status.equals(userOrdrProd.getStatus())) {
+					updateStatus = false;
+				}
+			}
+			if(updateStatus) {
+				userOrder.setOrderStatus(status);
+				orderRepo.save(userOrder);
+			}
+		}
+		return null;
 	}
 
 
