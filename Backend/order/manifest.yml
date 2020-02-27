@@ -1,0 +1,7 @@
+
+applications:
+  - name: myorder
+path: target/order.jar
+domain: cfapps.io
+memory: 2G
+instances: 1
