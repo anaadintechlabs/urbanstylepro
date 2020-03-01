@@ -146,6 +146,7 @@ public class OrderServiceImpl implements OrderService {
 				userOrderProduct.setUserOrder(userOrderSave);
 				userOrderProduct.setComment("COMMENT...");
 				
+				//will be taken from token
 				Optional<User> vendorUser = userRepo.findById(Long.valueOf(productVar.getCreatedBy()));
 				User userVndor  = null;
 				if(vendorUser.isPresent()) {
@@ -155,7 +156,7 @@ public class OrderServiceImpl implements OrderService {
 				
 				userOrderProduct.setVendor(userVndor);
 				
-				totalAmount += productVar.getActualPrice()*quantity;
+				totalAmount += productVar.getDisplayPrice()*quantity;
 				
 				TotalProducts.add(userOrderProduct);
 			  }
@@ -202,7 +203,7 @@ public class OrderServiceImpl implements OrderService {
 				}
 				
 				PaymentDetails pd = new PaymentDetails();
-				pd.setAmount(productVar.getActualPrice());
+				pd.setAmount(productVar.getDisplayPrice()*quantity);
 				pd.setCreatedBy(String.valueOf(loginUser.getId()));
 				pd.setCreatedDate(new Date());
 				pd.setProdVar(productVar);
