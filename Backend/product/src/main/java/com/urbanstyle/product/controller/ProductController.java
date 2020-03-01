@@ -298,11 +298,11 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/applyHomePageFilter",method= {RequestMethod.GET,RequestMethod.POST})
-	public Map<String,Object> applyHomePageFilter(@RequestParam(value="searchString") String searchString,@RequestBody(required=true) HashMap<Long,List<String>> filterData,@RequestParam(value="catId") long catId, HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> applyHomePageFilter(@RequestParam(value="searchString") String searchString,@RequestBody(required=false) HashMap<Long,List<String>> filterData,@RequestParam(value="catId") long catId, HttpServletRequest request,HttpServletResponse response){
 		
 		final HashMap<String, Object> map = new HashMap<>();
 		if(filterData.isEmpty() && StringUtils.isNotBlank(searchString)) {
-			map.put("HomePageFilter", productVarient.applyHomePageFilter(searchString));
+			map.put("HomePageFilterSearch", productVarient.applyHomePageFilter(searchString));
 		}else if(!filterData.isEmpty() && StringUtils.isNotBlank(searchString)) {
 			map.put("HomePageFilter", productVarient.applySideBarFilter(searchString,filterData));
 		}else {

@@ -198,7 +198,7 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 
 	@Override
 	public HomePageFilterDTO applyHomePageFilter(String searchString) {
-
+		searchString = "%"+searchString+"%";
 		HomePageFilterDTO homePageDTO = new HomePageFilterDTO();
 		
 		Session session = entityManager.unwrap(Session.class);

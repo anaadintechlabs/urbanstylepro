@@ -190,6 +190,48 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	public Object updateQuantityOfProduct(String userId, Long productIds, int quantity) {
 		
 		ShoppingCartItem shoppingCartItem =  shoppingCartItemRepository.findByShoppingCartUserIdAndProductVariantProductVariantId(userId, productIds);
+		
+		if(shoppingCartItem!=null)
+		{
+			double totalCostToRemove=0;
+			int totalQuantityToRemove=0;
+			
+			//First Reset The quantity from 
+				totalCostToRemove = shoppingCartItem.getCost();
+				totalQuantityToRemove = (int) shoppingCartItem.getQuantity();
+				ShoppingCart shoppingCart=shoppingCartItem.getShoppingCart();
+				if(shoppingCart!=null)
+				{
+				shoppingCart.setCartCount(shoppingCart.getCartCount() - totalQuantityToRemove);
+				shoppingCart.setTotalCost(shoppingCart.getTotalCost() - totalCostToRemove);
+				shoppingCart=shoppingCartRepository.save(shoppingCart);
+				}
+				
+				
+				//Now update the quantity and cost
+				
+				shoppingCartItem.setQuantity(quantity);
+				
+
+				ProductVariant prodVar  =  prodVarService.findByProdVarId(shoppingCartItem.getProductVariant().getProductVariantId());
+				if(prodVar!=null)
+				{
+				double cost =prodVar!=null ? prodVar.getDisplayPrice():100;
+				shoppingCartItem.setCost(cost*quantity);
+				shoppingCartItem.setShoppingCart(shoppingCart);
+
+				shoppingCart.setTotalCost(shoppingCart.getTotalCost()+shoppingCartItem.getCost());
+				shoppingCart.setCartCount(shoppingCart.getCartCount()+(int)shoppingCartItem.getQuantity());
+				shoppingCartItemRepository.save(shoppingCartItem);
+				shoppingCart=shoppingCartRepository.save(shoppingCart);
+				
+				
+				}
+			
+		}
+		
+		
+		
 		return null;
 	}
 
