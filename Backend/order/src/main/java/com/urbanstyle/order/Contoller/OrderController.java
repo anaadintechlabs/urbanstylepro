@@ -37,11 +37,13 @@ public class OrderController {
 	public Map<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestBody UserOrderSaveDTO userDetailSave){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 		//try {
+		System.out.println("userDetailSave"+userDetailSave);
 			resultMap.put("order",orderService.saveorUpdate(userDetailSave));
 			resultMap.put("RESPONSE", "SUCCESS");
 //		}catch(Exception e) {
 //			resultMap.put("RESPONSE", "ERROR");	
 //		}
+			System.out.println("resultMap"+resultMap);
 		return CommonResponseSender.createdSuccessResponse(resultMap, response);
 		//return resultMap;
 	}
@@ -51,12 +53,12 @@ public class OrderController {
 	public Map<String,Object> getOrderByUser(HttpServletRequest request,
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		try {
+		//try {
 			resultMap.put("orderList",orderService.getOrderByUser(Long.parseLong(userId),filter));
 			resultMap.put("RESPONSE", "SUCCESS");
-		}catch(Exception e) {
-			resultMap.put("RESPONSE", "ERROR");	
-		}
+		//}catch(Exception e) {
+		//	resultMap.put("RESPONSE", "ERROR");	
+		//}
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 
 		//return resultMap;

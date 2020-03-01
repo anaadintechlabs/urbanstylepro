@@ -164,6 +164,7 @@ public class ProductServiceImpl implements ProductService{
 			//it will be changed
 			productVariant.setProdDesc(product.getProductCode());
 			productVariant.setMainImageUrl(mainImageUrl);
+			productVariant.setCreatedBy(product.getUser().getId()+"");
 			productVariant=productVariantRepository.save(productVariant);
 			if(productVariantDTO.getAttributesMap()!=null)
 			{
