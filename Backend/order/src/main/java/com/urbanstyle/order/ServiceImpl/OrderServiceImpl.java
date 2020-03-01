@@ -20,21 +20,22 @@ import com.anaadihsoft.common.master.BankDetails;
 import com.anaadihsoft.common.master.PaymentDetails;
 import com.anaadihsoft.common.master.PaymentTransaction;
 import com.anaadihsoft.common.master.ProductVariant;
+import com.anaadihsoft.common.master.ReturnManagement;
 import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.common.master.UserOrderProducts;
 import com.urbanstyle.order.Contoller.PaymentConn;
 import com.urbanstyle.order.Repository.AddressRepository;
+import com.urbanstyle.order.Repository.BankRepository;
 import com.urbanstyle.order.Repository.OrderRepository;
 import com.urbanstyle.order.Repository.PaymentDetailsRepo;
 import com.urbanstyle.order.Repository.PaymentTransactionRepo;
 import com.urbanstyle.order.Repository.ProductVarientRepository;
+import com.urbanstyle.order.Repository.ReturnOrder;
 import com.urbanstyle.order.Repository.UserOrderProductRepository;
 import com.urbanstyle.order.Repository.UserRepository;
 import com.urbanstyle.order.Service.OrderService;
 import com.urbanstyle.order.Service.PaymentTransactionService;
-import com.urbanstyle.user.Repository.BankRepository;
-import com.urbanstyle.user.Service.BankService;
 
 
 @Service
@@ -64,16 +65,13 @@ public class OrderServiceImpl implements OrderService {
 	private BankRepository bankRepo;
 	
 	@Autowired
-	private PaymentConn paymentConn;
-	
-	@Autowired
-	private PaymentTransactionService paymenttransactionService;
-	
-	@Autowired
 	private PaymentTransactionRepo paymantTransactionRepo;
 	
 	@Autowired
 	private PaymentDetailsRepo paymentDettailsRepo;
+	
+	@Autowired
+	private ReturnOrder returnManagement;
 	
 	@Override
 	public UserOrder saveorUpdate(UserOrderSaveDTO userOrder) {
@@ -93,6 +91,7 @@ public class OrderServiceImpl implements OrderService {
 		for(UserOrderQtyDTO userDTO : userOrderList) {
 			long prodVarId = userDTO.getProductVariantId();
 			Optional<ProductVariant> optionalp = productVariantRepo.findById(prodVarId);
+	
 			if(optionalp.isPresent()) {
 				ProductVariant product  = optionalp.get();
 				totalPrice  += (product.getDisplayPrice() * userDTO.getQty()) ;
@@ -117,8 +116,9 @@ public class OrderServiceImpl implements OrderService {
 			userOrderSave.setOrderTotalPrice(totalPrice);
 			
 			userOrderSave.setOrderStatus("PLACED");
+		if(totalPrice > 0) {
 			orderRepo.save(userOrderSave);
-			
+		}
 			// save user Product order
 			
 			double totalAmount = 0;
@@ -133,15 +133,33 @@ public class OrderServiceImpl implements OrderService {
 				if(optionalp.isPresent()) {
 					productVar = optionalp.get();
 				}
+				if(productVar != null) {
+					// addd reserved quantity					
+					double oldQty = productVar.getReservedQuantity();
+					productVar.setReservedQuantity(oldQty+quantity);
+					productVariantRepo.save(productVar);
 				UserOrderProducts userOrderProduct = new UserOrderProducts();
 				userOrderProduct.setProduct(productVar);
+				// addd reserved quantity
+				
 				userOrderProduct.setQuantity(quantity);
 				userOrderProduct.setUserOrder(userOrderSave);
 				userOrderProduct.setComment("COMMENT...");
 				
-				totalAmount += productVar.getActualPrice()*quantity;
+				//will be taken from token
+				Optional<User> vendorUser = userRepo.findById(Long.valueOf(productVar.getCreatedBy()));
+				User userVndor  = null;
+				if(vendorUser.isPresent()) {
+					System.out.println("user present");
+					userVndor = vendorUser.get();
+				}
+				
+				userOrderProduct.setVendor(userVndor);
+				
+				totalAmount += productVar.getDisplayPrice()*quantity;
 				
 				TotalProducts.add(userOrderProduct);
+			  }
 			}
 			
 			userOrderProdRepo.saveAll(TotalProducts);
@@ -185,13 +203,14 @@ public class OrderServiceImpl implements OrderService {
 				}
 				
 				PaymentDetails pd = new PaymentDetails();
-				pd.setAmount(productVar.getActualPrice());
+				pd.setAmount(productVar.getDisplayPrice()*quantity);
 				pd.setCreatedBy(String.valueOf(loginUser.getId()));
 				pd.setCreatedDate(new Date());
 				pd.setProdVar(productVar);
 				pd.setPt(pt);
 				pd.setUser(loginUser);
 				pd.setUserVendor(userVndor);
+				pd.setOrder(userOrderSave);
 				TotalPaymentRef.add(pd);
 			}
 			paymentDettailsRepo.saveAll(TotalPaymentRef);
@@ -238,5 +257,145 @@ public class OrderServiceImpl implements OrderService {
 		 return userOrderFetch;
 	}
 
+	/*
+	 * Method To get Order for Vendor
+	 * @see com.urbanstyle.order.Service.OrderService#getVendorOrder(long)
+	 */
+	
+	@Override
+	public List<UserOrderProducts> getVendorOrder(long vendorId) {
+		
+		List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByvendorvendor_Id(vendorId);
+		for(UserOrderProducts userOrder : userOrderProducts) {
+			
+		}
+		return null;
+	}
+
+	@Override
+	public UserOrder setStatusbyUser(long orderId,String status,String reason,long userId) {
+	if("CANCEL".equalsIgnoreCase(status)) {
+		Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
+		if(userOrder.isPresent()) {
+			UserOrder usrOrdr = userOrder.get();
+			usrOrdr.setOrderStatus(status);
+			orderRepo.save(usrOrdr);
+			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
+			for(UserOrderProducts userOrdrProd :userOrderProducts) {
+				userOrdrProd.setStatus(status);
+				ProductVariant varient = userOrdrProd.getProduct();
+				double oldReserved = varient.getReservedQuantity();
+				oldReserved = oldReserved - userOrdrProd.getQuantity();
+				varient.setReservedQuantity(oldReserved);
+				double oldQty = varient.getTotalQuantity();
+				oldQty = oldQty - userOrdrProd.getQuantity();
+				varient.setTotalQuantity(oldQty);
+				productVariantRepo.save(varient);
+				userOrderProdRepo.save(userOrdrProd);
+			}
+		}
+	 }else if("RETURN".equalsIgnoreCase(status)) {
+				// return management
+				UserOrder usrOrdr = null;
+				Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
+				if(userOrder.isPresent()) {
+					 usrOrdr = userOrder.get();
+					usrOrdr.setOrderStatus(status);
+					orderRepo.save(usrOrdr);
+					List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
+					for(UserOrderProducts userOrdrProd :userOrderProducts) {
+						userOrdrProd.setStatus(status);
+						userOrderProdRepo.save(userOrdrProd);
+					}
+					
+					// maintain entry for return management with status
+					ReturnManagement returnManage = new ReturnManagement();
+					returnManage.setOrder(usrOrdr);
+					returnManage.setReason(reason);
+					returnManage.setStatus("INP");
+					Optional<User> loginUser = userRepo.findById(userId);
+					if(loginUser.isPresent()) {
+						returnManage.setUser(loginUser.get());					
+						returnManage.setCreatedBy(String.valueOf(loginUser.get().getId()));
+					}
+					returnManagement.save(returnManage);
+			}
+	   }
+		return null;
+	}
+
+	@Override
+	public UserOrderProducts setStatusbyVendor(long orderProdId, String status) {
+		
+		Optional<UserOrderProducts> userordrProd = userOrderProdRepo.findById(orderProdId);
+		if(userordrProd.isPresent()) {
+			UserOrderProducts userOrderProd = userordrProd.get();
+			UserOrder userOrder  =  userOrderProd.getUserOrder();
+			boolean updateStatus = true;
+			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(userOrder.getId());
+			for(UserOrderProducts userOrdrProd :userOrderProducts) {
+				if(!status.equals(userOrdrProd.getStatus())) {
+					updateStatus = false;
+				}
+			}
+			if(updateStatus) {
+				userOrder.setOrderStatus(status);
+				orderRepo.save(userOrder);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void setStatusbyAdmin(long orderId, String status,String reason,long userId) {
+		if("DISPATCHED".equalsIgnoreCase(status)) {
+			// update inventory and status
+			Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
+			if(userOrder.isPresent()) {
+				UserOrder usrOrdr = userOrder.get();
+				usrOrdr.setOrderStatus(status);
+				orderRepo.save(usrOrdr);
+				List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
+				for(UserOrderProducts userOrdrProd :userOrderProducts) {
+					userOrdrProd.setStatus(status);
+					ProductVariant varient = userOrdrProd.getProduct();
+					double oldReserved = varient.getReservedQuantity();
+					oldReserved = oldReserved - userOrdrProd.getQuantity();
+					varient.setReservedQuantity(oldReserved);
+					double oldQty = varient.getTotalQuantity();
+					oldQty = oldQty - userOrdrProd.getQuantity();
+					varient.setTotalQuantity(oldQty);
+					productVariantRepo.save(varient);
+					userOrderProdRepo.save(userOrdrProd);
+				}
+			}
+		}else if("RETURN".equalsIgnoreCase(status)) {
+			// return management
+			UserOrder usrOrdr = null;
+			Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
+			if(userOrder.isPresent()) {
+				 usrOrdr = userOrder.get();
+				usrOrdr.setOrderStatus(status);
+				orderRepo.save(usrOrdr);
+				List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
+				for(UserOrderProducts userOrdrProd :userOrderProducts) {
+					userOrdrProd.setStatus(status);
+					userOrderProdRepo.save(userOrdrProd);
+				}
+				
+				// maintain entry for return management with status
+				ReturnManagement returnManage = new ReturnManagement();
+				returnManage.setOrder(usrOrdr);
+				returnManage.setReason(reason);
+				returnManage.setStatus("INP");
+				Optional<User> loginUser = userRepo.findById(userId);
+				if(loginUser.isPresent()) {
+					returnManage.setUser(loginUser.get());					
+					returnManage.setCreatedBy(String.valueOf(loginUser.get().getId()));
+				}
+				returnManagement.save(returnManage);
+		}
+	 }
+	}
 
 }

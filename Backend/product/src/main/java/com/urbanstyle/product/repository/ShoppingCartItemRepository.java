@@ -24,13 +24,17 @@ public interface ShoppingCartItemRepository extends PagingAndSortingRepository<S
 	@Transactional
 	void changeStatusOfShoppingCart(String userId, List<String> productId2, String productId);
 
-	List<ShoppingCartItem> findByShoppingCartUserIdAndStatus(String userId, int active, Pageable pagable);
+	List<ShoppingCartItem> findByShoppingCartUserIdAndStatus(long l, int active, Pageable pagable);
 
 	ShoppingCartItem findByShoppingCartAndProductVariant(ShoppingCart previousUserCart, ProductVariant product);
 
-	List<ShoppingCartItem> findByShoppingCartUserIdAndProductVariantProductVariantIdIn(String userId, List<Long> productId);
 
-	ShoppingCartItem findByShoppingCartUserIdAndProductVariantProductVariantId(String userId, Long productIds);
+
+	List<ShoppingCartItem> findByShoppingCartUserIdAndProductVariantProductVariantIdInAndStatus(long parseLong,
+			List<Long> productIds, int active);
+
+	ShoppingCartItem findByShoppingCartUserIdAndProductVariantProductVariantIdAndStatus(long userId, Long productIds,
+			int active);
 
 
 

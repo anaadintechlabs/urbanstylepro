@@ -235,7 +235,7 @@ public class ProductVariant {
 	{
 		this.status=1;
 		this.createdDate=new Date();
-		this.createdBy="Admin";
+		//this.createdBy="Admin";
 	}
 	
 }

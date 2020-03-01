@@ -9,6 +9,7 @@ import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.UserOrder;
+import com.anaadihsoft.common.master.UserOrderProducts;
 
 @Service
 public interface OrderService {
@@ -18,5 +19,13 @@ public interface OrderService {
 	List<UserOrderFetchDTO> getOrderById(long orderId);
 
 	Object saveorUpdate(UserOrderSaveDTO userDetailSave);
+
+	List<UserOrderProducts> getVendorOrder(long vendorId);
+
+	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId);
+
+	UserOrderProducts setStatusbyVendor(long orderProdId, String status);
+
+	void setStatusbyAdmin(long orderId, String status,String reason, long userId);
 
 }
