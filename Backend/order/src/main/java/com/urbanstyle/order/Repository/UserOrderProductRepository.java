@@ -14,7 +14,9 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 
 	List<UserOrderProducts> findByUserOrderId(long id);
 
-	@Query("Select distinct uop from UserOrderProducts uop where uop.vendor.id =?1")
-	List<UserOrderProducts> findByvendorvendor_Id(long vendorId);
+	@Query("Select distinct uop.userOrder from UserOrderProducts uop where uop.vendor.id =?1")
+	List<UserOrder> findByvendorvendor_Id(long vendorId);
+
+	List<UserOrderProducts> findByUserOrderIdAndVendorId(long orderId, long vendorId);
 
 }

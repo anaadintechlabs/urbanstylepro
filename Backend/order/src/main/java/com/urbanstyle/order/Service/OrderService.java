@@ -20,12 +20,16 @@ public interface OrderService {
 
 	Object saveorUpdate(UserOrderSaveDTO userDetailSave);
 
-	List<UserOrderProducts> getVendorOrder(long vendorId);
+	List<UserOrder> getVendorOrder(long vendorId);
 
 	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId);
 
 	UserOrderProducts setStatusbyVendor(long orderProdId, String status);
 
 	void setStatusbyAdmin(long orderId, String status,String reason, long userId);
+
+	List<UserOrderProducts> getOrderProductForVendor(long vendorId, long orderId);
+
+	Object setStatusbyVendorForCompleteOrder(long orderId, String status);
 
 }

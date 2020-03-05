@@ -114,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
 			
 			userOrderSave.setAddress(address);
 			userOrderSave.setOrderTotalPrice(totalPrice);
-			
+			userOrderSave.setOrderPlacedDate(new Date());
 			userOrderSave.setOrderStatus("PLACED");
 		if(totalPrice > 0) {
 			orderRepo.save(userOrderSave);
@@ -141,7 +141,7 @@ public class OrderServiceImpl implements OrderService {
 				UserOrderProducts userOrderProduct = new UserOrderProducts();
 				userOrderProduct.setProduct(productVar);
 				// addd reserved quantity
-				
+				userOrderProduct.setStatus(userOrderSave.getOrderStatus());
 				userOrderProduct.setQuantity(quantity);
 				userOrderProduct.setUserOrder(userOrderSave);
 				userOrderProduct.setComment("COMMENT...");
@@ -263,13 +263,11 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	
 	@Override
-	public List<UserOrderProducts> getVendorOrder(long vendorId) {
+	public List<UserOrder> getVendorOrder(long vendorId) {
 		
-		List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByvendorvendor_Id(vendorId);
-		for(UserOrderProducts userOrder : userOrderProducts) {
-			
-		}
-		return null;
+		List<UserOrder> userOrderProducts = userOrderProdRepo.findByvendorvendor_Id(vendorId);
+
+		return userOrderProducts;
 	}
 
 	@Override
@@ -396,6 +394,30 @@ public class OrderServiceImpl implements OrderService {
 				returnManagement.save(returnManage);
 		}
 	 }
+	}
+
+	@Override
+	public List<UserOrderProducts> getOrderProductForVendor(long vendorId, long orderId) {
+		return userOrderProdRepo.findByUserOrderIdAndVendorId(orderId,vendorId);
+	}
+
+	@Override
+	public Object setStatusbyVendorForCompleteOrder(long orderId, String status) {
+		Optional<UserOrder> userOrderOpt  =  orderRepo.findById(orderId);
+		if(userOrderOpt.isPresent())
+		{
+			UserOrder userOrder=userOrderOpt.get();
+		List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(userOrder.getId());
+		for(UserOrderProducts userOrdrProd :userOrderProducts) {
+			userOrdrProd.setStatus(status);
+			
+		}
+			userOrderProdRepo.saveAll(userOrderProducts);
+			userOrder.setOrderStatus(status);
+			orderRepo.save(userOrder);
+		
+		}
+		return "updated";
 	}
 
 }
