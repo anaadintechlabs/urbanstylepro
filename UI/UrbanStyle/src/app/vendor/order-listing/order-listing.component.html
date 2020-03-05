@@ -1,0 +1,92 @@
+ <div class="container-fluid">
+  <div class="row ptop10 p0">
+    <div class="col-md-12 col-sm-12 thc">
+      <strong>Order Details</strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+      <div class="row pt-2 pb-2">
+        
+      </div>
+      <div
+        *ngIf="orderList && orderList.length > 0 && !showProduct"
+        class="table-responsive"
+      >
+        <div class="card card-plain">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title mt-0">Order List</h4>
+            <p class="card-category"></p>
+          </div>
+          <table class="table table-hover">
+            <thead class="attrTblHead">
+              <th>Order Id</th>
+              <th>Order Date</th>
+              <th>Order Status</th>
+              <th>Order Placed By</th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orderList">
+                <td>ORDER-{{ order.id }}</td>
+                <td>{{ order.orderPlacedDate }}</td>
+                <td>{{ order.orderStatus }}</td>
+                <td>{{ order.user.name }}</td>
+                <td>
+                  <button
+                    (click)="getOrderProductForVendor(order.id)"
+                  >
+                    View Details
+                  </button>
+                  <button *ngIf="order.orderStatus!='PAID' " (click)="deletebankDetails(order)">
+
+                    Change Status
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div
+        *ngIf="orderProductList && orderProductList.length > 0 && showProduct"
+        class="table-responsive"
+      >
+        <div class="card card-plain">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title mt-0">Order Products  List</h4>
+            <p class="card-category"></p>
+            <button (click)="backButton()">Back</button>
+          </div>
+          <table class="table table-hover">
+            <thead class="attrTblHead">
+              <th>Order Id</th>
+              <th>Product SKU</th>
+              <th>Quantity</th>
+            
+              <th>Status</th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let orderProduct of orderProductList">
+                <td>ORDER-{{ orderProduct.id }}</td>
+                <td>{{ orderProduct.product.sku }}</td>
+                <td>{{ orderProduct.quantity }}</td>
+               
+                 <td>{{ orderProduct.status }}</td>
+                <td>
+                  
+                  <button  (click)="deletebankDetails(orderProduct)">
+
+                    Change Status
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
