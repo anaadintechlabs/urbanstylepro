@@ -292,6 +292,7 @@ changeStatusOfCategory(
     });
   }
 
+  //get all order of vendor
   getAllOrderOfVendor(vendorId,url)
   {
 
@@ -304,6 +305,21 @@ changeStatusOfCategory(
         }
       });
     });
+  }
+
+  //get all order of vendor by status
+  getAllOrderOfVendorByStatus(vendorId,status,url)
+  {
+    const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("status",status);
+    console.log(param);
+    return new Observable<any[]>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.orderList);
+        }
+      });
+    });
+
   }
 
 
@@ -319,4 +335,54 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
       });
     });
   }
+
+  changeStatusOfCompleteOrder(status,orderId,url)
+  {
+    const param: HttpParams = new HttpParams().set("orderId", orderId).set("status",status);   
+ return new Observable<any[]>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.orderList);
+        }
+      });
+    });
+  }
+
+  changeStatusOfPartialOrder(status,orderProdId,url)
+  {
+    const param: HttpParams = new HttpParams().set("orderProdId", orderProdId).set("status",status);   
+ return new Observable<any[]>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.orderList);
+        }
+      });
+    });
+  }
+
+
+  cancelOrderByUser(userId,orderId,url)
+  {
+    const param: HttpParams = new HttpParams().set("orderId", orderId).set("userId",userId);   
+    return new Observable<any[]>(obs => {
+         this._apiService.getOrder(url, param).subscribe(res => {
+           if (res.isSuccess) {
+             obs.next(res.data.orderList);
+           }
+         });
+       });
+  }
+
+  returnOrderByUser(userId,orderId,reason,url)
+  {
+    const param: HttpParams = new HttpParams().set("orderId", orderId).set("userId",userId).set("reason",reason);   
+    return new Observable<any[]>(obs => {
+         this._apiService.getOrder(url, param).subscribe(res => {
+           if (res.isSuccess) {
+             obs.next(res.data.orderList);
+           }
+         });
+       });
+  }
+
 }

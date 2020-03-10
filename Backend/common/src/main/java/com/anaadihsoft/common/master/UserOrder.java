@@ -56,6 +56,8 @@ public class UserOrder {
 	
 	private String modifiedBy;
 	
+	private boolean singleVendorOrder;
+	
 	@PrePersist
 	public void setAudit()
 	{

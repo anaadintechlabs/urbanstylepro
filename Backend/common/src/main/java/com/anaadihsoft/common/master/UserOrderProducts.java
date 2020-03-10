@@ -22,6 +22,8 @@ public class UserOrderProducts {
 	
 	private double quantity;
 	
+	private double orderProductPrice;
+	
 	private String comment;
 	
 	private String status;
@@ -52,6 +54,16 @@ public class UserOrderProducts {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	
+
+	public double getOrderProductPrice() {
+		return orderProductPrice;
+	}
+
+	public void setOrderProductPrice(double orderProductPrice) {
+		this.orderProductPrice = orderProductPrice;
 	}
 
 	public UserOrder getUserOrder() {

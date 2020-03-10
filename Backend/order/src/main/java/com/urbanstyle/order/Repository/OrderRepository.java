@@ -1,6 +1,7 @@
 package com.urbanstyle.order.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -12,5 +13,7 @@ import com.anaadihsoft.common.master.UserOrder;
 public interface OrderRepository extends PagingAndSortingRepository<UserOrder, Long> {
 
 	List<UserOrder> findByUserId(long userId, Pageable pagable);
+
+	Optional<UserOrder> findByIdAndUserId(long orderId, long userId);
 
 }

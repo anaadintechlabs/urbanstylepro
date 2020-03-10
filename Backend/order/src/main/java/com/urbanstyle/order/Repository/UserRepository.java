@@ -8,4 +8,6 @@ import com.anaadihsoft.common.master.User;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
+	User findByUserType(String string);
+
 }

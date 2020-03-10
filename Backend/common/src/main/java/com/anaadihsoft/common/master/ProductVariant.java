@@ -223,6 +223,11 @@ public class ProductVariant {
 	public void setTotalQuantity(double totalQuantity) {
 		this.totalQuantity = totalQuantity;
 	}
+	
+	public double getAvailableQuantity()
+	{
+		return totalQuantity-reservedQuantity;
+	}
 
 	public double getReservedQuantity() {
 		return reservedQuantity;
