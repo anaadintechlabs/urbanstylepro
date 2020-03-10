@@ -32,19 +32,28 @@ public class ProductVariant {
 	 
 	 private String sku;
 	 
-	 private String prodName;
+	 private String variantName;
 	 
-	 private String prodDesc;
+	 private String variantCode;
 	 
 	 private String mainImageUrl;
 	 
-
-
+	 //standard mrp rate
 	private double displayPrice;
 	
-	private double actualPrice;
+	private Date salesStartDate;
 	
-	private double discountPrice;
+	private Date salesEndDate;
+	
+	//Price at the moment of Sales
+	private double salesPrice;
+	
+	//quantity which are to be put at sales
+	private double salesQuantity;
+//	private double actualPrice;
+//	
+//	private double discountPrice;
+	
 	
 	private double totalQuantity;
 	
@@ -66,24 +75,57 @@ public class ProductVariant {
 	private boolean dealOfTheDay;
 	
 	
-	public String getProdName() {
-		return prodName;
-	}
 
-	public void setProdName(String prodName) {
-		this.prodName = prodName;
-	}
-
-	public String getProdDesc() {
-		return prodDesc;
-	}
-
-	public void setProdDesc(String prodDesc) {
-		this.prodDesc = prodDesc;
-	}
 	
 	
-	
+
+	public String getVariantName() {
+		return variantName;
+	}
+
+	public void setVariantName(String variantName) {
+		this.variantName = variantName;
+	}
+
+	public String getVariantCode() {
+		return variantCode;
+	}
+
+	public void setVariantCode(String variantCode) {
+		this.variantCode = variantCode;
+	}
+
+	public Date getSalesStartDate() {
+		return salesStartDate;
+	}
+
+	public void setSalesStartDate(Date salesStartDate) {
+		this.salesStartDate = salesStartDate;
+	}
+
+	public Date getSalesEndDate() {
+		return salesEndDate;
+	}
+
+	public void setSalesEndDate(Date salesEndDate) {
+		this.salesEndDate = salesEndDate;
+	}
+
+	public double getSalesPrice() {
+		return salesPrice;
+	}
+
+	public void setSalesPrice(double salesPrice) {
+		this.salesPrice = salesPrice;
+	}
+
+	public double getSalesQuantity() {
+		return salesQuantity;
+	}
+
+	public void setSalesQuantity(double salesQuantity) {
+		this.salesQuantity = salesQuantity;
+	}
 
 	public ProducIdType getProductIdType() {
 		return productIdType;
@@ -158,21 +200,21 @@ public class ProductVariant {
 		this.displayPrice = displayPrice;
 	}
 
-	public double getActualPrice() {
-		return actualPrice;
-	}
-
-	public void setActualPrice(double actualPrice) {
-		this.actualPrice = actualPrice;
-	}
-
-	public double getDiscountPrice() {
-		return discountPrice;
-	}
-
-	public void setDiscountPrice(double discountPrice) {
-		this.discountPrice = discountPrice;
-	}
+//	public double getActualPrice() {
+//		return actualPrice;
+//	}
+//
+//	public void setActualPrice(double actualPrice) {
+//		this.actualPrice = actualPrice;
+//	}
+//
+//	public double getDiscountPrice() {
+//		return discountPrice;
+//	}
+//
+//	public void setDiscountPrice(double discountPrice) {
+//		this.discountPrice = discountPrice;
+//	}
 
 	public double getTotalQuantity() {
 		return totalQuantity;

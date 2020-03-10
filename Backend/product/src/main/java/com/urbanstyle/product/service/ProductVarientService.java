@@ -65,5 +65,7 @@ public interface ProductVarientService {
 
 		HomePageFilterDTO getAllVariantOfCategoryWithFilter(long catId);
 
+		ProductVariant getVariantById(long prodVarId);
+
  
 }
