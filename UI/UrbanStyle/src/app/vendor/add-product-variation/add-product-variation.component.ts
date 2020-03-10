@@ -53,7 +53,14 @@ export class AddProductVariationComponent implements OnInit {
     result.forEach(ele=>{
       temp.push(ele[0])
     });
-    return temp.join('-');
+    console.log(this._addProduct.productForm.value.productName);
+    return `${this._addProduct.productForm.value.productName} (${temp.join('-')})`;
+  }
+
+  saleCheck:boolean = false;
+
+  changesaleCheck(){
+    // this.saleCheck = !this.saleCheck
   }
 
 }

@@ -1,0 +1,49 @@
+.header div,.variationBody div {
+    display: table-cell;
+    min-width: 215px;
+    p {
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+}
+.header {
+    padding: 10px 0;
+    // border-bottom: 2px solid #c1c1c1;
+    // width: fit-content;
+    div{
+        // background-color: #c1c1c1;
+        padding: 0 10px;
+        min-width: 215px;
+    }
+}
+.second-tab {
+    width: 100%;
+    overflow-x: scroll;
+    // width: fit-content;
+}
+
+.header,.variationBody{
+    div.checkBox {
+        min-width: 50px;
+        max-width: 50px;
+        input {
+            width: auto;
+        }
+    }
+}
+
+.variationBody{
+    padding: 10px 0;
+    // border-bottom: 1px solid #c1c1c1;
+    div{
+        padding: 0 10px;
+        input {
+            width: 80%;
+        }
+    }
+}
+
+.bg {
+    background-color: white;
+    padding: 16px;
+}

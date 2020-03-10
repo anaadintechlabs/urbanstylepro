@@ -1,19 +1,16 @@
-  <div class="row" *ngIf="_addProduct.productVariantDTO && _addProduct.productVariantDTO.length > 0" class="col-md-12">
+  <!-- <div class="row" *ngIf="_addProduct.productVariantDTO && _addProduct.productVariantDTO.length > 0" class="col-md-12">
     <div class="second-tab py-3 px-2 bg-white mt-5 border-top">
       <p>Your variation child ASINs have been created. To complete your listings, find the variation child listings in your inventory and select ‘Edit’ to add an image for each variation child.  Please note that each variation child listing requires an image to be active on the Amazon website</p>
       <div class="row">
         <div class="col-md-6">
           <div class="second-btn">
-            <!-- <button class="btn">Apply Changes</button>
-            <button class="btn">Delete Selected</button>
-            <button class="btn mr-2">Undelete Selected</button> -->
+       
             <span><b>{{_addProduct.productVariantDTO.length}} Variation</b></span>
           </div>
         </div>
         <div class="col-md-6">
           <div class="second-btn float-md-right">
-            <!-- <button class="btn">Offer Condition Note</button>
-            <button class="btn">Minimum Advertise</button> -->
+          
           </div>
         </div>
         <div class="col-md-12 mt-3">
@@ -75,6 +72,64 @@
         </div>
       </div>
     </div>
+  </div> -->
+  
+  <div class="bg mt-5 ">
+    <div class="col-md-12">
+      <p>Your variation child ASINs have been created. To complete your listings, find the variation child listings in your inventory and select ‘Edit’ to add an image for each variation child.  Please note that each variation child listing requires an image to be active on the Amazon website</p>
+    </div>
+    <div class="col-md-6">
+      <div class="second-btn">
+        <span><b>{{_addProduct.productVariantDTO.length}} Variation</b></span>
+      </div>
+    </div>
+    <div class="col-md-6 text-right">
+      <label for="saleCheck">Apply Sale</label>
+      <input type="checkbox" name="saleCheck" id="" [(ngModel)]="saleCheck"  (change)="changesaleCheck()">
+    </div>
+  </div>
+
+  <div class="second-tab bg-white mt-5 border-top">
+    <div class="header">
+      <div class="checkBox"></div>
+      <div><p>Product Name</p></div>
+      <div><p>Product Id</p></div>
+      <div><p>Seller SKU</p></div>
+      <div><p>Standard Price</p></div>
+      <div *ngIf="saleCheck"><p>Discount Price (in %) </p></div>
+      <div *ngIf="saleCheck"><p>Sale Start Date</p></div>
+      <div *ngIf="saleCheck"><p>Sale End Date</p></div>
+      <div><p>Quantity</p></div>
+    </div>
+    <div class="" formArraryName="_addProduct.productVariantDTO" *ngFor="let item of _addProduct.productVariantDTO.controls; let i = index">
+      <div class="variationBody" [formGroup]="item.controls.productVariant">
+        <div  class="checkBox"> 
+          <input type="checkbox" class="custom-checkbox">
+        </div>
+        <div><p> {{ getVarient(item) }} </p></div>
+        <div>
+          <input type="text" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+        </div>
+        <div>
+          <input type="text" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+        </div>
+        <div>
+          <input type="number" id="actualPrice" name="username" class="form-control" formControlName="actualPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.actualPrice?.errors }">
+        </div>
+        <div *ngIf="saleCheck">
+          <input type="number" id="email" name="email" formControlName="discountPrice" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.discountPrice?.errors }">
+        </div>
+        <div *ngIf="saleCheck">
+          <input type="date" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+        </div>
+        <div *ngIf="saleCheck">
+          <input type="date" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+        </div>
+        <div>
+          <input type="number" id="password" name="totalQuantity" class="form-control" formControlName="totalQuantity" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.totalQuantity?.errors }">
+        </div>
+      </div>
+    </div>    
   </div>
 
 

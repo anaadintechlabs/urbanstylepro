@@ -14,7 +14,7 @@ export class VitalInformationComponent implements OnInit {
 
   public submitted:false;
   constructor(
-    private _addProductService : AddProductService,
+    public _addProductService : AddProductService,
     private _router : Router,
   ) {
     this._addProductService.changeHeaderStaus(true);
@@ -25,6 +25,7 @@ export class VitalInformationComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("selected variation", this._addProductService.selectedVariation);
     console.log("form here is",this._addProductService.productFormGroup.controls)
   }
 

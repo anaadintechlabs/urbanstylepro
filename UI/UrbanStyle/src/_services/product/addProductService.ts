@@ -18,9 +18,7 @@ import { ToastrService } from "ngx-toastr";
   providedIn: "root"
 })
 export class AddProductService {
-  private header_status: BehaviorSubject<boolean> = new BehaviorSubject<
-    boolean
-  >(false);
+  private header_status: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   readonly headerStatus$ = this.header_status.asObservable();
 
   //// edit or add status
