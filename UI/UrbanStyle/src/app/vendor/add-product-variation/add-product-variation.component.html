@@ -106,9 +106,12 @@
         <div  class="checkBox"> 
           <input type="checkbox" class="custom-checkbox">
         </div>
-        <div><p> {{ getVarient(item) }} </p></div>
         <div>
-          <input type="text" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+          <p> {{ getVarient(item) }} </p>
+          <input type="text" [value]="getVarient(item)" formControlName="variantName" hidden>
+        </div>
+        <div>
+          <input type="text" id="name"  class="form-control" formControlName="variantCode" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
         </div>
         <div>
           <input type="text" id="name"  class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">

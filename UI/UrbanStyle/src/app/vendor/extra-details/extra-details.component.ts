@@ -20,4 +20,8 @@ export class ExtraDetailsComponent implements OnInit {
     return this._addProductService.productDescFormGroup.controls;
   }
 
+  addMoreFeature() {
+    
+  }
+
 }

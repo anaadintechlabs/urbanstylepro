@@ -251,7 +251,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			List<String> relallImagesMain = productImagesRepository.findUrlByProduct(prodVarId);
 			relProdDto.setAttributesMap(relattrDetails);
 			relProdDto.setProductVariant(prVar);
-		//	relProductPacket.setAllImages(relallImagesMain);
+			relProductPacket.setAllImages(relallImagesMain);
 			relProductPacket.setMainProduct(relProdDto);
 			
 			relatedProductsPackets.add(relProdDto);
@@ -301,7 +301,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	@Override
 	public ProductVariant getVariantById(long prodVarId) {
 		Optional<ProductVariant> optProd= productVarRepo.findById(prodVarId);
-		if(!optProd.isEmpty())
+		if(!optProd.isPresent())
 		{
 			return optProd.get();
 		}

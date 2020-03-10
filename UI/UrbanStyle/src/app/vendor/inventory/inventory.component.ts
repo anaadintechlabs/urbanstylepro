@@ -250,6 +250,13 @@ export class InventoryComponent implements OnInit {
         }
       });
   }
+
+  editProductVariant(item) {
+    console.log(item);
+    this._apiService.post(`product/getCompleteVariant?productVariantId=${item.productVariantId}&prodId=${item.product.productId}`).subscribe(res=>{
+      console.log(res);
+    })
+  }
 }
 
 interface search {
