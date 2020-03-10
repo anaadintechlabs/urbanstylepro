@@ -305,8 +305,11 @@ public class ProductController {
 			map.put("HomePageFilterSearch", productVarient.applyHomePageFilter(searchString));
 		}else if(!filterData.isEmpty() && StringUtils.isNotBlank(searchString)) {
 			map.put("HomePageFilter", productVarient.applySideBarFilter(searchString,filterData));
-		}else {
+		}else if("null".equalsIgnoreCase((String.valueOf(catId))) {
 			map.put("productVariants", productVarient.getAllVariantOfCategoryWithFilter(catId));
+		}
+		if(productVarient.applyHomePageFilter(searchString) == null &&  productVarient.applySideBarFilter(searchString,filterData) == null && productVarient.getAllVariantOfCategoryWithFilter(catId) == null) {
+			map.put("productList",getAllProducts(request,response));
 		}
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		

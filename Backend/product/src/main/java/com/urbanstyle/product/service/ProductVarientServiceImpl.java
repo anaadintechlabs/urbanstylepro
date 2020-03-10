@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -52,6 +53,9 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Autowired
 	private ProductReviewService productReviewService; 
+	
+	@Autowired
+	private CategoryMetaService catMetaService;
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
@@ -222,7 +226,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	public SingleProductDTO getSingleProductDetail(long prodVarId) {
 		SingleProductDTO singleProductDTO = new SingleProductDTO();
 		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
-		List<ProductVarientPacketDTO> relatedProductsPackets = new ArrayList<>();
+		List<ProductVariantDTO> relatedProductsPackets = new ArrayList<>();
 		Optional<ProductVariant> optprodVarient =  productVarRepo.findById(prodVarId);
 		ProductVariant prodVarient = null;
 		if(optprodVarient.isPresent()) {
@@ -248,9 +252,10 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			List<String> relallImagesMain = productImagesRepository.findUrlByProduct(prodVarId);
 			relProdDto.setAttributesMap(relattrDetails);
 			relProdDto.setProductVariant(prVar);
-			relProductPacket.setAllImages(relallImagesMain);
+		//	relProductPacket.setAllImages(relallImagesMain);
 			relProductPacket.setMainProduct(relProdDto);
-			relatedProductsPackets.add(relProductPacket);
+			
+			relatedProductsPackets.add(relProdDto);
 		}
 		
 		List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
