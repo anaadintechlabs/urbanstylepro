@@ -18,6 +18,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AddProductHeaderComponent } from './add-product-header/add-product-header.component';
 import { ModalModule } from 'ngx-modal'
 import { ToastrModule } from "ngx-toastr";
+import { OrderListingComponent } from './order-listing/order-listing.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { ToastrModule } from "ngx-toastr";
     InventoryComponent,
     FooterComponent,
     AddProductHeaderComponent,
+    OrderListingComponent,
   ],
   bootstrap: [VendorComponent]
 })

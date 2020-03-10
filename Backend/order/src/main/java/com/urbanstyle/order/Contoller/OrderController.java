@@ -101,10 +101,32 @@ public class OrderController {
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
+	/**
+	 * All products associated with vendor , in case of multi vendor order
+	 * @param vendorId
+	 * @param orderId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value= {"/getOrderProductForVendor"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getOrderProductForVendor(@RequestParam(value="vendorId")long vendorId,@RequestParam(value="orderId")long orderId,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("orderList",orderService.getOrderProductForVendor(vendorId,orderId));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
 	@RequestMapping(value= {"/setStatusbyUser"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> setStatusbyUser(@RequestParam(value="orderId")long orderId,@RequestParam(value="status")String status,@RequestParam(value="userId")long userId,@RequestParam(value="reason")String reason,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("orderList",orderService.setStatusbyUser(orderId,status,reason,userId));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	@RequestMapping(value= {"/setStatusbyVendorForCompleteOrder"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> setStatusbyVendorForCompleteOrder(@RequestParam(value="orderId")long orderId,@RequestParam(value="status")String status,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("orderList",orderService.setStatusbyVendorForCompleteOrder(orderId,status));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
