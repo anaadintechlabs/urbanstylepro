@@ -191,7 +191,6 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	@Override
 	public List<ProductVariantDTO> getSingleProductVarientDTOList(int i, long prodId, long productVariantId) {
 		List<ProductVariantDTO> allDTO = new ArrayList<ProductVariantDTO>();
-		List<ProductVariant> allVarients = new ArrayList<>();
 		Optional<ProductVariant> productVariantOpt=productVarRepo.findById(productVariantId);
 		if(productVariantOpt.isPresent())
 		{
@@ -292,5 +291,15 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	@Override
 	public HomePageFilterDTO getAllVariantOfCategoryWithFilter(long catId) {
 		return productVarientDAO.getAllVariantOfCategoryWithFilter(catId);
+	}
+
+	@Override
+	public ProductVariant getVariantById(long prodVarId) {
+		Optional<ProductVariant> optProd= productVarRepo.findById(prodVarId);
+		if(!optProd.isEmpty())
+		{
+			return optProd.get();
+		}
+		return null;
 	}
 }
