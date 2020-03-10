@@ -75,6 +75,32 @@ public class ProductServiceImpl implements ProductService{
 //updating single producct
 	private Product updateProductForSingleVariant(ProductDTO productDTO, MultipartFile[] files, boolean fromUpdate) {
 		// TODO Auto-generated method stub
+		List<ProductVariantDTO> pvDTOList=productDTO.getProductVariantDTO();
+		if(pvDTOList!=null && !pvDTOList.isEmpty())
+		{
+			String mainImageUrl=null;
+			String fileName=null;
+			if(files!=null)
+			{
+		        fileName = StringUtils.cleanPath(generateFileNameFromMultipart(files[0]));
+		        mainImageUrl=generateFileUri(fileName);		        
+			}
+			
+		ProductVariantDTO pvDTO=	pvDTOList.get(0);	
+		ProductVariant productVariant=pvDTO.getProductVariant();
+		productVariant.setProduct(productDTO.getProduct());
+		
+		productVariant.setCategoryId(productDTO.getProduct().getCategoryId());
+
+		productVariant.setMainImageUrl(mainImageUrl);
+		productVariant.setCreatedBy(productDTO.getProduct().getUser().getId()+"");
+		productVariant=productVariantRepository.save(productVariant);
+		if(pvDTO.getAttributesMap()!=null)
+		{
+			saveProductAttributeDetails(pvDTO.getAttributesMap(),productVariant);
+			
+		}
+		}
 		return null;
 	}
 	

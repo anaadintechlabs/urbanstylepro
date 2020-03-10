@@ -32,4 +32,10 @@ public interface OrderService {
 
 	Object setStatusbyVendorForCompleteOrder(long orderId, String status);
 
+	List<UserOrder> getOrderForVendorByStatus(long vendorId, String status);
+
+	Object cancelOrderByUser(long orderId, long userId);
+
+	Object returnOrderByUser(long orderId, long userId, String reason);
+
 }

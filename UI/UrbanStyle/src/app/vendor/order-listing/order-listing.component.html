@@ -1,4 +1,15 @@
  <div class="container-fluid">
+    <div class="row ptop10 p0">
+        <div class="col-md-3 col-sm-3 thc">
+          <button (click)="getOrderByStatus('ALL')" >All Order </button>
+        </div>
+        <div class="col-md-3 col-sm-3 thc">
+            <button (click)="getOrderByStatus('PLACED')">Pending Order </button>
+         </div>
+         <div class="col-md-3 col-sm-3 thc">
+            <button (click)="getOrderByStatus('CANCELLED')">Cancelled Order </button>
+         </div>
+      </div>
   <div class="row ptop10 p0">
     <div class="col-md-12 col-sm-12 thc">
       <strong>Order Details</strong>
@@ -9,8 +20,9 @@
       <div class="row pt-2 pb-2">
         
       </div>
+      <!-- orderList && orderList.length > 0 && -->
       <div
-        *ngIf="orderList && orderList.length > 0 && !showProduct"
+        *ngIf=" !showProduct"
         class="table-responsive"
       >
         <div class="card card-plain">
@@ -23,14 +35,17 @@
               <th>Order Id</th>
               <th>Order Date</th>
               <th>Order Status</th>
+              <th>Order Price</th>
               <th>Order Placed By</th>
               <th>Action</th>
             </thead>
             <tbody>
+
               <tr *ngFor="let order of orderList">
                 <td>ORDER-{{ order.id }}</td>
                 <td>{{ order.orderPlacedDate }}</td>
                 <td>{{ order.orderStatus }}</td>
+                <td>{{ order.orderTotalPrice }}</td>
                 <td>{{ order.user.name }}</td>
                 <td>
                   <button
@@ -38,11 +53,23 @@
                   >
                     View Details
                   </button>
-                  <button *ngIf="order.orderStatus!='PAID' " (click)="deletebankDetails(order)">
-
-                    Change Status
+                  <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder " -->
+                  <button *ngIf="order.orderStatus!='DISPATCHED'  " (click)="changeStatusOfCompleteOrder('DISPATCHED',order.id)">
+                    Dispatch
                   </button>
+                  <button  (click)="changeStatusOfCompleteOrder('INPROGRESS',order.id)">
+                      Inprogress
+                    </button>
+                    <button  (click)="cancelOrderByUser(order.id)">
+                        CANCEL
+                      </button>
+                      <button  (click)="returnOrderByUser(order.id)">
+                          RETURN
+                        </button>
                 </td>
+              </tr>
+              <tr *ngIf="orderList.length ==0 ">
+                <td>No record found</td>
               </tr>
             </tbody>
           </table>
@@ -61,26 +88,28 @@
           </div>
           <table class="table table-hover">
             <thead class="attrTblHead">
-              <th>Order Id</th>
+             
               <th>Product SKU</th>
               <th>Quantity</th>
-            
+              <th>Variant Total Price</th>
               <th>Status</th>
               <th>Action</th>
             </thead>
             <tbody>
               <tr *ngFor="let orderProduct of orderProductList">
-                <td>ORDER-{{ orderProduct.id }}</td>
+               
                 <td>{{ orderProduct.product.sku }}</td>
                 <td>{{ orderProduct.quantity }}</td>
-               
+                <td>{{ orderProduct.orderProductPrice }}</td>
                  <td>{{ orderProduct.status }}</td>
-                <td>
+                <td >
                   
-                  <button  (click)="deletebankDetails(orderProduct)">
-
-                    Change Status
+                  <button    (click)="changeStatusOfPartialOrder('INPROGRESS',orderProduct.id)">
+                   Inprogress
                   </button>
+                  <button    (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">
+                      DISPATCHED
+                     </button>
                 </td>
               </tr>
             </tbody>
