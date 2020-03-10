@@ -146,11 +146,11 @@ public class ProductVarientDAOImpl implements ProductVarientDAO {
 		 }
 		 
 		 if(Long.valueOf(grtPrice) != null) {
-			 query += " and pv.actualPrice > :grtPrice";
+			 query += " and pv.displayPrice > :grtPrice";
 		 }
 		 
 		 if(Long.valueOf(lessPrice) != null) {
-			 query += " and pv.actualPrice < :lessPrice";
+			 query += " and pv.displayPrice < :lessPrice";
 		 }
 		 
 		 if(Long.valueOf(grtDate) != null) {

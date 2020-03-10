@@ -207,7 +207,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	@Override
 	public List<VariantPriceUpdateDTO> updateVarientDTO(List<VariantPriceUpdateDTO> allVarientDTO) {
 		for (VariantPriceUpdateDTO variantPriceUpdateDTO : allVarientDTO) {
-			productVarRepo.updateVarientDTO(variantPriceUpdateDTO.getProductVariantId(),variantPriceUpdateDTO.getActualPrice(),variantPriceUpdateDTO.getDisplayPrice());
+			productVarRepo.updateVarientDTO(variantPriceUpdateDTO.getProductVariantId(),variantPriceUpdateDTO.getDisplayPrice());
 		}
 		return allVarientDTO;
 	}
