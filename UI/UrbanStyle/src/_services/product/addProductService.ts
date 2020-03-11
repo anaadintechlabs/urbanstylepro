@@ -212,6 +212,7 @@ export class AddProductService {
     } else {
       url = "product/saveProduct";
     }
+    console.log(this.productDTO.value);
     this._apiService.postWithMedia(url, frmData).subscribe(
       res => {
         console.log("save done");
