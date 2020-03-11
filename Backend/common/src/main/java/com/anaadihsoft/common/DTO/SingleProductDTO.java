@@ -8,7 +8,7 @@ public class SingleProductDTO {
 	
 	private ProductVarientPacketDTO mainProductPacket;
 	
-	private List<ProductVarientPacketDTO> relatedProductsPackets;
+	private List<ProductVariantDTO> relatedProductsPackets;
 	
 	private List<ProductReviewDTO> allReviews;
 
@@ -20,11 +20,11 @@ public class SingleProductDTO {
 		this.mainProductPacket = mainProductPacket;
 	}
 
-	public List<ProductVarientPacketDTO> getRelatedProductsPackets() {
+	public List<ProductVariantDTO> getRelatedProductsPackets() {
 		return relatedProductsPackets;
 	}
 
-	public void setRelatedProductsPackets(List<ProductVarientPacketDTO> relatedProductsPackets) {
+	public void setRelatedProductsPackets(List<ProductVariantDTO> relatedProductsPackets) {
 		this.relatedProductsPackets = relatedProductsPackets;
 	}
 

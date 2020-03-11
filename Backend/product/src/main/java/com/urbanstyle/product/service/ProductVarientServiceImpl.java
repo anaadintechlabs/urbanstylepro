@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -52,6 +53,9 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Autowired
 	private ProductReviewService productReviewService; 
+	
+	@Autowired
+	private CategoryMetaService catMetaService;
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
@@ -221,7 +225,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	public SingleProductDTO getSingleProductDetail(long prodVarId) {
 		SingleProductDTO singleProductDTO = new SingleProductDTO();
 		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
-		List<ProductVarientPacketDTO> relatedProductsPackets = new ArrayList<>();
+		List<ProductVariantDTO> relatedProductsPackets = new ArrayList<>();
 		Optional<ProductVariant> optprodVarient =  productVarRepo.findById(prodVarId);
 		ProductVariant prodVarient = null;
 		if(optprodVarient.isPresent()) {
@@ -249,7 +253,8 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			relProdDto.setProductVariant(prVar);
 			relProductPacket.setAllImages(relallImagesMain);
 			relProductPacket.setMainProduct(relProdDto);
-			relatedProductsPackets.add(relProductPacket);
+			
+			relatedProductsPackets.add(relProdDto);
 		}
 		
 		List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
@@ -296,7 +301,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	@Override
 	public ProductVariant getVariantById(long prodVarId) {
 		Optional<ProductVariant> optProd= productVarRepo.findById(prodVarId);
-		if(!optProd.isEmpty())
+		if(!optProd.isPresent())
 		{
 			return optProd.get();
 		}
