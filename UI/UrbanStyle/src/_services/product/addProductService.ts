@@ -18,9 +18,7 @@ import { ToastrService } from "ngx-toastr";
   providedIn: "root"
 })
 export class AddProductService {
-  private header_status: BehaviorSubject<boolean> = new BehaviorSubject<
-    boolean
-  >(false);
+  private header_status: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   readonly headerStatus$ = this.header_status.asObservable();
 
   //// edit or add status
@@ -67,8 +65,8 @@ export class AddProductService {
 
   /////// FormGroup for productmeta (key value pair)
   public productMetaForm = new FormGroup({
-    metaKey: new FormControl("", [Validators.required]),
-    metaValue: new FormControl("", [Validators.required])
+    metaKey: new FormControl("", []),
+    metaValue: new FormControl("", [])
   });
 
   public productDescription = new FormGroup({
@@ -78,11 +76,13 @@ export class AddProductService {
 
   /////// product variation formGroup
   public productVariantForm = new FormGroup({
-    sku: new FormControl("", [Validators.required]),
-    displayPrice: new FormControl("", [Validators.required]),
-    actualPrice: new FormControl("", [Validators.required]),
-    discountPrice: new FormControl("", [Validators.required]),
-    totalQuantity: new FormControl("", [Validators.required]),
+    sku: new FormControl("", []),
+    variantName : new FormControl("",[]),
+    variantCode : new FormControl("",[]),
+    displayPrice: new FormControl("", []),
+    actualPrice: new FormControl("", []),
+    discountPrice: new FormControl("", []),
+    totalQuantity: new FormControl("", []),
     reservedQuantity: new FormControl("0")
   });
 
@@ -93,19 +93,19 @@ export class AddProductService {
     }),
     productId: new FormControl("", []),
     productCode: new FormControl("", [
-      Validators.required,
+      ,
       Validators.maxLength(40)
     ]),
-    categoryId: new FormControl("", [Validators.required]),
+    categoryId: new FormControl("", []),
     productName: new FormControl("", [
-      Validators.required,
+      ,
       Validators.maxLength(100)
     ]),
     brandName: new FormControl("", [, Validators.maxLength(80)]),
     manufacturer: new FormControl("", [, Validators.maxLength(80)]),
     coverPhoto: new FormControl("", []),
-    defaultSize : new FormControl("",[Validators.required]),
-    defaultColor : new FormControl("",[Validators.required]),
+    defaultSize : new FormControl("",[]),
+    defaultColor : new FormControl("",[]),
     productIdType: new FormControl("ASIN")
   });
 
@@ -146,11 +146,13 @@ export class AddProductService {
     productVarientDto = this._fb.group({
       attributesMap: new FormControl(myMap),
       productVariant: new FormGroup({
-        sku: new FormControl("", [Validators.required]),
-        displayPrice: new FormControl("", [Validators.required]),
-        actualPrice: new FormControl("", [Validators.required]),
-        discountPrice: new FormControl("", [Validators.required]),
-        totalQuantity: new FormControl("", [Validators.required]),
+        sku: new FormControl("", []),
+        variantName : new FormControl("",[]),
+        variantCode : new FormControl("",[]),
+        displayPrice: new FormControl("", []),
+        actualPrice: new FormControl("", []),
+        discountPrice: new FormControl("", []),
+        totalQuantity: new FormControl("", []),
         reservedQuantity: new FormControl("0")
       })
     });
@@ -210,6 +212,7 @@ export class AddProductService {
     } else {
       url = "product/saveProduct";
     }
+    console.log(this.productDTO.value);
     this._apiService.postWithMedia(url, frmData).subscribe(
       res => {
         console.log("save done");

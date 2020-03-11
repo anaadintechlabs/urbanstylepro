@@ -42,9 +42,10 @@ export class AddProductVariationComponent implements OnInit {
     }
   }
 
-  getVarient(item) {
+  getVarient(item : FormGroup) {
     let temp : string[]=[]; 
     let data = item.value.attributesMap;
+    let formGroup : FormGroup = item.controls.productVariant as FormGroup;
     var result = Object.keys(data).map(function (key) {    
       // Using Number() to convert key to number type 
       // Using obj[key] to retrieve key value 
@@ -53,7 +54,15 @@ export class AddProductVariationComponent implements OnInit {
     result.forEach(ele=>{
       temp.push(ele[0])
     });
-    return temp.join('-');
+    console.log(this._addProduct.productForm.value.productName);
+    formGroup.controls.variantName.patchValue(`${this._addProduct.productForm.value.productName} (${temp.join('-')})`);
+    return `${this._addProduct.productForm.value.productName} (${temp.join('-')})`;
+  }
+
+  saleCheck:boolean = false;
+
+  changesaleCheck(){
+    // this.saleCheck = !this.saleCheck
   }
 
 }
