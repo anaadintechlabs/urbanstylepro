@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.anaadihsoft.common.master.User;
@@ -33,6 +34,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findByUserTypeAndDeactivated(String string, boolean b, Pageable pg);
 
 	long countByDeactivated(boolean b);
+	
+
+	@Query(" from User Where userType =?2")
+	List<User> getAllUsers(Pageable pagable, String userType);
      
 
 }

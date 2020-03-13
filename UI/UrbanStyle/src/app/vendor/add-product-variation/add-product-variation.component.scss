@@ -39,8 +39,13 @@
     // border-bottom: 1px solid #c1c1c1;
     div{
         padding: 0 10px;
+        span {
+            display: inline-block;
+        }
         input {
             width: 80%;
+            display: inline-block;
+            margin-left: -2px;
         }
     }
 }

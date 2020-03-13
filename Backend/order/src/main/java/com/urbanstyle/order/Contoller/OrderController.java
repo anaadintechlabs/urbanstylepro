@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.UserOrder;
+import com.urbanstyle.order.Repository.AddressRepository;
+import com.urbanstyle.order.Repository.ProductVarientRepository;
+import com.urbanstyle.order.Repository.ShoppingCartItemRepository;
+import com.urbanstyle.order.Repository.UserRepository;
+import com.urbanstyle.order.Repository.WishListRepository;
 import com.urbanstyle.order.Service.OrderService;
 import com.urbanstyle.order.util.CommonResponseSender;
 
@@ -31,7 +39,20 @@ public class OrderController {
 	
 	@Autowired
 	private PaymentConn paymentConn;
+	
+	@Autowired
+	private UserRepository userRepo;
 
+	@Autowired
+	private AddressRepository addressRepo;
+	@Autowired
+	private ProductVarientRepository productVarRepo;
+	
+	@Autowired
+	private ShoppingCartItemRepository	shoppingCartItemRepository;
+	
+	@Autowired
+	private WishListRepository wishlistRepository;
 	//@ResponseBody
 	@RequestMapping(value= {"/saveOrder"},method= {RequestMethod.POST})
 	public Map<String,Object> saveOrder(HttpServletRequest request,HttpServletResponse response,@RequestBody UserOrderSaveDTO userDetailSave){
@@ -171,4 +192,86 @@ public class OrderController {
 			orderService.setStatusbyAdmin(orderId,status,userId);
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
+	
+	
+	
+	
+	
+	
+	
+	//ADMIN APIS
+	
+
+	@RequestMapping(value= {"/getLastOrders"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getLastOrders(@RequestParam(value="offset")int offset,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("lastOrders",orderService.getLastOrders(offset));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	@RequestMapping(value= {"/getLastReturns"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getLastReturns(@RequestParam(value="offset")int offset,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("returns",orderService.getLastReturns(offset));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	@RequestMapping(value="/getDetailofVendor",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> getDetailofVendor(@RequestParam(value="vendorId") long vendorId, @RequestBody Filter filter,HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("vendorInfo", userRepo.findById(vendorId));
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		map.put("vendorProducts",productVarRepo.findByProductUserId(vendorId,pagable));
+		map.put("vendorAddress",addressRepo.findByUserId(vendorId));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
+	
+	@RequestMapping(value= {"/getAllOrderByStatus"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getAllOrderByStatus(@RequestParam(value="offset")int offset,@RequestParam(value="status")String status,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("allOrders",orderService.getAllOrderByStatus(offset,status));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	@RequestMapping(value= {"/getAllWalletDetails"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getAllWalletDetails(@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("walletInfo",orderService.getAllWalletDetails(userId));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	@RequestMapping(value= {"/getAllVendorSales"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getAllVendorSales(@RequestBody Filter filter,@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("vendorSales",orderService.getAllVendorSales(userId,filter));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	@RequestMapping(value= {"/getAllCartAndWishlist"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getAllCartAndWishlist(@RequestBody Filter filter,@RequestBody Filter filter1,@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		
+		resultMap.put("cartList",shoppingCartItemRepository.findByShoppingCartUserIdAndStatus(userId,1,pagable));
+		
+		final Pageable pagable1 = PageRequest.of(filter1.getOffset(), filter1.getLimit(),
+				filter1.getSortingDirection() != null
+				&& filter1.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter1.getSortingField());
+		resultMap.put("wishList", wishlistRepository.findByUserIdAndStatus(userId,1,pagable1));
+		
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	
 }

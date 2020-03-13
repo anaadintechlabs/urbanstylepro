@@ -134,6 +134,7 @@ export class InventoryComponent implements OnInit {
         if (res.isSuccess) {
           console.log(res.product);
           this.variantList = res.data.product;
+          item['child'] = this.variantList;
         }
       });
   }
@@ -197,7 +198,7 @@ export class InventoryComponent implements OnInit {
   getAllVeriant(item) {
     console.log(item);
     this.getAllProductOfVarient(item);
-    this.modal.open();
+    // this.modal.open();
   }
 
   updatePrices(updatedDTO) {

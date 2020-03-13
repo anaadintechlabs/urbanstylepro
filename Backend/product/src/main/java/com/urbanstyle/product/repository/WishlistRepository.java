@@ -23,5 +23,7 @@ public interface WishlistRepository extends PagingAndSortingRepository<Wishlist,
 
 
 	Wishlist findByUserIdAndProductVariantProductVariantId(Long id, long productVariantId);
+	
+	
 
 }
