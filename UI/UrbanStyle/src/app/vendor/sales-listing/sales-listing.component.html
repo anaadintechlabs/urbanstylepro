@@ -1,0 +1,94 @@
+<div class="container-fluid">
+        
+      <div class="row ptop10 p0">
+        <div class="col-md-12 col-sm-12 thc">
+          <strong>Sales Details</strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12">
+          <div class="row pt-2 pb-2">
+            
+          </div>
+          <!-- salesList && salesList.length > 0 && -->
+          <div
+            *ngIf=" !showProduct"
+            class="table-responsive"
+          >
+            <div class="card card-plain">
+              <div class="card-header card-header-danger">
+                <h4 class="card-title mt-0">Sales List</h4>
+                <p class="card-category"></p>
+              </div>
+              <table class="table table-hover">
+                <thead class="attrTblHead">
+                  <th>Order Id</th>
+                  <th>Order Placed Date</th>
+                  <th>Order Completion Date</th>
+                  <th>Order Status</th>
+                  <th>Order Price</th>
+                  <th>Order Placed By</th>
+                  <th>Action</th>
+                </thead>
+                <tbody>
+    
+                  <tr *ngFor="let order of salesList">
+                    <td>ORDER-{{ order.id }}</td>
+                    <td>{{ order.orderPlacedDate }}</td>
+                    <td>{{ order.orderPaidDate }}</td>
+                    <td>{{ order.orderStatus }}</td>
+                    <td>{{ order.orderTotalPrice }}</td>
+                    <td>{{ order.user.name }}</td>
+                    <td>
+                      <button
+                        (click)="getOrderProductForVendor(order.id)"
+                      >
+                        View Details
+                      </button>
+                     
+                    </td>
+                  </tr>
+                  <tr *ngIf="salesList.length ==0 ">
+                    <td>No record found</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+    
+          <div
+            *ngIf="salesProductList && salesProductList.length > 0 && showProduct"
+            class="table-responsive"
+          >
+            <div class="card card-plain">
+              <div class="card-header card-header-danger">
+                <h4 class="card-title mt-0">Order Products  List</h4>
+                <p class="card-category"></p>
+                <button (click)="backButton()">Back</button>
+              </div>
+              <table class="table table-hover">
+                <thead class="attrTblHead">
+                 
+                  <th>Product SKU</th>
+                  <th>Quantity</th>
+                  <th>Variant Total Price</th>
+                  
+                  <th>Status</th>
+                  
+                </thead>
+                <tbody>
+                  <tr *ngFor="let orderProduct of salesProductList">
+                   
+                    <td>{{ orderProduct.product.sku }}</td>
+                    <td>{{ orderProduct.quantity }}</td>
+                    <td>{{ orderProduct.orderProductPrice }}</td>
+                     <td>{{ orderProduct.status }}</td>
+                   
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 

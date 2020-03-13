@@ -170,6 +170,7 @@ public class ProductController {
 		objMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		TypeReference<ProductDTO> typeRefernce = new TypeReference<ProductDTO>() {
 		};
+		System.out.println("productDTOString"+productDTOString);
 		ProductDTO productDTO=objMapper.readValue(productDTOString, typeRefernce);
 		map.put("product", productService.createProduct(productDTO,files,false));
 		return CommonResponseSender.createdSuccessResponse(map, response);

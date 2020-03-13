@@ -19,6 +19,8 @@ import { AddProductHeaderComponent } from './add-product-header/add-product-head
 import { ModalModule } from 'ngx-modal'
 import { ToastrModule } from "ngx-toastr";
 import { OrderListingComponent } from './order-listing/order-listing.component';
+import { SalesListingComponent } from './sales-listing/sales-listing.component';
+import { SalesReturnListingComponent } from './sales-return-listing/sales-return-listing.component';
 
 @NgModule({
   imports: [
@@ -43,6 +45,8 @@ import { OrderListingComponent } from './order-listing/order-listing.component';
     FooterComponent,
     AddProductHeaderComponent,
     OrderListingComponent,
+    SalesListingComponent,
+    SalesReturnListingComponent,
   ],
   bootstrap: [VendorComponent]
 })

@@ -509,12 +509,13 @@ public class OrderServiceImpl implements OrderService {
 //				returnManagement.save(returnManage);
 //		}
 //	 }else
-		 if("CLOSE".equalsIgnoreCase(status)) {
+		 if("COMPLETE".equalsIgnoreCase(status)) {
 		 HashMap<Long,Double> userBal = new HashMap<>();
 		 Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
 			if(userOrder.isPresent()) {
 				UserOrder usrOrdr = userOrder.get();
 				usrOrdr.setOrderStatus(status);
+				usrOrdr.setOrderPaidDate(new Date());
 				orderRepo.save(usrOrdr);
 				List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
 				for(UserOrderProducts userOrdrProd :userOrderProducts) {
@@ -641,7 +642,9 @@ public class OrderServiceImpl implements OrderService {
 						UserWalletRepo.save(userWalletAdmin);
 					}
 				}
-	 }else if("RECIEVED".equalsIgnoreCase(status)) {
+	 }
+		 //update Inventory in case of return also
+		 else if("RECIEVED".equalsIgnoreCase(status)) {
 		 
 		 HashMap<Long,Double> userBal = new HashMap<>();
 		 Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
@@ -653,8 +656,9 @@ public class OrderServiceImpl implements OrderService {
 				for(UserOrderProducts userOrdrProd :userOrderProducts) {
 					userOrdrProd.setStatus(status);
 					ProductVariant varient = userOrdrProd.getProduct();
-					if(userBal.get(varient.getCreatedBy()) != null) {
-						double oldAmount = userBal.get(varient.getCreatedBy());
+					varient.setTotalQuantity(varient.getTotalQuantity() + userOrdrProd.getQuantity());
+					if(userBal.get(Long.valueOf(varient.getCreatedBy())) != null) {
+						double oldAmount = userBal.get(Long.valueOf(varient.getCreatedBy()));
 						oldAmount += userOrdrProd.getQuantity()*varient.getDisplayPrice();
 						userBal.put(Long.valueOf(varient.getCreatedBy()), oldAmount);
 					}else {
@@ -662,6 +666,7 @@ public class OrderServiceImpl implements OrderService {
 						userBal.put(Long.valueOf(varient.getCreatedBy()), Amount);
 					}
 					userOrderProdRepo.save(userOrdrProd);
+					productVariantRepo.save(varient);
 				}
 			}
 			

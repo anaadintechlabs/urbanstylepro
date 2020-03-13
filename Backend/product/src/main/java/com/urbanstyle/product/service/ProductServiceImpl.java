@@ -107,10 +107,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product createProduct(ProductDTO productDTO, MultipartFile[] files,boolean fromUpdate) throws Exception {
 		Product oldProduct=productRepository.findByProductCode(productDTO.getProduct().getProductCode());
-		if(oldProduct!=null && !fromUpdate) {
-			System.out.println("duplicate check"); // for new product 
-			return null;
-		}
+//		if(oldProduct!=null && !fromUpdate) {
+//			System.out.println("duplicate check"); // for new product 
+//			return null;
+//		}
 		
 		int i=0;
 
@@ -128,12 +128,13 @@ public class ProductServiceImpl implements ProductService{
 			file=files[0];
 
 		}
+		System.out.println("variant dto"+productDTO.getProductVariantDTO());
 		String mainImageUrl=createProductVariant(productDTO.getProductVariantDTO(),oldProduct,file);
 		if(productDTO.getProductMetaInfo()!=null)
 		{
 			List<ProductMeta> productMetaList = new ArrayList<>();
 			saveProductMetaInformation(productDTO.getProductMetaInfo(),oldProduct,productMetaList);
-			if(productMetaList!=null && !productMetaList.isEmpty())
+			if( !productMetaList.isEmpty())
 			{
 				productMetaRepository.saveAll(productMetaList);
 			}
@@ -183,6 +184,7 @@ public class ProductServiceImpl implements ProductService{
 		}
 		for(ProductVariantDTO productVariantDTO:productVariantDTOList)
 		{
+			System.out.println("about to save variant");
 			ProductVariant productVariant=productVariantDTO.getProductVariant();
 			productVariant.setProduct(product);
 			productVariant.setCategoryId(product.getCategoryId());
@@ -227,7 +229,7 @@ public class ProductServiceImpl implements ProductService{
 			productAttributeDetails.add(pad);
 			}
 		}
-		if(productAttributeDetails!=null && !productAttributeDetails.isEmpty())
+		if( !productAttributeDetails.isEmpty())
 		{
 			productAttrRepo.saveAll(productAttributeDetails);
 		}

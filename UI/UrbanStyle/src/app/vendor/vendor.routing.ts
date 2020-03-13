@@ -5,6 +5,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from "@angular/core";
 import { InventoryComponent } from "src/app/vendor/inventory/inventory.component";
 import { OrderListingComponent } from "src/app/vendor/order-listing/order-listing.component";
+import { SalesListingComponent } from 'src/app/vendor/sales-listing/sales-listing.component';
+import { SalesReturnListingComponent } from './sales-return-listing/sales-return-listing.component';
 
 export const VendorRoutes: Routes=[
     {
@@ -26,6 +28,14 @@ export const VendorRoutes: Routes=[
              {
                 path : 'order',
                 component : OrderListingComponent,
+            },
+            {
+                path : 'sales',
+                component : SalesListingComponent,
+            },
+            {
+                path : 'returns',
+                component : SalesReturnListingComponent,
             },
             
             {
