@@ -27,7 +27,8 @@ public class UserOrder {
 	@ManyToOne
 	private Address address;
 	
-	
+	@ManyToOne
+	private BankcardInfo bankCardInfo;
 	
 	private String orderStatus;
 	
@@ -86,6 +87,24 @@ public class UserOrder {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	
+
+	public BankcardInfo getBankCardInfo() {
+		return bankCardInfo;
+	}
+
+	public void setBankCardInfo(BankcardInfo bankCardInfo) {
+		this.bankCardInfo = bankCardInfo;
+	}
+
+	public boolean isSingleVendorOrder() {
+		return singleVendorOrder;
+	}
+
+	public void setSingleVendorOrder(boolean singleVendorOrder) {
+		this.singleVendorOrder = singleVendorOrder;
 	}
 
 	public String getOrderStatus() {

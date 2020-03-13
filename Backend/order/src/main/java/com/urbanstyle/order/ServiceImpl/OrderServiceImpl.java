@@ -19,6 +19,7 @@ import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Address;
 import com.anaadihsoft.common.master.BankDetails;
+import com.anaadihsoft.common.master.BankcardInfo;
 import com.anaadihsoft.common.master.PaymentDetails;
 import com.anaadihsoft.common.master.PaymentTransaction;
 import com.anaadihsoft.common.master.PaymentWalletDistribution;
@@ -32,6 +33,7 @@ import com.anaadihsoft.common.master.UserWallet;
 import com.urbanstyle.order.Contoller.PaymentConn;
 import com.urbanstyle.order.Repository.AddressRepository;
 import com.urbanstyle.order.Repository.BankRepository;
+import com.urbanstyle.order.Repository.BankcardInfoRepo;
 import com.urbanstyle.order.Repository.OrderRepository;
 import com.urbanstyle.order.Repository.PaymentDetailsRepo;
 import com.urbanstyle.order.Repository.PaymentTransactionRepo;
@@ -86,6 +88,8 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private com.urbanstyle.order.Repository.UserWalletRepo UserWalletRepo;
+	@Autowired
+	private BankcardInfoRepo bankCardInfoRepo;
 	
 	@Override
 	public UserOrder saveorUpdate(UserOrderSaveDTO userOrder) {
@@ -129,6 +133,14 @@ public class OrderServiceImpl implements OrderService {
 			userOrderSave.setOrderTotalPrice(totalPrice);
 			userOrderSave.setOrderPlacedDate(new Date());
 			userOrderSave.setOrderStatus("PLACED");
+			
+			BankcardInfo bankCardInfo = userOrder.getBankCardDetails();
+			Optional<BankcardInfo> bankCardInfoold = bankCardInfoRepo.findByCardNumber(bankCardInfo.getCardNumber());
+			if(!bankCardInfoold.isPresent()) {
+				bankCardInfo=bankCardInfoRepo.save(bankCardInfo);	
+				
+			}
+			userOrderSave.setBankCardInfo(bankCardInfo);
 		if(totalPrice > 0) {
 			orderRepo.save(userOrderSave);
 		}
@@ -187,12 +199,16 @@ public class OrderServiceImpl implements OrderService {
 			}else {
 				reqDetails = bankDetails.get();
 			}
+			// Save Card Info
 			
+						
+						
+						
 			// paymentWork
 			PaymentTransaction pt = new PaymentTransaction();
 			//paymentConn.chargePayment(CustomerName);
 			pt.setAmount(totalAmount);
-			//pt.setCard(reqDetails);
+			pt.setCard(bankCardInfo);
 			pt.setCreatedBy(String.valueOf(userId));
 			pt.setCreatedDate(new Date());
 			pt.setCustId("");

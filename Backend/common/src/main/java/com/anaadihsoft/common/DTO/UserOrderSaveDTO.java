@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.anaadihsoft.common.master.Address;
 import com.anaadihsoft.common.master.BankDetails;
+import com.anaadihsoft.common.master.BankcardInfo;
 
 
 public class UserOrderSaveDTO {
@@ -14,6 +15,8 @@ public class UserOrderSaveDTO {
 	private Address address;
 	private  String from;
 	private  String to;
+	
+	private BankcardInfo bankCardDetails;
 	
 	private BankDetails bankInfo;
 	
@@ -59,4 +62,12 @@ public class UserOrderSaveDTO {
 	public void setTo(String to) {
 		this.to = to;
 	}
+	public BankcardInfo getBankCardDetails() {
+		return bankCardDetails;
+	}
+	public void setBankCardDetails(BankcardInfo bankCardDetails) {
+		this.bankCardDetails = bankCardDetails;
+	}
+	
+	
 }
