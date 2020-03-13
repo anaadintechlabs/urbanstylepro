@@ -457,7 +457,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void setStatusbyAdmin(long orderId, String status,String reason,long userId) {
+	public void setStatusbyAdmin(long orderId, String status,long userId) {
 		//admin can dispatch product
 //		if("DISPATCHED".equalsIgnoreCase(status)) {
 //			// update inventory and status
@@ -550,7 +550,7 @@ public class OrderServiceImpl implements OrderService {
 				Iterable<PaymentWalletDistribution> allSources =  paymentWalletDistRepo.findAll();
 				for(PaymentWalletDistribution source : allSources) {
 					long perc = source.getPerc();
-					if(source.getTypeOfuser().equals("AFFILIATE")) {
+					if(source.getDistributionTo().equals("AFFILIATE")) {
 						String affiliatid = source.getSource();
 						User affiliatiduser = userRepo.findById(Long.parseLong(affiliatid)).get();
 						UserWallet userWalletAff = UserWalletRepo.findByUserId(affiliatiduser.getId());
@@ -600,7 +600,7 @@ public class OrderServiceImpl implements OrderService {
 				// update wallet for vendor
 				
 				for(Long vendor : allvendor){
-					TotalPerc = TotalPerc-percToVendor;
+					//TotalPerc = TotalPerc-percToVendor;
 					double percAmount = (userBal.get(vendor) * TotalPerc)/100;
 					double amount = userBal.get(vendor) - percAmount;
 					PaymentWalletTransaction pwtinner = new PaymentWalletTransaction();

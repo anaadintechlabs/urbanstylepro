@@ -26,7 +26,7 @@ public interface OrderService {
 
 	UserOrderProducts setStatusbyVendor(long orderProdId, String status);
 
-	void setStatusbyAdmin(long orderId, String status,String reason, long userId);
+	void setStatusbyAdmin(long orderId, String status,long userId);
 
 	List<UserOrderProducts> getOrderProductForVendor(long vendorId, long orderId);
 

@@ -66,6 +66,9 @@
                       <button  (click)="returnOrderByUser(order.id)">
                           RETURN
                         </button>
+                        <button  (click)="completeOrderByAdmin(order.id)">
+                          COMPLETE
+                        </button>
                 </td>
               </tr>
               <tr *ngIf="orderList.length ==0 ">

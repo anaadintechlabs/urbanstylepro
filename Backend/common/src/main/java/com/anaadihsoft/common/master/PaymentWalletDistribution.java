@@ -27,6 +27,8 @@ public class PaymentWalletDistribution {
 
 	private String distributionTo;
 	
+	private String typeOfUser;
+	
 	public String getDistributionTo() {
 		return distributionTo;
 	}
@@ -52,11 +54,11 @@ public class PaymentWalletDistribution {
 	}
 
 	public String getTypeOfuser() {
-		return source;
+		return typeOfUser;
 	}
 
 	public void setTypeOfuser(String source) {
-		this.source = source;
+		this.typeOfUser = source;
 	}
 	
 	

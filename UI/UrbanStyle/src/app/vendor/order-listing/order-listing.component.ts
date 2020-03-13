@@ -152,6 +152,21 @@ export class OrderListingComponent implements OnInit {
       }
     );
   }
+
+  completeOrderByAdmin(orderId)
+  {
+    let userId=1;
+    this.dataService.completeOrderByAdmin(userId,orderId,"COMPLETE","api/setStatusbyAdmin").subscribe(
+      data => {
+      //instead of this call api for get all order of user
+      this.getAllOrderOfVendor(this.userId);
+      
+      },
+      error => {
+        console.log("error======", error);
+      }
+    );
+  }
 }
 
   
