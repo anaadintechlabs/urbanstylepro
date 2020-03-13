@@ -1,15 +1,117 @@
- <div class="container-fluid">
-    <div class="row ptop10 p0">
-        <div class="col-md-3 col-sm-3 thc">
-          <button (click)="getOrderByStatus('ALL')" >All Order </button>
-        </div>
-        <div class="col-md-3 col-sm-3 thc">
-            <button (click)="getOrderByStatus('PLACED')">Pending Order </button>
-         </div>
-         <div class="col-md-3 col-sm-3 thc">
-            <button (click)="getOrderByStatus('CANCELLED')">Cancelled Order </button>
-         </div>
+<div class="container">
+
+  <div class="row">
+    <div class="col-12 col-md-12">
+      <div class="ordder_heading">
+        <h4>Order Managment</h4>
       </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-12">
+      <div class="ordder_heading">
+        <p>
+          <span>Action : </span>
+          <span><button class="btn actionBtn" (click)="getOrderByStatus('ALL')">All Order </button></span>
+          <span><button class="btn actionBtn" (click)="getOrderByStatus('PLACED')">Pending Order </button></span>
+          <span><button class="btn actionBtn" (click)="getOrderByStatus('CANCELLED')">Cancelled Order </button></span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf=" !showProduct">
+    <div class="col-12 col-md-12">
+      <table class="table table-striped">
+        <thead class="thead-default">
+          <tr>
+            <th>Order Id</th>
+            <th>Order Date</th>
+            <th>Order Status</th>
+            <th>Order Price</th>
+            <th>Order Placed By</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orderList">
+            <td>ORDER-{{ order.id }}</td>
+            <td>{{ order.orderPlacedDate }}</td>
+            <td>{{ order.orderStatus }}</td>
+            <td>{{ order.orderTotalPrice }}</td>
+            <td>{{ order.user.name }}</td>
+            <td>
+              <button class="btn actionBtn" (click)="getOrderProductForVendor(order.id)">
+                View Details
+              </button>
+              <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder " -->
+              <button class="btn actionBtn" *ngIf="order.orderStatus!='DISPATCHED'  "
+                (click)="changeStatusOfCompleteOrder('DISPATCHED',order.id)">
+                Dispatch
+              </button>
+              <button class="btn actionBtn" (click)="changeStatusOfCompleteOrder('INPROGRESS',order.id)">
+                Inprogress
+              </button>
+              <button class="btn actionBtn" (click)="cancelOrderByUser(order.id)">
+                CANCEL
+              </button>
+              <button class="btn actionBtn" (click)="returnOrderByUser(order.id)">
+                RETURN
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="orderList.length ==0 ">
+            <td scope="row">No record found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row" *ngIf="orderProductList && orderProductList.length > 0 && showProduct">
+    <div class="col-12 col-md-12">
+      <table class="table table-striped table-inverse table-responsive">
+        <thead class="thead-default">
+          <tr>
+            <th>Product SKU</th>
+            <th>Quantity</th>
+            <th>Variant Total Price</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let orderProduct of orderProductList">
+            <td>{{ orderProduct.product.sku }}</td>
+            <td>{{ orderProduct.quantity }}</td>
+            <td>{{ orderProduct.orderProductPrice }}</td>
+            <td>{{ orderProduct.status }}</td>
+            <td>
+              <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('INPROGRESS',orderProduct.id)">
+                Inprogress
+              </button>
+              <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">
+                DISPATCHED
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container-fluid">
+  <div class="row ptop10 p0">
+    <div class="col-md-3 col-sm-3 thc">
+      <button (click)="getOrderByStatus('ALL')">All Order </button>
+    </div>
+    <div class="col-md-3 col-sm-3 thc">
+      <button (click)="getOrderByStatus('PLACED')">Pending Order </button>
+    </div>
+    <div class="col-md-3 col-sm-3 thc">
+      <button (click)="getOrderByStatus('CANCELLED')">Cancelled Order </button>
+    </div>
+  </div>
   <div class="row ptop10 p0">
     <div class="col-md-12 col-sm-12 thc">
       <strong>Order Details</strong>
@@ -18,13 +120,9 @@
   <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
       <div class="row pt-2 pb-2">
-        
+
       </div>
-      <!-- orderList && orderList.length > 0 && -->
-      <div
-        *ngIf=" !showProduct"
-        class="table-responsive"
-      >
+      <div *ngIf=" !showProduct" class="table-responsive">
         <div class="card card-plain">
           <div class="card-header card-header-danger">
             <h4 class="card-title mt-0">Order List</h4>
@@ -48,24 +146,23 @@
                 <td>{{ order.orderTotalPrice }}</td>
                 <td>{{ order.user.name }}</td>
                 <td>
-                  <button
-                    (click)="getOrderProductForVendor(order.id)"
-                  >
+                  <button (click)="getOrderProductForVendor(order.id)">
                     View Details
                   </button>
-                  <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder " -->
-                  <button *ngIf="order.orderStatus!='DISPATCHED'  " (click)="changeStatusOfCompleteOrder('DISPATCHED',order.id)">
+                  <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder "
+                  <button *ngIf="order.orderStatus!='DISPATCHED'  "
+                    (click)="changeStatusOfCompleteOrder('DISPATCHED',order.id)">
                     Dispatch
                   </button>
-                  <button  (click)="changeStatusOfCompleteOrder('INPROGRESS',order.id)">
-                      Inprogress
-                    </button>
-                    <button  (click)="cancelOrderByUser(order.id)">
-                        CANCEL
-                      </button>
-                      <button  (click)="returnOrderByUser(order.id)">
-                          RETURN
-                        </button>
+                  <button (click)="changeStatusOfCompleteOrder('INPROGRESS',order.id)">
+                    Inprogress
+                  </button>
+                  <button (click)="cancelOrderByUser(order.id)">
+                    CANCEL
+                  </button>
+                  <button (click)="returnOrderByUser(order.id)">
+                    RETURN
+                  </button>
                 </td>
               </tr>
               <tr *ngIf="orderList.length ==0 ">
@@ -76,19 +173,16 @@
         </div>
       </div>
 
-      <div
-        *ngIf="orderProductList && orderProductList.length > 0 && showProduct"
-        class="table-responsive"
-      >
+      <div *ngIf="orderProductList && orderProductList.length > 0 && showProduct" class="table-responsive">
         <div class="card card-plain">
           <div class="card-header card-header-danger">
-            <h4 class="card-title mt-0">Order Products  List</h4>
+            <h4 class="card-title mt-0">Order Products List</h4>
             <p class="card-category"></p>
             <button (click)="backButton()">Back</button>
           </div>
           <table class="table table-hover">
             <thead class="attrTblHead">
-             
+
               <th>Product SKU</th>
               <th>Quantity</th>
               <th>Variant Total Price</th>
@@ -97,19 +191,19 @@
             </thead>
             <tbody>
               <tr *ngFor="let orderProduct of orderProductList">
-               
+
                 <td>{{ orderProduct.product.sku }}</td>
                 <td>{{ orderProduct.quantity }}</td>
                 <td>{{ orderProduct.orderProductPrice }}</td>
-                 <td>{{ orderProduct.status }}</td>
-                <td >
-                  
-                  <button    (click)="changeStatusOfPartialOrder('INPROGRESS',orderProduct.id)">
-                   Inprogress
+                <td>{{ orderProduct.status }}</td>
+                <td>
+
+                  <button (click)="changeStatusOfPartialOrder('INPROGRESS',orderProduct.id)">
+                    Inprogress
                   </button>
-                  <button    (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">
-                      DISPATCHED
-                     </button>
+                  <button (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">
+                    DISPATCHED
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -118,4 +212,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div> -->

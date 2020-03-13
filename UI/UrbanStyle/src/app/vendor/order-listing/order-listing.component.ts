@@ -11,59 +11,56 @@ export class OrderListingComponent implements OnInit {
 
   user: User;
   userId: any;
-  showProduct=false;
-  orderList:any=[];
-  orderProductList:any=[];
+  showProduct = false;
+  orderList: any = [];
+  orderProductList: any = [];
   selectedOrderId: any;
-  constructor(public dataService:DataService) { }
+  constructor(
+    public dataService: DataService
+  ) { }
 
   ngOnInit() {
-     this.user = JSON.parse(window.localStorage.getItem("user"));
+    this.user = JSON.parse(window.localStorage.getItem("user"));
     if (this.user && this.user.token) {
       this.userId = this.user.id;
-      console.log("logged in vendor id",this.userId);
+      console.log("logged in vendor id", this.userId);
       this.getAllOrderOfVendor(this.userId);
 
     }
   }
 
-  getOrderByStatus(status)
-  {
-    this.showProduct=false;
-    if(status=='ALL')
-    {
+  getOrderByStatus(status) {
+    this.showProduct = false;
+    if (status == 'ALL') {
       this.getAllOrderOfVendor(this.userId);
     }
-    else
-    {
-      this.getAllOrderOfVendorByStatus(this.userId,status);
+    else {
+      this.getAllOrderOfVendorByStatus(this.userId, status);
     }
-    
+
   }
 
 
-  getAllOrderOfVendorByStatus(vendorId,status)
-  {
+  getAllOrderOfVendorByStatus(vendorId, status) {
 
-    this.dataService.getAllOrderOfVendorByStatus( vendorId,status, "api/getOrderForVendorByStatus")
+    this.dataService.getAllOrderOfVendorByStatus(vendorId, status, "api/getOrderForVendorByStatus")
       .subscribe(
         data => {
-         console.log("All order",data);
-         this.orderList=data;
+          console.log("All order", data);
+          this.orderList = data;
         },
         error => {
           console.log("error======", error);
         }
       );
   }
-  getAllOrderOfVendor(vendorId)
-  {
-     this.dataService
-      .getAllOrderOfVendor( vendorId, "api/getOrderForVendor")
+  getAllOrderOfVendor(vendorId) {
+    this.dataService
+      .getAllOrderOfVendor(vendorId, "api/getOrderForVendor")
       .subscribe(
         data => {
-         console.log("All order",data);
-         this.orderList=data;
+          console.log("All order", data);
+          this.orderList = data;
         },
         error => {
           console.log("error======", error);
@@ -71,46 +68,17 @@ export class OrderListingComponent implements OnInit {
       );
   }
 
-  backButton()
-  {
-    this.showProduct=false;
+  backButton() {
+    this.showProduct = false;
   }
 
-  getOrderProductForVendor(orderId)
-  {
-    this.selectedOrderId=orderId;
-    this.dataService.getOrderProductForVendor(orderId,this.userId,"api/getOrderProductForVendor").subscribe(
-        data => {
-         console.log("All Products inside order",data);
-         this.showProduct=true;
-         this.orderProductList=data;
-        },
-        error => {
-          console.log("error======", error);
-        }
-      );
-  }
-
-
-  changeStatusOfCompleteOrder(status,orderId)
-  {
-    this.dataService.changeStatusOfCompleteOrder(status,orderId,"api/setStatusbyVendorForCompleteOrder").subscribe(
+  getOrderProductForVendor(orderId) {
+    this.selectedOrderId = orderId;
+    this.dataService.getOrderProductForVendor(orderId, this.userId, "api/getOrderProductForVendor").subscribe(
       data => {
-      this.getAllOrderOfVendor(this.userId);
-      
-      },
-      error => {
-        console.log("error======", error);
-      }
-    );
-  }
-
-  changeStatusOfPartialOrder(status,orderProdId)
-  {
-    this.dataService.changeStatusOfPartialOrder(status,orderProdId,"api/setStatusbyVendor").subscribe(
-      data => {
-      this.getOrderProductForVendor(this.selectedOrderId);
-      
+        console.log("All Products inside order", data);
+        this.showProduct = true;
+        this.orderProductList = data;
       },
       error => {
         console.log("error======", error);
@@ -119,15 +87,39 @@ export class OrderListingComponent implements OnInit {
   }
 
 
-  cancelOrderByUser(orderId)
-  {
+  changeStatusOfCompleteOrder(status, orderId) {
+    this.dataService.changeStatusOfCompleteOrder(status, orderId, "api/setStatusbyVendorForCompleteOrder").subscribe(
+      data => {
+        this.getAllOrderOfVendor(this.userId);
+
+      },
+      error => {
+        console.log("error======", error);
+      }
+    );
+  }
+
+  changeStatusOfPartialOrder(status, orderProdId) {
+    this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor").subscribe(
+      data => {
+        this.getOrderProductForVendor(this.selectedOrderId);
+
+      },
+      error => {
+        console.log("error======", error);
+      }
+    );
+  }
+
+
+  cancelOrderByUser(orderId) {
     //this user id will be id of user
-    let userId=1;
-    this.dataService.cancelOrderByUser(userId,orderId,"api/cancelOrderByUser").subscribe(
+    let userId = 1;
+    this.dataService.cancelOrderByUser(userId, orderId, "api/cancelOrderByUser").subscribe(
       data => {
-      //instead of this call api for get all order of user
-      this.getAllOrderOfVendor(this.userId);
-      
+        //instead of this call api for get all order of user
+        this.getAllOrderOfVendor(this.userId);
+
       },
       error => {
         console.log("error======", error);
@@ -135,17 +127,16 @@ export class OrderListingComponent implements OnInit {
     );
   }
 
-  returnOrderByUser(orderId)
-  {
+  returnOrderByUser(orderId) {
     //this user id will be id of user
-    let userId=1;
+    let userId = 1;
     //prompt reason from user
-    let reason='bad quality product';
-    this.dataService.returnOrderByUser(userId,orderId,reason,"api/returnOrderByUser").subscribe(
+    let reason = 'bad quality product';
+    this.dataService.returnOrderByUser(userId, orderId, reason, "api/returnOrderByUser").subscribe(
       data => {
-      //instead of this call api for get all order of user
-      this.getAllOrderOfVendor(this.userId);
-      
+        //instead of this call api for get all order of user
+        this.getAllOrderOfVendor(this.userId);
+
       },
       error => {
         console.log("error======", error);
@@ -154,4 +145,3 @@ export class OrderListingComponent implements OnInit {
   }
 }
 
-  

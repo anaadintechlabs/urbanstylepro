@@ -30,6 +30,7 @@ export class AddProductService {
   selectedCatID: number = 0;
   myFiles: string[] = [];
   urlArray: any = [];
+  saleSelect : boolean = false;
 
   get productDescFormGroup(): FormGroup {
     return this.productDTO.get("productDesc") as FormGroup;
@@ -80,6 +81,10 @@ export class AddProductService {
     variantName : new FormControl("",[]),
     variantCode : new FormControl("",[]),
     displayPrice: new FormControl("", []),
+    salesPrice: new FormControl("", []),
+    salesStartDate: new FormControl("", []),
+    salesEndDate: new FormControl("", []),
+    salesQuantity: new FormControl("", []),
     actualPrice: new FormControl("", []),
     discountPrice: new FormControl("", []),
     totalQuantity: new FormControl("", []),
@@ -150,6 +155,10 @@ export class AddProductService {
         variantName : new FormControl("",[]),
         variantCode : new FormControl("",[]),
         displayPrice: new FormControl("", []),
+        salesPrice: new FormControl("", []),
+        salesStartDate: new FormControl("", []),
+        salesEndDate: new FormControl("", []),
+        salesQuantity: new FormControl("", []),
         actualPrice: new FormControl("", []),
         discountPrice: new FormControl("", []),
         totalQuantity: new FormControl("", []),

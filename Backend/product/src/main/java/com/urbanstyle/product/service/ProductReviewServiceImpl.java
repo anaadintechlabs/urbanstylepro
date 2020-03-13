@@ -63,11 +63,10 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 	public List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId) {
 		return	productReviewRepository.getAllReviewsforSPV(prodVarId,ACTIVE);
 	}
+	
 	@Override
-	public double getAverageRatingOnProduct(long productId, int active) {
-		return	productReviewRepository.getAverageRatingOnProduct(productId,active);
-		
+		public Long getAverageRatingOnProduct(long productId, int active) {
+		return	productReviewRepository.getAverageRatingOnProduct(productId,active);	
 
+	}	
 	}
-
-}

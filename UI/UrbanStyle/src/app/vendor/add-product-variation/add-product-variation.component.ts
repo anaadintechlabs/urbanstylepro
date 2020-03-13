@@ -55,8 +55,8 @@ export class AddProductVariationComponent implements OnInit {
       temp.push(ele[0])
     });
     console.log(this._addProduct.productForm.value.productName);
-    formGroup.controls.variantName.patchValue(`${this._addProduct.productForm.value.productName} (${temp.join('-')})`);
-    return `${this._addProduct.productForm.value.productName} (${temp.join('-')})`;
+    formGroup.controls.variantName.patchValue(`${this._addProduct.productForm.value.productName ? this._addProduct.productForm.value.productName : ""} (${temp.join('-')})`);
+    return `${this._addProduct.productForm.value.productName ? this._addProduct.productForm.value.productName : ""} (${temp.join('-')})`;
   }
 
   saleCheck:boolean = false;

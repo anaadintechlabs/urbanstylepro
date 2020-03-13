@@ -1,7 +1,14 @@
 package com.urbanstyle.user.ServiceImpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.master.User;
 import com.urbanstyle.user.Repository.AddressRepository;
 import com.urbanstyle.user.Repository.BankRepository;
 import com.urbanstyle.user.Repository.UserRepository;
@@ -41,6 +48,16 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		
+	}
+	
+	@Override
+	public List<User> getAllUsers(Filter filter, String userType) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return userRepository.getAllUsers(pagable,userType);
 	}
 
 }
