@@ -25,7 +25,7 @@ public class PaymentTransaction {
 
 	@ManyToOne
 	@JoinColumn(name="cardId", nullable=false,updatable=false)
-	private BankDetails card;
+	private BankcardInfo card;
 	
 	private Date createdDate;
 	
@@ -55,11 +55,21 @@ public class PaymentTransaction {
 		this.custId = custId;
 	}
 
-	public BankDetails getCard() {
+
+
+	public long getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(long paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public BankcardInfo getCard() {
 		return card;
 	}
 
-	public void setCard(BankDetails card) {
+	public void setCard(BankcardInfo card) {
 		this.card = card;
 	}
 

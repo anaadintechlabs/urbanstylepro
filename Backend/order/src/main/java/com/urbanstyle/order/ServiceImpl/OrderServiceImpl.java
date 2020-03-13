@@ -192,7 +192,7 @@ public class OrderServiceImpl implements OrderService {
 			PaymentTransaction pt = new PaymentTransaction();
 			//paymentConn.chargePayment(CustomerName);
 			pt.setAmount(totalAmount);
-			pt.setCard(reqDetails);
+			//pt.setCard(reqDetails);
 			pt.setCreatedBy(String.valueOf(userId));
 			pt.setCreatedDate(new Date());
 			pt.setCustId("");
@@ -928,6 +928,41 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 		return userOrder;
+	}
+
+	
+	
+	@Override
+	public List<UserOrder> getLastOrders(int offset) {
+		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
+		return orderRepo.getLastOrders(pagable);
+	}
+
+	@Override
+	public List<ReturnManagement> getLastReturns(int offset) {
+		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
+		return returnManagement.getLastReturns(pagable);
+	}
+
+	@Override
+	public List<UserOrder> getAllOrderByStatus(int offset,String status) {
+		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
+		return orderRepo.getAllOrderByStatus(pagable,status);
+	}
+
+	@Override
+	public UserWallet getAllWalletDetails(long userId) {
+		return UserWalletRepo.findByUserId(userId);
+	}
+
+	@Override
+	public List<UserOrderProducts> getAllVendorSales(long userId, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return userOrderProdRepo.findByVendorIdAndStatus(userId,"Complete",pagable);
 	}
 
 }

@@ -1,0 +1,87 @@
+.header div,.variationBody div {
+    display: table-cell;
+    min-width: 110px;
+    max-width:  110px;
+    p {
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+  }
+  .header {
+    padding: 10px 0;
+    background-color: #f8f9fa !important;
+    width: fit-content;
+    // border-bottom: 2px solid #c1c1c1;
+    // width: fit-content;
+    div{
+        // background-color: #c1c1c1;
+        padding: 0 10px;
+        min-width: 110px;
+        max-width:  110px;
+    }
+  }
+  .second-tab {
+    width: 100%;
+    overflow-x: scroll;
+    // width: fit-content;
+  }
+  
+  .header,.variationBody{
+    // display: table-column;
+    div.checkBox {
+        min-width: 50px;
+        max-width: 50px;
+        input {
+            width: auto;
+        }
+    }
+    p{
+      text-align: center;
+    }
+  }
+  
+  .variationBody{
+    padding: 10px 0;
+    // border-bottom: 1px solid #c1c1c1;
+    div{
+        padding: 0 10px;
+        text-align: center;
+        span {
+            display: inline-block;
+        }
+        input {
+            width: 80%;
+            display: inline-block;
+            margin-left: -2px;
+        }
+        p {
+          text-align: center;
+        }
+    }
+  }
+  
+  .variationBody.childs {
+    background-color: #f8f9fa;
+    width: fit-content;
+    border-left: 2px solid;
+  }
+  
+  .bg {
+    background-color: white;
+    padding: 16px;
+  }
+
+  .actionBtn:hover {
+    border-color: black;
+    color: black;
+  }
+  
+  .actionBtn {
+    padding: 0.3rem 0.8rem;
+    background: transparent;
+    color: #999999;
+    border: 2px solid #999999;
+    margin-right: 10px;
+    border-radius: 0;
+    font-size: 12px;
+  }

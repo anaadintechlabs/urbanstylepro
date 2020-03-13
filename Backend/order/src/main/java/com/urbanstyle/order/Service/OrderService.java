@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.master.ReturnManagement;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.common.master.UserOrderProducts;
+import com.anaadihsoft.common.master.UserWallet;
 
 @Service
 public interface OrderService {
@@ -38,4 +40,14 @@ public interface OrderService {
 
 	Object returnOrderByUser(long orderId, long userId, String reason);
 
+	
+	List<UserOrder> getLastOrders(int offset);
+
+	List<ReturnManagement> getLastReturns(int offset);
+
+	List<UserOrder> getAllOrderByStatus(int offset,String status);
+
+	UserWallet getAllWalletDetails(long userId);
+
+	List<UserOrderProducts> getAllVendorSales(long userId, Filter filter);
 }
