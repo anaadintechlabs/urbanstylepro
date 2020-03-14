@@ -43,6 +43,8 @@ public class Product {
 	
 	private String longDescription;
 	
+	private String features;
+	
 	private String defaultSize;
 	
 	private String defaultColor;
@@ -61,6 +63,15 @@ public class Product {
 	
 	
 	
+	
+	public String getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(String features) {
+		this.features = features;
+	}
+
 	public String getLongDescription() {
 		return longDescription;
 	}

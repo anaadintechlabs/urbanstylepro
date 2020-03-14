@@ -37,6 +37,8 @@ public class ProductVariant {
 	 private String mainImageUrl;
 	 
 	 private String longDescription;
+	 
+	 private String features;
 	 //standard mrp rate
 	private double displayPrice;
 	
@@ -74,6 +76,14 @@ public class ProductVariant {
 	private boolean dealOfTheDay;
 	
 	
+
+	public String getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(String features) {
+		this.features = features;
+	}
 
 	public String getLongDescription() {
 		return longDescription;
