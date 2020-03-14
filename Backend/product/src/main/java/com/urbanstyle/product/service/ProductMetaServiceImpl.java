@@ -18,4 +18,9 @@ public class ProductMetaServiceImpl implements ProductMetaService {
 		return productMetaRepository.findByProductProductId(prodId);
 	}
 
+	@Override
+	public List<ProductMeta> findAllMetaInfoForVariant(long productVariantId) {
+		return productMetaRepository.findByProductVariantProductVariantId(productVariantId);
+	}
+
 }

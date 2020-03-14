@@ -11,4 +11,6 @@ public interface ProductMetaService {
 
 	List<ProductMeta> findAllMetaInfo(long prodId);
 
+	List<ProductMeta> findAllMetaInfoForVariant(long productVariantId);
+
 }

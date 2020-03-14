@@ -20,8 +20,6 @@ public class ProductVariant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productVariantId;
 	
-	
-	
 	private long categoryId;
 	
 	 @ManyToOne
@@ -38,6 +36,7 @@ public class ProductVariant {
 	 
 	 private String mainImageUrl;
 	 
+	 private String longDescription;
 	 //standard mrp rate
 	private double displayPrice;
 	
@@ -76,7 +75,13 @@ public class ProductVariant {
 	
 	
 
-	
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}
 	
 
 	public String getVariantName() {

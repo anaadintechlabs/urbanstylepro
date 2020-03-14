@@ -22,6 +22,11 @@ public class ProductMeta {
 	@ManyToOne
 	private Product product;
 	
+	@ManyToOne
+	private ProductVariant productVariant;
+	
+
+
 	private int status;
 	
 	private String metaKey;
@@ -78,6 +83,14 @@ public class ProductMeta {
 		this.metaValue = metaValue;
 	}
 
+	public ProductVariant getProductVariant() {
+		return productVariant;
+	}
+
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
+	}
+	
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -109,6 +122,14 @@ public class ProductMeta {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductMeta [id=" + id + ", status=" + status + ", metaKey=" + metaKey + ", metaValue=" + metaValue
+				+ "]";
+	}
+	
+	
 	
 	
 	

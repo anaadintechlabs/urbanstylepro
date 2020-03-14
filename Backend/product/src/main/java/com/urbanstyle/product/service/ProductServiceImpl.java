@@ -86,12 +86,12 @@ public class ProductServiceImpl implements ProductService{
 		        mainImageUrl=generateFileUri(fileName);		        
 			}
 			
-		ProductVariantDTO pvDTO=	pvDTOList.get(0);	
+		ProductVariantDTO pvDTO=pvDTOList.get(0);	
 		ProductVariant productVariant=pvDTO.getProductVariant();
 		productVariant.setProduct(productDTO.getProduct());
 		
 		productVariant.setCategoryId(productDTO.getProduct().getCategoryId());
-
+		productVariant.setLongDescription(productDTO.getProduct().getLongDescription());
 		productVariant.setMainImageUrl(mainImageUrl);
 		productVariant.setCreatedBy(productDTO.getProduct().getUser().getId()+"");
 		productVariant=productVariantRepository.save(productVariant);
@@ -100,18 +100,44 @@ public class ProductServiceImpl implements ProductService{
 			saveProductAttributeDetails(pvDTO.getAttributesMap(),productVariant);
 			
 		}
+		//set image and meta info here
+		
+		int i=0;
+
+		if(files!=null) {
+		 i=files.length;
+		}
+		
+		if(productDTO.getProductMetaInfo()!=null)
+		{
+			List<ProductMeta> productMetaList =	saveProductMetaInformation(productDTO.getProductMetaInfo(),productDTO.getProduct(),productVariant);
+			if( !productMetaList.isEmpty())
+			{
+				System.out.println("about to save meta information");
+				productMetaRepository.saveAll(productMetaList);
+				productMetaList.clear();
+			}
+		}
+		
+		if(i>0)
+		{
+			List<ProductImages> productMedias=fileUploadService.storeMediaForProduct(files,productDTO.getProduct(),mainImageUrl,productVariant);
+			if(productMedias!=null && !productMedias.isEmpty())
+			{
+				productImagesRepository.saveAll(productMedias);
+			}
+		}
+		
 		}
 		return null;
 	}
 	
+	//FIRST SAVE ALL INFORMATION REGARDING THE PRODUCT
+	// LIKE SAVE META AND IMAGE FOR PRODUCT THEN FOR EACH VARIANT ALSO
+	//SAVE BOTH INFO WITH PRODUCT AND PRODUCT VARIANT
 	@Override
 	public Product createProduct(ProductDTO productDTO, MultipartFile[] files,boolean fromUpdate) throws Exception {
-		Product oldProduct=productRepository.findByProductCode(productDTO.getProduct().getProductCode());
-//		if(oldProduct!=null && !fromUpdate) {
-//			System.out.println("duplicate check"); // for new product 
-//			return null;
-//		}
-		
+		//Product oldProduct=productRepository.findByProductCode(productDTO.getProduct().getProductCode());
 		int i=0;
 
 		if(files!=null) {
@@ -120,39 +146,36 @@ public class ProductServiceImpl implements ProductService{
 		Product product = productDTO.getProduct();
 		product.setTotalVarients(productDTO.getProductVariantDTO() != null ?productDTO.getProductVariantDTO().size():0);
 		
-		oldProduct=productRepository.save(product);
+		Product oldProduct=productRepository.save(product);
 		
 		MultipartFile file = null;
 		if(i>0)
 		{
 			file=files[0];
-
 		}
-		System.out.println("variant dto"+productDTO.getProductVariantDTO());
-		String mainImageUrl=createProductVariant(productDTO.getProductVariantDTO(),oldProduct,file);
 		if(productDTO.getProductMetaInfo()!=null)
 		{
-			List<ProductMeta> productMetaList = new ArrayList<>();
-			saveProductMetaInformation(productDTO.getProductMetaInfo(),oldProduct,productMetaList);
+			List<ProductMeta> productMetaList =saveProductMetaInformation(productDTO.getProductMetaInfo(),oldProduct,null);
 			if( !productMetaList.isEmpty())
 			{
+				System.out.println("about to save meta information");
 				productMetaRepository.saveAll(productMetaList);
 			}
 		}
 		
+		System.out.println("variant dto"+productDTO.getProductVariantDTO());
+		String mainImageUrl=createProductVariant(productDTO,oldProduct,file,i,files);
 		
-		//BYPASSING CHECK AS OF NOW
+		
 		if(i>0)
 		{
-			List<ProductImages> productMedias=fileUploadService.storeMediaForProduct(files,oldProduct,mainImageUrl);
+			List<ProductImages> productMedias=fileUploadService.storeMediaForProduct(files,oldProduct,mainImageUrl, null);
 			if(productMedias!=null && !productMedias.isEmpty())
 			{
 				productImagesRepository.saveAll(productMedias);
 			}
 		}
-		
-		// save all inventory
-		
+				
 		//updateInventory(productDTO);
 
 		return oldProduct;
@@ -173,7 +196,8 @@ public class ProductServiceImpl implements ProductService{
 		    }
 		    
 		 
-	private String createProductVariant(List<ProductVariantDTO> productVariantDTOList,Product product, MultipartFile file) {
+	private String createProductVariant(ProductDTO productDTO,Product product, MultipartFile file, int i, MultipartFile[] files) {
+		List<ProductVariantDTO> productVariantDTOList = productDTO.getProductVariantDTO();
 		String mainImageUrl=null;
 		String fileName=null;
 		if(file!=null)
@@ -184,11 +208,10 @@ public class ProductServiceImpl implements ProductService{
 		}
 		for(ProductVariantDTO productVariantDTO:productVariantDTOList)
 		{
-			System.out.println("about to save variant");
 			ProductVariant productVariant=productVariantDTO.getProductVariant();
 			productVariant.setProduct(product);
 			productVariant.setCategoryId(product.getCategoryId());
-
+			productVariant.setLongDescription(product.getLongDescription());
 			productVariant.setMainImageUrl(mainImageUrl);
 			productVariant.setCreatedBy(product.getUser().getId()+"");
 			productVariant=productVariantRepository.save(productVariant);
@@ -197,22 +220,45 @@ public class ProductServiceImpl implements ProductService{
 				saveProductAttributeDetails(productVariantDTO.getAttributesMap(),productVariant);
 				
 			}
+			//NOW SAVE IMAGE AND VARIANT ALSO FOR EVERY VARIANT
 			
+			if(productDTO.getProductMetaInfo()!=null)
+			{
+				List<ProductMeta> productMetaList=saveProductMetaInformation(productDTO.getProductMetaInfo(),product,productVariant);
+				if( !productMetaList.isEmpty())
+				{
+					productMetaRepository.saveAll(productMetaList);
+					productMetaList.clear();
+					
+				}
+			}
 			
+			if(i>0)
+			{
+				List<ProductImages> productMedias=fileUploadService.storeMediaForProduct(files,product,mainImageUrl,productVariant);
+				if(productMedias!=null && !productMedias.isEmpty())
+				{
+					productImagesRepository.saveAll(productMedias);
+				}
+			}
 		}
 		return fileName;
 	}
 
-	public void saveProductMetaInformation(List<ProductMeta> productMetaInfo, Product product,List<ProductMeta> productMetaList) {
+	public List<ProductMeta> saveProductMetaInformation(List<ProductMeta> productMetaInfo, Product product, ProductVariant productVariant) {
+		List<ProductMeta> productMetaList= new ArrayList<>();
 		for(ProductMeta productMeta:productMetaInfo)
 		{
+			
 			if(productMeta.getMetaKey()!=null && !productMeta.getMetaKey().isEmpty() && productMeta.getMetaValue()!=null && !productMeta.getMetaValue().isEmpty())
 			{
-			productMeta.setProduct(product);
-			productMetaList.add(productMeta);
+			ProductMeta newProd= new ProductMeta();
+			newProd.setProduct(product);
+			newProd.setProductVariant(productVariant);
+			productMetaList.add(newProd);
 			}
 		}
-		
+		return productMetaList;
 	}
 
 	 public void saveProductAttributeDetails(Map<Long, String> attributesMap, ProductVariant productVariant) {
@@ -245,7 +291,7 @@ public class ProductServiceImpl implements ProductService{
 		//then allvariant
 		
 		productMetaRepository.deleteAllMeta(oldProduct.getProductId());
-
+		
 	//roductImagesRepository.deleteAllImage(oldProduct.getProductId());
 		
 		List<ProductVariant> pvList=productVariantRepository.findByProductProductId(oldProduct.getProductId());
@@ -377,8 +423,8 @@ public class ProductServiceImpl implements ProductService{
 		ProductDTOWithImage productDTO = new ProductDTOWithImage();
 		Product oldProduct=productRepository.findByProductId(prodId);
 		List<ProductVariantDTO> productVarientDTOList = productVarientSerice.getSingleProductVarientDTOList(1,prodId,productVariantId);
-		List<ProductMeta> allproductMetaInfo = productMetaService.findAllMetaInfo(prodId);
-		List<String> imageUrl=productImagesRepository.findUrlByProduct(prodId);
+		List<ProductMeta> allproductMetaInfo = productMetaService.findAllMetaInfoForVariant(productVariantId);
+		List<String> imageUrl=productImagesRepository.findUrlByProductForVariant(productVariantId);
 		productDTO.setProduct(oldProduct);
 		productDTO.setProductMetaInfo(allproductMetaInfo);
 		productDTO.setProductVariantDTO(productVarientDTOList);
