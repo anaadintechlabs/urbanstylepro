@@ -10,7 +10,20 @@
                 <b>When multiple sellers sell the same product through a single detail page, we combine and present the best product data to ensure customers get the best experience</b>
               </p>
               <div class="row p-3">
-                <div class="col-md-12 mb-5">
+                <div class="col-md-4" >
+                  <div class=" preview" *ngIf="_addProduct.urlArray[0] != '-'" >
+                    <img class="preview_Image" [src]="_addProduct.urlArray[0]" alt="" srcset="">
+                  </div>
+                  <div class="text-center img-up" *ngIf="_addProduct.urlArray[0] == '-'">
+                    <input type="file" name="" id="" class="img-up-btn" (change)="_addProduct.onSelectFile($event,0)">
+                      <i class="fas fa-camera fa-2x"></i><br>
+                      <span>Upload Main Image</span>
+                   </div>
+                   <div class="remove_image">
+                     <button class="remove_image_btn">Remove Image</button>
+                   </div>
+                </div>
+                <div class="col-md-8 mb-5">
                   <h4>Your image recommendations</h4>
                   <p>Upload your recommendations for product images</p>
                   <a>Hide Image Guidelines</a>
@@ -22,15 +35,18 @@
                     <li>Images must not exceed 10000 pixels on the longest side. </li>
                   </ul>
                 </div>
-                <div class="col-md-12" >
-                  <div class="text-center img-up">
-                    <input multiple type="file" name="" id="" class="img-up-btn" (change)="_addProduct.onSelectFile($event)">
+                <div class="col-md-4 mb-5" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11]">
+                  <div class="preview" *ngIf="_addProduct.urlArray[item] != '-'" >
+                    <img class="preview_Image" [src]="_addProduct.urlArray[item]" alt="" srcset="">
+                  </div>
+                  <div class="text-center img-up" *ngIf="_addProduct.urlArray[item] == '-'">
+                    <input type="file" name="" id="" class="img-up-btn" (change)="_addProduct.onSelectFile($event,item)">
                       <i class="fas fa-camera fa-2x"></i><br>
-                      <span>Upload</span>
+                      <span>Upload Main Image</span>
                    </div>
-                </div>
-                <div class="col-md-3 preview" *ngFor="let item of _addProduct.urlArray">
-                  <img class="preview_Image" [src]="item" alt="" srcset="">
+                   <div class="remove_image">
+                     <button class="remove_image_btn">Remove Image</button>
+                   </div>
                 </div>
               </div>
             </div>

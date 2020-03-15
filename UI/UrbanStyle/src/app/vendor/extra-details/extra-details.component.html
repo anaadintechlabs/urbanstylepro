@@ -18,14 +18,17 @@
                       <i class="far fa-question-circle ml-2"></i>
                     </label>
                   </div>
-                  <div class="col-md-6 col-10">
-                    <div class="form-group">
-                      <input type="text" formControlName="defaultSize" class="form-control"
+                  <div class="col-md-6 col-10" >
+                    <div class="form-group" *ngFor="let item of _addProductService.features; let i = index">
+                      <input type="text" [(ngModel)]="_addProductService.features[i]" [ngModelOptions]="{standalone: true}" class="form-control"
                       [ngClass]="{ 'is-invalid': submitted && f.feature?.errors }" />
                       <div *ngIf="submitted && f.feature?.errors" class="invalid-feedback">
                         <div *ngIf="f.feature?.errors.required">Product Code is required</div>
                       </div>
-                      <a href="javascript:void(0)" class="py-3" (click)="addMoreFeature()">Add More</a>
+                      <span>
+                        <a *ngIf="i == (features.length - 1)" class="py-3" (click)="addMoreFeature()">Add More</a>
+                        <a *ngIf="(i != (features.length - 1) || (i > 0))" class="py-3" (click)="removeFeature(i)">Remove</a>
+                      </span>
                     </div>
                   </div>
                   <div class="col-md-2 col-2 col-2">
@@ -42,7 +45,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <textarea rows="6" type="text" formControlName="defaultColor" class="form-control"
+                      <textarea rows="6" type="text" formControlName="longDescription" class="form-control"
                       [ngClass]="{ 'is-invalid': submitted && f.description?.errors }" ></textarea>
                       <div *ngIf="submitted && f.description?.errors" class="invalid-feedback">
                         <div *ngIf="f.description?.errors.required">

@@ -14,7 +14,7 @@ import { Observable, throwError } from "rxjs";
 export class ApiService {
 //  userUrl='http://localhost:8081/urban/';
 userUrl='https://user2.cfapps.io/urban/';
-orderUrl='http://localhost:8083/';
+orderUrl='https://myorder.cfapps.io/';
   constructor(
     private http: HttpClient,
     private jwtService: JwtServiceService,
