@@ -30,14 +30,22 @@ public class ProductImages {
 	 @ManyToOne
 	 @JoinColumn(name="productId", nullable=false,updatable=false)
 	 private Product product;
+	 
+	 @ManyToOne
+	 @JoinColumn(name="productVariantId")
+	 private ProductVariant productVariant;
+	 
+	 
+	 
 
 	 
-	public ProductImages(String fileName2, String generateFileUri, String contentType, long size2, Product oldProduct) {
+	public ProductImages(String fileName2, String generateFileUri, String contentType, long size2, Product oldProduct,ProductVariant productVariant) {
 		this.fileName=fileName2;
 		this.productImageUrl=generateFileUri;
 		this.fileType=contentType;
 		this.size=size2;
 		this.product=oldProduct;
+		this.productVariant=productVariant;
 	}
 
 	public ProductImages()
@@ -66,6 +74,16 @@ public class ProductImages {
 
 	public void setProductImageUrl(String productImageUrl) {
 		this.productImageUrl = productImageUrl;
+	}
+	
+	
+
+	public ProductVariant getProductVariant() {
+		return productVariant;
+	}
+
+	public void setProductVariant(ProductVariant productVariant) {
+		this.productVariant = productVariant;
 	}
 
 	public String getFileName() {

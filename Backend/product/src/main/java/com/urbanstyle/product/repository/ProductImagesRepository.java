@@ -19,5 +19,8 @@ public interface ProductImagesRepository extends PagingAndSortingRepository<Prod
 
 	@Query(value="select pi.productImageUrl from ProductImages pi where pi.product.productId = :prodId")
 	List<String> findUrlByProduct(long prodId);
+	
+	@Query(value="select pi.productImageUrl from ProductImages pi where pi.productVariant.productVariantId = :productVariantId")
+	List<String> findUrlByProductForVariant(long productVariantId);
 
 }

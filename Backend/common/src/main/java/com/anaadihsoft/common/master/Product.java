@@ -41,6 +41,10 @@ public class Product {
 	
 	private String manufacturer;
 	
+	private String longDescription;
+	
+	private String features;
+	
 	private String defaultSize;
 	
 	private String defaultColor;
@@ -57,6 +61,25 @@ public class Product {
 	
 	private int totalVarients;
 	
+	
+	
+	
+	public String getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(String features) {
+		this.features = features;
+	}
+
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}
+
 	public int getTotalVarients() {
 		return totalVarients;
 	}

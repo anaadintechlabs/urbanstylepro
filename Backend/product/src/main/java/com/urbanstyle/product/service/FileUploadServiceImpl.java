@@ -25,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductImages;
+import com.anaadihsoft.common.master.ProductVariant;
 import com.anaadihsoft.common.util.UploadFileResponse;
 import com.urbanstyle.product.exception.FileStorageException;
 import com.urbanstyle.product.exception.MyFileNotFoundException;
@@ -63,6 +64,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 	    	if(lastIndex!=-1) {
 	    		fileName = fileName.substring(lastIndex+1);
 	    	}
+	    	System.out.println("file name before date append"+fileName);
 	        return new Date().getTime() + "-" + fileName;
 	    }
 	    
@@ -209,23 +211,22 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 //Just a check bexause original image was not getting displayed due to millisecond issye
 	@Override
-	public List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct,String mainImageUrl) {
+	public List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct,String mainImageUrl, ProductVariant productVariant) {
 		List<ProductImages> productImages = new ArrayList<>();
 		int i =0;
 		for(MultipartFile file : files){
 			if(i==0)
 			{
-				productImages.add(storeSingleMediaForProduct(file,oldProduct,true,mainImageUrl));
+				productImages.add(storeSingleMediaForProduct(file,oldProduct,true,mainImageUrl,productVariant));
 				i++;
 
 			}
 			else
 			{
-				productImages.add(storeSingleMediaForProduct(file,oldProduct,false,null));
+				productImages.add(storeSingleMediaForProduct(file,oldProduct,false,null,productVariant));
 
 			}
 		}
-		System.out.println("product images");
 		return productImages;
 	}
 
@@ -233,16 +234,16 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 
 	@Override
-	public ProductImages storeSingleMediaForProduct(MultipartFile file, Product oldProduct, boolean firstVariant, String mainImageUrl) {
+	public ProductImages storeSingleMediaForProduct(MultipartFile file, Product oldProduct, boolean firstVariant, String mainImageUrl, ProductVariant productVariant) {
 	    String fileName="";
-		if(firstVariant)
-	    {
-	    	 fileName = mainImageUrl;
-	    }
-	    else
-	    {
+//		if(firstVariant)
+//	    {
+//	    	 fileName = mainImageUrl;
+//	    }
+//	    else
+//	    {
 		 fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
-	    }
+	//    }
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -250,11 +251,9 @@ public class FileUploadServiceImpl implements FileUploadService {
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-           
-            return new ProductImages(fileName,generateFileUri(fileName),file.getContentType(),file.getSize(),oldProduct);
-          //  return new UploadFileResponse(fileName, generateFileUri(fileName),file.getContentType(), file.getSize());
+            Path targetLocation = this.fileStorageLocation.resolve(fileName.trim());
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);           
+            return new ProductImages(fileName,generateFileUri(fileName),file.getContentType(),file.getSize(),oldProduct,productVariant);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }

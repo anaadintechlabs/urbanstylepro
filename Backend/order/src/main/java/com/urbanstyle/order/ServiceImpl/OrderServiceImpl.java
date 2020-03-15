@@ -95,14 +95,9 @@ public class OrderServiceImpl implements OrderService {
 	public UserOrder saveorUpdate(UserOrderSaveDTO userOrder) {
 		long userId = userOrder.getUserId();
 		List<UserOrderQtyDTO> userOrderList = userOrder.getUserOrderList();
-		String paymentType = userOrder.getPaymentType();
 		Address address = userOrder.getAddress();
-		String from = userOrder.getFrom();
-		String to = userOrder.getTo();
 		double totalPrice = 0;
-		UserOrder userOrderSave = new UserOrder();
-		
-		
+		UserOrder userOrderSave = new UserOrder();		
 		//Payment information cam be added later
 		// get Total Price
 		for(UserOrderQtyDTO userDTO : userOrderList) {

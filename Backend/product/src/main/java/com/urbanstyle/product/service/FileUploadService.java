@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductImages;
+import com.anaadihsoft.common.master.ProductVariant;
 import com.anaadihsoft.common.util.UploadFileResponse;
 import com.urbanstyle.product.util.CustomException;
 
@@ -24,9 +25,9 @@ public interface FileUploadService {
 
 	Resource loadFileAsResource(String fileName) throws UnsupportedEncodingException, CustomException;
 
-	List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct, String mainImageUrl);
+	List<ProductImages> storeMediaForProduct(MultipartFile[] files, Product oldProduct, String mainImageUrl, ProductVariant productVariant);
 	
-	ProductImages storeSingleMediaForProduct(MultipartFile files, Product oldProduct,boolean firstVariant,String imageUrl);
+	ProductImages storeSingleMediaForProduct(MultipartFile files, Product oldProduct,boolean firstVariant,String imageUrl, ProductVariant productVariant);
 
 
 }

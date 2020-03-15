@@ -21,4 +21,6 @@ public interface ProductMetaRepository extends PagingAndSortingRepository<Produc
 	@Transactional
 	void deleteAllMeta(long productId);
 
+	List<ProductMeta> findByProductVariantProductVariantId(long productVariantId);
+
 }
