@@ -254,8 +254,30 @@ export class InventoryComponent implements OnInit {
 
   editProductVariant(item) {
     console.log(item);
+    this._addProduct.editVarient = true;
     this._apiService.post(`product/getCompleteVariant?productVariantId=${item.productVariantId}&prodId=${item.product.productId}`).subscribe(res=>{
       console.log(res);
+      if (res.isSuccess) {
+        console.log(res.data.completeVariant);
+        this._addProduct.productFormGroup.patchValue(
+          res.data.completeVariant.product
+        );
+        console.log(this._addProduct.productFormGroup.value);
+        res.data.completeVariant.productVariantDTO.forEach(element => {
+          let temp: FormGroup = this._addProduct.initializeProductVarientDto();
+          temp.patchValue(element);
+          this._addProduct.productVariantDTO.push(temp);
+        });
+        this._addProduct.metaList = res.data.completeVariant.productMetaInfo;
+        this._addProduct.getmetaInfo();
+        this._addProduct.urlArray = res.data.completeVariant.imageUrls;
+        console.log(this._addProduct.productDTO.value);
+        sessionStorage.setItem(
+          "addProduct",
+          JSON.stringify(this._addProduct.productDTO.value)
+        );
+        this._router.navigateByUrl("/vendor/addProduct/vitalInfo");
+      }
     })
   }
 }

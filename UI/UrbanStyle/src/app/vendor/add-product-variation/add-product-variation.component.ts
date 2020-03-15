@@ -19,6 +19,7 @@ export class AddProductVariationComponent implements OnInit {
   submitted : boolean = false;  
 
   productVariantGroup:FormGroup;
+  selectedVarient : FormGroup[] = [];
   
   constructor(
     private _addProduct : AddProductService
@@ -54,7 +55,7 @@ export class AddProductVariationComponent implements OnInit {
     result.forEach(ele=>{
       temp.push(ele[0])
     });
-    console.log(this._addProduct.productForm.value.productName);
+    // console.log(this._addProduct.productForm.value.productName);
     formGroup.controls.variantName.patchValue(`${this._addProduct.productForm.value.productName ? this._addProduct.productForm.value.productName : ""} (${temp.join('-')})`);
     return `${this._addProduct.productForm.value.productName ? this._addProduct.productForm.value.productName : ""} (${temp.join('-')})`;
   }
@@ -63,6 +64,27 @@ export class AddProductVariationComponent implements OnInit {
 
   changesaleCheck(){
     // this.saleCheck = !this.saleCheck
+  }
+
+  selectData(item:FormGroup) {
+    if(this.selectedVarient.includes(item)) {
+      this.selectedVarient = this.selectedVarient.filter(ele =>{
+        return ele != item;
+      });
+    } else {
+      this.selectedVarient.push(item);
+    }
+    console.log(this.selectedVarient);
+  }
+
+  deleteSelected() {
+    if(!(this.selectedVarient && this.selectedVarient.length)){
+      return;
+    }
+    this.selectedVarient.forEach(ele=>{
+      this._addProduct.removeProductVarientDto(ele);
+    });
+    this.selectedVarient = [];
   }
 
 }

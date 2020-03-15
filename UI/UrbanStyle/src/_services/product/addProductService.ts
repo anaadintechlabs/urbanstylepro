@@ -23,14 +23,15 @@ export class AddProductService {
 
   //// edit or add status
   public productStatus: string = "";
-
+  public features : string[] = [];
   public selectedVariation: CategoryAttribute[] = [];
   public categoryAttribute: CategoryAttribute[] = [];
   public selectedProductType: string = "ADVANCE";
-  selectedCatID: number = 0;
-  myFiles: string[] = [];
-  urlArray: any = [];
-  saleSelect : boolean = false;
+  public selectedCatID: number = 0;
+  public myFiles: string[] = [];
+  public urlArray: any = [];
+  public saleSelect : boolean = false;
+  public editVarient : boolean = false;
 
   get productDescFormGroup(): FormGroup {
     return this.productDTO.get("productDesc") as FormGroup;
@@ -54,6 +55,12 @@ export class AddProductService {
     private _router: Router,
     private toastr: ToastrService
   ) {
+    this.features = [""];
+
+    for (let index = 0; index < 12; index++) {
+      this.urlArray[index] = '-';
+      this.myFiles[index] = '-'
+    }
     this.productDTO = this._fb.group({
       product: this.productForm,
       productDesc: this.productDescription,
@@ -108,6 +115,8 @@ export class AddProductService {
     ]),
     brandName: new FormControl("", [, Validators.maxLength(80)]),
     manufacturer: new FormControl("", [, Validators.maxLength(80)]),
+    longDescription: new FormControl("", []),
+    features: new FormControl("", []),
     coverPhoto: new FormControl("", []),
     defaultSize : new FormControl("",[]),
     defaultColor : new FormControl("",[]),
@@ -128,6 +137,14 @@ export class AddProductService {
       productVariant: this.productVariantForm
     });
     return productVarientDto;
+  }
+
+  removeProductVarientDto(item : FormGroup) {
+    console.log(item);
+    console.log(this.productVariantDTO.controls);
+    console.log(this.productVariantDTO.controls.indexOf(item));
+    // this.productVariantDTO.removeAt(this.productVariantDTO.controls.indexOf(item));
+    // console.log(this.productVariantDTO);
   }
 
   intializeproductMetaInfo(): FormGroup {
@@ -209,12 +226,17 @@ export class AddProductService {
   }
 
   saveChanges() {
+    this.productFormGroup.get('features').patchValue(JSON.stringify(this.features));
     this.uploadedPhoto = this.myFiles;
     let url: string = "";
     const frmData = new FormData();
+
     for (var i = 0; i < this.uploadedPhoto.length; i++) {
-      frmData.append("file", this.uploadedPhoto[i]);
+      if(this.uploadedPhoto[i] != '-') {
+        frmData.append("file", this.uploadedPhoto[i]);
+      }
     }
+
     frmData.append("productDTOString", JSON.stringify(this.productDTO.value));
     if (this.productStatus == "EDIT") {
       url = "product/updateProduct";
@@ -253,14 +275,14 @@ export class AddProductService {
     }
   }
 
-  onSelectFile(event) {
+  onSelectFile(event,index) {
     for (var i = 0; i < event.target.files.length; i++) {
       if (event.target.files[i].size <= 2048000) {
-        this.myFiles.push(event.target.files[i]);
+        this.myFiles[index] = event.target.files[i];
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[i]);
         reader.onload = event => {
-          this.urlArray.push(reader.result);
+          this.urlArray[index] = reader.result;
         };
       } else {
         alert("Please select image less than 2MB.");
