@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.User;
@@ -14,6 +15,8 @@ import com.urbanstyle.user.Repository.BankRepository;
 import com.urbanstyle.user.Repository.UserRepository;
 import com.urbanstyle.user.Service.UserService;
 
+
+@Service
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
@@ -59,5 +62,6 @@ public class UserServiceImpl implements UserService {
 						filter.getSortingField());
 		return userRepository.getAllUsers(pagable,userType);
 	}
+
 
 }

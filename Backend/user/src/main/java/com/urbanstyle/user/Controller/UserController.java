@@ -23,8 +23,8 @@ import com.urbanstyle.user.util.CommonResponseSender;
 @CrossOrigin(origins = {"*","http://localhost:4200"}, maxAge = 3600)
 public class UserController {
 
-//	@Autowired
-//	private UserService userService;
+	@Autowired
+	private UserService userService;
 //	
 	
 	/**
@@ -42,6 +42,20 @@ public class UserController {
 	{
 		final HashMap<String, Object> map = new HashMap<>();
 		//map.put("status", userService.getCurrentStatusOfUser(userId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+		
+	}
+	
+	
+	@RequestMapping(value="/getAllUserByUserType",method=RequestMethod.POST)
+	public Map<String,Object> getAllUserByUserType(@RequestBody Filter filter,
+			@RequestParam(value="userType") String userType,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		
+		map.put("userList", userService.getAllUsers(filter,userType));
+		
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}

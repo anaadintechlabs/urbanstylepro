@@ -135,6 +135,10 @@ public class OrderServiceImpl implements OrderService {
 				bankCardInfo=bankCardInfoRepo.save(bankCardInfo);	
 				
 			}
+			else
+			{
+				bankCardInfo=bankCardInfoold.get();
+			}
 			userOrderSave.setBankCardInfo(bankCardInfo);
 		if(totalPrice > 0) {
 			orderRepo.save(userOrderSave);
@@ -946,7 +950,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<UserOrder> getLastOrders(int offset) {
 		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
-		return orderRepo.getLastOrders(pagable);
+		List<String> statusList = new ArrayList<>();
+		statusList.add("DISPATCHED");
+		statusList.add("INPROGRESS");
+		return orderRepo.getAllOrderByStatus(pagable,"DISPATCHED");
 	}
 
 	@Override
@@ -973,7 +980,34 @@ public class OrderServiceImpl implements OrderService {
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return userOrderProdRepo.findByVendorIdAndStatus(userId,"Complete",pagable);
+		return userOrderProdRepo.findByVendorIdAndStatus(userId,"COMPLETE",pagable);
+	}
+
+	@Override
+	public List<UserWallet> getTop5Users(String userType) {
+		return UserWalletRepo.findTop5ByUserUserType(userType);
+	}
+
+	@Override
+	public List<UserOrder> getAllOrderForSuperAdmin(Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return (List<UserOrder>) orderRepository.findAll(pagable);
+	}
+
+	@Override
+	public List<UserOrder> getLastOrdersForVendor(int offset, int vendorId) {
+		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
+		return orderRepo.getAllOrderByStatusAndUserId(pagable,"DISPATCHED",vendorId);
+	}
+
+	@Override
+	public UserOrder getOrderDetails(long orderId) {
+		Optional<UserOrder> optOrder= orderRepo.findById(orderId);
+		return optOrder.isPresent()?optOrder.get():null;
 	}
 
 }
