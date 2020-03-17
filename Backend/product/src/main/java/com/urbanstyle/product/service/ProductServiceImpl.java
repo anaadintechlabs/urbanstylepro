@@ -89,11 +89,16 @@ public class ProductServiceImpl implements ProductService{
 		ProductVariantDTO pvDTO=pvDTOList.get(0);	
 		ProductVariant productVariant=pvDTO.getProductVariant();
 		productVariant.setProduct(productDTO.getProduct());
-		
-		productVariant.setCategoryId(productDTO.getProduct().getCategoryId());
-		productVariant.setLongDescription(productDTO.getProduct().getLongDescription());
+		Product product=productDTO.getProduct();
+		//values which are copied from Product to each variant
+		productVariant.setLegalDisclaimer(product.getLegalDisclaimer());
+		productVariant.setCategoryId(product.getCategoryId());
+		productVariant.setLongDescription(product.getLongDescription());
 		productVariant.setMainImageUrl(mainImageUrl);
-		productVariant.setCreatedBy(productDTO.getProduct().getUser().getId()+"");
+		productVariant.setCreatedBy(product.getUser().getId()+"");
+		productVariant.setCondition(product.getCondition());
+		
+		
 		productVariant=productVariantRepository.save(productVariant);
 		if(pvDTO.getAttributesMap()!=null)
 		{

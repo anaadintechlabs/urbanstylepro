@@ -921,11 +921,11 @@ public class OrderServiceImpl implements OrderService {
 			 //RETURN CAN ONLY BE OR COMPLETED ORDERS
 			 if(usrOrdr.getOrderStatus().equals("COMPLETE"))
 			 {
-			usrOrdr.setOrderStatus("RETURNED");
+			usrOrdr.setOrderStatus("RETURNED REQUESTED");
 			orderRepo.save(usrOrdr);
 			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
 			for(UserOrderProducts userOrdrProd :userOrderProducts) {
-				userOrdrProd.setStatus("RETURNED");
+				userOrdrProd.setStatus("RETURNED REQUESTED");
 				userOrderProdRepo.save(userOrdrProd);
 			}
 			
@@ -933,7 +933,7 @@ public class OrderServiceImpl implements OrderService {
 			ReturnManagement returnManage = new ReturnManagement();
 			returnManage.setOrder(usrOrdr);
 			returnManage.setReason(reason);
-			returnManage.setStatus("INP");
+			returnManage.setStatus("REQUESTED");
 			Optional<User> loginUser = userRepo.findById(userId);
 			if(loginUser.isPresent()) {
 				returnManage.setUser(loginUser.get());					

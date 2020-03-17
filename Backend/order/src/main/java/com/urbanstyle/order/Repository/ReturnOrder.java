@@ -18,4 +18,6 @@ public interface ReturnOrder extends PagingAndSortingRepository<ReturnManagement
 
 	@Query(" FROM ReturnManagement order by createdDate")
 	List<ReturnManagement> getLastReturns(Pageable pagable);
+
+	List<ReturnManagement> findByUserId(long userId, Pageable pagable);
 }

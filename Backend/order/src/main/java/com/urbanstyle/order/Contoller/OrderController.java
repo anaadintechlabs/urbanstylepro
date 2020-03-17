@@ -55,8 +55,6 @@ public class OrderController {
 
 			resultMap.put("order",orderService.saveorUpdate(userDetailSave));
 			resultMap.put("RESPONSE", "SUCCESS");
-
-			System.out.println("resultMap"+resultMap);
 		return CommonResponseSender.createdSuccessResponse(resultMap, response);
 	}
 	
@@ -193,25 +191,7 @@ public class OrderController {
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
-	/**
-	 * 
-	 * @param orderId
-	 * @param userId
-	 * @param reason
-	 * @param request
-	 * @param response
-	 * @return ACTION BASED ON ORDER RETURN BBY USER
-	 */
-	@RequestMapping(value= {"/returnOrderByUser"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> returnOrderByUser(@RequestParam(value="orderId")long orderId,
-			@RequestParam(value="userId")long userId,
-			@RequestParam(value="reason")String reason,
-			HttpServletRequest request,HttpServletResponse response){
-		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",orderService.returnOrderByUser(orderId,userId,reason));
-		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
-	}
-	
+
 	/**
 	 * 
 	 * @param orderId

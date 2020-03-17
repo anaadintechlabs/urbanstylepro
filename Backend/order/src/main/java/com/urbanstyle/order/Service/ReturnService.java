@@ -12,4 +12,8 @@ public interface ReturnService {
 
 	List<ReturnManagement> getReturnByUser(long parseLong, Filter filter);
 
+	void setReturnStatusbyAdmin(long returnId, String status);
+
+	List<ReturnManagement> getReturnByVendor(long parseLong, Filter filter);
+
 }
