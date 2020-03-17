@@ -13,7 +13,8 @@ export class OrderListingComponent implements OnInit {
   userId: any;
   showProduct = false;
   orderList: any = [];
-  orderProductList: any = [];
+  orderProductList: any ;
+  orderDetails:any;
   selectedOrderId: any;
   constructor(
     public dataService: DataService
@@ -78,7 +79,9 @@ export class OrderListingComponent implements OnInit {
       data => {
         console.log("All Products inside order", data);
         this.showProduct = true;
-        this.orderProductList = data;
+        this.orderProductList = data.orderList;
+        this.orderDetails=data.orderDetails;
+        console.log("Address ",this.orderDetails)
       },
       error => {
         console.log("error======", error);

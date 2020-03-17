@@ -329,10 +329,10 @@ changeStatusOfCategory(
   {
 const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderId",orderId);   
 
- return new Observable<any[]>(obs => {
+ return new Observable<any>(obs => {
       this._apiService.getOrder(url, param).subscribe(res => {
         if (res.isSuccess) {
-          obs.next(res.data.orderList);
+          obs.next(res.data);
         }
       });
     });

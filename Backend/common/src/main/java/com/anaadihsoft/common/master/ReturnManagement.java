@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 @Entity
 public class ReturnManagement {
@@ -26,6 +28,12 @@ public class ReturnManagement {
 	
 	private String status;
 	
+	private Date returnAuthorizeDate;
+	
+	private Date unitRecieveDate;
+	
+	private Date customerRefundDate;
+	
 	private Date createdDate;
 	
 	private String createdBy;
@@ -36,6 +44,15 @@ public class ReturnManagement {
 
 	public void setReturnId(long returnId) {
 		this.returnId = returnId;
+	}
+
+	
+	public Date getUnitRecieveDate() {
+		return unitRecieveDate;
+	}
+
+	public void setUnitRecieveDate(Date unitRecieveDate) {
+		this.unitRecieveDate = unitRecieveDate;
 	}
 
 	public UserOrder getOrder() {
@@ -78,6 +95,23 @@ public class ReturnManagement {
 		this.createdDate = createdDate;
 	}
 
+	
+	public Date getReturnAuthorizeDate() {
+		return returnAuthorizeDate;
+	}
+
+	public void setReturnAuthorizeDate(Date returnAuthorizeDate) {
+		this.returnAuthorizeDate = returnAuthorizeDate;
+	}
+
+	public Date getCustomerRefundDate() {
+		return customerRefundDate;
+	}
+
+	public void setCustomerRefundDate(Date customerRefundDate) {
+		this.customerRefundDate = customerRefundDate;
+	}
+
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -105,4 +139,15 @@ public class ReturnManagement {
 	private Date modifiedDate;
 	
 	private String modifiedBy;
+	
+	@PrePersist
+	private void setDate()
+	{
+		this.setCreatedDate(new Date());
+	}
+	@PreUpdate
+	private void setModification()
+	{
+		this.setModifiedDate(new Date());
+	}
 }

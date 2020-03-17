@@ -49,7 +49,11 @@ public class Product {
 	
 	private String defaultColor;
 
+	private String legalDisclaimer;
+	
 	private boolean variantExist;
+	
+	private String condition;
 	
 	private Date createdDate;
 	
@@ -64,6 +68,14 @@ public class Product {
 	
 	
 	
+	public String getLegalDisclaimer() {
+		return legalDisclaimer;
+	}
+
+	public void setLegalDisclaimer(String legalDisclaimer) {
+		this.legalDisclaimer = legalDisclaimer;
+	}
+
 	public String getFeatures() {
 		return features;
 	}
@@ -96,7 +108,6 @@ public class Product {
 	public void setAudit()
 	{
 		this.createdDate=new Date();
-		this.createdBy="Admin";
 		this.setStatus(1);
 	}
 	
@@ -105,10 +116,17 @@ public class Product {
 	{
 		this.createdDate=new Date();
 		this.modifiedDate= new Date();
-		this.modifiedBy="Admin";
 	}
 
 	
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
 	public ProducIdType getProductIdType() {
 		return productIdType;
 	}

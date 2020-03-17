@@ -18,9 +18,12 @@ public interface OrderRepository extends PagingAndSortingRepository<UserOrder, L
 	Optional<UserOrder> findByIdAndUserId(long orderId, long userId);
 
 
-	@Query("From UserOrder order by createdDate")
-	List<UserOrder> getLastOrders(Pageable pagable);
+//	@Query("From UserOrder order by createdDate where orderStatus in (?2) ")
+//	List<UserOrder> getLastOrders(Pageable pagable, List<String> statusList);
 
-	@Query(" From UserOrder where orderStatus !=?2")
+	@Query(" From UserOrder where orderStatus =?2")
 	List<UserOrder> getAllOrderByStatus(Pageable pagable, String status);
+
+	@Query("Select distinct uop.userOrder from UserOrderProducts uop where uop.vendor.id =?3 and uop.status=?2 order by uop.userOrder.orderPlacedDate desc")
+	List<UserOrder> getAllOrderByStatusAndUserId(Pageable pagable, String status, int vendorId);
 }

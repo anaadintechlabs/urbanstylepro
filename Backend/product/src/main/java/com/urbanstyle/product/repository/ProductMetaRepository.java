@@ -23,4 +23,6 @@ public interface ProductMetaRepository extends PagingAndSortingRepository<Produc
 
 	List<ProductMeta> findByProductVariantProductVariantId(long productVariantId);
 
+	List<ProductMeta> findByProductProductIdAndProductVariantNull(long prodId);
+
 }

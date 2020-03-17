@@ -13,4 +13,5 @@ public interface UserService {
 	String getCurrentStatusOfUser(long userId);
 
 	List<User> getAllUsers(Filter filter, String userType);
+
 }

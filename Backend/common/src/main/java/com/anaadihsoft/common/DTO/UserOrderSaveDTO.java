@@ -18,6 +18,8 @@ public class UserOrderSaveDTO {
 	
 	private BankcardInfo bankCardDetails;
 	
+	private String cvv;
+	
 	private BankDetails bankInfo;
 	
 	public BankDetails getBankInfo() {
@@ -40,6 +42,14 @@ public class UserOrderSaveDTO {
 	}
 	public String getPaymentType() {
 		return paymentType;
+	}
+	
+	
+	public String getCvv() {
+		return cvv;
+	}
+	public void setCvv(String cvv) {
+		this.cvv = cvv;
 	}
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
