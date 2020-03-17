@@ -50,4 +50,12 @@ public interface OrderService {
 	UserWallet getAllWalletDetails(long userId);
 
 	List<UserOrderProducts> getAllVendorSales(long userId, Filter filter);
+
+	List<UserWallet> getTop5Users(String userType);
+
+	List<UserOrder> getAllOrderForSuperAdmin(Filter filter);
+
+	List<UserOrder> getLastOrdersForVendor(int offset, int vendorId);
+
+	UserOrder getOrderDetails(long orderId);
 }

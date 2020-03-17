@@ -12,6 +12,10 @@ import { Observable, throwError } from "rxjs";
 
 @Injectable()
 export class ApiService {
+
+  userUrl='http://localhost:8081/urban/';
+//userUrl='https://user2.cfapps.io/urban/';
+
 //  userUrl='http://localhost:8081/urban/';
 userUrl='https://user2.cfapps.io/urban/';
 orderUrl='https://myorder.cfapps.io/';

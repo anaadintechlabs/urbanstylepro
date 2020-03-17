@@ -40,7 +40,10 @@ public class ProductVariant {
 	 
 	 private String features;
 	 //standard mrp rate
+	 //that customer will pay
 	private double displayPrice;
+	
+	private double manufacturerSuggesstedPrice;
 	
 	private Date salesStartDate;
 	
@@ -55,6 +58,9 @@ public class ProductVariant {
 //	
 //	private double discountPrice;
 	
+	private String condition;
+	
+	private String legalDisclaimer;
 	
 	private double totalQuantity;
 	
@@ -83,6 +89,32 @@ public class ProductVariant {
 
 	public void setFeatures(String features) {
 		this.features = features;
+	}
+
+	
+	
+	public String getLegalDisclaimer() {
+		return legalDisclaimer;
+	}
+
+	public void setLegalDisclaimer(String legalDisclaimer) {
+		this.legalDisclaimer = legalDisclaimer;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public double getManufacturerSuggesstedPrice() {
+		return manufacturerSuggesstedPrice;
+	}
+
+	public void setManufacturerSuggesstedPrice(double manufacturerSuggesstedPrice) {
+		this.manufacturerSuggesstedPrice = manufacturerSuggesstedPrice;
 	}
 
 	public String getLongDescription() {

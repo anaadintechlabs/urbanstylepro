@@ -24,6 +24,16 @@ public class CategoryMeta {
 	
 	private String metaKey;
 	
+	private String type;
+	
+	private boolean subKeyAvailable;
+	
+	private String subKeys;
+	
+	private boolean unitsAvailable;
+	
+	private String dropDownValues;
+	
 	private int status;
 	
 	private Date createdDate;
@@ -67,6 +77,47 @@ public class CategoryMeta {
 	}
 	
 	
+
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public boolean isSubKeyAvailable() {
+		return subKeyAvailable;
+	}
+
+	public void setSubKeyAvailable(boolean subKeyAvailable) {
+		this.subKeyAvailable = subKeyAvailable;
+	}
+
+	public String getSubKeys() {
+		return subKeys;
+	}
+
+	public void setSubKeys(String subKeys) {
+		this.subKeys = subKeys;
+	}
+
+	public boolean isUnitsAvailable() {
+		return unitsAvailable;
+	}
+
+	public void setUnitsAvailable(boolean unitsAvailable) {
+		this.unitsAvailable = unitsAvailable;
+	}
+
+	public String getDropDownValues() {
+		return dropDownValues;
+	}
+
+	public void setDropDownValues(String dropDownValues) {
+		this.dropDownValues = dropDownValues;
+	}
 
 	public int getStatus() {
 		return status;
