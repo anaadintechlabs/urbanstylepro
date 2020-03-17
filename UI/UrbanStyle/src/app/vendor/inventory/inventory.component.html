@@ -64,7 +64,13 @@
 					  <input type="checkbox" class="custom-checkbox">
 					</div>
 					<div (click)="getAllVeriant(item)">
-					  <p> {{ item.status?'ACTIVE':'INACTIVE' }} ({{ item.totalVarients }})</p>
+					  	<p> 
+							<span>
+								<i class="fas fa-angle-right"></i>
+								<!-- <i class="fas fa-angle-down"></i> -->
+							</span> 
+							Variants ({{ item.totalVarients }})
+						</p>
 					</div>
 					<div>
 						<p *ngIf="!item.mainImageUrl">-</p>

@@ -288,6 +288,8 @@ changeStatusOfCategory(
         if (res.isSuccess) {
           obs.next(res.data);
         }
+      },(err)=>{
+        console.log(err);
       });
     });
   }

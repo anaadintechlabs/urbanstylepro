@@ -56,7 +56,6 @@ export class AddProductService {
     private toastr: ToastrService
   ) {
     this.features = [""];
-
     for (let index = 0; index < 12; index++) {
       this.urlArray[index] = '-';
       this.myFiles[index] = '-'
@@ -66,8 +65,7 @@ export class AddProductService {
       productDesc: this.productDescription,
       productVariantDTO: this._fb.array([]),
       productMetaInfo: this._fb.array([])
-    });
-
+    })
     console.log(this.productDTO.value);
   }
 
@@ -143,8 +141,6 @@ export class AddProductService {
     console.log(item);
     console.log(this.productVariantDTO.controls);
     console.log(this.productVariantDTO.controls.indexOf(item));
-    // this.productVariantDTO.removeAt(this.productVariantDTO.controls.indexOf(item));
-    // console.log(this.productVariantDTO);
   }
 
   intializeproductMetaInfo(): FormGroup {
@@ -226,6 +222,7 @@ export class AddProductService {
   }
 
   saveChanges() {
+    console.log(this.features[0]);
     this.productFormGroup.get('features').patchValue(JSON.stringify(this.features));
     this.uploadedPhoto = this.myFiles;
     let url: string = "";
@@ -244,11 +241,13 @@ export class AddProductService {
       url = "product/saveProduct";
     }
     console.log(this.productDTO.value);
+
     this._apiService.postWithMedia(url, frmData).subscribe(
       res => {
         console.log("save done");
         this._router.navigateByUrl("/vendor/inventory");
         this.toastr.success("Product saved successfully", "Success");
+        this.flushData();
       },
       error => {
         this.toastr.success("Something went wrong!", "Failure");
@@ -306,8 +305,16 @@ export class AddProductService {
     this.getProductMetaAllInfo.clear();
     this.myFiles = [];
     this.urlArray = [];
+    this.uploadedPhoto = [];
+    this.features = [];
     this.selectedVariation = [];
     this.categoryAttribute = [];
+    this.productVariantForm.reset();
+    this.features = [""];
+    for (let index = 0; index < 12; index++) {
+      this.urlArray[index] = '-';
+      this.myFiles[index] = '-'
+    }
     window.sessionStorage.removeItem("addProduct");
   }
 }

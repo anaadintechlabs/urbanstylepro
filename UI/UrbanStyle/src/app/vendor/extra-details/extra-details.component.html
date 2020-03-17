@@ -20,14 +20,14 @@
                   </div>
                   <div class="col-md-6 col-10" >
                     <div class="form-group" *ngFor="let item of _addProductService.features; let i = index">
-                      <input type="text" [(ngModel)]="_addProductService.features[i]" [ngModelOptions]="{standalone: true}" class="form-control"
-                      [ngClass]="{ 'is-invalid': submitted && f.feature?.errors }" />
-                      <div *ngIf="submitted && f.feature?.errors" class="invalid-feedback">
+                      <input type="text"  [(ngModel)]="item" (change)="onChange(item,i)" [ngModelOptions]="{standalone: true}" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.feature?.errors }" />{{ item }}
+                      <!-- <div *ngIf="submitted && f.feature?.errors" class="invalid-feedback">
                         <div *ngIf="f.feature?.errors.required">Product Code is required</div>
-                      </div>
+                      </div> -->
                       <span>
-                        <a *ngIf="i == (features.length - 1)" class="py-3" (click)="addMoreFeature()">Add More</a>
-                        <a *ngIf="(i != (features.length - 1) || (i > 0))" class="py-3" (click)="removeFeature(i)">Remove</a>
+                        <a *ngIf="i == (_addProductService.features.length - 1)" class="py-3" (click)="addMoreFeature()">Add More </a> 
+                        <a *ngIf="(i != (_addProductService.features.length - 1) || (i > 0))" class="py-3" (click)="removeFeature(i)"> Remove</a>
                       </span>
                     </div>
                   </div>
