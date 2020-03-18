@@ -58,7 +58,7 @@ public class ProductVariant {
 //	
 //	private double discountPrice;
 	
-	private String condition;
+	private String productCondition;
 	
 	private String legalDisclaimer;
 	
@@ -101,12 +101,14 @@ public class ProductVariant {
 		this.legalDisclaimer = legalDisclaimer;
 	}
 
-	public String getCondition() {
-		return condition;
+	
+
+	public String getProductCondition() {
+		return productCondition;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
+	public void setProductCondition(String productCondition) {
+		this.productCondition = productCondition;
 	}
 
 	public double getManufacturerSuggesstedPrice() {

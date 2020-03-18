@@ -56,9 +56,9 @@ public class ReturnController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value= {"/getReturnByVendor"},method= {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= {"/getReturnForVendor"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> getReturnByVendor(HttpServletRequest request,
-			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
+			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="vendorId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("returnList",returnService.getReturnByVendor(Long.parseLong(userId),filter));
 			resultMap.put("RESPONSE", "SUCCESS");

@@ -19,12 +19,14 @@ import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductDTOWithImage;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.external.UrlShortner;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductImages;
 import com.anaadihsoft.common.master.ProductInventory;
 import com.anaadihsoft.common.master.ProductMeta;
 import com.anaadihsoft.common.master.ProductVariant;
+import com.anaadihsoft.common.master.ShortCodeGenerator;
 import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.common.master.WarehouseInfo;
 import com.urbanstyle.product.repository.ProductAttributeDetailsRepository;
@@ -32,6 +34,8 @@ import com.urbanstyle.product.repository.ProductImagesRepository;
 import com.urbanstyle.product.repository.ProductInventoryRepo;
 import com.urbanstyle.product.repository.ProductMetaRepository;
 import com.urbanstyle.product.repository.ProductRepository;
+import com.urbanstyle.product.repository.ShortCodeGeneratorRepository;
+import com.urbanstyle.product.repository.UserRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -65,7 +69,11 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private ProductInventoryRepo productInventRepo;
+	@Autowired
+	private ShortCodeGeneratorRepository shortCodeGen;
 	
+	@Autowired
+	private UserRepository userRepo;
 
 
 	@Override
@@ -96,7 +104,7 @@ public class ProductServiceImpl implements ProductService{
 		productVariant.setLongDescription(product.getLongDescription());
 		productVariant.setMainImageUrl(mainImageUrl);
 		productVariant.setCreatedBy(product.getUser().getId()+"");
-		productVariant.setCondition(product.getCondition());
+		productVariant.setProductCondition(product.getProductCondition());
 		
 		
 		productVariant=productVariantRepository.save(productVariant);
@@ -435,6 +443,25 @@ public class ProductServiceImpl implements ProductService{
 		productDTO.setProductVariantDTO(productVarientDTOList);
 		productDTO.setImageUrls(imageUrl);
 		return productDTO;
+	}
+	
+	
+	@Override
+	public String genAffiliatelink(long prodVarId, long userId) {
+		ProductVariant varient = productVarientSerice.findByProdVarId(prodVarId);
+		Optional<User> user =  userRepo.findById(userId);
+		User loginuser = null;
+		if(user.isPresent()) {
+			loginuser = user.get();
+		}
+		UrlShortner urlShorten = new UrlShortner(varient.getSku(),userId,varient.getSku());
+		String requiredURL = urlShorten.generateLink();
+		ShortCodeGenerator shortcode = new ShortCodeGenerator();
+		shortcode.setProdVar(varient);
+		shortcode.setShortCode(requiredURL);
+		shortcode.setUser(loginuser);
+		shortCodeGen.save(shortcode);		
+		return requiredURL;
 	}
 
 

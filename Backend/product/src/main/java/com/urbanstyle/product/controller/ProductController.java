@@ -361,4 +361,12 @@ public class ProductController {
 	 * 
 	 * }
 	 */
+	
+	@RequestMapping(value="/genAffiliatelink",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> genAffiliatelink(@RequestParam(value="prodVarId") long prodVarId,@RequestParam(value="userId") long userId, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("product", productService.genAffiliatelink(prodVarId,userId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
 }

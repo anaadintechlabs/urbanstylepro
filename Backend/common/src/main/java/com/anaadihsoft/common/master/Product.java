@@ -53,7 +53,7 @@ public class Product {
 	
 	private boolean variantExist;
 	
-	private String condition;
+	private String productCondition;
 	
 	private Date createdDate;
 	
@@ -119,12 +119,14 @@ public class Product {
 	}
 
 	
-	public String getCondition() {
-		return condition;
+	
+
+	public String getProductCondition() {
+		return productCondition;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
+	public void setProductCondition(String productCondition) {
+		this.productCondition = productCondition;
 	}
 
 	public ProducIdType getProductIdType() {
