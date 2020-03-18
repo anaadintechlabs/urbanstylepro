@@ -96,7 +96,7 @@ public class ProductServiceImpl implements ProductService{
 		productVariant.setLongDescription(product.getLongDescription());
 		productVariant.setMainImageUrl(mainImageUrl);
 		productVariant.setCreatedBy(product.getUser().getId()+"");
-		productVariant.setCondition(product.getCondition());
+		productVariant.setProductCondition(product.getProductCondition());
 		
 		
 		productVariant=productVariantRepository.save(productVariant);

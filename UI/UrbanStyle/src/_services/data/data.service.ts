@@ -307,6 +307,34 @@ changeStatusOfCategory(
     });
   }
 
+  //all return of vendor
+  getAllReturnOfVendor(vendorId,url)
+  {
+
+     const param: HttpParams = new HttpParams().set("vendorId", vendorId);
+    console.log(param);
+    return new Observable<any[]>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.returnList);
+        }
+      });
+    });
+  }
+
+
+  changeStatusOfReturn(returnId,status,url)
+  {
+    const param: HttpParams = new HttpParams().set("returnId", returnId).set("status",status);   
+ return new Observable<any[]>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.orderList);
+        }
+      });
+    });
+  }
+
   //get all order of vendor by status
   getAllOrderOfVendorByStatus(vendorId,status,url)
   {
