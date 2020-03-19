@@ -984,11 +984,9 @@ public class OrderServiceImpl implements OrderService {
 			Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
 			if(userOrdrProdOpt.isPresent())
 			{
-
-				 userOrdrProd=userOrdrProdOpt.get();
+				userOrdrProd=userOrdrProdOpt.get();
 				if(userOrdrProd.getStatus().equals("COMPLETED"))
 				{
-
 				 userOrdrProd=userOrdrProdOpt.get();
 				userOrdrProd.setStatus("RETURNED REQUESTED");
 				userOrderProdRepo.save(userOrdrProd);
