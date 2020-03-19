@@ -24,7 +24,7 @@ public interface OrderService {
 
 	List<UserOrderProducts> getVendorOrder(long vendorId);
 
-	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId);
+	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId,long orderProdId);
 
 	UserOrderProducts setStatusbyVendor(long orderProdId, String status);
 
@@ -32,7 +32,7 @@ public interface OrderService {
 
 	UserOrderProducts getOrderProductForVendor(long vendorId, long orderProductId);
 
-	Object setStatusbyVendorForCompleteOrder(long orderId, String status);
+	Object setStatusbyVendorForCompleteOrder(long orderId, String status,long orderProdId);
 
 	List<UserOrderProducts> getOrderForVendorByStatus(long vendorId, String status);
 

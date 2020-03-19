@@ -276,33 +276,33 @@ public class OrderServiceImpl implements OrderService {
 				User admin = userRepo.findByUserType("SUPERADMIN");
 				if(admin!=null)
 				{
-				PaymentWalletTransaction pwt = new PaymentWalletTransaction();
-				pwt.setAmount(totalAmount);
-				pwt.setCreatedDate(new Date());
-				pwt.setOrder(userOrderSave);
-				pwt.setReciever(String.valueOf(admin.getId()));
-				pwt.setSender(userOrderSave.getUser());
-				pwt.setStatus("1"); 
-				pwt.setType("OP");  //Order Placed
-				paymentwalletTransactionRepo.save(pwt);			
-
-				UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
-				if(userWalletAdmin != null) {
-					double amount = userWalletAdmin.getAmount();
-					userWalletAdmin.setAmount(amount + totalAmount);
-					userWalletAdmin.setModifiedDate(new Date());
-					userWalletAdmin.setStatus("1");
-					userWalletAdmin.setUser(admin);
-					UserWalletRepo.save(userWalletAdmin);
-				}else {
-					userWalletAdmin = new UserWallet();
-					userWalletAdmin.setAmount(totalAmount);
-					userWalletAdmin.setCreatedDate(new Date());
-					userWalletAdmin.setModifiedDate(new Date());
-					userWalletAdmin.setStatus("1");
-					userWalletAdmin.setUser(admin);
-					UserWalletRepo.save(userWalletAdmin);
-				}
+					PaymentWalletTransaction pwt = new PaymentWalletTransaction();
+					pwt.setAmount(totalAmount);
+					pwt.setCreatedDate(new Date());
+					pwt.setOrder(userOrderSave);
+					pwt.setReciever(String.valueOf(admin.getId()));
+					pwt.setSender(userOrderSave.getUser());
+					pwt.setStatus("1"); 
+					pwt.setType("OP");  //Order Placed
+					paymentwalletTransactionRepo.save(pwt);			
+	
+					UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
+					if(userWalletAdmin != null) {
+						double amount = userWalletAdmin.getAmount();
+						userWalletAdmin.setAmount(amount + totalAmount);
+						userWalletAdmin.setModifiedDate(new Date());
+						userWalletAdmin.setStatus("1");
+						userWalletAdmin.setUser(admin);
+						UserWalletRepo.save(userWalletAdmin);
+					}else {
+						userWalletAdmin = new UserWallet();
+						userWalletAdmin.setAmount(totalAmount);
+						userWalletAdmin.setCreatedDate(new Date());
+						userWalletAdmin.setModifiedDate(new Date());
+						userWalletAdmin.setStatus("1");
+						userWalletAdmin.setUser(admin);
+						UserWalletRepo.save(userWalletAdmin);
+					}
 				}
 		
 	}
@@ -367,7 +367,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public UserOrder setStatusbyUser(long orderId,String status,String reason,long userId) {
+	public UserOrder setStatusbyUser(long orderId,String status,String reason,long userId,long orderProdId) {
+		UserOrderProducts userOrdrProdGlobal = null;
 	if("CANCEL".equalsIgnoreCase(status)) {
 		UserOrder usrOrdr = null;
 		Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
@@ -377,34 +378,38 @@ public class OrderServiceImpl implements OrderService {
 			orderRepo.save(usrOrdr);
 			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
 			for(UserOrderProducts userOrdrProd :userOrderProducts) {
-				userOrdrProd.setStatus(status);
-				ProductVariant varient = userOrdrProd.getProduct();
-				double oldReserved = varient.getReservedQuantity();
-				oldReserved = oldReserved - userOrdrProd.getQuantity();
-				varient.setReservedQuantity(oldReserved);
-//				double oldQty = varient.getTotalQuantity();
-//				oldQty = oldQty - userOrdrProd.getQuantity();
-//				varient.setTotalQuantity(oldQty);
-				productVariantRepo.save(varient);
-				userOrderProdRepo.save(userOrdrProd);
+				if(orderProdId == userOrdrProd.getId()) {
+					userOrdrProdGlobal = userOrdrProd;
+					userOrdrProd.setStatus(status);
+					ProductVariant varient = userOrdrProd.getProduct();
+					double oldReserved = varient.getReservedQuantity();
+					oldReserved = oldReserved - userOrdrProd.getQuantity();
+					varient.setReservedQuantity(oldReserved);
+	//				double oldQty = varient.getTotalQuantity();
+	//				oldQty = oldQty - userOrdrProd.getQuantity();
+	//				varient.setTotalQuantity(oldQty);
+					productVariantRepo.save(varient);
+					userOrderProdRepo.save(userOrdrProd);
+				}
 			}
 			// update wallet and add entry to payment wallet entry from Super admin to user
 			
 						User admin = userRepo.findById((long) 0).get();
 						PaymentWalletTransaction pwt = new PaymentWalletTransaction();
-						pwt.setAmount(usrOrdr.getOrderTotalPrice());
+						pwt.setAmount(userOrdrProdGlobal.getOrderProductPrice()*userOrdrProdGlobal.getQuantity());
 						pwt.setCreatedDate(new Date());
 						pwt.setOrder(usrOrdr);
 						pwt.setReciever(String.valueOf(usrOrdr.getUser().getId()));
 						pwt.setSender(admin);
 						pwt.setStatus("1"); 
 						pwt.setType("CANCEL");  //Order Placed
+						pwt.setOrderProds(userOrdrProdGlobal);
 						paymentwalletTransactionRepo.save(pwt);			
 
 						UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
 						if(userWalletAdmin != null) {
 							double amount = userWalletAdmin.getAmount();
-							userWalletAdmin.setAmount(amount - usrOrdr.getOrderTotalPrice());
+							userWalletAdmin.setAmount(amount - (userOrdrProdGlobal.getOrderProductPrice()*userOrdrProdGlobal.getQuantity()));
 							userWalletAdmin.setModifiedDate(new Date());
 							userWalletAdmin.setStatus("1");
 							userWalletAdmin.setUser(admin);
@@ -414,7 +419,7 @@ public class OrderServiceImpl implements OrderService {
 						UserWallet userWalletuser = UserWalletRepo.findByUserId(usrOrdr.getUser().getId()); 
 						if(userWalletuser != null) {
 							double amount = userWalletuser.getAmount();
-							userWalletuser.setAmount(amount + usrOrdr.getOrderTotalPrice());
+							userWalletuser.setAmount(amount + (userOrdrProdGlobal.getOrderProductPrice()*userOrdrProdGlobal.getQuantity()));
 							userWalletuser.setModifiedDate(new Date());
 							userWalletuser.setStatus("1");
 							userWalletuser.setUser(usrOrdr.getUser());
@@ -438,8 +443,10 @@ public class OrderServiceImpl implements OrderService {
 					orderRepo.save(usrOrdr);
 					List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
 					for(UserOrderProducts userOrdrProd :userOrderProducts) {
-						userOrdrProd.setStatus(status);
-						userOrderProdRepo.save(userOrdrProd);
+						if(orderProdId == userOrdrProd.getId()) {
+							userOrdrProd.setStatus(status);
+							userOrderProdRepo.save(userOrdrProd);
+						}
 					}
 					
 					// maintain entry for return management with status
@@ -447,6 +454,7 @@ public class OrderServiceImpl implements OrderService {
 					//returnManage.setOrder(usrOrdr);
 					returnManage.setReason(reason);
 					returnManage.setStatus("INP");
+					returnManage.setOrderProduct(userOrdrProdGlobal);
 					Optional<User> loginUser = userRepo.findById(userId);
 					if(loginUser.isPresent()) {
 						returnManage.setUser(loginUser.get());					
@@ -562,8 +570,17 @@ public class OrderServiceImpl implements OrderService {
 			// add entry when user sends all payment to super admin
 			
 			User admin = userRepo.findByUserType("SUPERADMIN");
-			UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
-			double orderTotalPrice = userOrder.get().getOrderTotalPrice();
+			UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId());
+			// now price we get for user order product
+			
+			Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
+			UserOrderProducts userOrdrProd = null;
+			if(!userOrdrProdOpt.isPresent())
+			{
+				 userOrdrProd=userOrdrProdOpt.get();
+			}
+			
+			double orderTotalPrice = userOrdrProd.getQuantity()*userOrdrProd.getOrderProductPrice();
 
 			
 			// Here super admin distributes to all sources
@@ -615,6 +632,7 @@ public class OrderServiceImpl implements OrderService {
 					pwtinner.setSender(admin);
 					pwtinner.setStatus("1"); 
 					pwtinner.setType("OP");  //Order Placed
+					pwtinner.setOrderProds(userOrdrProd);
 					paymentwalletTransactionRepo.save(pwtinner);
 					if(source.getDistributionTo().equals("VENDOR")) {
 						percToVendor += perc;
@@ -635,6 +653,7 @@ public class OrderServiceImpl implements OrderService {
 					pwtinner.setSender(admin);
 					pwtinner.setStatus("1"); 
 					pwtinner.setType("OP");  //Order Placed
+					pwtinner.setOrderProds(userOrdrProd);
 					paymentwalletTransactionRepo.save(pwtinner);
 					
 					// update wallet for vendor
@@ -709,6 +728,14 @@ public class OrderServiceImpl implements OrderService {
 			// above update inventory and status and update return status
 			
 		    // now get data from all vendors
+		    
+		    Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
+			UserOrderProducts userOrdrProd = null;
+			if(!userOrdrProdOpt.isPresent())
+			{
+				 userOrdrProd=userOrdrProdOpt.get();
+			}
+		    
 		    Set<Long> allVendors = userBal.keySet();
 		    double TotalAmount = 0;
 		    User admin = userRepo.findById((long) 0).get();
@@ -724,6 +751,7 @@ public class OrderServiceImpl implements OrderService {
 				pwtinner.setSender(vendorUser);
 				pwtinner.setStatus("1"); 
 				pwtinner.setType("RT");  //Return
+				pwtinner.setOrderProds(userOrdrProd);
 				paymentwalletTransactionRepo.save(pwtinner);
 				
 				// update wallet for vendor
@@ -746,7 +774,7 @@ public class OrderServiceImpl implements OrderService {
 				}
 				if(source.getDistributionTo().equals("AFFILIATE")) {
 					long percGivenToAff = source.getPerc();
-					double amountFromAff=(userOrder.get().getOrderTotalPrice()*percGivenToAff)/100; 
+					double amountFromAff=(userOrdrProd.getOrderProductPrice()*userOrdrProd.getQuantity()*percGivenToAff)/100; 
 					TotalAmount += amountFromAff;
 					String affiliatid = source.getSource();
 					User affiliatiduser = userRepo.findById(Long.parseLong(affiliatid)).get();
@@ -767,10 +795,11 @@ public class OrderServiceImpl implements OrderService {
 					pwtinnerAff.setSender(affiliatiduser);
 					pwtinnerAff.setStatus("1"); 
 					pwtinnerAff.setType("RT");  //Return
+					pwtinnerAff.setOrderProds(userOrdrProd);
 					paymentwalletTransactionRepo.save(pwtinnerAff);
 				}else {
 					long percGivenToSA = source.getPerc();
-					double amountFromSA=(userOrder.get().getOrderTotalPrice()*percGivenToSA)/100; 
+					double amountFromSA=(userOrdrProd.getOrderProductPrice()*userOrdrProd.getQuantity()*percGivenToSA)/100; 
 					TotalAmount += amountFromSA;
 					UserWallet userWalletSA = UserWalletRepo.findByUserId(admin.getId());
 					if(userWalletSA != null) {
@@ -789,6 +818,7 @@ public class OrderServiceImpl implements OrderService {
 					pwtinnerSA.setSender(admin);
 					pwtinnerSA.setStatus("1"); 
 					pwtinnerSA.setType("RT");  //Return
+					pwtinnerSA.setOrderProds(userOrdrProd);
 					paymentwalletTransactionRepo.save(pwtinnerSA);
 				}
 			}
@@ -814,7 +844,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object setStatusbyVendorForCompleteOrder(long orderId, String status) {
+	public Object setStatusbyVendorForCompleteOrder(long orderId, String status,long orderProdId) {
 		if("DISPATCHED".equalsIgnoreCase(status)) {
 			// update inventory and status
 			Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
@@ -824,35 +854,38 @@ public class OrderServiceImpl implements OrderService {
 				orderRepo.save(usrOrdr);
 				List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
 				for(UserOrderProducts userOrdrProd :userOrderProducts) {
-					userOrdrProd.setStatus(status);
-					ProductVariant varient = userOrdrProd.getProduct();
-					double oldReserved = varient.getReservedQuantity();
-					oldReserved = oldReserved - userOrdrProd.getQuantity();
-					varient.setReservedQuantity(oldReserved);
-					double oldQty = varient.getTotalQuantity();
-					oldQty = oldQty - userOrdrProd.getQuantity();
-					varient.setTotalQuantity(oldQty);
-					productVariantRepo.save(varient);
-					userOrderProdRepo.save(userOrdrProd);
+					if(orderProdId == userOrdrProd.getId()) {
+						userOrdrProd.setStatus(status);
+						ProductVariant varient = userOrdrProd.getProduct();
+						double oldReserved = varient.getReservedQuantity();
+						oldReserved = oldReserved - userOrdrProd.getQuantity();
+						varient.setReservedQuantity(oldReserved);
+						double oldQty = varient.getTotalQuantity();
+						oldQty = oldQty - userOrdrProd.getQuantity();
+						varient.setTotalQuantity(oldQty);
+						productVariantRepo.save(varient);
+						userOrderProdRepo.save(userOrdrProd);
+					}
 				}
 			}
 		}
 		else
 		{
-		Optional<UserOrder> userOrderOpt  =  orderRepo.findById(orderId);
-		if(userOrderOpt.isPresent())
-		{
-			UserOrder userOrder=userOrderOpt.get();
-		List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(userOrder.getId());
-		for(UserOrderProducts userOrdrProd :userOrderProducts) {
-			userOrdrProd.setStatus(status);
+			Optional<UserOrder> userOrderOpt  =  orderRepo.findById(orderId);
+			if(userOrderOpt.isPresent())
+			{
+				UserOrder userOrder=userOrderOpt.get();
+			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(userOrder.getId());
+			for(UserOrderProducts userOrdrProd :userOrderProducts) {
+				if(orderProdId == userOrdrProd.getId()) {
+					userOrdrProd.setStatus(status);
+				}
+			}
+				userOrderProdRepo.saveAll(userOrderProducts);
+				userOrder.setOrderStatus(status);
+				orderRepo.save(userOrder);
 			
-		}
-			userOrderProdRepo.saveAll(userOrderProducts);
-			userOrder.setOrderStatus(status);
-			orderRepo.save(userOrder);
-		
-		}
+			}
 		}
 		return "updated";
 	}
@@ -867,6 +900,7 @@ public class OrderServiceImpl implements OrderService {
 		UserOrder usrOrdr = null;
 		//just to make sure the order belongs to that user only
 		Optional<UserOrder> userOrder  = orderRepo.findByIdAndUserId(orderId,userId);
+		UserOrderProducts userOrderProducts = null;
 		if(userOrder.isPresent()) {
 			 usrOrdr = userOrder.get();
 			usrOrdr.setOrderStatus("CANCELLED");
@@ -874,7 +908,7 @@ public class OrderServiceImpl implements OrderService {
 			Optional<UserOrderProducts> userOrderProductOpt = userOrderProdRepo.findById(orderProductId);
 			if(!userOrderProductOpt.isPresent())
 			{
-				UserOrderProducts userOrderProducts = userOrderProductOpt.get();
+				 userOrderProducts = userOrderProductOpt.get();
 			
 			//for(UserOrderProducts userOrdrProd :userOrderProducts) {
 			userOrderProducts.setStatus("CANCELLED");
@@ -892,7 +926,7 @@ public class OrderServiceImpl implements OrderService {
 			
 						User admin = userRepo.findByUserType("SUPERADMIN");
 						PaymentWalletTransaction pwt = new PaymentWalletTransaction();
-						pwt.setAmount(usrOrdr.getOrderTotalPrice());
+						pwt.setAmount(userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity());
 						pwt.setCreatedDate(new Date());
 						pwt.setOrder(usrOrdr);
 						pwt.setReciever(String.valueOf(usrOrdr.getUser().getId()));
@@ -904,7 +938,7 @@ public class OrderServiceImpl implements OrderService {
 						UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
 						if(userWalletAdmin != null) {
 							double amount = userWalletAdmin.getAmount();
-							userWalletAdmin.setAmount(amount - usrOrdr.getOrderTotalPrice());
+							userWalletAdmin.setAmount(amount - (userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity()));
 							userWalletAdmin.setModifiedDate(new Date());
 							userWalletAdmin.setStatus("1");
 							userWalletAdmin.setUser(admin);
@@ -914,14 +948,14 @@ public class OrderServiceImpl implements OrderService {
 						UserWallet userWalletuser = UserWalletRepo.findByUserId(usrOrdr.getUser().getId()); 
 						if(userWalletuser != null) {
 							double amount = userWalletuser.getAmount();
-							userWalletuser.setAmount(amount + usrOrdr.getOrderTotalPrice());
+							userWalletuser.setAmount(amount + (userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity()));
 							userWalletuser.setModifiedDate(new Date());
 							userWalletuser.setStatus("1");
 							userWalletuser.setUser(usrOrdr.getUser());
 							UserWalletRepo.save(userWalletuser);
 						}else {
 							userWalletuser = new UserWallet();
-							userWalletuser.setAmount(usrOrdr.getOrderTotalPrice());
+							userWalletuser.setAmount(userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity());
 							userWalletuser.setModifiedDate(new Date());
 							userWalletuser.setStatus("1");
 							userWalletuser.setUser(usrOrdr.getUser());
@@ -946,12 +980,16 @@ public class OrderServiceImpl implements OrderService {
 			//orderRepo.save(usrOrdr);
 //			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
 //			for(UserOrderProducts userOrdrProd :userOrderProducts) {
+			UserOrderProducts userOrdrProd = null;
 			Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
 			if(userOrdrProdOpt.isPresent())
 			{
-				UserOrderProducts userOrdrProd=userOrdrProdOpt.get();
+
+				 userOrdrProd=userOrdrProdOpt.get();
 				if(userOrdrProd.getStatus().equals("COMPLETED"))
 				{
+
+				 userOrdrProd=userOrdrProdOpt.get();
 				userOrdrProd.setStatus("RETURNED REQUESTED");
 				userOrderProdRepo.save(userOrdrProd);
 			
@@ -961,6 +999,7 @@ public class OrderServiceImpl implements OrderService {
 			returnManage.setOrderProduct(userOrdrProd);
 			returnManage.setReason(reason);
 			returnManage.setStatus("REQUESTED");
+			returnManage.setOrderProduct(userOrdrProd);
 			Optional<User> loginUser = userRepo.findById(userId);
 			if(loginUser.isPresent()) {
 				returnManage.setUser(loginUser.get());					

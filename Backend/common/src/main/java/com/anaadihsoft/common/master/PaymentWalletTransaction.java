@@ -31,6 +31,9 @@ public class PaymentWalletTransaction {
 	@ManyToOne
 	private UserOrder order;
 	
+	@ManyToOne
+	private UserOrderProducts orderProds;
+	
 	private Date createdDate;
 
 	public long getId() {
@@ -97,4 +100,11 @@ public class PaymentWalletTransaction {
 		this.createdDate = createdDate;
 	}
 	
+	public UserOrderProducts getOrderProds() {
+		return orderProds;
+	}
+
+	public void setOrderProds(UserOrderProducts orderProds) {
+		this.orderProds = orderProds;
+	}
 }
