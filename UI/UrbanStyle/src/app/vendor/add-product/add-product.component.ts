@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { DataService } from "src/_services/data/data.service";
 import { AddProductService } from "src/_services/product/addProductService";
 import { User } from "src/_modals/user.modal";
@@ -34,10 +29,6 @@ export class AddProductComponent implements OnInit {
         id : this.userId
       });
     }
-    // console.log(Refresh);
-    // if(Refresh){
-    //   alert('asdfwedf');
-    // }
   }
 
   ngDoCheck() {

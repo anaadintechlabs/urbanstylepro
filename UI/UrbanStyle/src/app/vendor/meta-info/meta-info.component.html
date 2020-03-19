@@ -11,7 +11,7 @@
               </p>
               <div formArraryName="_addProduct.getProductMetaAllInfo" *ngFor="let item of _addProduct.getProductMetaAllInfo.controls; let i = index">
                 <form [formGroup]="item"  class="custom">
-                    <div class="row ">
+                    <div class="row " *ngIf="!_addProduct.metaList[i].subKeyAvailable">
                         <div class="col-md-4">
                           <label for="" class="float-md-right">
                             <i class="fas fa-star mr-2"></i>
@@ -19,30 +19,52 @@
                             <i class="far fa-question-circle ml-2"></i>
                           </label>
                         </div>
-                        <div class="col-md-6 col-10">
+                        <div class=" col-10" [ngClass]="{'col-md-6': !_addProduct.metaList[i].unitsAvailable,'col-md-4': _addProduct.metaList[i].unitsAvailable}">
                           <div class="form-group">
                             <input type="text" formControlName="metaValue" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-10" *ngIf="_addProduct.metaList[i].unitsAvailable">
+                          <div class="form-group">
+                            <select name="" id="" class="custom-select" [(ngModel)]="_addProduct.metaList[i].selectedDropDown" [ngModelOptions]="{standalone: true}">
+                              <option [value]="item" *ngFor="let item of _addProduct.metaList[i].dropDownValues">{{ item }}</option>
+                            </select>
+                            <!-- < type="text" formControlName="metaValue" class="form-control"> -->
                             </div>
                         </div>
                         <div class="col-md-2 col-2 col-2">
                           <i class="fas fa-lock py-2"></i>
                         </div>
                     </div>
+                    <div *ngIf="_addProduct.metaList[i].subKeyAvailable">
+                      <div class="row" *ngFor="let subKey of _addProduct.metaList[i].subKeys; let j = index;">
+                        <div class="col-md-4">
+                          <label for="" class="float-md-right" *ngIf="j==0">
+                            <i class="fas fa-star mr-2"></i>
+                                {{ item.value.metaKey }}
+                            <i class="far fa-question-circle ml-2"></i>
+                          </label>
+                        </div>
+                        <div class="col-10" [ngClass]="{'col-md-6': (j!=(_addProduct.metaList[i].subKeys.length-1)), 'col-md-4': (j==(_addProduct.metaList[i].subKeys.length-1))}">
+                          <div class="form-group">
+                            <input type="text" [(ngModel)]="subKey" [ngModelOptions]="{standalone: true}" class="form-control" [placeholder]="subKey">
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-10" *ngIf="(j==(_addProduct.metaList[i].subKeys.length-1))">
+                          <div class="form-group">
+                            <select name="" id="" class="custom-select" [(ngModel)]="_addProduct.metaList[i].selectedDropDown" [ngModelOptions]="{standalone: true}">
+                              <option [value]="dropDwn" *ngFor="let dropDwn of _addProduct.metaList[i].dropDownValues">{{ dropDwn }}</option>
+                            </select>
+                            <!-- < type="text" formControlName="metaValue" class="form-control"> -->
+                            </div>
+                        </div>                       
+                      </div>
+                      <!-- <div class="col-md-2 col-2 col-2">
+                        <i class="fas fa-lock py-2"></i>
+                      </div> -->
+                    </div>
                   </form>
               </div>
-              <div class="row ">
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-6 col-10 btn-class ">
-                  <button style="padding: 0.5rem 1.15rem;" 
-                      class="btn btn-second float-right" 
-                      (click)="_addProduct.saveChanges()"
-                      [disabled] = "_addProduct.productDTO.status != 'VALID'" 
-                  >Save Product</button>
-                </div>
-                <div class="col-md-2 col-2">
-                </div>
-          </div>
         </div>
       </div>
     </div>

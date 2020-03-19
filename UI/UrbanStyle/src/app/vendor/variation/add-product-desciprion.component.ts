@@ -51,6 +51,12 @@ export class AddProductDesciprionComponent implements OnInit {
       );
     }
 
+    if(this._addProduct.selectedVariation.length == 0){
+     this._addProduct.productVariantDTO.push(this._addProduct.initializeProductVarientDto());
+    } else {
+      this._addProduct.productVariantDTO.removeAt(0)
+    }
+
   }
 
   getAllAttrMap() {
