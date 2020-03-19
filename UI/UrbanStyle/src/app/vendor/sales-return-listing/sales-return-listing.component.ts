@@ -30,8 +30,14 @@ export class SalesReturnListingComponent implements OnInit {
 
 
   getAllReturnOfVendor(vendorId) {
+    let filter={
+      'limit':15,
+      'offset':0,
+      'sortingDirection':'DESC',
+      'sortingField':'createdDate'
+    }
     this.dataService
-      .getAllReturnOfVendor(vendorId, "api/getReturnForVendor")
+      .getAllReturnOfVendor(vendorId, filter,"api/getReturnForVendor")
       .subscribe(
         data => {
           console.log("All order", data);
@@ -62,7 +68,7 @@ export class SalesReturnListingComponent implements OnInit {
 
 
 
-  changeStatusOfReturn(returnId,status) {
+  setReturnStatusbyAdmin(returnId,status) {
 
     this.dataService.changeStatusOfReturn( returnId,status, "api/setReturnStatusbyAdmin").subscribe(
       data => {

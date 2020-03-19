@@ -48,6 +48,14 @@ orderUrl='http://localhost:8083/';
       .pipe(catchError(this.formatErrors));
   }
 
+  postOrder(path: string, body: Object = {}): Observable<any> {
+    console.log("path..." + environment.api_url + path);
+    console.log("body..." , body);
+    return this.http
+      .post(this.orderUrl+path, body)
+      .pipe(catchError(this.formatErrors));
+  }
+
   put(path: string, body: Object = {}): Observable<any> {
     return this.http
       .put(`${environment.api_url}${path}`, JSON.stringify(body))
@@ -77,8 +85,6 @@ orderUrl='http://localhost:8083/';
     };
     this.http = new HttpClient(this.httpBackend);
 
-    console.log("path..." + environment.api_url + path);
-    console.log("body..."+ body);
     return this.http
       .post(`${environment.api_url}${path}`, body)
       .pipe(catchError(this.formatErrors));

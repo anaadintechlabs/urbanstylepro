@@ -308,13 +308,14 @@ changeStatusOfCategory(
   }
 
   //all return of vendor
-  getAllReturnOfVendor(vendorId,url)
+  getAllReturnOfVendor(vendorId,filter,url)
   {
 
-     const param: HttpParams = new HttpParams().set("vendorId", vendorId);
-    console.log(param);
+      url=url+'?vendorId='+vendorId;
+    //  const param: HttpParams = new HttpParams().set("vendorId", vendorId);
+    // console.log(param);
     return new Observable<any[]>(obs => {
-      this._apiService.getOrder(url, param).subscribe(res => {
+      this._apiService.postOrder(url,filter).subscribe(res => {
         if (res.isSuccess) {
           obs.next(res.data.returnList);
         }
@@ -401,9 +402,9 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
        });
   }
 
-  returnOrderByUser(userId,orderId,reason,url)
+  returnOrderByUser(userId,orderId,orderProdId,reason,url)
   {
-    const param: HttpParams = new HttpParams().set("orderId", orderId).set("userId",userId).set("reason",reason);   
+    const param: HttpParams = new HttpParams().set("orderId", orderId).set("orderProdId",orderProdId).set("userId",userId).set("reason",reason);   
     return new Observable<any[]>(obs => {
          this._apiService.getOrder(url, param).subscribe(res => {
            if (res.isSuccess) {

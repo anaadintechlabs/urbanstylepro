@@ -740,7 +740,7 @@ public class OrderServiceImpl implements OrderService {
 		    double TotalAmount = 0;
 		    User admin = userRepo.findById((long) 0).get();
 		    for(Long vendorId : allVendors) {
-		    	PaymentWalletTransaction pwt = paymentwalletTransactionRepo.findByRecieverAndOrderId(vendorId,userOrder.get().getId());
+		    	PaymentWalletTransaction pwt = paymentwalletTransactionRepo.findByRecieverAndOrderId(String.valueOf(vendorId),userOrder.get().getId());
 		    	TotalAmount += pwt.getAmount();
 		    	User vendorUser = userRepo.findById(vendorId).get();
 		    	PaymentWalletTransaction pwtinner = new PaymentWalletTransaction();
@@ -974,20 +974,24 @@ public class OrderServiceImpl implements OrderService {
 		if(userOrder.isPresent()) {
 			 usrOrdr = userOrder.get();
 			 //RETURN CAN ONLY BE OR COMPLETED ORDERS
-			 if(usrOrdr.getOrderStatus().equals("COMPLETE"))
-			 {
-			usrOrdr.setOrderStatus("RETURNED REQUESTED");
-			orderRepo.save(usrOrdr);
+//			 if(usrOrdr.getOrderStatus().equals("COMPLETE"))
+//			 {
+			//usrOrdr.setOrderStatus("RETURNED REQUESTED");
+			//orderRepo.save(usrOrdr);
 //			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
 //			for(UserOrderProducts userOrdrProd :userOrderProducts) {
 			UserOrderProducts userOrdrProd = null;
 			Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
-			if(!userOrdrProdOpt.isPresent())
+			if(userOrdrProdOpt.isPresent())
 			{
+
+				 userOrdrProd=userOrdrProdOpt.get();
+				if(userOrdrProd.getStatus().equals("COMPLETED"))
+				{
+
 				 userOrdrProd=userOrdrProdOpt.get();
 				userOrdrProd.setStatus("RETURNED REQUESTED");
 				userOrderProdRepo.save(userOrdrProd);
-			//}
 			
 			// maintain entry for return management with status
 			ReturnManagement returnManage = new ReturnManagement();
@@ -1003,8 +1007,9 @@ public class OrderServiceImpl implements OrderService {
 			}
 			returnManagement.save(returnManage);
 			}
+			}
 		}
-	}
+	//}
 		return userOrder;
 	}
 

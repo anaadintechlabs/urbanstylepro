@@ -52,12 +52,12 @@
               <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('INPROGRESS',order.id,order.userOrder.id)">
                 Inprogress
               </button>
-              <!-- <button class="btn actionBtn" (click)="cancelOrderByUser(order.id)">
+              <button class="btn actionBtn" (click)="cancelOrderByUser(order.id)">
                 CANCEL
               </button>
-              <button class="btn actionBtn" (click)="returnOrderByUser(order.id)">
+              <button class="btn actionBtn" (click)="returnOrderByUser(order.id,order.userOrder.id)">
                 RETURN
-              </button> -->
+              </button>
             </td>
           </tr>
           <tr *ngIf="orderList.length ==0 ">
@@ -67,7 +67,58 @@
       </table>
     </div>
   </div>
-  <div class="row" *ngIf="orderProductList && orderProductList.length > 0 && showProduct">
+  <div class="row" *ngIf=" showProduct">
+
+    <div class="row">
+      <h1>Order Summary (show order summary)</h1>
+
+      <table class="table table-striped">
+          <thead class="thead-default">
+            <tr>
+              <th>Order Id</th>
+              <th>Order Date</th>
+              <th>Order Status</th>
+              <th>Order Price</th>
+              <th>Order Placed By</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ORDER-{{ orderDetails.id }}</td>
+              <td>{{ orderDetails.orderPlacedDate | date }}</td>
+              <td>{{ orderDetails.orderStatus }}</td>
+              <td>{{ orderDetails.orderTotalPrice }}</td>
+              <td>{{ orderDetails.user.name }}</td>
+            
+            </tr>
+           
+          </tbody>
+        </table>
+
+        <h1> Address Details</h1>
+        <table class="table table-striped">
+            <thead class="thead-default">
+              <tr>
+                <th>Address Main</th>
+                <th>Address Secondary</th>
+                <th>Zipcode</th>
+                <th>Primary Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ orderDetails.address.addressOne }}</td>
+                <td>{{ orderDetails.address.addressTwo }}</td>
+                <td>{{ orderDetails.address.zip }}</td>
+                <td>{{ orderDetails.address.primaryAddress }}</td>
+              </tr>   
+            </tbody>
+          </table>
+
+          <h1>Transaction Details Only in case of Complete</h1>
+          
+    </div>
+
     <div class="col-12 col-md-12">
       <table class="table table-striped">
         <thead class="thead-default">
@@ -80,7 +131,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let orderProduct of orderProductList">
+            <!-- *ngFor="let orderProduct of orderProductList" -->
+          <tr >
             <td>{{ orderProduct.product.sku }}</td>
             <td>{{ orderProduct.quantity }}</td>
             <td>{{ orderProduct.orderProductPrice }}</td>

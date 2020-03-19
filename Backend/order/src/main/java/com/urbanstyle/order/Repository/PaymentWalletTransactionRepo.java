@@ -8,6 +8,6 @@ import com.anaadihsoft.common.master.PaymentWalletTransaction;
 @Repository
 public interface PaymentWalletTransactionRepo extends PagingAndSortingRepository<PaymentWalletTransaction, Long> {
 
-	PaymentWalletTransaction findByRecieverAndOrderId(Long vendorId, long id);
+	PaymentWalletTransaction findByRecieverAndOrderId(String string, long id);
 
 }
