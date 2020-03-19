@@ -39,7 +39,7 @@
           <tbody>
             <tr *ngFor="let return of returnList">
               <td>ORDER-{{ return.orderProduct.id }}</td>
-              <td>{{ return.orderProduct.product.mainImageUrl }}</td>
+              <td><img *ngIf="return.orderProduct.product" class="v_modal_productImage" [src]="return.orderProduct.product.mainImageUrl" alt="" srcset=""></td>
               <td>{{ return.orderProduct.product.variantName }}</td> 
               <td>{{ return.reason }}</td>
               <td>{{ return.returnAuthorizeDate | date }}</td>
@@ -47,9 +47,15 @@
               <td>{{ return.unitRecieveDate | date}}</td>
               <td>{{ return.status }}</td>
               <td>
-                <button class="btn actionBtn" (click)="getOrderProductForVendor(order.id)">
-                  View Details
+                <button class="btn actionBtn" (click)="setReturnStatusbyAdmin(return.returnId,'ACCEPT')">
+                  Accept
                 </button>
+                <button class="btn actionBtn" (click)="setReturnStatusbyAdmin(return.returnId,'REJECT')">
+                    Rejeet
+                  </button>
+                  <button class="btn actionBtn" (click)="setReturnStatusbyAdmin(return.returnId,'RECIEVED')">
+                      Receive
+                    </button>
               </td>
             </tr>
             <tr *ngIf="returnList.length ==0 ">

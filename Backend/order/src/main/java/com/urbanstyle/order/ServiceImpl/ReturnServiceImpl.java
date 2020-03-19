@@ -74,6 +74,7 @@ public class ReturnServiceImpl implements ReturnService{
 		Optional<ReturnManagement> optReturn = returnOrderRepository.findById(returnId);
 		if(!optReturn.isEmpty())
 		{
+			System.out.println("setting status"+optReturn.get());
 			ReturnManagement returnObj=optReturn.get();
 			returnObj.setStatus(status);
 			if("ACCEPT".equals(status))
@@ -86,6 +87,7 @@ public class ReturnServiceImpl implements ReturnService{
 				recieveOrder(returnObj); 
 		
 		 }
+			returnOrderRepository.save(returnObj);
 		}
 		
 	}
@@ -134,7 +136,7 @@ public class ReturnServiceImpl implements ReturnService{
 		    double totalAmount = 0;
 		    User admin = userRepo.findByUserType("SUPERADMIN");
 		    for(Long vendorId : allVendors) {
-		    	PaymentWalletTransaction pwt = paymentwalletTransactionRepo.findByRecieverAndOrderId(vendorId,userOrder.get().getId());
+		    	PaymentWalletTransaction pwt = paymentwalletTransactionRepo.findByRecieverAndOrderId(String.valueOf(vendorId),userOrder.get().getId());
 		    	totalAmount += pwt.getAmount();
 		    	User vendorUser = userRepo.findById(vendorId).get();
 		    	PaymentWalletTransaction pwtinner = new PaymentWalletTransaction();
