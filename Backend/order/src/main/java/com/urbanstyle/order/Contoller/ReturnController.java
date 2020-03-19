@@ -77,11 +77,12 @@ public class ReturnController {
 	 */
 	@RequestMapping(value= {"/returnOrderByUser"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> returnOrderByUser(@RequestParam(value="orderId")long orderId,
+			@RequestParam(value="orderProdId")long orderProdId,
 			@RequestParam(value="userId")long userId,
 			@RequestParam(value="reason")String reason,
 			HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",orderService.returnOrderByUser(orderId,userId,reason));
+			resultMap.put("orderList",orderService.returnOrderByUser(orderId,userId,reason,orderProdId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	

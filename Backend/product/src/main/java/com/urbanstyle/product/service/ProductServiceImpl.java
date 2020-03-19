@@ -266,6 +266,8 @@ public class ProductServiceImpl implements ProductService{
 			if(productMeta.getMetaKey()!=null && !productMeta.getMetaKey().isEmpty() && productMeta.getMetaValue()!=null && !productMeta.getMetaValue().isEmpty())
 			{
 			ProductMeta newProd= new ProductMeta();
+			newProd.setMetaKey(productMeta.getMetaKey());
+			newProd.setMetaValue(productMeta.getMetaValue());
 			newProd.setProduct(product);
 			newProd.setProductVariant(productVariant);
 			productMetaList.add(newProd);

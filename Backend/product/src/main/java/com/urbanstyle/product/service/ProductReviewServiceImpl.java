@@ -68,5 +68,10 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 		public Long getAverageRatingOnProduct(long productId, int active) {
 		return	productReviewRepository.getAverageRatingOnProduct(productId,active);	
 
+	}
+	@Override
+	public List<ProductReviewDTO> getLast5ProductReviewsOfVendor(long vendorId, int offset) {
+		final Pageable pageable = PageRequest.of(offset, 5);
+		return	productReviewRepository.getLast5ProductReviewsOfVendor(vendorId,ACTIVE,pageable);
 	}	
 	}
