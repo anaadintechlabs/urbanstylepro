@@ -242,7 +242,13 @@ public class OrderController {
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
-	
+	@RequestMapping(value= {"/getTransactionofOrder"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getTransactionofOrder(@RequestParam(value="orderId")long orderId,
+			@RequestParam(value="orderProdId")long orderProdId,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("allTransaction",orderService.getTransactionofOrder(orderProdId));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
 
 	
 	

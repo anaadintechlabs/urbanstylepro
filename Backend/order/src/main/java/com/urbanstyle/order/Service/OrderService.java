@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.master.PaymentWalletTransaction;
 import com.anaadihsoft.common.master.ReturnManagement;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.common.master.UserOrderProducts;
@@ -62,4 +63,6 @@ public interface OrderService {
 	List<UserOrderProducts> getOrderProductByUser(long parseLong, Filter filter);
 
 	UserOrderProducts getOrderById(long parseLong);
+
+	List<PaymentWalletTransaction> getTransactionofOrder(long orderProdId);
 }

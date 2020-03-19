@@ -1098,6 +1098,11 @@ public class OrderServiceImpl implements OrderService {
 		return userOrderProdOpt.isPresent()?userOrderProdOpt.get():null;
 	}
 
+	@Override
+	public List<PaymentWalletTransaction> getTransactionofOrder(long orderProdId) {
+		return paymentwalletTransactionRepo.getTransactionofOrder(orderProdId,"OP");
+	}
+
 	
 
 }
