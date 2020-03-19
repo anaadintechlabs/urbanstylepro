@@ -36,20 +36,20 @@
         <tbody>
           <tr *ngFor="let order of orderList">
             <td>ORDER-{{ order.id }}</td>
-            <td>{{ order.orderPlacedDate | date }}</td>
-            <td>{{ order.orderStatus }}</td>
-            <td>{{ order.orderTotalPrice }}</td>
-            <td>{{ order.user.name }}</td>
+            <td>{{ order.userOrder.orderPlacedDate | date }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.userOrder.orderTotalPrice }}</td>
+            <td>{{ order.userOrder.user.name }}</td>
             <td>
-              <button class="btn actionBtn" (click)="getOrderProductForVendor(order.id)">
+              <button class="btn actionBtn" (click)="getOrderProductForVendor(order.id,order.userOrder.id)">
                 View Details
               </button>
               <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder " -->
               <button class="btn actionBtn" *ngIf="order.orderStatus!='DISPATCHED'  "
-                (click)="changeStatusOfCompleteOrder('DISPATCHED',order.id)">
+                (click)="changeStatusOfPartialOrder('DISPATCHED',order.id,order.userOrder.id)">
                 Dispatch
               </button>
-              <button class="btn actionBtn" (click)="changeStatusOfCompleteOrder('INPROGRESS',order.id)">
+              <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('INPROGRESS',order.id,order.userOrder.id)">
                 Inprogress
               </button>
               <!-- <button class="btn actionBtn" (click)="cancelOrderByUser(order.id)">

@@ -73,9 +73,9 @@ export class OrderListingComponent implements OnInit {
     this.showProduct = false;
   }
 
-  getOrderProductForVendor(orderId) {
+  getOrderProductForVendor(orderProductId,orderId) {
     this.selectedOrderId = orderId;
-    this.dataService.getOrderProductForVendor(orderId, this.userId, "api/getOrderProductForVendor").subscribe(
+    this.dataService.getOrderProductForVendor(orderId,orderProductId, this.userId, "api/getOrderProductForVendor").subscribe(
       data => {
         console.log("All Products inside order", data);
         this.showProduct = true;
@@ -102,10 +102,10 @@ export class OrderListingComponent implements OnInit {
     );
   }
 
-  changeStatusOfPartialOrder(status, orderProdId) {
+  changeStatusOfPartialOrder(status, orderId,orderProdId) {
     this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor").subscribe(
       data => {
-        this.getOrderProductForVendor(this.selectedOrderId);
+        this.getOrderProductForVendor(orderProdId,orderId);
 
       },
       error => {
