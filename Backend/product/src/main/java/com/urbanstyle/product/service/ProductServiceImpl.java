@@ -75,7 +75,8 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private UserRepository userRepo;
 
-
+	private UrlShortner urlSShort;
+	
 	@Override
 	public List<Product> getAllProducts() {
 		return (List<Product>) productRepository.findAll();
@@ -158,6 +159,9 @@ public class ProductServiceImpl implements ProductService{
 		}
 		Product product = productDTO.getProduct();
 		product.setTotalVarients(productDTO.getProductVariantDTO() != null ?productDTO.getProductVariantDTO().size():0);
+		urlSShort = new UrlShortner();
+		String uid = urlSShort.generateUid("PR-", 9);
+		product.setUniqueProdId("PR-"+uid);
 		
 		Product oldProduct=productRepository.save(product);
 		
@@ -227,6 +231,11 @@ public class ProductServiceImpl implements ProductService{
 			productVariant.setLongDescription(product.getLongDescription());
 			productVariant.setMainImageUrl(mainImageUrl);
 			productVariant.setCreatedBy(product.getUser().getId()+"");
+			UrlShortner urlSShort = new UrlShortner(productVariant.getVariantCode(), product.getUser().getId(), productVariant.getSku());
+			String uid = urlSShort.generateUid("PV-", 9);
+
+			productVariant.setUniqueprodvarId("PV-"+uid);
+			productVariant.setProductVarLink(urlSShort.generateLink());
 			productVariant=productVariantRepository.save(productVariant);
 			if(productVariantDTO.getAttributesMap()!=null)
 			{
@@ -266,6 +275,8 @@ public class ProductServiceImpl implements ProductService{
 			if(productMeta.getMetaKey()!=null && !productMeta.getMetaKey().isEmpty() && productMeta.getMetaValue()!=null && !productMeta.getMetaValue().isEmpty())
 			{
 			ProductMeta newProd= new ProductMeta();
+			newProd.setMetaKey(productMeta.getMetaKey());
+			newProd.setMetaValue(productMeta.getMetaValue());
 			newProd.setProduct(product);
 			newProd.setProductVariant(productVariant);
 			productMetaList.add(newProd);
