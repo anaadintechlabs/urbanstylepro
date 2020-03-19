@@ -54,7 +54,7 @@ export class SalesListingComponent implements OnInit {
   getOrderProductForVendor(orderId)
   {
     this.selectedOrderId=orderId;
-    this.dataService.getOrderProductForVendor(orderId,this.userId,"api/getOrderProductForVendor").subscribe(
+    this.dataService.getOrderProductForVendor(orderId,1,this.userId,"api/getOrderProductForVendor").subscribe(
         data => {
          console.log("All Products inside order",data);
          this.showProduct=true;
