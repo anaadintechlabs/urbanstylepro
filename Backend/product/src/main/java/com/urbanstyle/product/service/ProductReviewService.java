@@ -26,4 +26,6 @@ public interface ProductReviewService {
 	
 	Long getAverageRatingOnProduct(long productId, int active);
 
+	List<ProductReviewDTO> getLast5ProductReviewsOfVendor(long vendorId, int offset);
+
 }

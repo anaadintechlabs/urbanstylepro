@@ -16,36 +16,36 @@ import com.anaadihsoft.common.master.UserWallet;
 @Service
 public interface OrderService {
 
-	List<UserOrderFetchDTO> getOrderByUser(long userId, Filter filter);
+	//List<UserOrderFetchDTO> getOrderByUser(long userId, Filter filter);
 
-	List<UserOrderFetchDTO> getOrderById(long orderId);
+	//List<UserOrderFetchDTO> getOrderById(long orderId);
 
 	Object saveorUpdate(UserOrderSaveDTO userDetailSave);
 
-	List<UserOrder> getVendorOrder(long vendorId);
+	List<UserOrderProducts> getVendorOrder(long vendorId);
 
 	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId);
 
 	UserOrderProducts setStatusbyVendor(long orderProdId, String status);
 
-	void setStatusbyAdmin(long orderId, String status,long userId);
+	void setStatusbyAdmin(long orderId, long orderProdId, String status,long userId);
 
-	List<UserOrderProducts> getOrderProductForVendor(long vendorId, long orderId);
+	UserOrderProducts getOrderProductForVendor(long vendorId, long orderProductId);
 
 	Object setStatusbyVendorForCompleteOrder(long orderId, String status);
 
-	List<UserOrder> getOrderForVendorByStatus(long vendorId, String status);
+	List<UserOrderProducts> getOrderForVendorByStatus(long vendorId, String status);
 
-	Object cancelOrderByUser(long orderId, long userId);
+	Object cancelOrderByUser(long orderId, long userId, long orderProductId);
 
-	Object returnOrderByUser(long orderId, long userId, String reason);
+	Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId);
 
 	
-	List<UserOrder> getLastOrders(int offset);
+	List<UserOrderProducts> getLastOrders(int offset);
 
 	List<ReturnManagement> getLastReturns(int offset);
 
-	List<UserOrder> getAllOrderByStatus(int offset,String status);
+	List<UserOrderProducts> getAllOrderByStatus(int offset,String status);
 
 	UserWallet getAllWalletDetails(long userId);
 
@@ -53,9 +53,13 @@ public interface OrderService {
 
 	List<UserWallet> getTop5Users(String userType);
 
-	List<UserOrder> getAllOrderForSuperAdmin(Filter filter);
+	List<UserOrderProducts> getAllOrderForSuperAdmin(Filter filter);
 
-	List<UserOrder> getLastOrdersForVendor(int offset, int vendorId);
+	List<UserOrderProducts> getLastOrdersForVendor(int offset, int vendorId, String status);
 
 	UserOrder getOrderDetails(long orderId);
+
+	List<UserOrderProducts> getOrderProductByUser(long parseLong, Filter filter);
+
+	UserOrderProducts getOrderById(long parseLong);
 }

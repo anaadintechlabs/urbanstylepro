@@ -17,8 +17,8 @@ export class ApiService {
 //userUrl='https://user2.cfapps.io/urban/';
 
 //  userUrl='http://localhost:8081/urban/';
-userUrl='https://user2.cfapps.io/urban/';
-orderUrl='https://myorder.cfapps.io/';
+//userUrl='https://user2.cfapps.io/urban/';
+orderUrl='http://localhost:8083/';
   constructor(
     private http: HttpClient,
     private jwtService: JwtServiceService,

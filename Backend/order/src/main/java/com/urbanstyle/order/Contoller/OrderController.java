@@ -70,7 +70,8 @@ public class OrderController {
 	public Map<String,Object> getOrderByUser(HttpServletRequest request,
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",orderService.getOrderByUser(Long.parseLong(userId),filter));
+			//resultMap.put("orderList",orderService.getOrderByUser(Long.parseLong(userId),filter));
+			resultMap.put("orderList",orderService.getOrderProductByUser(Long.parseLong(userId),filter));
 			resultMap.put("RESPONSE", "SUCCESS");
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 
@@ -86,10 +87,10 @@ public class OrderController {
 	 * @return GET SINGLE ORDER DETAILS
 	 */
 	@RequestMapping(value= {"/getOrderById"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> getOrderById(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="orderId",required=true) String orderId ){
+	public Map<String,Object> getOrderById(HttpServletRequest request,HttpServletResponse response,@RequestParam(value="userOrderId",required=true) String userOrderId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 		try {
-			resultMap.put("orderDetails",orderService.getOrderById(Long.parseLong(orderId)));
+			resultMap.put("orderDetails",orderService.getOrderById(Long.parseLong(userOrderId)));
 			resultMap.put("RESPONSE", "SUCCESS");
 		}catch(Exception e) {
 			resultMap.put("RESPONSE", "ERROR");	
@@ -129,7 +130,7 @@ public class OrderController {
 	@RequestMapping(value= {"/getOrderForVendor"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> getOrderForVendor(@RequestParam(value="vendorId")long vendorId,
 			HttpServletRequest request,HttpServletResponse response){
-		Map<String, Object> resultMap = new HashMap<String,Object>();
+		Map<String, Object> resultMap = new HashMap<>();
 			resultMap.put("orderList",orderService.getVendorOrder(vendorId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
@@ -159,15 +160,16 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping(value= {"/getOrderProductForVendor"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> getOrderProductForVendor(@RequestParam(value="vendorId")long vendorId,@RequestParam(value="orderId")long orderId,HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> getOrderProductForVendor(@RequestParam(value="vendorId")long vendorId,@RequestParam(value="orderId")long orderId,
+			@RequestParam(value="orderProductId")long orderProductId,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		resultMap.put("orderList",orderService.getOrderProductForVendor(vendorId,orderId));
+		resultMap.put("orderList",orderService.getOrderProductForVendor(vendorId,orderProductId));
 		resultMap.put("orderDetails", orderService.getOrderDetails(orderId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
-	//DEPRICATED
 	@RequestMapping(value= {"/setStatusbyUser"},method= {RequestMethod.POST,RequestMethod.GET})
+	//DEPRICATED
 	public Map<String,Object> setStatusbyUser(@RequestParam(value="orderId")long orderId,@RequestParam(value="status")String status,@RequestParam(value="userId")long userId,@RequestParam(value="reason")String reason,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("orderList",orderService.setStatusbyUser(orderId,status,reason,userId));
@@ -184,10 +186,11 @@ public class OrderController {
 	 */
 	@RequestMapping(value= {"/cancelOrderByUser"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> cancelOrderByUser(@RequestParam(value="orderId")long orderId,
+			@RequestParam(value="orderProductId")long orderProductId,
 			@RequestParam(value="userId")long userId,
 			HttpServletRequest request,HttpServletResponse response){
-		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",orderService.cancelOrderByUser(orderId,userId));
+		Map<String, Object> resultMap = new HashMap<>();
+			resultMap.put("orderList",orderService.cancelOrderByUser(orderId,userId,orderProductId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
@@ -232,9 +235,10 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping(value= {"/setStatusbyAdmin"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> setStatusbyAdmin(@RequestParam(value="orderId")long orderId,@RequestParam(value="status")String status,@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> setStatusbyAdmin(@RequestParam(value="orderId")long orderId,
+			@RequestParam(value="orderProdId")long orderProdId,@RequestParam(value="status")String status,@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			orderService.setStatusbyAdmin(orderId,status,userId);
+			orderService.setStatusbyAdmin(orderId,orderProdId,status,userId);
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	

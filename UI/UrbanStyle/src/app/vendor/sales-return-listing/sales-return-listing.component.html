@@ -26,41 +26,33 @@
           <thead class="thead-default">
             <tr>
               <th>Order Id</th>
-              <th>Order Date</th>
-              <th>Order Status</th>
-              <th>Order Price</th>
-              <th>Order Placed By</th>
+              <th>Image</th>
+              <th>Product Name</th>
+              <th>Customer return Reason</th>
+              <th>Return Authorize Date</th>
+              <th>Customer Refund Date</th>
+              <th>Unit Recived Date</th>
+              <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let order of orderList">
-              <td>ORDER-{{ order.id }}</td>
-              <td>{{ order.orderPlacedDate | date }}</td>
-              <td>{{ order.orderStatus }}</td>
-              <td>{{ order.orderTotalPrice }}</td>
-              <td>{{ order.user.name }}</td>
+            <tr *ngFor="let return of returnList">
+              <td>ORDER-{{ return.orderProduct.id }}</td>
+              <td>{{ return.orderProduct.product.mainImageUrl }}</td>
+              <td>{{ return.orderProduct.product.variantName }}</td> 
+              <td>{{ return.reason }}</td>
+              <td>{{ return.returnAuthorizeDate | date }}</td>
+              <td>{{ return.customerRefundDate | date}}</td>
+              <td>{{ return.unitRecieveDate | date}}</td>
+              <td>{{ return.status }}</td>
               <td>
                 <button class="btn actionBtn" (click)="getOrderProductForVendor(order.id)">
                   View Details
                 </button>
-                <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder " -->
-                <button class="btn actionBtn" *ngIf="order.orderStatus!='DISPATCHED'  "
-                  (click)="changeStatusOfCompleteOrder('DISPATCHED',order.id)">
-                  Dispatch
-                </button>
-                <button class="btn actionBtn" (click)="changeStatusOfCompleteOrder('INPROGRESS',order.id)">
-                  Inprogress
-                </button>
-                <!-- <button class="btn actionBtn" (click)="cancelOrderByUser(order.id)">
-                  CANCEL
-                </button>
-                <button class="btn actionBtn" (click)="returnOrderByUser(order.id)">
-                  RETURN
-                </button> -->
               </td>
             </tr>
-            <tr *ngIf="orderList.length ==0 ">
+            <tr *ngIf="returnList.length ==0 ">
               <td scope="row">No record found</td>
             </tr>
           </tbody>

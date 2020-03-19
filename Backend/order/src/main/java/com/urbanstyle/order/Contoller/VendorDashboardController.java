@@ -45,9 +45,10 @@ public class VendorDashboardController {
 	 * @return LAST 5 ORDERS
 	 */
 	@RequestMapping(value= {"/getLastOrdersForVendor"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> getLastOrdersForVendor(@RequestParam(value="offset")int offset,@RequestParam(value="vendorId")int vendorId,HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> getLastOrdersForVendor(@RequestParam(value="offset")int offset,@RequestParam(value="vendorId")int vendorId,HttpServletRequest request,
+			@RequestParam(value="status")String status,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		resultMap.put("lastOrders",orderService.getLastOrdersForVendor(offset,vendorId));
+		resultMap.put("lastOrders",orderService.getLastOrdersForVendor(offset,vendorId,status));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 }

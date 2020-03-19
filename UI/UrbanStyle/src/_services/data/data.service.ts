@@ -351,9 +351,9 @@ changeStatusOfCategory(
   }
 
 
-  getOrderProductForVendor(orderId,vendorId,url)
+  getOrderProductForVendor(orderId,orderProductId,vendorId,url)
   {
-const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderId",orderId);   
+const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderId",orderId).set("orderProductId",orderProductId);   
 
  return new Observable<any>(obs => {
       this._apiService.getOrder(url, param).subscribe(res => {
