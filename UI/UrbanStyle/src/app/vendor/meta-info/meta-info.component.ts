@@ -17,6 +17,20 @@ export class MetaInfoComponent implements OnInit {
   ) { 
     // this._addProduct.getmetaInfo();
     console.log("metalist",this._addProduct.getProductMetaAllInfo);
+    console.log("meta list in meta info", this._addProduct.metaList);
+    this._addProduct.metaList.forEach(element => {
+      if(element.unitsAvailable && typeof(element.dropDownValues)=='string') {
+        element.dropDownValues = element.dropDownValues.split(',');
+        element['selectedDropDown'] = ""
+      } else {
+
+      }
+      if(element.subKeyAvailable && typeof(element.subKeys)=='string') {
+        element.subKeys = element.subKeys.split(',');
+      } else {
+
+      }
+    });
   }
 
   ngOnInit() {
@@ -25,12 +39,9 @@ export class MetaInfoComponent implements OnInit {
   onSubmit(){
     console.log(this._addProduct.productDTO);
     this._addProduct.saveChanges();
-    
-
   }
 
-  cancelButton()
-  {
+  cancelButton(){
     console.log(this._addProduct.getProductMetaAllInfo)
     this._router.navigateByUrl('/vendor/addProduct/imageUpload');
   }

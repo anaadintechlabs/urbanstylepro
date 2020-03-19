@@ -21,7 +21,7 @@
                   <div class="col-md-6 col-10" >
                     <div class="form-group" *ngFor="let item of _addProductService.features; let i = index">
                       <input type="text"  [(ngModel)]="item" (change)="onChange(item,i)" [ngModelOptions]="{standalone: true}" class="form-control"
-                      [ngClass]="{ 'is-invalid': submitted && f.feature?.errors }" />{{ item }}
+                      [ngClass]="{ 'is-invalid': submitted && f.feature?.errors }" />
                       <!-- <div *ngIf="submitted && f.feature?.errors" class="invalid-feedback">
                         <div *ngIf="f.feature?.errors.required">Product Code is required</div>
                       </div> -->
@@ -55,6 +55,28 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="" class="float-md-right">
+                      <i class="fas fa-star mr-2"></i>
+                      Legal Disclaimer
+                      <i class="far fa-question-circle ml-2"></i>
+                    </label>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <textarea rows="6" type="text" formControlName="disclaimer" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.description?.errors }" ></textarea>
+                      <div *ngIf="submitted && f.description?.errors" class="invalid-feedback">
+                        <div *ngIf="f.description?.errors.required">
+                          Product description is required
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </form>
             </div>
           </div>

@@ -63,7 +63,7 @@ export class AddProductService {
     this.productDTO = this._fb.group({
       product: this.productForm,
       productDesc: this.productDescription,
-      productVariantDTO: this._fb.array([]),
+      productVariantDTO: this._fb.array([this.initializeProductVarientDto()]),
       productMetaInfo: this._fb.array([])
     })
     console.log(this.productDTO.value);
@@ -85,12 +85,13 @@ export class AddProductService {
     sku: new FormControl("", []),
     variantName : new FormControl("",[]),
     variantCode : new FormControl("",[]),
+    productIdType : new FormControl("",[]),
     displayPrice: new FormControl("", []),
     salesPrice: new FormControl("", []),
     salesStartDate: new FormControl("", []),
     salesEndDate: new FormControl("", []),
     salesQuantity: new FormControl("", []),
-    actualPrice: new FormControl("", []),
+    manufacturerSuggesstedPrice: new FormControl("", []),
     discountPrice: new FormControl("", []),
     totalQuantity: new FormControl("", []),
     reservedQuantity: new FormControl("0")
@@ -115,16 +116,17 @@ export class AddProductService {
     manufacturer: new FormControl("", [, Validators.maxLength(80)]),
     longDescription: new FormControl("", []),
     features: new FormControl("", []),
+    disclaimer : new FormControl("",[]),
     coverPhoto: new FormControl("", []),
     defaultSize : new FormControl("",[]),
     defaultColor : new FormControl("",[]),
-    productIdType: new FormControl("ASIN")
+    productIdType: new FormControl("UPC")
   });
 
   product: FormGroup;
   productDTO: FormGroup;
   uploadedPhoto: string[] = [];
-  metaList: MetaInfo[];
+  metaList: any[];
 
   public initializeProductVarientDto(): FormGroup {
     let productVarientDto: FormGroup;
@@ -167,12 +169,13 @@ export class AddProductService {
         sku: new FormControl("", []),
         variantName : new FormControl("",[]),
         variantCode : new FormControl("",[]),
+        productIdType : new FormControl("",[]),
         displayPrice: new FormControl("", []),
         salesPrice: new FormControl("", []),
         salesStartDate: new FormControl("", []),
         salesEndDate: new FormControl("", []),
         salesQuantity: new FormControl("", []),
-        actualPrice: new FormControl("", []),
+        manufacturerSuggesstedPrice: new FormControl("", []),
         discountPrice: new FormControl("", []),
         totalQuantity: new FormControl("", []),
         reservedQuantity: new FormControl("0")
@@ -240,8 +243,24 @@ export class AddProductService {
     } else {
       url = "product/saveProduct";
     }
-    console.log(this.productDTO.value);
-
+    for (let index = 0; index < this.getProductMetaAllInfo.length; index++) {
+      const element = this.getProductMetaAllInfo.controls[index] as FormGroup;
+      if(this.metaList[index].unitsAvailable) {
+        if(this.metaList[index].subKeyAvailable) {
+          element.get('metaValue').patchValue(`(${this.metaList[index].subKeys.join(',')}) ${this.metaList[index].selectedDropDown}`)
+        } else {
+          element.get('metaValue').patchValue(`(${element.value.metaValue}) ${this.metaList[index].selectedDropDown}`)
+        }
+      } else {
+        if(this.metaList[index].subKeyAvailable) {
+          element.get('metaValue').patchValue(`${this.metaList[index].subKeys.join(',')}`)
+        } else {
+          element.get('metaValue').patchValue(`${element.value.metaValue}`)
+        }
+      }
+    }
+    console.log("metalist",this.getProductMetaAllInfo);
+    
     this._apiService.postWithMedia(url, frmData).subscribe(
       res => {
         console.log("save done");
@@ -254,6 +273,12 @@ export class AddProductService {
       }
     );
   }
+
+    cancelListing() {
+      this.flushData();
+      this._router.navigateByUrl('');
+    }
+
 
   getMetaInfoArray() {
     return this.productDTO.get("productMeta") as FormArray;
@@ -299,7 +324,13 @@ export class AddProductService {
     this.header_status.next(value);
   }
 
+  cancel() {
+    this.flushData(); 
+  }
+
   flushData() {
+    this.saleSelect = false;
+    this.selectedCatID = undefined;
     this.productDTO.reset();
     this.productVariantDTO.clear();
     this.getProductMetaAllInfo.clear();

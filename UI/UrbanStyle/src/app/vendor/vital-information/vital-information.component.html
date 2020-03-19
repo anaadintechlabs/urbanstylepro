@@ -19,16 +19,16 @@
                   </label>
                 </div>
                 <div class="col-md-4 col-10">
-                  <div class="form-group">
-                    <input type="text" formControlName="productCode" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.productCode?.errors }" />
-                    <div *ngIf="submitted && f.email?.errors" class="invalid-feedback">
-                      <div *ngIf="f.email?.errors.required">Product Code is required</div>
+                  <div class="form-group" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                    <input type="text" formControlName="variantCode" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.variantCode?.errors }" />
+                    <div *ngIf="submitted && f.variantCode?.errors" class="invalid-feedback">
+                      <div *ngIf="f.variantCode?.errors.required">Product Code is required</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-2 col-10">
-                  <div class="form-group">
+                  <div class="form-group" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
                     <select formControlName='productIdType' id="" class="custom-select">
                       <option value="ASIN">UPC</option>
                       <option value="UPC">UIN</option>
@@ -69,6 +69,192 @@
                 <div class="col-md-2">
                 </div>
               </div>
+              
+              <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    SKU
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="sku" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }" />
+                    <div *ngIf="submitted && f.sku?.errors" class="invalid-feedback">
+                      <div *ngIf="f.sku?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+
+              <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    M.R.S.P
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="manufacturerSuggesstedPrice" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.manufacturerSuggesstedPrice?.errors }" />
+                    <div *ngIf="submitted && f.manufacturerSuggesstedPrice?.errors" class="invalid-feedback">
+                      <div *ngIf="f.manufacturerSuggesstedPrice?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+
+              <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Standard Price
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="displayPrice" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.displayPrice?.errors }" />
+                    <div *ngIf="submitted && f.displayPrice?.errors" class="invalid-feedback">
+                      <div *ngIf="f.displayPrice?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+
+              <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Sale Price
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="salesPrice" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.salesPrice?.errors }" />
+                    <div *ngIf="submitted && f.salesPrice?.errors" class="invalid-feedback">
+                      <div *ngIf="f.salesPrice?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+
+              <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Sale Start Date
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="date" formControlName="salesStartDate" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.salesStartDate?.errors }" />
+                    <div *ngIf="submitted && f.salesStartDate?.errors" class="invalid-feedback">
+                      <div *ngIf="f.salesStartDate?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+
+              <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Sale end date
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="date" formControlName="salesEndDate" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.salesEndDate?.errors }" />
+                    <div *ngIf="submitted && f.salesEndDate?.errors" class="invalid-feedback">
+                      <div *ngIf="f.salesEndDate?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+
+              <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Sale Quantity
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="salesQuantity" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.salesQuantity?.errors }" />
+                    <div *ngIf="submitted && f.salesQuantity?.errors" class="invalid-feedback">
+                      <div *ngIf="f.salesQuantity?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+
+              <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Quantity
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="totalQuantity" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.totalQuantity?.errors }" />
+                    <div *ngIf="submitted && f.totalQuantity?.errors" class="invalid-feedback">
+                      <div *ngIf="f.totalQuantity?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+
+      
               <div class="row">
                 <div class="col-md-4">
                   <label for="" class="float-md-right">
