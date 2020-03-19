@@ -104,7 +104,6 @@ export class AddProductService {
     }),
     productId: new FormControl("", []),
     productCode: new FormControl("", [
-      ,
       Validators.maxLength(40)
     ]),
     categoryId: new FormControl("", []),
@@ -112,8 +111,8 @@ export class AddProductService {
       ,
       Validators.maxLength(100)
     ]),
-    brandName: new FormControl("", [, Validators.maxLength(80)]),
-    manufacturer: new FormControl("", [, Validators.maxLength(80)]),
+    brandName: new FormControl("", [Validators.maxLength(80)]),
+    manufacturer: new FormControl("", [Validators.maxLength(80)]),
     longDescription: new FormControl("", []),
     features: new FormControl("", []),
     disclaimer : new FormControl("",[]),
@@ -259,7 +258,7 @@ export class AddProductService {
         }
       }
     }
-    console.log("metalist",this.getProductMetaAllInfo);
+    console.log("metalist",this.productDTO);
     
     this._apiService.postWithMedia(url, frmData).subscribe(
       res => {

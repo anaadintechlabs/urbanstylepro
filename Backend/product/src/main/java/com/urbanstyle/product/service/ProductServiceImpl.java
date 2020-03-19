@@ -19,12 +19,14 @@ import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductDTOWithImage;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.external.UrlShortner;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductImages;
 import com.anaadihsoft.common.master.ProductInventory;
 import com.anaadihsoft.common.master.ProductMeta;
 import com.anaadihsoft.common.master.ProductVariant;
+import com.anaadihsoft.common.master.ShortCodeGenerator;
 import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.common.master.WarehouseInfo;
 import com.urbanstyle.product.repository.ProductAttributeDetailsRepository;
@@ -32,6 +34,8 @@ import com.urbanstyle.product.repository.ProductImagesRepository;
 import com.urbanstyle.product.repository.ProductInventoryRepo;
 import com.urbanstyle.product.repository.ProductMetaRepository;
 import com.urbanstyle.product.repository.ProductRepository;
+import com.urbanstyle.product.repository.ShortCodeGeneratorRepository;
+import com.urbanstyle.product.repository.UserRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -65,9 +69,14 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private ProductInventoryRepo productInventRepo;
+	@Autowired
+	private ShortCodeGeneratorRepository shortCodeGen;
 	
+	@Autowired
+	private UserRepository userRepo;
 
-
+	private UrlShortner urlSShort;
+	
 	@Override
 	public List<Product> getAllProducts() {
 		return (List<Product>) productRepository.findAll();
@@ -96,7 +105,7 @@ public class ProductServiceImpl implements ProductService{
 		productVariant.setLongDescription(product.getLongDescription());
 		productVariant.setMainImageUrl(mainImageUrl);
 		productVariant.setCreatedBy(product.getUser().getId()+"");
-		productVariant.setCondition(product.getCondition());
+		productVariant.setProductCondition(product.getProductCondition());
 		
 		
 		productVariant=productVariantRepository.save(productVariant);
@@ -150,6 +159,9 @@ public class ProductServiceImpl implements ProductService{
 		}
 		Product product = productDTO.getProduct();
 		product.setTotalVarients(productDTO.getProductVariantDTO() != null ?productDTO.getProductVariantDTO().size():0);
+		urlSShort = new UrlShortner();
+		String uid = urlSShort.generateUid("PR-", 9);
+		product.setUniqueProdId("PR-"+uid);
 		
 		Product oldProduct=productRepository.save(product);
 		
@@ -219,6 +231,11 @@ public class ProductServiceImpl implements ProductService{
 			productVariant.setLongDescription(product.getLongDescription());
 			productVariant.setMainImageUrl(mainImageUrl);
 			productVariant.setCreatedBy(product.getUser().getId()+"");
+			UrlShortner urlSShort = new UrlShortner(productVariant.getVariantCode(), product.getUser().getId(), productVariant.getSku());
+			String uid = urlSShort.generateUid("PV-", 9);
+
+			productVariant.setUniqueprodvarId("PV-"+uid);
+			productVariant.setProductVarLink(urlSShort.generateLink());
 			productVariant=productVariantRepository.save(productVariant);
 			if(productVariantDTO.getAttributesMap()!=null)
 			{
@@ -258,6 +275,8 @@ public class ProductServiceImpl implements ProductService{
 			if(productMeta.getMetaKey()!=null && !productMeta.getMetaKey().isEmpty() && productMeta.getMetaValue()!=null && !productMeta.getMetaValue().isEmpty())
 			{
 			ProductMeta newProd= new ProductMeta();
+			newProd.setMetaKey(productMeta.getMetaKey());
+			newProd.setMetaValue(productMeta.getMetaValue());
 			newProd.setProduct(product);
 			newProd.setProductVariant(productVariant);
 			productMetaList.add(newProd);
@@ -435,6 +454,25 @@ public class ProductServiceImpl implements ProductService{
 		productDTO.setProductVariantDTO(productVarientDTOList);
 		productDTO.setImageUrls(imageUrl);
 		return productDTO;
+	}
+	
+	
+	@Override
+	public String genAffiliatelink(long prodVarId, long userId) {
+		ProductVariant varient = productVarientSerice.findByProdVarId(prodVarId);
+		Optional<User> user =  userRepo.findById(userId);
+		User loginuser = null;
+		if(user.isPresent()) {
+			loginuser = user.get();
+		}
+		UrlShortner urlShorten = new UrlShortner(varient.getSku(),userId,varient.getSku());
+		String requiredURL = urlShorten.generateLink();
+		ShortCodeGenerator shortcode = new ShortCodeGenerator();
+		shortcode.setProdVar(varient);
+		shortcode.setShortCode(requiredURL);
+		shortcode.setUser(loginuser);
+		shortCodeGen.save(shortcode);		
+		return requiredURL;
 	}
 
 

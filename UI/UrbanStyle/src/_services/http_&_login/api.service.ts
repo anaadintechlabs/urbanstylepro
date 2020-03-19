@@ -13,9 +13,9 @@ import { Observable, throwError } from "rxjs";
 @Injectable()
 export class ApiService {
 
- userUrl='http://localhost:8081/urban/';
-// userUrl='https://user2.cfapps.io/urban/';
-orderUrl='https://myorder.cfapps.io/';
+  userUrl='http://localhost:8081/urban/';
+  // userUrl='https://user2.cfapps.io/urban/';  
+  orderUrl='https://myorder.cfapps.io/';
  
   constructor(
     private http: HttpClient,
@@ -43,6 +43,14 @@ orderUrl='https://myorder.cfapps.io/';
    getOrder(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http
       .get(this.orderUrl + path, { params })
+      .pipe(catchError(this.formatErrors));
+  }
+
+  postOrder(path: string, body: Object = {}): Observable<any> {
+    console.log("path..." + environment.api_url + path);
+    console.log("body..." , body);
+    return this.http
+      .post(this.orderUrl+path, body)
       .pipe(catchError(this.formatErrors));
   }
 
@@ -75,8 +83,6 @@ orderUrl='https://myorder.cfapps.io/';
     };
     this.http = new HttpClient(this.httpBackend);
 
-    console.log("path..." + environment.api_url + path);
-    console.log("body..."+ body);
     return this.http
       .post(`${environment.api_url}${path}`, body)
       .pipe(catchError(this.formatErrors));

@@ -13,7 +13,7 @@ export class OrderListingComponent implements OnInit {
   userId: any;
   showProduct = false;
   orderList: any = [];
-  orderProductList: any ;
+  orderProduct: any ;
   orderDetails:any;
   selectedOrderId: any;
   constructor(
@@ -73,13 +73,14 @@ export class OrderListingComponent implements OnInit {
     this.showProduct = false;
   }
 
-  getOrderProductForVendor(orderId) {
+  getOrderProductForVendor(orderProductId,orderId) {
     this.selectedOrderId = orderId;
-    this.dataService.getOrderProductForVendor(orderId, this.userId, "api/getOrderProductForVendor").subscribe(
+    this.dataService.getOrderProductForVendor(orderId,orderProductId, this.userId, "api/getOrderProductForVendor").subscribe(
       data => {
         console.log("All Products inside order", data);
         this.showProduct = true;
-        this.orderProductList = data.orderList;
+        //now single product
+        this.orderProduct = data.orderList;
         this.orderDetails=data.orderDetails;
         console.log("Address ",this.orderDetails)
       },
@@ -102,10 +103,10 @@ export class OrderListingComponent implements OnInit {
     );
   }
 
-  changeStatusOfPartialOrder(status, orderProdId) {
+  changeStatusOfPartialOrder(status, orderId,orderProdId) {
     this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor").subscribe(
       data => {
-        this.getOrderProductForVendor(this.selectedOrderId);
+        this.getOrderProductForVendor(orderProdId,orderId);
 
       },
       error => {
@@ -130,12 +131,13 @@ export class OrderListingComponent implements OnInit {
     );
   }
 
-  returnOrderByUser(orderId) {
+  returnOrderByUser(orderProdId,orderId) {
     //this user id will be id of user
     let userId = 1;
     //prompt reason from user
     let reason = 'bad quality product';
-    this.dataService.returnOrderByUser(userId, orderId, reason, "api/returnOrderByUser").subscribe(
+  
+    this.dataService.returnOrderByUser(userId, orderId,orderProdId, reason, "api/returnOrderByUser").subscribe(
       data => {
         //instead of this call api for get all order of user
         this.getAllOrderOfVendor(this.userId);

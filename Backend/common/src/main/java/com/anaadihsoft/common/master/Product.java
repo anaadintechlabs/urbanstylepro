@@ -27,6 +27,8 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productId;
 	
+	private String uniqueProdId;
+	
 	private String productCode;
 	
 	private ProducIdType productIdType;
@@ -53,7 +55,7 @@ public class Product {
 	
 	private boolean variantExist;
 	
-	private String condition;
+	private String productCondition;
 	
 	private Date createdDate;
 	
@@ -119,12 +121,14 @@ public class Product {
 	}
 
 	
-	public String getCondition() {
-		return condition;
+	
+
+	public String getProductCondition() {
+		return productCondition;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
+	public void setProductCondition(String productCondition) {
+		this.productCondition = productCondition;
 	}
 
 	public ProducIdType getProductIdType() {
@@ -261,9 +265,13 @@ public class Product {
 		this.defaultColor = defaultColor;
 	}
 	
-	
+	public String getUniqueProdId() {
+		return uniqueProdId;
+	}
 
+	public void setUniqueProdId(String uniqueProdId) {
+		this.uniqueProdId = uniqueProdId;
+	}
 
-	
 	
 }

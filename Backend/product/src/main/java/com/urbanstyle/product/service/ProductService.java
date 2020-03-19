@@ -74,6 +74,6 @@ public interface ProductService {
 
 	Product updateSingleProductVariant(ProductDTO productDTO, MultipartFile[] files, long productVariantId);
 	 
-
+	String genAffiliatelink(long prodVarId, long userId);
 }
 

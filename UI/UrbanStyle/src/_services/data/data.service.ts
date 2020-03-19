@@ -309,6 +309,35 @@ changeStatusOfCategory(
     });
   }
 
+  //all return of vendor
+  getAllReturnOfVendor(vendorId,filter,url)
+  {
+
+      url=url+'?vendorId='+vendorId;
+    //  const param: HttpParams = new HttpParams().set("vendorId", vendorId);
+    // console.log(param);
+    return new Observable<any[]>(obs => {
+      this._apiService.postOrder(url,filter).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.returnList);
+        }
+      });
+    });
+  }
+
+
+  changeStatusOfReturn(returnId,status,url)
+  {
+    const param: HttpParams = new HttpParams().set("returnId", returnId).set("status",status);   
+ return new Observable<any[]>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.orderList);
+        }
+      });
+    });
+  }
+
   //get all order of vendor by status
   getAllOrderOfVendorByStatus(vendorId,status,url)
   {
@@ -325,9 +354,9 @@ changeStatusOfCategory(
   }
 
 
-  getOrderProductForVendor(orderId,vendorId,url)
+  getOrderProductForVendor(orderId,orderProductId,vendorId,url)
   {
-const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderId",orderId);   
+const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderId",orderId).set("orderProductId",orderProductId);   
 
  return new Observable<any>(obs => {
       this._apiService.getOrder(url, param).subscribe(res => {
@@ -375,9 +404,9 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
        });
   }
 
-  returnOrderByUser(userId,orderId,reason,url)
+  returnOrderByUser(userId,orderId,orderProdId,reason,url)
   {
-    const param: HttpParams = new HttpParams().set("orderId", orderId).set("userId",userId).set("reason",reason);   
+    const param: HttpParams = new HttpParams().set("orderId", orderId).set("orderProdId",orderProdId).set("userId",userId).set("reason",reason);   
     return new Observable<any[]>(obs => {
          this._apiService.getOrder(url, param).subscribe(res => {
            if (res.isSuccess) {

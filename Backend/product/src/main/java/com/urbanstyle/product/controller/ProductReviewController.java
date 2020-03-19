@@ -127,6 +127,25 @@ public class ProductReviewController {
 		return CommonResponseSender.createdSuccessResponse(map, response);	
 	}
 	
+	/**
+	 * 
+	 * @param filter
+	 * @param userId
+	 * @param request
+	 * @param response
+	 * @return method for adding product to wishlist or cart
+	 */
+	@RequestMapping(value="/getLast5ProductReviewsOfVendor",method=RequestMethod.GET)
+	public Map<String,Object> getLast5ProductReviewsOfVendor(
+			@RequestParam(value="vendorId") long vendorId,
+			@RequestParam(value="offset") int offset,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("reviewList", productReviewService.getLast5ProductReviewsOfVendor(vendorId,offset));
+		return CommonResponseSender.createdSuccessResponse(map, response);	
+	}
+	
 	
 
 	/**

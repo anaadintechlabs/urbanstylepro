@@ -21,6 +21,9 @@ public class ReturnManagement {
 	@OneToOne
 	private UserOrder order; 
 	
+	@OneToOne
+	private UserOrderProducts orderProduct;
+	
 	@ManyToOne
 	private User user;
 	
@@ -34,8 +37,8 @@ public class ReturnManagement {
 	
 	private Date customerRefundDate;
 	
-	private Date createdDate;
 	
+	private Date createdDate;
 	private String createdBy;
 	
 	public long getReturnId() {
@@ -55,12 +58,24 @@ public class ReturnManagement {
 		this.unitRecieveDate = unitRecieveDate;
 	}
 
+	
+
 	public UserOrder getOrder() {
 		return order;
 	}
 
 	public void setOrder(UserOrder order) {
 		this.order = order;
+	}
+
+
+
+	public UserOrderProducts getOrderProduct() {
+		return orderProduct;
+	}
+
+	public void setOrderProduct(UserOrderProducts orderProduct) {
+		this.orderProduct = orderProduct;
 	}
 
 	public User getUser() {

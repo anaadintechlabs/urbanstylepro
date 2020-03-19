@@ -24,6 +24,7 @@ public interface OrderRepository extends PagingAndSortingRepository<UserOrder, L
 	@Query(" From UserOrder where orderStatus =?2")
 	List<UserOrder> getAllOrderByStatus(Pageable pagable, String status);
 
-	@Query("Select distinct uop.userOrder from UserOrderProducts uop where uop.vendor.id =?3 and uop.status=?2 order by uop.userOrder.orderPlacedDate desc")
-	List<UserOrder> getAllOrderByStatusAndUserId(Pageable pagable, String status, int vendorId);
+//	@Query("Select distinct uop.userOrder from UserOrderProducts uop where uop.vendor.id =?3 and uop.status=?2 order by uop.userOrder.orderPlacedDate desc")
+//	List<UserOrder> getAllOrderByStatusAndUserId(Pageable pagable, String status, int vendorId);
+	
 }

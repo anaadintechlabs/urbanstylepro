@@ -20,6 +20,8 @@ public class ProductVariant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productVariantId;
 	
+	private String uniqueprodvarId;
+	
 	private long categoryId;
 	
 	 @ManyToOne
@@ -58,7 +60,7 @@ public class ProductVariant {
 //	
 //	private double discountPrice;
 	
-	private String condition;
+	private String productCondition;
 	
 	private String legalDisclaimer;
 	
@@ -81,7 +83,17 @@ public class ProductVariant {
 	
 	private boolean dealOfTheDay;
 	
+	private String productVarLink;
 	
+	
+
+	public String getProductVarLink() {
+		return productVarLink;
+	}
+
+	public void setProductVarLink(String productVarLink) {
+		this.productVarLink = productVarLink;
+	}
 
 	public String getFeatures() {
 		return features;
@@ -101,12 +113,14 @@ public class ProductVariant {
 		this.legalDisclaimer = legalDisclaimer;
 	}
 
-	public String getCondition() {
-		return condition;
+	
+
+	public String getProductCondition() {
+		return productCondition;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
+	public void setProductCondition(String productCondition) {
+		this.productCondition = productCondition;
 	}
 
 	public double getManufacturerSuggesstedPrice() {
@@ -323,6 +337,15 @@ public class ProductVariant {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
+	
+	public String getUniqueprodvarId() {
+		return uniqueprodvarId;
+	}
+
+	public void setUniqueprodvarId(String uniqueprodvarId) {
+		this.uniqueprodvarId = uniqueprodvarId;
+	}
+
 	
 	@PrePersist
 	public void setdate()

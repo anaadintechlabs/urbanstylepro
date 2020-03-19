@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  api_url: "http://localhost:8082/",
-  // api_url: "https://product.cfapps.io/",
+  // api_url: "http://localhost:8082/",
+  api_url: "https://product.cfapps.io/",
   // api_url: "http://192.168.0.160:8082/",
   order_url:"https://myorder.cfapps.io/"
 };

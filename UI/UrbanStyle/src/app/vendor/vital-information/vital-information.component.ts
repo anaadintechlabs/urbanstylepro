@@ -19,7 +19,7 @@ export class VitalInformationComponent implements OnInit {
   ) {
     this._addProductService.changeHeaderStaus(true);
     
-    if(this._addProductService.selectedVariation.length == 0){
+    if(this._addProductService.selectedVariation.length == 0 && this._addProductService.productVariantDTO.controls.length == 0){
       this._addProductService.productVariantDTO.push(this._addProductService.initializeProductVarientDto());
      } 
   }
