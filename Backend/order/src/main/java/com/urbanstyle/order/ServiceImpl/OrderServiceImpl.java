@@ -984,11 +984,9 @@ public class OrderServiceImpl implements OrderService {
 			Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
 			if(userOrdrProdOpt.isPresent())
 			{
-
-				 userOrdrProd=userOrdrProdOpt.get();
+				userOrdrProd=userOrdrProdOpt.get();
 				if(userOrdrProd.getStatus().equals("COMPLETED"))
 				{
-
 				 userOrdrProd=userOrdrProdOpt.get();
 				userOrdrProd.setStatus("RETURNED REQUESTED");
 				userOrderProdRepo.save(userOrdrProd);
@@ -1098,6 +1096,11 @@ public class OrderServiceImpl implements OrderService {
 	public UserOrderProducts getOrderById(long parseLong) {
 		Optional<UserOrderProducts> userOrderProdOpt= userOrderProdRepo.findById(parseLong);
 		return userOrderProdOpt.isPresent()?userOrderProdOpt.get():null;
+	}
+
+	@Override
+	public List<PaymentWalletTransaction> getTransactionofOrder(long orderProdId) {
+		return paymentwalletTransactionRepo.getTransactionofOrder(orderProdId,"OP");
 	}
 
 	
