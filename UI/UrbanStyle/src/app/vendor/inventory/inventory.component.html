@@ -43,6 +43,31 @@
 			</div>
 		</div>
 
+		<div class="p-2 v_filter-sec">
+			<div class="row py-3 bg-light">
+				<!-- <div class="col-md-1">
+					<span>Filters</span>
+				</div> -->
+				<div class="col-md-6">
+					<span>Action </span>
+					<span>
+						<actionHandler [options]="bulkOption" (selectedValue)="bulkAction($event)"></actionHandler>
+					</span>
+				</div>
+				<!-- <div class="col-md-7">
+					<div class="dropdown">
+						<button class="dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							Additional Filters
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+							<a class="dropdown-item" href="#">Action</a>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="second-tab bg-white mt-5 border-top">
 				<div class="header">
@@ -61,7 +86,7 @@
 				<div class="" *ngFor="let item of productList">
 				  <div class="variationBody">
 					<div  class="checkBox"> 
-					  <input type="checkbox" class="custom-checkbox">
+					  <input type="checkbox" class="custom-checkbox" >
 					</div>
 					<div (click)="getAllVeriant(item)">
 					  	<p> 
@@ -103,7 +128,7 @@
 				  </div>
 				  <div class="variationBody childs" *ngFor="let data of item?.child">
 					<div  class="checkBox"> 
-					  <input type="checkbox" class="custom-checkbox">
+					  <input type="checkbox" class="custom-checkbox" (change)="checkboxChangeEvent($event,data)">
 					</div>
 					<div>
 					  <p> {{ data.status?'ACTIVE':'INACTIVE' }} </p>

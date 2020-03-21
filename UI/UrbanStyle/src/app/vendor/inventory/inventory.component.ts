@@ -21,7 +21,6 @@ export class InventoryComponent implements OnInit {
 
   bankDetailCount: number;
   public userId: any = 1;
-  public ELEMENT_DATA: any;
   public dataSource: any;
 
   public limit: any = 5;
@@ -50,6 +49,8 @@ export class InventoryComponent implements OnInit {
     }
   }
 
+  bulkOption : string[] = ['Active','Inctive','Delete']
+
   ngOnInit() {
     this.filter = {
       search: "",
@@ -63,6 +64,23 @@ export class InventoryComponent implements OnInit {
       limit: 50,
       offset: 0
     };
+  }
+
+  selectedVarientForBulkAction : any[]  = [];
+  checkboxChangeEvent(ev:any,data:any) {
+    if(ev.target.checked) {
+      // console.log(ev.target.checked);
+      // console.log(data);
+      this.selectedVarientForBulkAction.push(data);
+    } else {
+      let i = this.selectedVarientForBulkAction.indexOf(data);
+      this.selectedVarientForBulkAction.splice(i,1);
+    }
+    console.log(this.selectedVarientForBulkAction);
+  }
+
+  bulkAction(value) {
+    console.log(value);
   }
 
   getAllProductOfUser() {
@@ -118,7 +136,6 @@ export class InventoryComponent implements OnInit {
           this.showProducts = false;
           this.showVariants = true;
           this.productList = data;
-          this.ELEMENT_DATA = this.productList;
         },
         error => {
           console.log("error======", error);
@@ -159,7 +176,6 @@ export class InventoryComponent implements OnInit {
           this.productList = data;
           this.showProducts = false;
           this.showVariants = true;
-          this.ELEMENT_DATA = this.productList;
         },
         error => {
           console.log("error======", error);
@@ -186,7 +202,6 @@ export class InventoryComponent implements OnInit {
     this.dataService.changeStatusOfProductVariant(url, body).subscribe(
       data => {
         this.productList = data;
-        this.ELEMENT_DATA = this.productList;
       },
       error => {
         console.log("error======", error);
@@ -221,6 +236,7 @@ export class InventoryComponent implements OnInit {
       }
     );
   }
+
   pageEvent(event) {}
 
   goToEdit(item) {

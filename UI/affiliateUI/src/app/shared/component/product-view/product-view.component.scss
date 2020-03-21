@@ -1,0 +1,28 @@
+.productView {
+    p{
+        margin: 0;
+    }
+    padding: 10px;
+    border: 2px solid #c1c1c1;
+    margin-bottom: 10px !important;
+    img{
+        width: 100%;
+    }
+    .link_col {
+        border-top: 2px solid #c1c1c1;
+        padding: 10px;
+
+        button {
+            box-shadow: none;
+            border: 2px solid #c1c1c1;
+            background-color: transparent;
+            font-size: 0.8rem;
+            padding: 8px 23px;
+            color: #999;
+            &:hover {
+                color: #000;
+                border-color: #000;
+            }
+        }
+    }
+}
