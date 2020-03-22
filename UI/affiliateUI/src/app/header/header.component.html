@@ -1,0 +1,46 @@
+<nav class="appHeader">
+    <div class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <a [routerLink]="['dashboard']" routerLinkActive="router-link-active" class="navbar-brand">
+            <h3>Urban Style Decor</h3>
+            <!-- <img src="../../../assets/img/logo.png" alt="" class="img-fluid"> -->
+        </a>
+        <a href="" class="navbar-brand"><i class="far fa-bell-slash"></i>
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#topbar"><span
+                class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="topbar">
+            <span class="mx-auto"></span>
+            <ul class="navbar-nav text-capitalize">
+                <li class="nav-item">
+                    <form action="" class="nav-link">
+                        <div class="">
+                            <input type="text" class="form-control w-75 float-left rounded-0" placeholder="Search">
+                            <button class="btn btn-info rounded-0"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                </li>
+                <li class="nav-item"><a [routerLink]="['/affiliate/dashboard']" routerLinkActive="router-link-active" class="nav-link border-right">DashBoard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link border-right">Help</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" (click)="logout()">Logut</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- <nav>
+    <div class="navbar navbar-expand-md navbar-light bg-transparanet">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#mymenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mymenu">
+            <ul class="navbar-nav text-capitalize">
+                <li class="nav-item"><a [routerLink]="['inventory']" class="nav-link ">Inventory</a></li>
+                <li class="nav-item"><a [routerLink]="['addProduct']" class="nav-link ">Add Product</a></li>
+                <li class="nav-item"><a [routerLink]="['sales']" class="nav-link">Sales</a></li>
+                <li class="nav-item"><a [routerLink]="['order']" class="nav-link">Order</a></li>
+                <li class="nav-item"><a [routerLink]="['returns']" class="nav-link">Returns</a></li>
+                <li class="nav-item"><a (click)="logOut()" class="nav-link">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav> -->

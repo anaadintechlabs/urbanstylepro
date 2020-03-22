@@ -1,0 +1,29 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class=" auth-content">
+        <img src="assets/images/auth/auth-logo-dark.png" alt=""
+            class="img-fluid mb-4 d-block d-xl-none d-lg-none">
+        <h3 class="mb-4 f-w-400">Signin</h3>
+        <div class="input-group mb-3">
+            <input formControlName="email" type="text" name="username" id="" class="form-control"
+                placeholder="Email address">
+        </div>
+        <div class="input-group mb-4">
+            <input formControlName="password" type="password" name="" id="" class="form-control"
+                placeholder="Password">
+        </div>
+        <!-- <div class="custom-control custom-checkbox text-left mb-4 mt-2">
+            <input type="checkbox" class="custom-control-input" id="customCheck1">
+            <label class="custom-control-label" for="customCheck1">Save credentials.</label>
+        </div> -->
+        <input type="submit" class="btn btn-block btn-primary mb-4" value="Sign in">
+        <div class="text-center">
+
+            <p class="mb-2 mt-3 text-muted">Forgot password? <a [routerLink]="['../forgotPass']"
+                    class="f-w-400">Reset</a>
+            </p>
+            <p class="mb-2 mt-3 text-muted">
+                <a [routerLink]="['signup']" class="f-w-400">Create new Account</a>
+            </p>        
+        </div>
+    </div>
+</form>

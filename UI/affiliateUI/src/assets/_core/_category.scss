@@ -1,0 +1,40 @@
+.v_category-sec{
+	background: $bgcolor;
+	p{
+		color:gray;
+	}
+	p.lead,a.lead{
+		font-size: 0.8125rem;
+		font-weight: 500;
+	}
+	.v_cate_listing{
+		height: 323px;
+		overflow:auto;
+		h5{
+			margin-bottom: 0 !important;
+		}
+		p{
+			margin-bottom: 0 !important;
+			&:hover{
+				background: #E3ECED !important;
+			}
+		}
+	}
+	input{
+		width:92%;
+		padding:1.25rem;
+	}
+	button{
+		background: #fafafa;
+		padding:1.15rem;
+		color:white;
+		outline:0;
+		border:0;
+	}
+	.srch-result{
+		background: #fafafa;
+		p{
+			margin-bottom: 0 !important;
+		}
+	}
+}

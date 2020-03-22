@@ -56,7 +56,6 @@ export class AddProductService {
     private toastr: ToastrService
   ) {
     this.features = [""];
-
     for (let index = 0; index < 12; index++) {
       this.urlArray[index] = '-';
       this.myFiles[index] = '-'
@@ -64,10 +63,9 @@ export class AddProductService {
     this.productDTO = this._fb.group({
       product: this.productForm,
       productDesc: this.productDescription,
-      productVariantDTO: this._fb.array([]),
+      productVariantDTO: this._fb.array([this.initializeProductVarientDto()]),
       productMetaInfo: this._fb.array([])
-    });
-
+    })
     console.log(this.productDTO.value);
   }
 
@@ -87,12 +85,13 @@ export class AddProductService {
     sku: new FormControl("", []),
     variantName : new FormControl("",[]),
     variantCode : new FormControl("",[]),
+    productIdType : new FormControl("",[]),
     displayPrice: new FormControl("", []),
     salesPrice: new FormControl("", []),
     salesStartDate: new FormControl("", []),
     salesEndDate: new FormControl("", []),
     salesQuantity: new FormControl("", []),
-    actualPrice: new FormControl("", []),
+    manufacturerSuggesstedPrice: new FormControl("", []),
     discountPrice: new FormControl("", []),
     totalQuantity: new FormControl("", []),
     reservedQuantity: new FormControl("0")
@@ -105,7 +104,6 @@ export class AddProductService {
     }),
     productId: new FormControl("", []),
     productCode: new FormControl("", [
-      ,
       Validators.maxLength(40)
     ]),
     categoryId: new FormControl("", []),
@@ -113,20 +111,21 @@ export class AddProductService {
       ,
       Validators.maxLength(100)
     ]),
-    brandName: new FormControl("", [, Validators.maxLength(80)]),
-    manufacturer: new FormControl("", [, Validators.maxLength(80)]),
+    brandName: new FormControl("", [Validators.maxLength(80)]),
+    manufacturer: new FormControl("", [Validators.maxLength(80)]),
     longDescription: new FormControl("", []),
     features: new FormControl("", []),
+    disclaimer : new FormControl("",[]),
     coverPhoto: new FormControl("", []),
     defaultSize : new FormControl("",[]),
     defaultColor : new FormControl("",[]),
-    productIdType: new FormControl("ASIN")
+    productIdType: new FormControl("UPC")
   });
 
   product: FormGroup;
   productDTO: FormGroup;
   uploadedPhoto: string[] = [];
-  metaList: MetaInfo[];
+  metaList: any[];
 
   public initializeProductVarientDto(): FormGroup {
     let productVarientDto: FormGroup;
@@ -143,8 +142,6 @@ export class AddProductService {
     console.log(item);
     console.log(this.productVariantDTO.controls);
     console.log(this.productVariantDTO.controls.indexOf(item));
-    // this.productVariantDTO.removeAt(this.productVariantDTO.controls.indexOf(item));
-    // console.log(this.productVariantDTO);
   }
 
   intializeproductMetaInfo(): FormGroup {
@@ -171,12 +168,13 @@ export class AddProductService {
         sku: new FormControl("", []),
         variantName : new FormControl("",[]),
         variantCode : new FormControl("",[]),
+        productIdType : new FormControl("",[]),
         displayPrice: new FormControl("", []),
         salesPrice: new FormControl("", []),
         salesStartDate: new FormControl("", []),
         salesEndDate: new FormControl("", []),
         salesQuantity: new FormControl("", []),
-        actualPrice: new FormControl("", []),
+        manufacturerSuggesstedPrice: new FormControl("", []),
         discountPrice: new FormControl("", []),
         totalQuantity: new FormControl("", []),
         reservedQuantity: new FormControl("0")
@@ -226,6 +224,7 @@ export class AddProductService {
   }
 
   saveChanges() {
+    console.log(this.features[0]);
     this.productFormGroup.get('features').patchValue(JSON.stringify(this.features));
     this.uploadedPhoto = this.myFiles;
     let url: string = "";
@@ -243,18 +242,42 @@ export class AddProductService {
     } else {
       url = "product/saveProduct";
     }
-    console.log(this.productDTO.value);
+    for (let index = 0; index < this.getProductMetaAllInfo.length; index++) {
+      const element = this.getProductMetaAllInfo.controls[index] as FormGroup;
+      if(this.metaList[index].unitsAvailable) {
+        if(this.metaList[index].subKeyAvailable) {
+          element.get('metaValue').patchValue(`(${this.metaList[index].subKeys.join(',')}) ${this.metaList[index].selectedDropDown}`)
+        } else {
+          element.get('metaValue').patchValue(`(${element.value.metaValue}) ${this.metaList[index].selectedDropDown}`)
+        }
+      } else {
+        if(this.metaList[index].subKeyAvailable) {
+          element.get('metaValue').patchValue(`${this.metaList[index].subKeys.join(',')}`)
+        } else {
+          element.get('metaValue').patchValue(`${element.value.metaValue}`)
+        }
+      }
+    }
+    console.log("metalist",this.productDTO);
+    
     this._apiService.postWithMedia(url, frmData).subscribe(
       res => {
         console.log("save done");
         this._router.navigateByUrl("/vendor/inventory");
         this.toastr.success("Product saved successfully", "Success");
+        this.flushData();
       },
       error => {
         this.toastr.success("Something went wrong!", "Failure");
       }
     );
   }
+
+    cancelListing() {
+      this.flushData();
+      this._router.navigateByUrl('');
+    }
+
 
   getMetaInfoArray() {
     return this.productDTO.get("productMeta") as FormArray;
@@ -300,14 +323,28 @@ export class AddProductService {
     this.header_status.next(value);
   }
 
+  cancel() {
+    this.flushData(); 
+  }
+
   flushData() {
+    this.saleSelect = false;
+    this.selectedCatID = undefined;
     this.productDTO.reset();
     this.productVariantDTO.clear();
     this.getProductMetaAllInfo.clear();
     this.myFiles = [];
     this.urlArray = [];
+    this.uploadedPhoto = [];
+    this.features = [];
     this.selectedVariation = [];
     this.categoryAttribute = [];
+    this.productVariantForm.reset();
+    this.features = [""];
+    for (let index = 0; index < 12; index++) {
+      this.urlArray[index] = '-';
+      this.myFiles[index] = '-'
+    }
     window.sessionStorage.removeItem("addProduct");
   }
 }

@@ -1,0 +1,83 @@
+#mymenu3{
+	a{
+		border-right:1px solid #eee;
+		padding:0 0.4rem;
+		// font-weight: 700;
+	}
+}
+.v_modal_productImage {
+	width: 80px;
+	padding: 5px;
+}
+.v_inventory{
+	.v_inventor_heading{
+		a{
+			border-right:1px solid #eee;
+		padding:0 0.8rem;
+		margin-top:1.5rem;
+		}
+	}
+	.v_inventory_btn{
+		button{
+			padding: 0.35rem;
+			font-weight: 500;
+			&:hover{
+				background: aliceblue;
+			}
+		}
+	}
+	.v_inventory-serch{
+		@extend .v_inventory_btn;
+		.v_srch_btn{
+			padding: 0.5rem;
+			background: transparent;
+			color: #999999;
+			margin-right: 10px;
+			border-radius: 0;
+			font-size: 12px;
+			border: 2px solid #999999;
+			&:hover{
+				background: transparent;
+				border-color: rgba(0,0,0,1);
+				color: rgba(0,0,0,1);
+			}
+		}
+	}
+	.v_filter-sec{
+		span{
+		color:$greycolor;
+		}
+		i{
+			font-size: 0.85rem
+		}
+		button{
+			padding: 0.3rem 0.8rem;
+			background: transparent;
+			color:#999999;
+			border: 2px solid #999999;
+			margin-right: 10px;
+			border-radius: 0;
+			font-size: 12px;
+			&:hover{
+				border-color: rgba(0,0,0,1);
+				color: rgba(0,0,0,1);
+			}
+		}
+	}
+
+}
+
+button.btn.editBtn {
+	font-size: 12px;
+	background: transparent;
+	border: 2px solid #c1c1c1;
+	border-radius: 0;
+	padding: 0.2rem 1rem;
+	color: #c1c1c1;
+	color: #999999;
+	border: 2px solid #999999;
+	&:hover{
+		border-color: rgba(0,0,0,1);
+		color: rgba(0,0,0,1);
+	}
+}

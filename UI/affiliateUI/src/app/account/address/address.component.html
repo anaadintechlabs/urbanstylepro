@@ -1,0 +1,94 @@
+<div  *ngIf="addressDetails && addressDetails.length > 0" class="container">
+  <div class="row">
+    <div class="col-sm-12">
+        <div class="blank_space"></div>      
+    </div>
+    <div class="col-sm-12">
+        <h4>Add Address</h4>      
+    </div>
+    <div class="col-sm-4 pdBtm">
+      <div (click)="navigateToAddGroup()" class="add_address">
+        <div class="address_icon">
+          <i class="material-icons">
+            add
+            </i>
+        </div>
+      </div>
+    </div>
+    <div  *ngFor="let address of addressDetails" class="col-sm-4 pdBtm">
+      <div class="currunt_address">
+        <div class="currunt_address_detail">
+            <h4>{{ user?.userName }} </h4>
+            <p>Address: {{ address.addressOne }} {{ address.addressTwo }} </p>
+            <p>City : {{ address?.cite?.cityName }} {{ address?.zip}} </p>
+            <p>State : {{ address?.state?.stateName }} </p>
+            <p>Country : {{ address?.country?.countryName }} </p>
+        </div>
+        <div class="currunt_address_footer">
+          <a class="currunt_address_footer_Link brR" (click)="navigateToEditOrViewAddress('edit', address)">Edit</a>
+          <a class="currunt_address_footer_Link" (click)="deleteAddressDetails(address)">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div class="container-fluid">
+  <div class="row ptop10 p0">
+    <div class="col-md-12 col-sm-12 thc">
+      <strong>Address Details</strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+      <div class="row pt-2 pb-2">
+        <div class="col-xl-9 col-md-9 col-sm-9 col-12 pt-1">
+          <button (click)="navigateToAddGroup()">
+            Add
+          </button>
+        </div>
+      </div>
+       data-table start
+      <div
+        *ngIf="addressDetails && addressDetails.length > 0"
+        class="table-responsive"
+      >
+        <div class="card card-plain">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title mt-0">Attribute List</h4>
+            <p class="card-category">
+              All attribute of the relating Sub Category
+            </p>
+          </div>
+          <table class="table table-hover">
+            <thead class="attrTblHead">
+              <th>Attribute Name</th>
+              <th>Attribute Type</th>
+              <th>Attribute Value</th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let address of addressDetails">
+                <td>{{ address.addressOne }}</td>
+                <td>{{ address.addressTwo }}</td>
+                <td>{{ address.zip }}</td>
+                <td>
+                  <button
+                    (click)="navigateToEditOrViewAddress('edit', address)"
+                  >
+                    Edit
+                  </button>
+                  <button (click)="deleteAddressDetails(address)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -16,9 +16,9 @@ export class ExtraDetailsComponent implements OnInit {
 
   ngOnInit() {
     this._zone.runOutsideAngular(()=>{
-      this.features = [""];
+      this._addProductService.features = [""];
       let temp = this._addProductService.productFormGroup.get('features');
-      temp.patchValue(this.features.toString());
+      temp.patchValue(this._addProductService.features.toString());
     })
     console.log(this._addProductService.productDTO.value);
   }
@@ -28,15 +28,19 @@ export class ExtraDetailsComponent implements OnInit {
   }
 
   addMoreFeature() {
-    this._zone.runOutsideAngular(()=>{
-      this._addProductService.features.push("");
-      console.log(this.features);
-    })
+    this._addProductService.features.push("");
   }
 
   removeFeature(index) {
     this._addProductService.features.splice(index,1)
-    console.log(this.features);
+    console.log(this._addProductService.features);
+  }
+
+  onChange(item,i) {
+    // console.log('work');
+    this._addProductService.features[i] = item;
+    this._addProductService.productFormGroup.get('features').patchValue(JSON.stringify(this._addProductService.features));
+    // console.log(this._addProductService.features);
   }
 
 }
