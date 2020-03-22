@@ -67,6 +67,8 @@ public class ProductVariant {
 	private double totalQuantity;
 	
 	private double reservedQuantity;
+	
+	private boolean salesEnabled;
 		
 	
 	private int status;
@@ -86,6 +88,15 @@ public class ProductVariant {
 	private String productVarLink;
 	
 	
+	
+
+	public boolean isSalesEnabled() {
+		return salesEnabled;
+	}
+
+	public void setSalesEnabled(boolean salesEnabled) {
+		this.salesEnabled = salesEnabled;
+	}
 
 	public String getProductVarLink() {
 		return productVarLink;
