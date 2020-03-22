@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <textarea rows="6" type="text" formControlName="disclaimer" class="form-control"
+                      <textarea rows="6" type="text" formControlName="legalDisclaimer" class="form-control"
                       [ngClass]="{ 'is-invalid': submitted && f.description?.errors }" ></textarea>
                       <div *ngIf="submitted && f.description?.errors" class="invalid-feedback">
                         <div *ngIf="f.description?.errors.required">
