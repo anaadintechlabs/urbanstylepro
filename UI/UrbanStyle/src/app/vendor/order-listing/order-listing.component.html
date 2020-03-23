@@ -1,6 +1,5 @@
-<div class="container">
-
-  <div class="row my-5">
+<div class="container" >
+  <div class="row my-5" *ngIf=" !showProduct">
     <div class="col-12 col-md-12">
       <div class="ordder_heading">
         <h4>Order Managment</h4>
@@ -8,7 +7,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf=" !showProduct">
     <div class="col-12 col-md-12">
       <div class="ordder_heading">
         <p>
@@ -67,216 +66,75 @@
       </table>
     </div>
   </div>
-  <div class="row" *ngIf=" showProduct">
 
-    <div class="row">
-      <h1>Order Summary (show order summary)</h1>
 
-      <table class="table table-striped">
-          <thead class="thead-default">
-            <tr>
-              <th>Order Id</th>
-              <th>Order Date</th>
-              <th>Order Status</th>
-              <th>Order Price</th>
-              <th>Order Placed By</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>ORDER-{{ orderDetails.id }}</td>
-              <td>{{ orderDetails.orderPlacedDate | date }}</td>
-              <td>{{ orderDetails.orderStatus }}</td>
-              <td>{{ orderDetails.orderTotalPrice }}</td>
-              <td>{{ orderDetails.user.name }}</td>
-            
-            </tr>
-           
-          </tbody>
-        </table>
-
-        <h1> Address Details</h1>
-        <table class="table table-striped">
-            <thead class="thead-default">
-              <tr>
-                <th>Address Main</th>
-                <th>Address Secondary</th>
-                <th>Zipcode</th>
-                <th>Primary Address</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{ orderDetails.address.addressOne }}</td>
-                <td>{{ orderDetails.address.addressTwo }}</td>
-                <td>{{ orderDetails.address.zip }}</td>
-                <td>{{ orderDetails.address.primaryAddress }}</td>
-              </tr>   
-            </tbody>
-          </table>
-
-          <h1>Transaction Details Only in case of Complete</h1>
-          
+  <div class="row my-5" *ngIf=" showProduct">
+    <div class="col-md-6 mb-4">
+      <h4>Order Summary</h4>
+      <div class="order_details">
+        <p>Order Id : ORDER-{{ orderDetails.id }}</p>
+        <p>Order Date : {{ orderDetails.orderPlacedDate | date }}</p>
+        <p>Order Status : {{ orderDetails.orderStatus }}</p>
+        <p>Order Price {{ orderDetails.orderTotalPrice }}</p>
+        <p>Order Placed By : {{ orderDetails.user.name }}</p>
+      </div>
     </div>
-
-    <div class="col-12 col-md-12">
+    <div class="col-md-6 mb-4">
+      <h4>Shipped Address</h4>
+      <div class="shiped_details">
+        <p>Address Main: {{ orderDetails.address.addressOne }}</p>
+        <p>Address Secondary: {{ orderDetails.address.addressTwo }}</p>
+        <p>Zipcode: {{ orderDetails.address.zip }}</p>
+        <p>Primary Address: {{ orderDetails.address.primaryAddress }}</p>
+      </div>
+    </div>
+    <div class="col-md-12">
       <table class="table table-striped">
         <thead class="thead-default">
           <tr>
-            <th>Product SKU</th>
+            <th>Product Name</th>
+            <th>Image</th>
+            <th>Listing Id</th>
             <th>Quantity</th>
             <th>Variant Total Price</th>
             <th>Status</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody>
             <!-- *ngFor="let orderProduct of orderProductList" -->
           <tr >
-            <td>{{ orderProduct.product.sku }}</td>
+            <td>{{ orderProduct.product.variantName }}</td>
+            <td>
+              <img [src]="orderProduct.product.mainImageUrl" alt="" srcset="">
+            </td>
+            <td>{{ orderProduct.product.uniqueprodvarId }}</td>
             <td>{{ orderProduct.quantity }}</td>
             <td>{{ orderProduct.orderProductPrice }}</td>
             <td>{{ orderProduct.status }}</td>
-            <td>
+            <!-- <td>
               <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('INPROGRESS',orderProduct.id)">
                 Inprogress
               </button>
               <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">
                 DISPATCHED
               </button>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <div class="row mt-4 tracking"  *ngIf=" showProduct && orderProduct.status == 'PENDING'">
+    <div class="col-md-4">
+      <label for="">Tracking Id: </label>
+      <input type="text">
+    </div>
+    <div class="col-md-4">
+      <label for="">Tracking Link: </label>
+      <input type="text">
+    </div>
+    <div class="col-md-4">  
+      <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">DISPATCHED</button>
+    </div>
+  </div>
 </div>
-
-<!-- <div class="container-fluid">
-  <div class="row ptop10 p0">
-    <div class="col-md-3 col-sm-3 thc">
-      <button (click)="getOrderByStatus('ALL')">All Order </button>
-    </div>
-    <div class="col-md-3 col-sm-3 thc">
-      <button (click)="getOrderByStatus('PLACED')">Pending Order </button>
-    </div>
-    <div class="col-md-3 col-sm-3 thc">
-      <button (click)="getOrderByStatus('CANCELLED')">Cancelled Order </button>
-    </div>
-  </div>
-  <div class="row ptop10 p0">
-    <div class="col-md-12 col-sm-12 thc">
-      <strong>Order Details</strong>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 col-lg-12 col-sm-12">
-      <div class="row pt-2 pb-2">
-
-      </div>
-      <div *ngIf=" !showProduct" class="table-responsive">
-        <div class="card card-plain">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title mt-0">Order List</h4>
-            <p class="card-category"></p>
-          </div>
-          <table class="table table-hover">
-            <thead class="attrTblHead">
-              <th>Order Id</th>
-              <th>Order Date</th>
-              <th>Order Status</th>
-              <th>Order Price</th>
-              <th>Order Placed By</th>
-              <th>Action</th>
-            </thead>
-            <tbody>
-
-              <tr *ngFor="let order of orderList">
-                <td>ORDER-{{ order.id }}</td>
-                <td>{{ order.orderPlacedDate }}</td>
-                <td>{{ order.orderStatus }}</td>
-                <td>{{ order.orderTotalPrice }}</td>
-                <td>{{ order.user.name }}</td>
-                <td>
-                  <button (click)="getOrderProductForVendor(order.id)">
-                    View Details
-                  </button>
-                  <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder "
-                  <button *ngIf="order.orderStatus!='DISPATCHED'  "
-                    (click)="changeStatusOfCompleteOrder('DISPATCHED',order.id)">
-                    Dispatch
-                  </button>
-
-                  <button  (click)="changeStatusOfCompleteOrder('INPROGRESS',order.id)">
-                      Inprogress
-                    </button>
-                    <button  (click)="cancelOrderByUser(order.id)">
-                        CANCEL
-                      </button>
-                      <button  (click)="returnOrderByUser(order.id)">
-                          RETURN
-                        </button>
-                        <button  (click)="completeOrderByAdmin(order.id)">
-                          COMPLETE
-                        </button>
-
-                  <button (click)="changeStatusOfCompleteOrder('INPROGRESS',order.id)">
-                    Inprogress
-                  </button>
-                  <button (click)="cancelOrderByUser(order.id)">
-                    CANCEL
-                  </button>
-                  <button (click)="returnOrderByUser(order.id)">
-                    RETURN
-                  </button>
->>>>>>> 6ba2efbf2d39722f4de20c4ab838b3fbfce70b49
-                </td>
-              </tr>
-              <tr *ngIf="orderList.length ==0 ">
-                <td>No record found</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div *ngIf="orderProductList && orderProductList.length > 0 && showProduct" class="table-responsive">
-        <div class="card card-plain">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title mt-0">Order Products List</h4>
-            <p class="card-category"></p>
-            <button (click)="backButton()">Back</button>
-          </div>
-          <table class="table table-hover">
-            <thead class="attrTblHead">
-
-              <th>Product SKU</th>
-              <th>Quantity</th>
-              <th>Variant Total Price</th>
-              <th>Status</th>
-              <th>Action</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let orderProduct of orderProductList">
-
-                <td>{{ orderProduct.product.sku }}</td>
-                <td>{{ orderProduct.quantity }}</td>
-                <td>{{ orderProduct.orderProductPrice }}</td>
-                <td>{{ orderProduct.status }}</td>
-                <td>
-
-                  <button (click)="changeStatusOfPartialOrder('INPROGRESS',orderProduct.id)">
-                    Inprogress
-                  </button>
-                  <button (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">
-                    DISPATCHED
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
