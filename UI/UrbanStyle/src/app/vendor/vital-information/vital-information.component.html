@@ -97,13 +97,13 @@
                 <div class="col-md-4">
                   <label for="" class="float-md-right">
                     <i class="fas fa-star mr-2"></i>
-                    M.R.S.P
+                    M.S.R.P
                     <i class="far fa-question-circle ml-2"></i>
                   </label>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input type="text" formControlName="manufacturerSuggesstedPrice" class="form-control"
+                    <input type="text" formControlName="manufacturerSuggesstedPrice" type="number" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.manufacturerSuggesstedPrice?.errors }" />
                     <div *ngIf="submitted && f.manufacturerSuggesstedPrice?.errors" class="invalid-feedback">
                       <div *ngIf="f.manufacturerSuggesstedPrice?.errors.required">
@@ -126,7 +126,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input type="text" formControlName="displayPrice" class="form-control"
+                    <input type="number"  formControlName="displayPrice" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.displayPrice?.errors }" />
                     <div *ngIf="submitted && f.displayPrice?.errors" class="invalid-feedback">
                       <div *ngIf="f.displayPrice?.errors.required">
@@ -149,7 +149,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input type="text" formControlName="salesPrice" class="form-control"
+                    <input type="number" formControlName="salesPrice" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.salesPrice?.errors }" />
                     <div *ngIf="submitted && f.salesPrice?.errors" class="invalid-feedback">
                       <div *ngIf="f.salesPrice?.errors.required">
@@ -218,7 +218,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input type="text" formControlName="salesQuantity" class="form-control"
+                    <input type="number" formControlName="salesQuantity" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.salesQuantity?.errors }" />
                     <div *ngIf="submitted && f.salesQuantity?.errors" class="invalid-feedback">
                       <div *ngIf="f.salesQuantity?.errors.required">
@@ -241,7 +241,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input type="text" formControlName="totalQuantity" class="form-control"
+                    <input type="number" formControlName="totalQuantity" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.totalQuantity?.errors }" />
                     <div *ngIf="submitted && f.totalQuantity?.errors" class="invalid-feedback">
                       <div *ngIf="f.totalQuantity?.errors.required">

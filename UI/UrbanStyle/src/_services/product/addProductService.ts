@@ -115,7 +115,7 @@ export class AddProductService {
     manufacturer: new FormControl("", [Validators.maxLength(80)]),
     longDescription: new FormControl("", []),
     features: new FormControl("", []),
-    disclaimer : new FormControl("",[]),
+    legalDisclaimer : new FormControl("",[]),
     coverPhoto: new FormControl("", []),
     defaultSize : new FormControl("",[]),
     defaultColor : new FormControl("",[]),

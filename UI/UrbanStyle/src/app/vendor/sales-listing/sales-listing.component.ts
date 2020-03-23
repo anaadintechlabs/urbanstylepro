@@ -51,20 +51,21 @@ export class SalesListingComponent implements OnInit {
     this.showProduct=false;
   }
 
-  // getOrderProductForVendor(orderId)
-  // {
-  //   this.selectedOrderId=orderId;
-  //   this.dataService.getOrderProductForVendor(orderId,this.userId,"api/getOrderProductForVendor").subscribe(
-  //       data => {
-  //        console.log("All Products inside order",data);
-  //        this.showProduct=true;
-  //        this.salesProductList=data;
-  //       },
-  //       error => {
-  //         console.log("error======", error);
-  //       }
-  //     );
-  // }
+  getOrderProductForVendor(orderId)
+  {
+    this.selectedOrderId=orderId;
+    this.dataService.getOrderProductForVendor(orderId,1,this.userId,"api/getOrderProductForVendor").subscribe(
+        data => {
+         console.log("All Products inside order",data);
+         this.showProduct=true;
+         this.salesProductList=data;
+        },
+        error => {
+          console.log("error======", error);
+        }
+      );
+  }
+
 
 
 }
