@@ -61,7 +61,7 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 	void updateVarientDTO(long productVariantId,  double e);
 
 
-	@Query(value=" from  ProductVariant wl where  wl.categoryId =?2 and wl.productVariantId <>?1")
+	@Query(value=" from  ProductVariant wl where  wl.categoryId =?2 and wl.product.productId <>?1")
 	List<ProductVariant> getRelatedProducts(long prodVarId, long categoryId);
 
 	@Query(value="select wl from  ProductVariant wl where wl.productVariantId in (?1)")

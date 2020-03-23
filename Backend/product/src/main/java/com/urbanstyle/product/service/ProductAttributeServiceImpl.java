@@ -26,4 +26,20 @@ public class ProductAttributeServiceImpl implements ProductAttributeService{
 		return allData;
 	}
 
+	@Override
+	public Map<String, String> findAllAttributeListWithAttributeKey(long prodVarId) {
+		Map<String,String> allData = new HashMap<>();
+		List<Object[]> attributeDetails=prodAttributeRepo.findAllAttributeListWithAttributeKey(prodVarId);
+		for(Object[] attr : attributeDetails) {
+			allData.put(attr[0].toString(), attr[1].toString());
+		}
+		
+		return allData;
+	}
+
+	@Override
+	public List<Object[]> getAllAttributeDetailsOfFullProduct(long productId) {
+		return prodAttributeRepo.findAllAttributeListWithAttributeKeyAndValue(productId);
+	}
+
 }

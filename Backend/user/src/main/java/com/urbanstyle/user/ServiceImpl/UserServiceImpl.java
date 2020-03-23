@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return userRepository.getAllUsers(pagable,userType);
+		return userRepository.getAllUsers(userType,pagable);
 	}
 
 

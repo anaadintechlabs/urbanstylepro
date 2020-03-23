@@ -13,13 +13,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.AttributeMiniDTO;
 import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.HomePageFilterDTO;
 import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.ProductVariantUiDTO;
 import com.anaadihsoft.common.DTO.ProductVarientPacketDTO;
 import com.anaadihsoft.common.DTO.SingleProductDTO;
+import com.anaadihsoft.common.DTO.VariantDTO;
 import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
@@ -224,50 +227,89 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	@Override
 	public SingleProductDTO getSingleProductDetail(long prodVarId) {
 		SingleProductDTO singleProductDTO = new SingleProductDTO();
+		
 		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
-		List<ProductVariantDTO> relatedProductsPackets = new ArrayList<>();
+		List<ProductVariantUiDTO> relatedProductsPackets = new ArrayList<>();
 		Optional<ProductVariant> optprodVarient =  productVarRepo.findById(prodVarId);
 		ProductVariant prodVarient = null;
 		if(optprodVarient.isPresent()) {
 			prodVarient = optprodVarient.get();
-		}
-		Map<Long, String> attrDetails = productAttributeServce.findAllAttributeList(prodVarId);
-		List<String> allImagesMain = productImagesRepository.findUrlByProduct(prodVarId);
-		
-		long categoryId = prodVarient.getCategoryId();
-		List<ProductVariant> allRelatedProducts = getRelatedProducts(prodVarId,categoryId);
-		
-		// set mainProductPacket
-		ProductVariantDTO mainProdDto = new ProductVariantDTO();
-		mainProdDto.setAttributesMap(attrDetails);
-		mainProdDto.setProductVariant(prodVarient);
-		mainProductPacket.setAllImages(allImagesMain);
-		mainProductPacket.setMainProduct(mainProdDto);
-		
-		for(ProductVariant prVar : allRelatedProducts) {
-			ProductVarientPacketDTO relProductPacket = new ProductVarientPacketDTO();
-			ProductVariantDTO relProdDto = new ProductVariantDTO();
-			Map<Long, String> relattrDetails = productAttributeServce.findAllAttributeList(prodVarId);
-			List<String> relallImagesMain = productImagesRepository.findUrlByProduct(prodVarId);
-			relProdDto.setAttributesMap(relattrDetails);
-			relProdDto.setProductVariant(prVar);
-			relProductPacket.setAllImages(relallImagesMain);
-			relProductPacket.setMainProduct(relProdDto);
 			
-			relatedProductsPackets.add(relProdDto);
+			Map<String, String> attrDetails = productAttributeServce.findAllAttributeListWithAttributeKey(prodVarId);
+			List<String> allImagesMain = productImagesRepository.findUrlByProductForVariant(prodVarId);
+			
+			Product product = prodVarient.getProduct();
+			singleProductDTO.setVariantTotal(product.getTotalVarients());
+			
+			List<VariantDTO> variants = new ArrayList<>();
+			List<Object[]> attrDetailsTotal= productAttributeServce.getAllAttributeDetailsOfFullProduct(product.getProductId());
+			
+			if(attrDetailsTotal!=null && !attrDetailsTotal.isEmpty())
+			{
+				for(Object[] obj :attrDetailsTotal)
+				{
+					Optional<VariantDTO> variantOpt = variants.stream().filter(elem -> elem.getVariationName().equals(obj[0])).findAny();
+					
+					if(!variantOpt.isEmpty())
+					{
+						
+								
+							AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+							attributeMini.setId(obj[1].toString());
+							attributeMini.setId(obj[2].toString());
+					}
+					else
+					{
+						VariantDTO variant = new VariantDTO();
+						variant.setVariationName(obj[0].toString());
+						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+						attributeMini.setId(obj[1].toString());
+						attributeMini.setId(obj[2].toString());
+						variants.add(variant);
+					}
+				}
+			}
+			
+			long categoryId = prodVarient.getCategoryId();
+			long prodId=prodVarient.getProduct().getProductId();
+			//Other variants of same category but does not belong to same Product,
+			//Variant of same product will be siblings 
+			//List<ProductVariant> allRelatedProducts = getRelatedProducts(prodId,categoryId);
+			
+			// set mainProductPacket
+			ProductVariantUiDTO mainProdDto = new ProductVariantUiDTO();
+			mainProdDto.setAttributesMap(attrDetails);
+			mainProdDto.setProductVariant(prodVarient);
+			mainProductPacket.setAllImages(allImagesMain);
+			mainProductPacket.setMainProduct(mainProdDto); 
+			
+//			for(ProductVariant prVar : allRelatedProducts) {
+//				ProductVarientPacketDTO relProductPacket = new ProductVarientPacketDTO();
+//				ProductVariantUiDTO relProdDto = new ProductVariantUiDTO();
+//				Map<String, String> relattrDetails = productAttributeServce.findAllAttributeListWithAttributeKey(prodVarId);
+//				List<String> relallImagesMain = productImagesRepository.findUrlByProductForVariant(prodVarId);
+//				relProdDto.setAttributesMap(relattrDetails);
+//				relProdDto.setProductVariant(prVar);
+//				relProductPacket.setAllImages(relallImagesMain);
+//				relProductPacket.setMainProduct(relProdDto);
+//				
+//				relatedProductsPackets.add(relProdDto);
+//			}
+			
+			List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
+			
+			singleProductDTO.setMainProductPacket(mainProductPacket);
+			//singleProductDTO.setRelatedProductsPackets(relatedProductsPackets);
+			singleProductDTO.setAllReviews(allReviews);
+			
 		}
-		
-		List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
-		
-		singleProductDTO.setMainProductPacket(mainProductPacket);
-		singleProductDTO.setRelatedProductsPackets(relatedProductsPackets);
-		singleProductDTO.setAllReviews(allReviews);
-		
+
 		return singleProductDTO;
+		
 	}
 	
-	public List<ProductVariant> getRelatedProducts(long prodVarId,long categoryId){
-		List<ProductVariant> allrelatedPoducts = productVarRepo.getRelatedProducts(prodVarId,categoryId);
+	public List<ProductVariant> getRelatedProducts(long prodId,long categoryId){
+		List<ProductVariant> allrelatedPoducts = productVarRepo.getRelatedProducts(prodId,categoryId);
 		return allrelatedPoducts;
 	}
 

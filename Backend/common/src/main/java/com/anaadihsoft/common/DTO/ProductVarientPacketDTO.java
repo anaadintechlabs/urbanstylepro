@@ -4,15 +4,17 @@ import java.util.List;
 
 public class ProductVarientPacketDTO {
 	
-	private ProductVariantDTO mainProduct;
+	private ProductVariantUiDTO mainProduct;
 	
 	private List<String> allImages;
 
-	public ProductVariantDTO getMainProduct() {
+
+
+	public ProductVariantUiDTO getMainProduct() {
 		return mainProduct;
 	}
 
-	public void setMainProduct(ProductVariantDTO mainProduct) {
+	public void setMainProduct(ProductVariantUiDTO mainProduct) {
 		this.mainProduct = mainProduct;
 	}
 

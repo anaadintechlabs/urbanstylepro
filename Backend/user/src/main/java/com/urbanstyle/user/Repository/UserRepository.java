@@ -36,8 +36,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	long countByDeactivated(boolean b);
 	
 
-	@Query(" from User Where userType =?2")
-	List<User> getAllUsers(Pageable pagable, String userType);
+	@Query(" from User Where userType =?1")
+	List<User> getAllUsers(String userType, Pageable pagable);
      
 
 }
