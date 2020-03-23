@@ -15,6 +15,7 @@ public class UserOrderSaveDTO {
 	private Address address;
 	private  String from;
 	private  String to;
+	private long affiliateId;
 	
 	private BankcardInfo bankCardDetails;
 	
@@ -79,5 +80,10 @@ public class UserOrderSaveDTO {
 		this.bankCardDetails = bankCardDetails;
 	}
 	
-	
+	public long getAffiliateId() {
+		return affiliateId;
+	}
+	public void setAffiliateId(long affiliateId) {
+		this.affiliateId = affiliateId;
+	}
 }

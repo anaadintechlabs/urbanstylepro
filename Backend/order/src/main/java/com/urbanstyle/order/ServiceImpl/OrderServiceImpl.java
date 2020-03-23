@@ -22,8 +22,10 @@ import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Address;
+import com.anaadihsoft.common.master.AffiliateCommisionOrder;
 import com.anaadihsoft.common.master.BankDetails;
 import com.anaadihsoft.common.master.BankcardInfo;
+import com.anaadihsoft.common.master.Category;
 import com.anaadihsoft.common.master.PaymentDetails;
 import com.anaadihsoft.common.master.PaymentTransaction;
 import com.anaadihsoft.common.master.PaymentWalletDistribution;
@@ -36,8 +38,10 @@ import com.anaadihsoft.common.master.UserOrderProducts;
 import com.anaadihsoft.common.master.UserWallet;
 import com.urbanstyle.order.Contoller.PaymentConn;
 import com.urbanstyle.order.Repository.AddressRepository;
+import com.urbanstyle.order.Repository.AffiliateCommisionOrderRepo;
 import com.urbanstyle.order.Repository.BankRepository;
 import com.urbanstyle.order.Repository.BankcardInfoRepo;
+import com.urbanstyle.order.Repository.CategoryRepo;
 import com.urbanstyle.order.Repository.OrderRepository;
 import com.urbanstyle.order.Repository.PaymentDetailsRepo;
 import com.urbanstyle.order.Repository.PaymentTransactionRepo;
@@ -49,6 +53,8 @@ import com.urbanstyle.order.Repository.UserOrderProductRepository;
 import com.urbanstyle.order.Repository.UserRepository;
 import com.urbanstyle.order.Service.OrderService;
 import com.urbanstyle.order.Service.PaymentTransactionService;
+
+import io.micrometer.core.instrument.util.StringUtils;
 
 
 @Service
@@ -94,6 +100,12 @@ public class OrderServiceImpl implements OrderService {
 	private com.urbanstyle.order.Repository.UserWalletRepo UserWalletRepo;
 	@Autowired
 	private BankcardInfoRepo bankCardInfoRepo;
+	
+	@Autowired
+	private AffiliateCommisionOrderRepo affiliateCommOrderRepo;
+	
+	@Autowired
+	private CategoryRepo catRepo;
 	
 	@Transactional
 	@Override
@@ -176,6 +188,7 @@ public class OrderServiceImpl implements OrderService {
 		double totalAmount = 0;
 		List<UserOrderProducts> totalProducts = new ArrayList<>();
 		long vendorId;
+		UserOrderProducts userOrderProduct = new UserOrderProducts();
 		for(UserOrderQtyDTO userDTO : userOrderList) {
 			long prodVarId = userDTO.getProductVariantId();
 			int quantity = userDTO.getQty();
@@ -190,7 +203,7 @@ public class OrderServiceImpl implements OrderService {
 				productVariantRepo.save(productVar);
 				
 				
-			UserOrderProducts userOrderProduct = new UserOrderProducts();
+			 userOrderProduct = new UserOrderProducts();
 			userOrderProduct.setProduct(productVar);
 			userOrderProduct.setStatus("PLACED");
 			// addd reserved quantity
@@ -214,6 +227,33 @@ public class OrderServiceImpl implements OrderService {
 			
 			totalProducts.add(userOrderProduct);
 		  }
+			
+			// maintaining enteries for affiliate commisiomn
+			Long affiiateId = userOrder.getAffiliateId();
+			if(affiiateId != null) {
+				AffiliateCommisionOrder afcommOrder = new AffiliateCommisionOrder();
+				Optional<User> affiliateuser = userRepo.findById(affiiateId);
+				if(affiliateuser.isPresent()) {
+					afcommOrder.setAffiliateId(affiliateuser.get());
+				}
+				long catid = productVar.getCategoryId();
+				Optional<Category> categoryProd =  catRepo.findById(catid);
+				if(categoryProd.isPresent()) {
+					afcommOrder.setCommision(categoryProd.get().getCommissionPercentage());
+				}
+				afcommOrder.setOrderdate((java.sql.Date) new Date());
+				afcommOrder.setOrderprodid(userOrderProduct);
+				afcommOrder.setProdvarid(productVar);
+				afcommOrder.setReturnId(null);
+				afcommOrder.setStatus("PLACED");
+				Optional<User> customer = userRepo.findById(userOrder.getUserId());
+				if(customer.isPresent()) {
+					afcommOrder.setUser(customer.get());
+				}
+				affiliateCommOrderRepo.save(afcommOrder);
+			}
+			
+			
 		}
 		
 		userOrderProdRepo.saveAll(totalProducts);
@@ -434,7 +474,16 @@ public class OrderServiceImpl implements OrderService {
 							UserWalletRepo.save(userWalletuser);
 						}
 		}
+		
+		// now user only cancel one order product so update status for affiliate only
+		AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(orderProdId);
+		if(afOrder != null) {
+			afOrder.setStatus("CANCEL");
+			affiliateCommOrderRepo.save(afOrder);
+		}
+		
 	 }else if("RETURN".equalsIgnoreCase(status)) {
+			ReturnManagement returnManage = new ReturnManagement();
 				// return management
 				UserOrder usrOrdr = null;
 				Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
@@ -451,7 +500,7 @@ public class OrderServiceImpl implements OrderService {
 					}
 					
 					// maintain entry for return management with status
-					ReturnManagement returnManage = new ReturnManagement();
+					 returnManage = new ReturnManagement();
 					//returnManage.setOrder(usrOrdr);
 					returnManage.setReason(reason);
 					returnManage.setStatus("INP");
@@ -463,6 +512,15 @@ public class OrderServiceImpl implements OrderService {
 					}
 					returnManagement.save(returnManage);
 			}
+				
+				// now user only return one order product so update status for affiliate only
+				AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(orderProdId);
+				if(afOrder != null) {
+					afOrder.setStatus("RETURN");
+					afOrder.setReturnId(returnManage);
+					affiliateCommOrderRepo.save(afOrder);
+				}
+				
 	   }
 		return null;
 	}
@@ -593,10 +651,25 @@ public class OrderServiceImpl implements OrderService {
 				for(PaymentWalletDistribution source : allSources) {
 					long perc = source.getPerc();
 					if(source.getDistributionTo().equals("AFFILIATE")) {
-						String affiliatid = source.getSource();
-						User affiliatiduser = userRepo.findById(Long.parseLong(affiliatid)).get();
-						UserWallet userWalletAff = UserWalletRepo.findByUserId(affiliatiduser.getId());
-						double amountToVendor = (orderTotalPrice*source.getPerc())/100;
+						long affiliatid;
+						User affiliatiduser = null;
+						double amountToVendor;
+						AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(orderProdId);
+						if(afOrder != null) {
+							afOrder.setStatus("COMPLETE");
+							affiliateCommOrderRepo.save(afOrder);
+							affiliatid = afOrder.getAffiliateId().getId();
+							 affiliatiduser =afOrder.getAffiliateId();
+						}else {
+							affiliatid = Long.parseLong(source.getSource());
+							affiliatiduser = userRepo.findById(affiliatid).get();
+						}
+						UserWallet userWalletAff = UserWalletRepo.findByUserId(affiliatid);
+						if(afOrder != null) {
+							 amountToVendor = (orderTotalPrice*afOrder.getCommision())/100;							
+						}else {
+							 amountToVendor = (orderTotalPrice*source.getPerc())/100;
+						}
 						if(userWalletAff != null) {
 							double amount = userWalletAff.getAmount();
 							userWalletAff.setAmount(amount + amountToVendor);
@@ -778,6 +851,11 @@ public class OrderServiceImpl implements OrderService {
 					double amountFromAff=(userOrdrProd.getOrderProductPrice()*userOrdrProd.getQuantity()*percGivenToAff)/100; 
 					TotalAmount += amountFromAff;
 					String affiliatid = source.getSource();
+					AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(orderProdId);
+					if(afOrder != null) {
+						afOrder.setStatus("RECIEVED");
+						affiliateCommOrderRepo.save(afOrder);
+					}
 					User affiliatiduser = userRepo.findById(Long.parseLong(affiliatid)).get();
 					UserWallet userWalletAff = UserWalletRepo.findByUserId(affiliatiduser.getId());
 					if(userWalletAff != null) {
