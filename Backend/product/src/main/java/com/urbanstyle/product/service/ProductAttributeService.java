@@ -12,4 +12,8 @@ public interface ProductAttributeService {
 
 	Map<Long, String> findAllAttributeList(long productVariantId);
 
+	Map<String, String> findAllAttributeListWithAttributeKey(long prodVarId);
+
+	List<Object[]> getAllAttributeDetailsOfFullProduct(long productId);
+
 }
