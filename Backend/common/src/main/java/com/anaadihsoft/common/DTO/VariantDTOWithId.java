@@ -1,22 +1,21 @@
 package com.anaadihsoft.common.DTO;
 
-import java.util.List;
 import java.util.Set;
 
-public class VariantDTO {
+public class VariantDTOWithId {
 
-	private String variationName;
+	private String variationId;
 	
 	private Set<AttributeMiniDTO> variationData;
 
 	
 
-	public String getVariationName() {
-		return variationName;
+	public String getVariationId() {
+		return variationId;
 	}
 
-	public void setVariationName(String variationName) {
-		this.variationName = variationName;
+	public void setVariationId(String variationId) {
+		this.variationId = variationId;
 	}
 
 	public Set<AttributeMiniDTO> getVariationData() {
@@ -28,10 +27,5 @@ public class VariantDTO {
 	}
 
 	
-
-
-	
-
-	
-	
 }
+
