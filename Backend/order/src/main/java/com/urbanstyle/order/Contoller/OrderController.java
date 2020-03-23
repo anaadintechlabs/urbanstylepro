@@ -1,6 +1,8 @@
 package com.urbanstyle.order.Contoller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody; 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anaadihsoft.common.DTO.AffiliatetransactionDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.master.AffiliateCommisionOrder;
 import com.anaadihsoft.common.master.UserOrder;
 import com.urbanstyle.order.Repository.AddressRepository;
+import com.urbanstyle.order.Repository.AffiliateCommisionOrderRepo;
 import com.urbanstyle.order.Repository.ProductVarientRepository;
 import com.urbanstyle.order.Repository.ShoppingCartItemRepository;
 import com.urbanstyle.order.Repository.UserRepository;
@@ -40,7 +45,8 @@ public class OrderController {
 	@Autowired
 	private PaymentConn paymentConn;
 	
-
+	@Autowired
+	private AffiliateCommisionOrderRepo affiliateorderRepo;
 
 	/**
 	 * 
@@ -250,7 +256,30 @@ public class OrderController {
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 
-	
+	@RequestMapping(value= {"/getTransactionofAffiliate"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getTransactionofAffiliate(@RequestParam(value="affiliateId")long affiliateId,HttpServletRequest request,HttpServletResponse response){
+		
+		List<AffiliatetransactionDTO> afDTo = new ArrayList<>();
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		List<AffiliateCommisionOrder> allaffiliateTrans = affiliateorderRepo.getTransactionofAffiliate(affiliateId);
+		for(AffiliateCommisionOrder affOrder : allaffiliateTrans) {
+			AffiliatetransactionDTO dto = new AffiliatetransactionDTO();
+			dto.setAffiliateId(affiliateId);
+			dto.setAffUserDesc(affOrder.getAffiliateId().getName());
+			dto.setAmount(affOrder.getProdvarid().getDisplayPrice()*affOrder.getOrderprodid().getQuantity());
+			dto.setCommision(affOrder.getCommision());
+			dto.setCustid(affOrder.getUser().getId());
+			dto.setOrderdate(affOrder.getOrderdate());
+			dto.setOrderprodId(affOrder.getOrderprodid().getId());
+			dto.setProdDesc(affOrder.getProdvarid().getVariantName());
+			dto.setQty(affOrder.getOrderprodid().getQuantity());
+			dto.setStatus(affOrder.getStatus());
+			dto.setVarid(affOrder.getProdvarid().getProductVariantId());
+			afDTo.add(dto);
+		}
+		resultMap.put("allTransaction",afDTo);
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
 	
 	
 }
