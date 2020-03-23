@@ -23,7 +23,7 @@ public class ProductAttributeDetails {
 	private ProductVariant productVariant;
 	
 	private long attributeMasterId;
-	
+		
 	private String attributeValue;
 	
 	private int status;

@@ -3,6 +3,7 @@ package com.urbanstyle.order.Repository;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.common.master.UserOrderProducts;
 
 @Repository
-public interface UserOrderProductRepository extends PagingAndSortingRepository<UserOrderProducts, Long> {
+public interface UserOrderProductRepository extends PagingAndSortingRepository<UserOrderProducts, Long> , JpaRepository<UserOrderProducts, Long>{
 
 	List<UserOrderProducts> findByUserOrderId(long id);
 
@@ -40,8 +41,8 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 
 	UserOrderProducts findByIdAndUserOrderUserId(long orderId, long userId);
 
-	@Query(" From UserOrderProducts where orderStatus =?2")
-	List<UserOrderProducts> getAllOrderByStatus(Pageable pagable, String string);
+	@Query(" From UserOrderProducts where status =?1")
+	List<UserOrderProducts> getAllOrderByStatus(String status, Pageable pagable);
 
 	UserOrderProducts findByIdAndVendorId(long orderProductId, long vendorId);
 

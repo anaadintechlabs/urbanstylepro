@@ -1,0 +1,20 @@
+.sideMenuList {
+    list-style-type: none;
+    border: 2px solid #c1c1c1;
+
+    li {
+        padding: 10px 20px;
+        border-bottom: 2px solid #c1c1c1;
+        &:last-child {
+            border-bottom: none;
+        }
+        a{
+            text-decoration: none;
+            text-transform: capitalize;
+            color: #c1c1c1;
+            &.router-link-active {
+                color: #000000;
+            }
+        }
+    }
+}

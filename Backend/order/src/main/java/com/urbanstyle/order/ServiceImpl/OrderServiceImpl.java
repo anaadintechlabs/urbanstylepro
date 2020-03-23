@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -1028,7 +1029,7 @@ public class OrderServiceImpl implements OrderService {
 		List<String> statusList = new ArrayList<>();
 		statusList.add("DISPATCHED");
 		statusList.add("INPROGRESS");
-		return userOrderProdRepo.getAllOrderByStatus(pagable,"DISPATCHED");
+		return userOrderProdRepo.getAllOrderByStatus("PLACED",pagable);
 	}
 
 	@Override
@@ -1046,7 +1047,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<UserOrderProducts> getAllOrderByStatus(int offset,String status) {
 		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
-		return userOrderProdRepo.getAllOrderByStatus(pagable,status);
+		return userOrderProdRepo.getAllOrderByStatus(status,pagable);
 	}
 
 	@Override
@@ -1076,8 +1077,8 @@ public class OrderServiceImpl implements OrderService {
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return (List<UserOrderProducts>) userOrderProdRepo.findAll(pagable);
-		//return (List<UserOrder>) orderRepository.findAll(pagable);
+		Page<UserOrderProducts> pageDate= userOrderProdRepo.findAll(pagable);
+		return pageDate.hasContent()? pageDate.getContent():null;
 	}
 
 	@Override

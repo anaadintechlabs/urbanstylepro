@@ -158,7 +158,13 @@ public class ProductServiceImpl implements ProductService{
 		 i=files.length;
 		}
 		Product product = productDTO.getProduct();
+		product.setCreatedBy(product.getUser().getId()+"");
+		product.setCreatedDate(new Date());
 		product.setTotalVarients(productDTO.getProductVariantDTO() != null ?productDTO.getProductVariantDTO().size():0);
+		if(product.getTotalVarients()>1)
+		{
+			product.setVariantExist(true);
+		}
 		urlSShort = new UrlShortner();
 		String uid = urlSShort.generateUid("PR-", 9);
 		product.setUniqueProdId("PR-"+uid);
@@ -229,6 +235,8 @@ public class ProductServiceImpl implements ProductService{
 			productVariant.setProduct(product);
 			productVariant.setCategoryId(product.getCategoryId());
 			productVariant.setLongDescription(product.getLongDescription());
+			productVariant.setFeatures(product.getFeatures());
+			productVariant.setLegalDisclaimer(product.getLegalDisclaimer());
 			productVariant.setMainImageUrl(mainImageUrl);
 			productVariant.setCreatedBy(product.getUser().getId()+"");
 			UrlShortner urlSShort = new UrlShortner(productVariant.getVariantCode(), product.getUser().getId(), productVariant.getSku());

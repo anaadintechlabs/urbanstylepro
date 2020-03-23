@@ -1,0 +1,7 @@
+<span>
+    <select [(ngModel)]="tempValue">
+        <option *ngFor="let item of options" [value]="item">{{item}}</option>
+    </select>   
+    
+    <button type="submit" (click)="submit()">Submit</button>
+</span>

@@ -21,6 +21,7 @@ import { ToastrModule } from "ngx-toastr";
 import { OrderListingComponent } from './order-listing/order-listing.component';
 import { SalesListingComponent } from './sales-listing/sales-listing.component';
 import { SalesReturnListingComponent } from './sales-return-listing/sales-return-listing.component';
+import { SharedModule } from '../shared/component/action-handler/shared.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { SalesReturnListingComponent } from './sales-return-listing/sales-return
     ServicesModule,
     NgbModule,
     ServicesModule,
+    SharedModule,
     ModalModule ,
     ToastrModule.forRoot() // ToastrModule added
     // RouterModule

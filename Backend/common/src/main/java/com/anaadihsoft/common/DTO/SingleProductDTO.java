@@ -8,9 +8,13 @@ public class SingleProductDTO {
 	
 	private ProductVarientPacketDTO mainProductPacket;
 	
-	private List<ProductVariantDTO> relatedProductsPackets;
+	private long variantTotal;
+	
+	private List<VariantDTO> variants;
 	
 	private List<ProductReviewDTO> allReviews;
+	
+	
 
 	public ProductVarientPacketDTO getMainProductPacket() {
 		return mainProductPacket;
@@ -20,12 +24,22 @@ public class SingleProductDTO {
 		this.mainProductPacket = mainProductPacket;
 	}
 
-	public List<ProductVariantDTO> getRelatedProductsPackets() {
-		return relatedProductsPackets;
+
+
+	public long getVariantTotal() {
+		return variantTotal;
 	}
 
-	public void setRelatedProductsPackets(List<ProductVariantDTO> relatedProductsPackets) {
-		this.relatedProductsPackets = relatedProductsPackets;
+	public void setVariantTotal(long variantTotal) {
+		this.variantTotal = variantTotal;
+	}
+
+	public List<VariantDTO> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(List<VariantDTO> variants) {
+		this.variants = variants;
 	}
 
 	public List<ProductReviewDTO> getAllReviews() {
@@ -36,4 +50,16 @@ public class SingleProductDTO {
 		this.allReviews = allReviews;
 	}
 
+	
+	
+	
+	//private List<ProductVariantDTO> relatedProductsPackets;
+
+//	public List<ProductVariantDTO> getRelatedProductsPackets() {
+//		return relatedProductsPackets;
+//	}
+//
+//	public void setRelatedProductsPackets(List<ProductVariantDTO> relatedProductsPackets) {
+//		this.relatedProductsPackets = relatedProductsPackets;
+//	}
 }
