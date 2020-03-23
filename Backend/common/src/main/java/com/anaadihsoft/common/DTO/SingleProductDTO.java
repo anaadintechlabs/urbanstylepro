@@ -12,9 +12,22 @@ public class SingleProductDTO {
 	
 	private List<VariantDTO> variants;
 	
+	private List<VariantDTOWithId> variantCombinations;
+	
 	private List<ProductReviewDTO> allReviews;
 	
 	
+	
+
+
+
+	public List<VariantDTOWithId> getVariantCombinations() {
+		return variantCombinations;
+	}
+
+	public void setVariantCombinations(List<VariantDTOWithId> variantCombinations) {
+		this.variantCombinations = variantCombinations;
+	}
 
 	public ProductVarientPacketDTO getMainProductPacket() {
 		return mainProductPacket;

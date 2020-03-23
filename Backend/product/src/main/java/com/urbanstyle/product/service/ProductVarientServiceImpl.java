@@ -2,6 +2,7 @@ package com.urbanstyle.product.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import com.anaadihsoft.common.DTO.ProductVariantUiDTO;
 import com.anaadihsoft.common.DTO.ProductVarientPacketDTO;
 import com.anaadihsoft.common.DTO.SingleProductDTO;
 import com.anaadihsoft.common.DTO.VariantDTO;
+import com.anaadihsoft.common.DTO.VariantDTOWithId;
 import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
@@ -229,7 +231,6 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		SingleProductDTO singleProductDTO = new SingleProductDTO();
 		
 		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
-		List<ProductVariantUiDTO> relatedProductsPackets = new ArrayList<>();
 		Optional<ProductVariant> optprodVarient =  productVarRepo.findById(prodVarId);
 		ProductVariant prodVarient = null;
 		if(optprodVarient.isPresent()) {
@@ -242,30 +243,70 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			singleProductDTO.setVariantTotal(product.getTotalVarients());
 			
 			List<VariantDTO> variants = new ArrayList<>();
+			List<VariantDTOWithId> variantCombinations= new ArrayList<>();
 			List<Object[]> attrDetailsTotal= productAttributeServce.getAllAttributeDetailsOfFullProduct(product.getProductId());
-			
 			if(attrDetailsTotal!=null && !attrDetailsTotal.isEmpty())
 			{
 				for(Object[] obj :attrDetailsTotal)
 				{
 					Optional<VariantDTO> variantOpt = variants.stream().filter(elem -> elem.getVariationName().equals(obj[0])).findAny();
-					
 					if(!variantOpt.isEmpty())
 					{
+						VariantDTO variant=variantOpt.get();
+						Optional<AttributeMiniDTO> optAttr=variant.getVariationData().stream().filter(elem->elem.getName().equals(obj[2].toString())).findAny();
 						
-								
-							AttributeMiniDTO attributeMini= new AttributeMiniDTO();
-							attributeMini.setId(obj[1].toString());
-							attributeMini.setId(obj[2].toString());
+						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+						attributeMini.setId(obj[1].toString());
+						attributeMini.setName(obj[2].toString());
+
+						if(optAttr.isEmpty())
+						{					
+						variant.getVariationData().add(attributeMini);
+						}
+
 					}
 					else
 					{
 						VariantDTO variant = new VariantDTO();
 						variant.setVariationName(obj[0].toString());
+						Set<AttributeMiniDTO> data = new HashSet<>();
 						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
 						attributeMini.setId(obj[1].toString());
-						attributeMini.setId(obj[2].toString());
+						attributeMini.setName(obj[2].toString());
+						data.add(attributeMini);
+						variant.setVariationData(data);
 						variants.add(variant);
+						
+					}
+					
+					Optional<VariantDTOWithId> variantWithIdOpt = variantCombinations.stream().filter(elem -> elem.getVariationId().equals(obj[3].toString())).findAny();
+					if(!variantWithIdOpt.isEmpty())
+					{
+
+						System.out.println("same variant");
+						VariantDTOWithId variantDTOWithId=	variantWithIdOpt.get();
+//						Optional<AttributeMiniDTO> optAttr=variantDTOWithId.getVariationData().stream().filter(elem->elem.getName().equals(obj[2].toString())).findAny();
+
+						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+						attributeMini.setId(obj[1].toString());
+						attributeMini.setName(obj[2].toString());
+//						if(optAttr.isEmpty())
+//						{					
+							variantDTOWithId.getVariationData().add(attributeMini);
+						//}
+					}
+					else
+					{
+						VariantDTOWithId variantWithId= new VariantDTOWithId();
+						Set<AttributeMiniDTO> data = new HashSet<>();
+						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+						attributeMini.setId(obj[1].toString());
+						attributeMini.setName(obj[2].toString());
+						data.add(attributeMini);					
+						variantWithId.setVariationId(obj[3].toString());
+						variantWithId.setVariationData(data);
+						variantCombinations.add(variantWithId);
+						System.out.println(obj[1].toString()+"  "+ obj[2].toString() +" "+obj[3].toString());
 					}
 				}
 			}
@@ -299,8 +340,10 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
 			
 			singleProductDTO.setMainProductPacket(mainProductPacket);
+			singleProductDTO.setVariants(variants);
 			//singleProductDTO.setRelatedProductsPackets(relatedProductsPackets);
 			singleProductDTO.setAllReviews(allReviews);
+			singleProductDTO.setVariantCombinations(variantCombinations);
 			
 		}
 
