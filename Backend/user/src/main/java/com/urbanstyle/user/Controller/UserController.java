@@ -13,10 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.anaadihsoft.common.DTO.PasswordDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.master.User;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.urbanstyle.user.Service.FileUploadService;
 import com.urbanstyle.user.Service.UserService;
 import com.urbanstyle.user.util.CommonResponseSender;
+import com.urbanstyle.user.util.CustomException;
 
 @RestController
 @RequestMapping("/api/user")
@@ -25,6 +35,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private FileUploadService fileUploadService; 
 //	
 	
 	/**
@@ -58,5 +71,42 @@ public class UserController {
 		
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
+	}
+	
+	
+	@RequestMapping(value="/updateUser",method=RequestMethod.PUT)
+	public Map<String,Object> updateUser(@RequestParam(value="file",required=false) MultipartFile files,@RequestParam(value="userString",required=false) String userString,
+			HttpServletRequest request,HttpServletResponse response) throws JsonMappingException, JsonProcessingException
+	{
+		final HashMap<String, Object> map = new HashMap<>();
+		ObjectMapper objMapper= new ObjectMapper();
+		TypeReference<User> mapType= new TypeReference<User>() {
+		};
+		User user= objMapper.readValue(userString, mapType);
+		user=userService.updateUser(user);
+		//photo upload pending
+		if(user!=null)
+		{
+			fileUploadService.saveImageofUser(files,user);
+		}
+		map.put("user", user);
+		
+		
+		return CommonResponseSender.createdSuccessResponse(map, response);
+		
+	}
+	
+	
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+	public Map<String, Object> changePassword(
+			@RequestBody PasswordDTO passwordDTO,
+			@RequestParam(value = "userId", required = true) long userId,
+			 HttpServletResponse response,
+			HttpServletRequest request) throws CustomException {
+		final Map<String, Object> map = new HashMap<>();
+		
+			map.put("updatedUser", userService.changeUserPassword(userId, passwordDTO));
+		
+		return CommonResponseSender.updatedSuccessResponse(map, response);
 	}
 }

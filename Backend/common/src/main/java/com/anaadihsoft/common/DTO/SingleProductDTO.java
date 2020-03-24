@@ -12,9 +12,30 @@ public class SingleProductDTO {
 	
 	private List<VariantDTO> variants;
 	
+	private List<VariantDTOWithId> variantCombinations;
+	
 	private List<ProductReviewDTO> allReviews;
 	
+	private long affiliateId;
 	
+	
+
+
+	public long getAffiliateId() {
+		return affiliateId;
+	}
+
+	public void setAffiliateId(long affiliateId) {
+		this.affiliateId = affiliateId;
+	}
+
+	public List<VariantDTOWithId> getVariantCombinations() {
+		return variantCombinations;
+	}
+
+	public void setVariantCombinations(List<VariantDTOWithId> variantCombinations) {
+		this.variantCombinations = variantCombinations;
+	}
 
 	public ProductVarientPacketDTO getMainProductPacket() {
 		return mainProductPacket;

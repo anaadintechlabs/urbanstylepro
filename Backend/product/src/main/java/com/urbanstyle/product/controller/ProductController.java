@@ -148,6 +148,21 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
+	/**
+	 * get all variants by status
+	 * @param request
+	 * @param response
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value="/getAllVariantsByStatus",method=RequestMethod.GET)
+	public Map<String,Object> getAllVariantsByStatus(HttpServletRequest request,HttpServletResponse response,
+		@RequestParam(value="status") int status){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productVariantList", productVarient.getAllVariantsByStatus(status));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
 //dummy
 	@RequestMapping(value="/getAllProducts",method=RequestMethod.GET)
 	public Map<String,Object> getAllProducts(HttpServletRequest request,HttpServletResponse response){
@@ -298,10 +313,19 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/getSingleProductDetail",method= {RequestMethod.GET,RequestMethod.POST})
-	public Map<String,Object> getSingleProductDetail(@RequestParam(value="prodVarId") long prodVarId, HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> getSingleProductDetail(@RequestParam(value="prodVarId") String uniqueprodvarId, HttpServletRequest request,HttpServletResponse response){
 		
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("SingleProductDetail", productVarient.getSingleProductDetail(prodVarId));
+		map.put("SingleProductDetail", productVarient.getSingleProductDetail(uniqueprodvarId));
+		return CommonResponseSender.getRecordSuccessResponse(map, response);
+		
+	}
+	
+	@RequestMapping(value="/getRelatedProducts",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> getRelatedProducts(@RequestParam(value="prodVarId") String uniqueprodvarId, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("relatedProducts", productVarient.getRelatedProducts(uniqueprodvarId));
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		
 	}
