@@ -74,7 +74,7 @@ public class ReturnServiceImpl implements ReturnService{
 	public void setReturnStatusbyAdmin(long returnId, String status) {
 		Optional<ReturnManagement> optReturn = returnOrderRepository.findById(returnId);
 		System.out.println("optReturn"+optReturn);
-		if(!optReturn.isEmpty())
+		if(optReturn.isPresent())
 		{
 			System.out.println("setting status"+optReturn.get());
 			ReturnManagement returnObj=optReturn.get();
