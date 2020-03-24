@@ -69,5 +69,7 @@ public interface ProductVarientService {
 
 		Object getRelatedProducts(String uniqueprodvarId);
 
+		List<ProductVariant> getAllVariantsByStatus(int status);
+
  
 }

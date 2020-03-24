@@ -16,4 +16,8 @@ public interface ReturnService {
 
 	List<ReturnManagement> getReturnByVendor(long parseLong, Filter filter);
 
+	List<ReturnManagement> getReturnForSuperAdmin(Filter filter);
+
+	ReturnManagement getAllDetailOfReturn(long returnId);
+
 }

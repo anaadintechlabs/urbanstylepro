@@ -417,5 +417,10 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		return null;
 	}
 
+	@Override
+	public List<ProductVariant> getAllVariantsByStatus(int status) {
+		return productVarRepo.findByStatus(status);
+	}
+
 
 }

@@ -66,6 +66,42 @@ public class ReturnController {
 	}
 	
 	
+
+	/**
+	 * ALL RETURNS OF A CUSTOMER
+	 * @param request
+	 * @param filter
+	 * @param response
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value= {"/getReturnForSuperAdmin"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getReturnForSuperAdmin(HttpServletRequest request,
+			@RequestBody Filter filter,HttpServletResponse response ){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("returnList",returnService.getReturnForSuperAdmin(filter));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	
+	/**
+	 * ALL RETURNS OF A CUSTOMER
+	 * @param request
+	 * @param filter
+	 * @param response
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value= {"/getAllDetailOfReturn"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getAllDetailOfReturn(HttpServletRequest request,
+			@RequestParam(value="returnId") long returnId,
+			HttpServletResponse response ){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("returnDetails",returnService.getAllDetailOfReturn(returnId));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	
 	/**
 	 * 
 	 * @param orderId
