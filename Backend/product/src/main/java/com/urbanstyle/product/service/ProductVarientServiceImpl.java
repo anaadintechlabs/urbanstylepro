@@ -20,6 +20,7 @@ import com.anaadihsoft.common.DTO.HomePageFilterDTO;
 import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.ProductVariantMini;
 import com.anaadihsoft.common.DTO.ProductVariantUiDTO;
 import com.anaadihsoft.common.DTO.ProductVarientPacketDTO;
 import com.anaadihsoft.common.DTO.SingleProductDTO;
@@ -30,10 +31,12 @@ import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductVariant;
+import com.anaadihsoft.common.master.ShortCodeGenerator;
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.urbanstyle.product.DAO.ProductVarientDAO;
 import com.urbanstyle.product.repository.ProductImagesRepository;
 import com.urbanstyle.product.repository.ProductRepository;
+import com.urbanstyle.product.repository.ShortCodeGeneratorRepository;
 
 @Service
 public class ProductVarientServiceImpl implements ProductVarientService {
@@ -61,6 +64,9 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Autowired
 	private CategoryMetaService catMetaService;
+	
+	@Autowired
+	private ShortCodeGeneratorRepository shortCodeGeneratorRepository; 
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
@@ -227,15 +233,28 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	}
 
 	@Override
-	public SingleProductDTO getSingleProductDetail(long prodVarId) {
+	public SingleProductDTO getSingleProductDetail(String uniqueId) {
 		SingleProductDTO singleProductDTO = new SingleProductDTO();
-		
+		long affiliateId=0;
 		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
-		Optional<ProductVariant> optprodVarient =  productVarRepo.findById(prodVarId);
-		ProductVariant prodVarient = null;
-		if(optprodVarient.isPresent()) {
-			prodVarient = optprodVarient.get();
-			
+		ProductVariant prodVarient =  productVarRepo.findByUniqueprodvarId(uniqueId);
+		if(prodVarient==null)
+		{
+			//check in Short Code table
+			ShortCodeGenerator scg=shortCodeGeneratorRepository.findByShortCode(uniqueId);
+			if(scg!=null)
+			{
+				prodVarient=scg.getProdVar();
+				affiliateId=scg.getUser().getId();
+			}
+			else
+			{
+				//RETURN WITH MESSAGE THAT NO VARIANT EXISTS
+				return null;
+			}
+		}
+		if(prodVarient!=null) {
+			long prodVarId=prodVarient.getProductVariantId();
 			Map<String, String> attrDetails = productAttributeServce.findAllAttributeListWithAttributeKey(prodVarId);
 			List<String> allImagesMain = productImagesRepository.findUrlByProductForVariant(prodVarId);
 			
@@ -324,26 +343,15 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			mainProductPacket.setAllImages(allImagesMain);
 			mainProductPacket.setMainProduct(mainProdDto); 
 			
-//			for(ProductVariant prVar : allRelatedProducts) {
-//				ProductVarientPacketDTO relProductPacket = new ProductVarientPacketDTO();
-//				ProductVariantUiDTO relProdDto = new ProductVariantUiDTO();
-//				Map<String, String> relattrDetails = productAttributeServce.findAllAttributeListWithAttributeKey(prodVarId);
-//				List<String> relallImagesMain = productImagesRepository.findUrlByProductForVariant(prodVarId);
-//				relProdDto.setAttributesMap(relattrDetails);
-//				relProdDto.setProductVariant(prVar);
-//				relProductPacket.setAllImages(relallImagesMain);
-//				relProductPacket.setMainProduct(relProdDto);
-//				
-//				relatedProductsPackets.add(relProdDto);
-//			}
+
 			
 			List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
 			
 			singleProductDTO.setMainProductPacket(mainProductPacket);
 			singleProductDTO.setVariants(variants);
-			//singleProductDTO.setRelatedProductsPackets(relatedProductsPackets);
 			singleProductDTO.setAllReviews(allReviews);
 			singleProductDTO.setVariantCombinations(variantCombinations);
+			singleProductDTO.setAffiliateId(affiliateId);
 			
 		}
 
@@ -351,9 +359,25 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		
 	}
 	
-	public List<ProductVariant> getRelatedProducts(long prodId,long categoryId){
-		List<ProductVariant> allrelatedPoducts = productVarRepo.getRelatedProducts(prodId,categoryId);
-		return allrelatedPoducts;
+	public List<ProductVariantMini> getRelatedProducts(String uniqueId){
+		ProductVariant prodVarient =  productVarRepo.findByUniqueprodvarId(uniqueId);
+		if(prodVarient==null)
+		{
+			//check in Short Code table
+			ShortCodeGenerator scg=shortCodeGeneratorRepository.findByShortCode(uniqueId);
+			if(scg!=null)
+			{
+				prodVarient=scg.getProdVar();
+			}
+			else
+			{
+				//RETURN WITH MESSAGE THAT NO VARIANT EXISTS
+				return null;
+			}
+		}
+		long categoryId = prodVarient.getCategoryId();
+		long prodId=prodVarient.getProduct().getProductId();
+		return productVarRepo.getRelatedProducts(prodId,categoryId);
 	}
 
 
@@ -392,4 +416,6 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		}
 		return null;
 	}
+
+
 }

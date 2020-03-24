@@ -16,10 +16,18 @@ public class SingleProductDTO {
 	
 	private List<ProductReviewDTO> allReviews;
 	
+	private long affiliateId;
 	
 	
 
 
+	public long getAffiliateId() {
+		return affiliateId;
+	}
+
+	public void setAffiliateId(long affiliateId) {
+		this.affiliateId = affiliateId;
+	}
 
 	public List<VariantDTOWithId> getVariantCombinations() {
 		return variantCombinations;
