@@ -1,4 +1,6 @@
+
 package com.anaadihsoft.common.master;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostPersist;
+import javax.persistence.PrePersist;
 
 @Entity
 public class UserOrderProducts {
@@ -32,6 +36,57 @@ public class UserOrderProducts {
 	@JoinColumn(name="vendor_Id",nullable = false)
 	private User vendor;
 	
+	private Date createdDate;
+	
+	private String createdBy;
+	
+	private Date modifiedDate;
+	
+	private String modifiedBy;
+	
+	@PrePersist
+	public void setDate()
+	{
+		this.createdDate= new Date();
+	}
+	@PostPersist
+	public void updateDate()
+	{
+		this.modifiedDate= new Date();
+	}
+	
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 	public String getStatus() {
 		return status;
 	}

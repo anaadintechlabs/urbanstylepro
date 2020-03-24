@@ -14,12 +14,12 @@ export class DataService {
 
     }
 
-    getAllActiveOrInactiveProductVariantOfUser(
+    getAllActiveProduct(
         url: string,
         data: any
       ): Observable<ProductVariant[]> {
         return new Observable<ProductVariant[]>(obs => {
-          this._apiService.post(url, data).subscribe(res => {
+          this._apiService.get(url).subscribe(res => {
             if (res.isSuccess) {
               obs.next(res.data.productList);
             }

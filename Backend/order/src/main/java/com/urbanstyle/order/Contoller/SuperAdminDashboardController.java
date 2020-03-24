@@ -171,7 +171,7 @@ public class SuperAdminDashboardController {
 	 * @return
 	 */
 	@RequestMapping(value= {"/getAllCartAndWishlist"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> getAllCartAndWishlist(@RequestBody Filter filter,@RequestBody Filter filter1,@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> getAllCartAndWishlist(@RequestBody Filter filter,@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
@@ -181,11 +181,11 @@ public class SuperAdminDashboardController {
 		
 		resultMap.put("cartList",shoppingCartItemRepository.findByShoppingCartUserIdAndStatus(userId,1,pagable));
 		
-		final Pageable pagable1 = PageRequest.of(filter1.getOffset(), filter1.getLimit(),
-				filter1.getSortingDirection() != null
-				&& filter1.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+		final Pageable pagable1 = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
-						filter1.getSortingField());
+						filter.getSortingField());
 		resultMap.put("wishList", wishlistRepository.findByUserIdAndStatus(userId,1,pagable1));
 		
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);

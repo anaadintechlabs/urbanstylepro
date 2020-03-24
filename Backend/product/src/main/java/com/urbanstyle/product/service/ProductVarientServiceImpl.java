@@ -2,6 +2,7 @@ package com.urbanstyle.product.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,22 +14,29 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.AttributeMiniDTO;
 import com.anaadihsoft.common.DTO.FilterDTO;
 import com.anaadihsoft.common.DTO.HomePageFilterDTO;
 import com.anaadihsoft.common.DTO.InventorySearchDTO;
 import com.anaadihsoft.common.DTO.ProductReviewDTO;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
+import com.anaadihsoft.common.DTO.ProductVariantMini;
+import com.anaadihsoft.common.DTO.ProductVariantUiDTO;
 import com.anaadihsoft.common.DTO.ProductVarientPacketDTO;
 import com.anaadihsoft.common.DTO.SingleProductDTO;
+import com.anaadihsoft.common.DTO.VariantDTO;
+import com.anaadihsoft.common.DTO.VariantDTOWithId;
 import com.anaadihsoft.common.DTO.VariantPriceUpdateDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductVariant;
+import com.anaadihsoft.common.master.ShortCodeGenerator;
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.urbanstyle.product.DAO.ProductVarientDAO;
 import com.urbanstyle.product.repository.ProductImagesRepository;
 import com.urbanstyle.product.repository.ProductRepository;
+import com.urbanstyle.product.repository.ShortCodeGeneratorRepository;
 
 @Service
 public class ProductVarientServiceImpl implements ProductVarientService {
@@ -56,6 +64,9 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Autowired
 	private CategoryMetaService catMetaService;
+	
+	@Autowired
+	private ShortCodeGeneratorRepository shortCodeGeneratorRepository; 
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
@@ -222,53 +233,151 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	}
 
 	@Override
-	public SingleProductDTO getSingleProductDetail(long prodVarId) {
+	public SingleProductDTO getSingleProductDetail(String uniqueId) {
 		SingleProductDTO singleProductDTO = new SingleProductDTO();
+		long affiliateId=0;
 		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
-		List<ProductVariantDTO> relatedProductsPackets = new ArrayList<>();
-		Optional<ProductVariant> optprodVarient =  productVarRepo.findById(prodVarId);
-		ProductVariant prodVarient = null;
-		if(optprodVarient.isPresent()) {
-			prodVarient = optprodVarient.get();
+		ProductVariant prodVarient =  productVarRepo.findByUniqueprodvarId(uniqueId);
+		if(prodVarient==null)
+		{
+			//check in Short Code table
+			ShortCodeGenerator scg=shortCodeGeneratorRepository.findByShortCode(uniqueId);
+			if(scg!=null)
+			{
+				prodVarient=scg.getProdVar();
+				affiliateId=scg.getUser().getId();
+			}
+			else
+			{
+				//RETURN WITH MESSAGE THAT NO VARIANT EXISTS
+				return null;
+			}
 		}
-		Map<Long, String> attrDetails = productAttributeServce.findAllAttributeList(prodVarId);
-		List<String> allImagesMain = productImagesRepository.findUrlByProduct(prodVarId);
-		
-		long categoryId = prodVarient.getCategoryId();
-		List<ProductVariant> allRelatedProducts = getRelatedProducts(prodVarId,categoryId);
-		
-		// set mainProductPacket
-		ProductVariantDTO mainProdDto = new ProductVariantDTO();
-		mainProdDto.setAttributesMap(attrDetails);
-		mainProdDto.setProductVariant(prodVarient);
-		mainProductPacket.setAllImages(allImagesMain);
-		mainProductPacket.setMainProduct(mainProdDto);
-		
-		for(ProductVariant prVar : allRelatedProducts) {
-			ProductVarientPacketDTO relProductPacket = new ProductVarientPacketDTO();
-			ProductVariantDTO relProdDto = new ProductVariantDTO();
-			Map<Long, String> relattrDetails = productAttributeServce.findAllAttributeList(prodVarId);
-			List<String> relallImagesMain = productImagesRepository.findUrlByProduct(prodVarId);
-			relProdDto.setAttributesMap(relattrDetails);
-			relProdDto.setProductVariant(prVar);
-			relProductPacket.setAllImages(relallImagesMain);
-			relProductPacket.setMainProduct(relProdDto);
+		if(prodVarient!=null) {
+			long prodVarId=prodVarient.getProductVariantId();
+			Map<String, String> attrDetails = productAttributeServce.findAllAttributeListWithAttributeKey(prodVarId);
+			List<String> allImagesMain = productImagesRepository.findUrlByProductForVariant(prodVarId);
 			
-			relatedProductsPackets.add(relProdDto);
+			Product product = prodVarient.getProduct();
+			singleProductDTO.setVariantTotal(product.getTotalVarients());
+			
+			List<VariantDTO> variants = new ArrayList<>();
+			List<VariantDTOWithId> variantCombinations= new ArrayList<>();
+			List<Object[]> attrDetailsTotal= productAttributeServce.getAllAttributeDetailsOfFullProduct(product.getProductId());
+			if(attrDetailsTotal!=null && !attrDetailsTotal.isEmpty())
+			{
+				for(Object[] obj :attrDetailsTotal)
+				{
+					Optional<VariantDTO> variantOpt = variants.stream().filter(elem -> elem.getVariationName().equals(obj[0])).findAny();
+					if(!variantOpt.isPresent())
+					{
+						VariantDTO variant=variantOpt.get();
+						Optional<AttributeMiniDTO> optAttr=variant.getVariationData().stream().filter(elem->elem.getName().equals(obj[2].toString())).findAny();
+						
+						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+						attributeMini.setId(obj[1].toString());
+						attributeMini.setName(obj[2].toString());
+
+						if(optAttr.isPresent())
+						{					
+						variant.getVariationData().add(attributeMini);
+						}
+
+					}
+					else
+					{
+						VariantDTO variant = new VariantDTO();
+						variant.setVariationName(obj[0].toString());
+						Set<AttributeMiniDTO> data = new HashSet<>();
+						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+						attributeMini.setId(obj[1].toString());
+						attributeMini.setName(obj[2].toString());
+						data.add(attributeMini);
+						variant.setVariationData(data);
+						variants.add(variant);
+						
+					}
+					
+					Optional<VariantDTOWithId> variantWithIdOpt = variantCombinations.stream().filter(elem -> elem.getVariationId().equals(obj[3].toString())).findAny();
+					if(!variantWithIdOpt.isPresent())
+					{
+
+						System.out.println("same variant");
+						VariantDTOWithId variantDTOWithId=	variantWithIdOpt.get();
+//						Optional<AttributeMiniDTO> optAttr=variantDTOWithId.getVariationData().stream().filter(elem->elem.getName().equals(obj[2].toString())).findAny();
+
+						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+						attributeMini.setId(obj[1].toString());
+						attributeMini.setName(obj[2].toString());
+//						if(optAttr.isEmpty())
+//						{					
+							variantDTOWithId.getVariationData().add(attributeMini);
+						//}
+					}
+					else
+					{
+						VariantDTOWithId variantWithId= new VariantDTOWithId();
+						Set<AttributeMiniDTO> data = new HashSet<>();
+						AttributeMiniDTO attributeMini= new AttributeMiniDTO();
+						attributeMini.setId(obj[1].toString());
+						attributeMini.setName(obj[2].toString());
+						data.add(attributeMini);					
+						variantWithId.setVariationId(obj[3].toString());
+						variantWithId.setVariationData(data);
+						variantCombinations.add(variantWithId);
+						System.out.println(obj[1].toString()+"  "+ obj[2].toString() +" "+obj[3].toString());
+					}
+				}
+			}
+			
+			long categoryId = prodVarient.getCategoryId();
+			long prodId=prodVarient.getProduct().getProductId();
+			//Other variants of same category but does not belong to same Product,
+			//Variant of same product will be siblings 
+			//List<ProductVariant> allRelatedProducts = getRelatedProducts(prodId,categoryId);
+			
+			// set mainProductPacket
+			ProductVariantUiDTO mainProdDto = new ProductVariantUiDTO();
+			mainProdDto.setAttributesMap(attrDetails);
+			mainProdDto.setProductVariant(prodVarient);
+			mainProductPacket.setAllImages(allImagesMain);
+			mainProductPacket.setMainProduct(mainProdDto); 
+			
+
+			
+			List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
+			
+			singleProductDTO.setMainProductPacket(mainProductPacket);
+			singleProductDTO.setVariants(variants);
+			singleProductDTO.setAllReviews(allReviews);
+			singleProductDTO.setVariantCombinations(variantCombinations);
+			singleProductDTO.setAffiliateId(affiliateId);
+			
 		}
-		
-		List<ProductReviewDTO> allReviews = productReviewService.getAllReviewsforSPV(prodVarId);
-		
-		singleProductDTO.setMainProductPacket(mainProductPacket);
-		singleProductDTO.setRelatedProductsPackets(relatedProductsPackets);
-		singleProductDTO.setAllReviews(allReviews);
-		
+
 		return singleProductDTO;
+		
 	}
 	
-	public List<ProductVariant> getRelatedProducts(long prodVarId,long categoryId){
-		List<ProductVariant> allrelatedPoducts = productVarRepo.getRelatedProducts(prodVarId,categoryId);
-		return allrelatedPoducts;
+	public List<ProductVariantMini> getRelatedProducts(String uniqueId){
+		ProductVariant prodVarient =  productVarRepo.findByUniqueprodvarId(uniqueId);
+		if(prodVarient==null)
+		{
+			//check in Short Code table
+			ShortCodeGenerator scg=shortCodeGeneratorRepository.findByShortCode(uniqueId);
+			if(scg!=null)
+			{
+				prodVarient=scg.getProdVar();
+			}
+			else
+			{
+				//RETURN WITH MESSAGE THAT NO VARIANT EXISTS
+				return null;
+			}
+		}
+		long categoryId = prodVarient.getCategoryId();
+		long prodId=prodVarient.getProduct().getProductId();
+		return productVarRepo.getRelatedProducts(prodId,categoryId);
 	}
 
 
@@ -307,4 +416,6 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		}
 		return null;
 	}
+
+
 }

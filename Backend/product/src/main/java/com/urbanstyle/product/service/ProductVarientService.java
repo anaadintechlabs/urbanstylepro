@@ -51,7 +51,7 @@ public interface ProductVarientService {
 	
 	List<ProductVariant> searchInventory(InventorySearchDTO inventorySearchDTO);
 
-	SingleProductDTO getSingleProductDetail(long prodVarId);
+	SingleProductDTO getSingleProductDetail(String uniqueprodvarId);
 
 
 	List<ProductVariantDTO> getSingleProductVarientDTOList(int i, long prodId, long productVariantId);
@@ -66,6 +66,8 @@ public interface ProductVarientService {
 		HomePageFilterDTO getAllVariantOfCategoryWithFilter(long catId);
 
 		ProductVariant getVariantById(long prodVarId);
+
+		Object getRelatedProducts(String uniqueprodvarId);
 
  
 }
