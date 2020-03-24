@@ -73,6 +73,10 @@ public class AuthController {
         	{
         		throw new BadRequestException("Your account have been deactivated.");
         	}
+//        	if(user.getUserType().equals(loginRequest.getUserType()))
+//        	{
+//        		throw new BadRequestException("You are not allowed to login.");
+//        	}
         }
         return ResponseEntity.ok(new JwtAuthenticationResponse(token,(UserPrincipal) authentication.getPrincipal()));
        // return ResponseEntity.ok(new AuthResponse(token));
