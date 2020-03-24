@@ -13,6 +13,7 @@ import com.anaadihsoft.common.master.Wishlist;
 
 public interface WishlistRepository extends PagingAndSortingRepository<Wishlist, Long>{
 
+	
 	List<Wishlist> findByUserIdAndStatus(long userId, int active, Pageable pagable);
 
 

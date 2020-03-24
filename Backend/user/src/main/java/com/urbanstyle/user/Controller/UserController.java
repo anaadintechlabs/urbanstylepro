@@ -109,4 +109,17 @@ public class UserController {
 		
 		return CommonResponseSender.updatedSuccessResponse(map, response);
 	}
+	
+	
+	@RequestMapping(value = "/getUserById", method = RequestMethod.GET)
+	public Map<String, Object> getUserById(
+			@RequestParam(value = "userId", required = true) long userId,
+			 HttpServletResponse response,
+			HttpServletRequest request) throws CustomException {
+		final Map<String, Object> map = new HashMap<>();
+		
+			map.put("user", userService.getUserById(userId));
+		
+		return CommonResponseSender.updatedSuccessResponse(map, response);
+	}
 }

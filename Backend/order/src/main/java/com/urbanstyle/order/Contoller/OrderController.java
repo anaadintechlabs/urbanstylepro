@@ -76,9 +76,7 @@ public class OrderController {
 	public Map<String,Object> getOrderByUser(HttpServletRequest request,
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			//resultMap.put("orderList",orderService.getOrderByUser(Long.parseLong(userId),filter));
 			resultMap.put("orderList",orderService.getOrderProductByUser(Long.parseLong(userId),filter));
-			resultMap.put("RESPONSE", "SUCCESS");
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 
 	}

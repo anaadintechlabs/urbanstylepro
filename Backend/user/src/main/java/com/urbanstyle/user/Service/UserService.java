@@ -20,4 +20,6 @@ public interface UserService {
 
 	Object changeUserPassword(long userId, PasswordDTO passwordDTO) throws CustomException;
 
+	User getUserById(long userId);
+
 }
