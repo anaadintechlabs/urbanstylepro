@@ -148,6 +148,21 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
+	/**
+	 * get all variants by status
+	 * @param request
+	 * @param response
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value="/getAllVariantsByStatus",method=RequestMethod.GET)
+	public Map<String,Object> getAllVariantsByStatus(HttpServletRequest request,HttpServletResponse response,
+		@RequestParam(value="status") int status){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productVariantList", productVarient.getAllVariantsByStatus(status));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
 //dummy
 	@RequestMapping(value="/getAllProducts",method=RequestMethod.GET)
 	public Map<String,Object> getAllProducts(HttpServletRequest request,HttpServletResponse response){

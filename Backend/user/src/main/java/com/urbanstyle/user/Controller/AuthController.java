@@ -73,6 +73,10 @@ public class AuthController {
         	{
         		throw new BadRequestException("Your account have been deactivated.");
         	}
+//        	if(user.getUserType().equals(loginRequest.getUserType()))
+//        	{
+//        		throw new BadRequestException("You are not allowed to login.");
+//        	}
         }
         return ResponseEntity.ok(new JwtAuthenticationResponse(token,(UserPrincipal) authentication.getPrincipal()));
        // return ResponseEntity.ok(new AuthResponse(token));
@@ -103,21 +107,6 @@ public class AuthController {
 	                .body(new ApiResponse(true, "User registered successfully@"));
 	    }
 	 
-	 @RequestMapping(value="/changePassword",method= {})
-	 public HashMap<String, String> changePassword(@RequestParam (value="newPassword",required = true) String newPassword,@RequestParam (value="oldPassword",required = true)  String oldPassword,@RequestParam (value="userId",required = true)long userId) {
-		 HashMap<String, String> result = new HashMap<>();
-		 Optional<User> user = userRepository.findById(userId);
-		 if(result !=null) {
-			 if(user.get().getPassword().equals(passwordEncoder.encode(oldPassword))) {
-				 user.get().setPassword(passwordEncoder.encode(newPassword));
-				 result.put("MESSAGE", "PASSWORD CHANGE SUCCESSFULLY");
-			 }else {
-				 result.put("MESSAGE", "PASSWORD NOT MATCH");
-			 }
-		 }else {
-			 result.put("MESSAGE", "USER NOT VALID");
-		 }
-		 return result;
-	 }
+	
 	 
 }
