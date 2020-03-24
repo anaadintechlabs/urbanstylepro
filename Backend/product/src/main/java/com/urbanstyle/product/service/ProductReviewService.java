@@ -18,7 +18,7 @@ public interface ProductReviewService {
 
 	List<ProductReview> getAllReviewsOfProduct(Filter filter, long productId);
 
-	boolean softDeleteProductReview(long userId, long productId);
+	boolean softDeleteProductReview(long userId);
 
 	List<ProductReview> getTop10ProductReviews(Filter filter);
 	

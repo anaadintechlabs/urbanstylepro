@@ -104,5 +104,11 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	@Override
+	public User getUserById(long userId) {
+		Optional<User> opt= userRepository.findById(userId);
+		return opt.isPresent()?opt.get():null;
+	}
+
 
 }

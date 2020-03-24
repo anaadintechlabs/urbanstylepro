@@ -99,12 +99,11 @@ public class ProductReviewController {
 	 */
 	@RequestMapping(value="/softDeleteProductReview",method=RequestMethod.DELETE)
 	public Map<String,Object> softDeleteWishList(
-			@RequestParam(value="userId") long userId,
-			@RequestParam(value="productId") long productId,
+			@RequestParam(value="reviewId") long reviewId,
 			HttpServletRequest request,HttpServletResponse response)
 	{
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("deleted", productReviewService.softDeleteProductReview(userId,productId));
+		map.put("deleted", productReviewService.softDeleteProductReview(reviewId));
 		return CommonResponseSender.createdSuccessResponse(map, response);	
 	}
 	

@@ -44,8 +44,8 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 		return productReviewRepository.findByProductProductVariantIdAndStatus(productId,ACTIVE,pagable);
 	}
 	@Override
-	public boolean softDeleteProductReview(long userId, long productId) {
-		productReviewRepository.changeStatusOfProduct(userId,productId,INACTIVE);
+	public boolean softDeleteProductReview(long reviewId) {
+		productReviewRepository.changeStatusOfProduct(reviewId,INACTIVE);
 		return true;
 	}
 	@Override
