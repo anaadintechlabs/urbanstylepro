@@ -12,6 +12,6 @@ public interface AffiliateCommisionOrderRepo extends PagingAndSortingRepository<
 
 	AffiliateCommisionOrder findByOrderProdId(long orderProdId);
 
-	List<AffiliateCommisionOrder> getTransactionofAffiliate(long affiliateId);
+	List<AffiliateCommisionOrder> findByAffiliateIdId(long affiliateId);
 
 }

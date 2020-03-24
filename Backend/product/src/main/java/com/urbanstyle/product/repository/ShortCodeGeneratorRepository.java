@@ -8,4 +8,6 @@ import com.anaadihsoft.common.master.ShortCodeGenerator;
 @Repository
 public interface ShortCodeGeneratorRepository extends PagingAndSortingRepository<ShortCodeGenerator, Long>{
 
+	ShortCodeGenerator findByShortCode(String uniqueId);
+
 }

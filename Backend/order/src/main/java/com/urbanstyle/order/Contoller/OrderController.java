@@ -261,7 +261,7 @@ public class OrderController {
 		
 		List<AffiliatetransactionDTO> afDTo = new ArrayList<>();
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		List<AffiliateCommisionOrder> allaffiliateTrans = affiliateorderRepo.getTransactionofAffiliate(affiliateId);
+		List<AffiliateCommisionOrder> allaffiliateTrans = affiliateorderRepo.findByAffiliateIdId(affiliateId);
 		for(AffiliateCommisionOrder affOrder : allaffiliateTrans) {
 			AffiliatetransactionDTO dto = new AffiliatetransactionDTO();
 			dto.setAffiliateId(affiliateId);
