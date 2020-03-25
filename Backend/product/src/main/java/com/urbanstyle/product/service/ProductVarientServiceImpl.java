@@ -287,7 +287,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 				for(Object[] obj :attrDetailsTotal)
 				{
 					Optional<VariantDTO> variantOpt = variants.stream().filter(elem -> elem.getVariationName().equals(obj[0])).findAny();
-					if(!variantOpt.isEmpty())
+					if(variantOpt.isPresent())
 					{
 						VariantDTO variant=variantOpt.get();
 						Optional<AttributeMiniDTO> optAttr=variant.getVariationData().stream().filter(elem->elem.getName().equals(obj[2].toString())).findAny();
@@ -296,7 +296,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 						attributeMini.setId(obj[1].toString());
 						attributeMini.setName(obj[2].toString());
 
-						if(optAttr.isEmpty())
+						if(!optAttr.isPresent())
 						{					
 						variant.getVariationData().add(attributeMini);
 						}
@@ -317,7 +317,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 					}
 					
 					Optional<VariantDTOWithId> variantWithIdOpt = variantCombinations.stream().filter(elem -> elem.getVariationId().equals(obj[3].toString())).findAny();
-					if(!variantWithIdOpt.isEmpty())
+					if(variantWithIdOpt.isPresent())
 					{
 
 						System.out.println("same variant");
