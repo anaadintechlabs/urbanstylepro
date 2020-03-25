@@ -74,10 +74,11 @@
 				  <div class="checkBox"></div>
 				  <div><p>Status</p></div>
 				  <div><p>Image</p></div>
-				  <div><p>SKU</p></div>
-				  <div><p>Product Id</p></div>
-				  <div><p>Product Name</p></div>
+				  <div><p>SKU/(Product Id)</p></div>
+				  <div><p>Product Name/(UPC/UIN Id)</p></div>
 				  <div><p>Available</p></div>
+				  <div><p>MSRP</p></div>
+				  <div><p>Price</p></div>
 				  <div ><p>Sale Price</p></div>
 				  <div ><p>Sale Start Date</p></div>
 				  <div ><p>Sale End Date</p></div>
@@ -104,9 +105,6 @@
 					<div>
 						<p>{{ item.sku ? item.sku : '-' }}</p> 
 					</div>
-					<div>
-						<p>{{ item.productCode ? item.productCode : '-' }}</p>
-					</div>
 					<div >
 					 <p>{{ item.productName ? item.productName : '-' }}</p>
 					</div>
@@ -114,6 +112,12 @@
 					 <p>-</p>
 					</div>
 					<div >
+						<p>-</p>
+					</div>
+					<div>
+						<p>-</p>
+					</div>
+					<div>
 						<p>-</p>
 					</div>
 					<div>
@@ -137,16 +141,21 @@
 						<img class="v_modal_productImage" [src]="data.mainImageUrl" alt="" srcset="">
 					</div>
 					<div>
-						<p>{{ data.sku }}</p> 
-					</div>
-					<div>
-						<p>{{ data?.variantCode }}</p>
+						<p>{{ data.sku }}</p>
+						<p>{{ data.uniqueprodvarId }}</p> 
 					</div>
 					<div >
 					 <p>{{ data.variantName }}</p>
+					 <p>`{{ data.variantCode }}</p>
 					</div>
 					<div >
 					 <p>{{ data.totalQuantity }}</p>
+					</div>
+					<div>
+						<p>{{ data.manufacturerSuggesstedPrice }} </p> 
+					</div>
+					<div>
+						<p>{{ data.displayPrice }} </p> 
 					</div>
 					<div >
 					  <p>{{ data.salesPrice }} </p> 

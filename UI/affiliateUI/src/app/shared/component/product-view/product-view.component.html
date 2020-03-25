@@ -1,18 +1,19 @@
 <div class="row productView m-auto">
     <div class="col-md-3">
-        <img src="../../../../assets/images/GP-Global-Logo.png" alt="" srcset="">
+        <img [src]="product?.mainImageUrl" alt="" srcset="">
     </div>
     <div class="col-md-9 text-right">
-        <h4>Product Name</h4>
-        <p>product Description</p>
-        <p>Product Price : $320</p>
+        <h4>{{ product?.variantName }}</h4>
+        <p>ProductID: {{ product?.uniqueprodvarId }}</p>
+        <p>{{ product?.longDescription }}</p>
+        <p>Price: {{ product?.displayPrice | currencyFormat }}</p>
     </div>
-    <div class="col-md-12 link_col" >
+    <div class="col-md-12 link_col pb-0" >
         <div class="row align-items-center m-auto">
-            <div class="col-md-6 text-left">
-                <p class="mb-0">Generated Link : 'https://www.youtube.com/' </p> 
+            <div class="col-md-6 text-left p-0">
+                <p *ngIf="product.generatedLink" class="mb-0">Generated Link: {{ product?.generatedLink }} </p> 
             </div>
-            <div class="col-md-6 text-right">
+            <div class="col-md-6 text-right p-0" (click)="generateLink()">
                 <button>Generate Link</button>
             </div>
         </div>

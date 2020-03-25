@@ -16,7 +16,6 @@ public interface ProductImagesRepository extends PagingAndSortingRepository<Prod
 	@Modifying
 	@Transactional
 	void deleteAllImage(long productId);
-
 	@Query(value="select pi.productImageUrl from ProductImages pi where pi.product.productId = :prodId and pi.productVariant=null")
 	List<String> findUrlByProduct(long prodId);
 	
