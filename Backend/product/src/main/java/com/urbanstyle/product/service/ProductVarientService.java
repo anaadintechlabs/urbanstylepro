@@ -20,11 +20,11 @@ public interface ProductVarientService {
 
 	List<ProductVariant> getAllFeaturedProducts();
 
-	boolean setFeaturedProduct(long prodId);
+	boolean setFeaturedProduct(long prodId, String featured);
 
 	ProductVariant getDealOftheDay();
 
-	boolean setDealOftheDay(long prodId);
+	boolean setDealOftheDay(long prodId, String deal);
 
 	List<ProductVariant> getAllVarients(int Status, long prodId);
 

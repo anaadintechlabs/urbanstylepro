@@ -74,11 +74,19 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	}
 
 	@Override
-	public boolean setFeaturedProduct(long prodVarId) {
+	public boolean setFeaturedProduct(long prodVarId,String featured) {
 		Optional<ProductVariant> productVarient = productVarRepo.findByProductVariantId(prodVarId);
 		if(productVarient.isPresent()) {
 			ProductVariant proModel = productVarient.get();
+			
+			if(featured.equalsIgnoreCase("yes"))
+			{
 			proModel.setFetauredProduct(true);
+			}
+			else
+			{
+				proModel.setFetauredProduct(false);
+			}
 			productVarRepo.save(proModel);
 			return true;
 		}else {
@@ -91,14 +99,24 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	}
 
 	@Override
-	public boolean setDealOftheDay(long prodId) {
-	 try {
-		 productVarRepo.setDealOftheDay(false);
-		// productVarRepo.setDealofSelectedProd(true,prodId);
-		 return true;
-	 }catch(Exception e) {
-		 return false;		 
-	 }
+	public boolean setDealOftheDay(long prodId, String deal) {
+		Optional<ProductVariant> productVarient = productVarRepo.findByProductVariantId(prodId);
+		if(productVarient.isPresent()) {
+			ProductVariant proModel = productVarient.get();
+			
+			if(deal.equalsIgnoreCase("yes"))
+			{
+			proModel.setDealOfTheDay(true);
+			}
+			else
+			{
+				proModel.setDealOfTheDay(false);
+			}
+			productVarRepo.save(proModel);
+			return true;
+		}else {
+			return false;			
+		}
 	}
 
 	@Override

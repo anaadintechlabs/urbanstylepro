@@ -121,6 +121,17 @@ public class ProductController {
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
+	@RequestMapping(value="/changeStatusOfProductVariantForSuperAdmin",method=RequestMethod.POST)
+	public Map<String,Object> changeStatusOfProductVariantForSuperAdmin(
+			@RequestBody Filter filter,
+			@RequestParam(value="productId") long productId,
+			@RequestParam(value="status") int status,
+			HttpServletRequest request,HttpServletResponse response){
+		final HashMap<String, Object> map = new HashMap<>();
+		productVarient.changeStatusOfProduct(productId,status);
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
+	
 	@RequestMapping(value="/getAllActiveOrInactiveProductVariantOfUser",method=RequestMethod.POST)
 	public Map<String,Object> getAllActiveOrInactiveProductVariantOfUser(@RequestBody Filter filter,
 			@RequestParam(value="userId") long userId,
@@ -227,9 +238,11 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/setFeaturedProduct",method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> setFeaturedProduct(HttpServletRequest request,HttpServletResponse response,@RequestParam (value="prodId",required=true)long prodVarId){
+	public Map<String,Object> setFeaturedProduct(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam (value="prodId",required=true)long prodVarId,
+			@RequestParam (value="featured",required=true)String featured){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("featuredProducts", productVarient.setFeaturedProduct(prodVarId));
+		map.put("featuredProducts", productVarient.setFeaturedProduct(prodVarId,featured));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
@@ -243,9 +256,10 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/setDealOftheDay",method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> setDealOftheDay(HttpServletRequest request,HttpServletResponse response,@RequestParam (value="prodId",required=true)long prodId){
+	public Map<String,Object> setDealOftheDay(HttpServletRequest request,HttpServletResponse response,@RequestParam (value="prodId",required=true)long prodId,
+			@RequestParam (value="deal",required=true)String deal){
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("dealOftheDay", productVarient.setDealOftheDay(prodId));
+		map.put("dealOftheDay", productVarient.setDealOftheDay(prodId,deal));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
 	
