@@ -38,6 +38,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(" from User Where userType =?1")
 	List<User> getAllUsers(String userType, Pageable pagable);
+
+	long countByUserType(String userType);
      
 
 }

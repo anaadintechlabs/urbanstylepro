@@ -20,5 +20,7 @@ public interface ReturnService {
 
 	ReturnManagement getAllDetailOfReturn(long returnId);
 
+	long getCountForSuperAdmin(Filter filter);
+
 
 }

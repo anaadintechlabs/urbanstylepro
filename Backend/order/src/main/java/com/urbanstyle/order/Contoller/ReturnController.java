@@ -82,6 +82,7 @@ public class ReturnController {
 			@RequestBody Filter filter,HttpServletResponse response ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("returnList",returnService.getReturnForSuperAdmin(filter));
+			resultMap.put("count",returnService.getCountForSuperAdmin(filter));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	

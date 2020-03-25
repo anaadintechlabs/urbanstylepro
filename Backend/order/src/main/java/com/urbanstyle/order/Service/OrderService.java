@@ -65,4 +65,6 @@ public interface OrderService {
 	UserOrderProducts getOrderById(long parseLong);
 
 	List<PaymentWalletTransaction> getTransactionofOrder(long orderProdId);
+
+	long countForSuperAdmin();
 }

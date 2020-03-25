@@ -68,7 +68,7 @@ public class UserController {
 		final HashMap<String, Object> map = new HashMap<>();
 		
 		map.put("userList", userService.getAllUsers(filter,userType));
-		
+		map.put("count", userService.getCountByUserType(userType));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}
