@@ -173,6 +173,15 @@ public class ProductController {
 		map.put("productVariantList", productVarient.getAllVariantsByStatus(status));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
+
+	@RequestMapping(value="/getAllVariantsByStatusWithPagination",method=RequestMethod.POST)
+	public Map<String,Object> getAllVariantsByStatus(HttpServletRequest request,HttpServletResponse response,
+		@RequestParam(value="status") int status,@RequestBody Filter filter){
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productVariantList", productVarient.getAllVariantsByStatusWithPagination(status,filter));
+		map.put("count", productVarient.getCountByStatus(status));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
 	
 //dummy
 	@RequestMapping(value="/getAllProducts",method=RequestMethod.GET)

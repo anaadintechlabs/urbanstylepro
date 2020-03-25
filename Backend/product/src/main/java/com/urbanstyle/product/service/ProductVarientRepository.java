@@ -70,6 +70,10 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 
 	ProductVariant findByUniqueprodvarId(String prodVarId);
 
+	List<ProductVariant> findByStatus(int status, Pageable pagable);
+
+	long countByStatus(int status);
+
 	
 
 }

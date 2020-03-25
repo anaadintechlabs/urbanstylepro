@@ -440,5 +440,20 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		return productVarRepo.findByStatus(status);
 	}
 
+	@Override
+	public List<ProductVariant> getAllVariantsByStatusWithPagination(int status, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return productVarRepo.findByStatus(status,pagable);
+	}
+
+	@Override
+	public long getCountByStatus(int status) {
+		return productVarRepo.countByStatus(status);
+	}
+
 
 }
