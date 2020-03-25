@@ -77,7 +77,7 @@ public class AddressController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value="/getAddressDetailsByUser",method=RequestMethod.POST)
+	@RequestMapping(value="/getAddressDetailsByUser",method=RequestMethod.GET)
 	public  Map<String,Object> getAddressDetailsByUser(@RequestParam (value = "userId",required=true) long userId,HttpServletRequest request,HttpServletResponse response) {
 		final HashMap<String, Object> map = new HashMap<>();
 		try {

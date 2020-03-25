@@ -22,6 +22,10 @@ public class User {
 
     @Column(nullable = false)
     private String name;
+    
+    private String lastName;
+    
+    private boolean gender;
 
     @Email
     @Column(nullable = false)
@@ -72,6 +76,39 @@ public class User {
 
     
     
+    
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+
+
+
+	public boolean isGender() {
+		return gender;
+	}
+
+
+
+
+
+	public void setGender(boolean gender) {
+		this.gender = gender;
+	}
+
+
+
+
 
 	public boolean isDeactivated() {
 		return deactivated;
