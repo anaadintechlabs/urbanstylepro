@@ -21,7 +21,7 @@ export class DataService {
         return new Observable<ProductVariant[]>(obs => {
           this._apiService.get(url).subscribe(res => {
             if (res.isSuccess) {
-              obs.next(res.data.productList);
+              obs.next(res.data.productVariantList);
             }
           });
         });

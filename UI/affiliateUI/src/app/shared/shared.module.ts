@@ -5,6 +5,7 @@ import { ProductViewComponent } from './component/product-view/product-view.comp
 import { LogoComponent } from './component/header/logo/logo.component';
 import { MenuComponent } from './component/header/menu/menu.component';
 import { ActionHandlerComponent } from './component/action-handler/action-handler.component';
+import { CurrencyFormatPipe } from './pipe/curruny-formator.ts.pipe';
 
 
 
@@ -13,7 +14,8 @@ import { ActionHandlerComponent } from './component/action-handler/action-handle
     ActionHandlerComponent,
     ProductViewComponent,
     LogoComponent,
-    MenuComponent
+    MenuComponent,
+    CurrencyFormatPipe
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { ActionHandlerComponent } from './component/action-handler/action-handle
     ActionHandlerComponent,
     ProductViewComponent,
     LogoComponent,
-    MenuComponent
+    MenuComponent,
+    CurrencyFormatPipe
   ]
 })
 export class SharedModule { }
