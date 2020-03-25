@@ -110,5 +110,10 @@ public class UserServiceImpl implements UserService {
 		return opt.isPresent()?opt.get():null;
 	}
 
+	@Override
+	public long getCountByUserType(String userType) {
+		return userRepository.countByUserType(userType);
+	}
+
 
 }

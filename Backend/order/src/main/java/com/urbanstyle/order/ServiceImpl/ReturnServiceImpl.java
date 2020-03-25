@@ -279,5 +279,10 @@ public class ReturnServiceImpl implements ReturnService{
 		return returnManage.isPresent()?returnManage.get():null;
 	}
 
+	@Override
+	public long getCountForSuperAdmin(Filter filter) {
+		return returnOrderRepository.count();
+	}
+
 
 }

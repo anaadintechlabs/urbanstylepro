@@ -22,4 +22,6 @@ public interface UserService {
 
 	User getUserById(long userId);
 
+	long getCountByUserType(String userType);
+
 }

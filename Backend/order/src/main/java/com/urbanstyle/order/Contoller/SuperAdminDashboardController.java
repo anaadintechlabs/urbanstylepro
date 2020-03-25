@@ -203,6 +203,7 @@ public class SuperAdminDashboardController {
 			@RequestBody Filter filter,HttpServletResponse response ){
 		Map<String, Object> resultMap = new HashMap<>();
 			resultMap.put("orderList",orderService.getAllOrderForSuperAdmin(filter));
+			resultMap.put("count",orderService.countForSuperAdmin());
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 
 	}
