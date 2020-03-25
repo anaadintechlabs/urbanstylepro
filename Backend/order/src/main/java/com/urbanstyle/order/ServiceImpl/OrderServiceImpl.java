@@ -1182,6 +1182,11 @@ public class OrderServiceImpl implements OrderService {
 		return paymentwalletTransactionRepo.getTransactionofOrder(orderProdId,"OP");
 	}
 
+	@Override
+	public long countForSuperAdmin() {
+		return userOrderProdRepo.count();
+	}
+
 	
 
 }

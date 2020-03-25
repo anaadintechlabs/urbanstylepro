@@ -71,5 +71,9 @@ public interface ProductVarientService {
 
 		List<ProductVariant> getAllVariantsByStatus(int status);
 
+		List<ProductVariant> getAllVariantsByStatusWithPagination(int status, Filter filter);
+
+		long getCountByStatus(int status);
+
  
 }
