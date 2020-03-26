@@ -29,6 +29,7 @@ import com.anaadihsoft.common.master.ProductVariant;
 import com.anaadihsoft.common.master.ShortCodeGenerator;
 import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.common.master.WarehouseInfo;
+import com.urbanstyle.product.repository.CategoryMetaRepository;
 import com.urbanstyle.product.repository.ProductAttributeDetailsRepository;
 import com.urbanstyle.product.repository.ProductImagesRepository;
 import com.urbanstyle.product.repository.ProductInventoryRepo;
@@ -74,8 +75,11 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private UserRepository userRepo;
-
+	
 	private UrlShortner urlSShort;
+	
+	@Autowired
+	private CategoryMetaRepository categoryMetaRepository;
 	
 	@Override
 	public List<Product> getAllProducts() {
@@ -285,6 +289,8 @@ public class ProductServiceImpl implements ProductService{
 			ProductMeta newProd= new ProductMeta();
 			newProd.setMetaKey(productMeta.getMetaKey());
 			newProd.setMetaValue(productMeta.getMetaValue());
+			
+			newProd.setMetaId(categoryMetaRepository.findByMetaKey(productMeta.getMetaKey()));
 			newProd.setProduct(product);
 			newProd.setProductVariant(productVariant);
 			productMetaList.add(newProd);

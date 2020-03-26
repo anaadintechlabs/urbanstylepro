@@ -1187,6 +1187,20 @@ public class OrderServiceImpl implements OrderService {
 		return userOrderProdRepo.count();
 	}
 
+	@Override
+	public long getCountOrderProductByUser(long userId) {
+		return userOrderProdRepo.countByUserOrderUserId(userId);
+
+	}
+
+	@Override
+	public long getVendorOrderCount(long vendorId) {
+		return userOrderProdRepo.getVendorOrderCount(vendorId);
+
+	}
+	
+
+
 	
 
 }

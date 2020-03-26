@@ -73,5 +73,10 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 	public List<ProductReviewDTO> getLast5ProductReviewsOfVendor(long vendorId, int offset) {
 		final Pageable pageable = PageRequest.of(offset, 5);
 		return	null;//productReviewRepository.getLast5ProductReviewsOfVendor(vendorId,ACTIVE,pageable);
+	}
+	@Override
+	public long getAllReviewsCountOfUser(long userId) {
+		return productReviewRepository.countByUserIdAndStatus(userId,ACTIVE);
+
 	}	
 	}

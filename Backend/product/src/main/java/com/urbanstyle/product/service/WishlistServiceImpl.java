@@ -50,4 +50,10 @@ public class WishlistServiceImpl implements WishlistService{
 		return true;
 	}
 
+	@Override
+	public long getAllWishListCountOfUser(long userId) {
+		return wishlistRepository.countByUserIdAndStatus(userId,ACTIVE);
+
+	}
+
 }

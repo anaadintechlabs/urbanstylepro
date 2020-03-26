@@ -28,4 +28,6 @@ public interface ProductReviewService {
 
 	List<ProductReviewDTO> getLast5ProductReviewsOfVendor(long vendorId, int offset);
 
+	long getAllReviewsCountOfUser(long userId);
+
 }

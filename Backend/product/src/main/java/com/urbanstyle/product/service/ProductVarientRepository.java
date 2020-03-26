@@ -74,6 +74,10 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 
 	long countByStatus(int status);
 
+	List<ProductVariant> findByFetauredProductAndStatus(boolean b, int i);
+
+	List<ProductVariant> findByDealOfTheDayAndStatus(boolean b, int i);
+
 	
 
 }
