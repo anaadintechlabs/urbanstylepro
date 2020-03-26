@@ -16,7 +16,7 @@ export class ExtraDetailsComponent implements OnInit {
 
   ngOnInit() {
     this._zone.runOutsideAngular(()=>{
-      this._addProductService.features = [""];
+      // this._addProductService.features = [""];
       let temp = this._addProductService.productFormGroup.get('features');
       temp.patchValue(this._addProductService.features.toString());
     })

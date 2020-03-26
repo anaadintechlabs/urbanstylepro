@@ -249,15 +249,34 @@ export class InventoryComponent implements OnInit {
           this._addProduct.productFormGroup.patchValue(
             res.data.productList.product
           );
+          if(res.data.productList.productVariantDTO.length == 1){
+             if(Object.keys(res.data.productList.productVariantDTO[0].attributesMap).length){
+              this._addProduct.selectedVariation = res.data.productList.productVariantDTO;
+             } else {
+              this._addProduct.selectedVariation = [];
+             }
+          } else {
+            this._addProduct.selectedVariation = res.data.productList.productVariantDTO;
+          }
           console.log(this._addProduct.productFormGroup.value);
           res.data.productList.productVariantDTO.forEach(element => {
             let temp: FormGroup = this._addProduct.initializeProductVarientDto();
-            temp.patchValue(element);
+            temp.get('productVariant').patchValue(element.productVariant);;
             this._addProduct.productVariantDTO.push(temp);
           });
+
+          console.log('varient value',this._addProduct.productVariantDTO)
           this._addProduct.metaList = res.data.productList.productMetaInfo;
           this._addProduct.getmetaInfo();
-          this._addProduct.urlArray = res.data.productList.imageUrls;
+          this._addProduct.features = JSON.parse(res.data.productList.product.features);
+          console.log(this._addProduct.features);
+          for (let index = 0; index < 12; index++) {
+            if((res.data.productList.imageUrls.length-1) >= index){
+              this._addProduct.urlArray[index] = res.data.productList.imageUrls[index];
+            } else {
+              this._addProduct.urlArray[index] = '-';
+            }
+          }
           console.log(this._addProduct.productDTO.value);
           sessionStorage.setItem(
             "addProduct",
@@ -271,22 +290,42 @@ export class InventoryComponent implements OnInit {
   editProductVariant(item) {
     console.log(item);
     this._addProduct.editVarient = true;
+    this._addProduct.productStatus = "EDIT";
     this._apiService.post(`product/getCompleteVariant?productVariantId=${item.productVariantId}&prodId=${item.product.productId}`).subscribe(res=>{
-      console.log(res);
       if (res.isSuccess) {
         console.log(res.data.completeVariant);
         this._addProduct.productFormGroup.patchValue(
           res.data.completeVariant.product
         );
+        if(res.data.completeVariant.productVariantDTO.length == 1){
+           if(Object.keys(res.data.completeVariant.productVariantDTO[0].attributesMap).length){
+            this._addProduct.selectedVariation = res.data.completeVariant.productVariantDTO;
+           } else {
+            this._addProduct.selectedVariation = [];
+           }
+        } else {
+          this._addProduct.selectedVariation = res.data.completeVariant.productVariantDTO;
+        }
         console.log(this._addProduct.productFormGroup.value);
+        this._addProduct.productVariantDTO.clear();
         res.data.completeVariant.productVariantDTO.forEach(element => {
           let temp: FormGroup = this._addProduct.initializeProductVarientDto();
-          temp.patchValue(element);
+          temp.get('productVariant').patchValue(element.productVariant);;
           this._addProduct.productVariantDTO.push(temp);
         });
+
+        console.log('varient value',this._addProduct.productVariantDTO)
         this._addProduct.metaList = res.data.completeVariant.productMetaInfo;
         this._addProduct.getmetaInfo();
-        this._addProduct.urlArray = res.data.completeVariant.imageUrls;
+        this._addProduct.features = JSON.parse(res.data.completeVariant.product.features);
+        console.log(this._addProduct.features);
+        for (let index = 0; index < 12; index++) {
+          if((res.data.completeVariant.imageUrls.length-1) >= index){
+            this._addProduct.urlArray[index] = res.data.completeVariant.imageUrls[index];
+          } else {
+            this._addProduct.urlArray[index] = '-';
+          }
+        }
         console.log(this._addProduct.productDTO.value);
         sessionStorage.setItem(
           "addProduct",
