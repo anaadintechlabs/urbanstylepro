@@ -24,8 +24,8 @@ export class AddProductService {
   //// edit or add status
   public productStatus: string = "";
   public features : string[] = [];
-  public selectedVariation: CategoryAttribute[] = [];
-  public categoryAttribute: CategoryAttribute[] = [];
+  public selectedVariation: any[] = [];
+  public categoryAttribute: any[] = [];
   public selectedProductType: string = "ADVANCE";
   public selectedCatID: number = 0;
   public myFiles: string[] = [];
