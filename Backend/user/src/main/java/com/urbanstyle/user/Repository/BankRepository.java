@@ -29,4 +29,6 @@ public interface BankRepository extends PagingAndSortingRepository<BankDetails, 
 
 	boolean existsByIfscCode(String ifscCode);
 
+	long countByUserIdAndStatus(long userId, int active);
+
 }

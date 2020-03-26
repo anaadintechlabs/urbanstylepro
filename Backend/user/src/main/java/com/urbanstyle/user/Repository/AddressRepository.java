@@ -24,4 +24,6 @@ public interface AddressRepository extends PagingAndSortingRepository<Address,Lo
 	@Transactional
 	void changeStatusOfAddress(long id, int status);
 
+	long countByUserIdAndStatus(long userId, int active);
+
 }

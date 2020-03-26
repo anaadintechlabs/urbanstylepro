@@ -29,8 +29,7 @@ public class BankServiceImpl implements BankService{
 	}
 	
 	public List<BankDetails> getBankDetails(long userId) {
-		List<BankDetails> bankModel = bankRepository.findByUserIdAndStatus(userId,ACTIVE);
-		return bankModel;
+		return bankRepository.findByUserIdAndStatus(userId,ACTIVE);
 	}
 
 	public void deleteBankDetails(long bankId,int status) {
@@ -47,5 +46,11 @@ public class BankServiceImpl implements BankService{
 	@Override
 	public boolean checkDuplicateIFSC(String ifscCode) {
 		return bankRepository.existsByIfscCode(ifscCode);
+	}
+
+	@Override
+	public long getCountByUser(long userId) {
+		return bankRepository.countByUserIdAndStatus(userId,ACTIVE);
+
 	}
 }

@@ -26,4 +26,6 @@ public interface AddressService {
 
 	Address getAddressById(long addressId);
 
+	long getCountByUserId(long userId);
+
 }
