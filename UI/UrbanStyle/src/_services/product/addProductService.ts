@@ -291,6 +291,7 @@ export class AddProductService {
       this.metaList.forEach(element => {
         let tempGrp = this._fb.group({
           metaKey: new FormControl(element.metaKey),
+          metaId : new FormControl(element.metaId),
           metaValue: new FormControl(element.metaValue)
         });
         this.getProductMetaAllInfo.push(tempGrp);
