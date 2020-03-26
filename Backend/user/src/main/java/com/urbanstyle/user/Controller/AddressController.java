@@ -84,6 +84,7 @@ public class AddressController {
 			System.out.println("address details");
 			List<Address> addressDetails = addressService.getAddressDetails(userId);
 			map.put("addressDetails", addressDetails);
+			map.put("count", addressService.getCountByUserId(userId));
 			return CommonResponseSender.createdSuccessResponse(map, response);
 	      }catch(Exception e) {
 	    	  return CommonResponseSender.errorResponse(map, response);
