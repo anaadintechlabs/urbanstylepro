@@ -83,6 +83,11 @@ public class AddressServiceImpl  implements AddressService{
 		Optional<Address> optAddress= addressRepository.findById(addressId);
 		return optAddress.isPresent()? optAddress.get():null;
 	}
+
+	@Override
+	public long getCountByUserId(long userId) {
+		return addressRepository.countByUserIdAndStatus(userId,ACTIVE);
+	}
 	
 
 }

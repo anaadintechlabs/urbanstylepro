@@ -75,6 +75,7 @@ public class BankController {
 		try {
 			List<BankDetails> bankDetails = bankService.getBankDetails(userId);
 			map.put("bankDetails", bankDetails);
+			map.put("count", bankService.getCountByUser(userId));
 			return CommonResponseSender.createdSuccessResponse(map, response);
 	      }catch(Exception e) {
 	    	  return CommonResponseSender.errorResponse(map, response);

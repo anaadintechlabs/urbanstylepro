@@ -75,7 +75,7 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/updateUser",method=RequestMethod.PUT)
-	public Map<String,Object> updateUser(@RequestParam(value="file",required=false) MultipartFile files,@RequestParam(value="userString",required=false) String userString,
+	public Map<String,Object> updateUser(@RequestParam(value="file",required=false) MultipartFile[] files,@RequestParam(value="userString",required=false) String userString,
 			HttpServletRequest request,HttpServletResponse response) throws JsonMappingException, JsonProcessingException
 	{
 		final HashMap<String, Object> map = new HashMap<>();

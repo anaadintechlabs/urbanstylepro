@@ -19,4 +19,6 @@ public interface BankService {
 
 	public boolean checkDuplicateIFSC(String ifscCode);
 
+	public long getCountByUser(long userId);
+
 }
