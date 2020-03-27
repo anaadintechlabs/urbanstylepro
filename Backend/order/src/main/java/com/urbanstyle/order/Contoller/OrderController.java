@@ -27,9 +27,12 @@ import com.anaadihsoft.common.master.AffiliateCommisionOrder;
 import com.anaadihsoft.common.master.UserOrder;
 import com.urbanstyle.order.Repository.AddressRepository;
 import com.urbanstyle.order.Repository.AffiliateCommisionOrderRepo;
+import com.urbanstyle.order.Repository.PaymentWalletTransactionRepo;
 import com.urbanstyle.order.Repository.ProductVarientRepository;
+import com.urbanstyle.order.Repository.ReturnOrder;
 import com.urbanstyle.order.Repository.ShoppingCartItemRepository;
 import com.urbanstyle.order.Repository.UserRepository;
+import com.urbanstyle.order.Repository.UserWalletRepo;
 import com.urbanstyle.order.Repository.WishListRepository;
 import com.urbanstyle.order.Service.OrderService;
 import com.urbanstyle.order.util.CommonResponseSender;
@@ -47,7 +50,16 @@ public class OrderController {
 	
 	@Autowired
 	private AffiliateCommisionOrderRepo affiliateorderRepo;
-
+	
+	@Autowired
+	private UserWalletRepo userWalletRep;
+	
+	@Autowired
+	private PaymentWalletTransactionRepo paymentwalletTransactionRepo;
+	
+	@Autowired
+	private ReturnOrder returnManagement;
+	
 	/**
 	 * 
 	 * @param request
@@ -281,5 +293,18 @@ public class OrderController {
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
+	@RequestMapping(value= {"/getWalletByUser"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getWalletByUser(@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("walletDetails",userWalletRep.findByUserId(userId));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	@RequestMapping(value= {"/getReturnTransOrder"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getReturnTransOrder(@RequestParam(value="orderProdId")long orderProdId,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("ReturnTransaction",paymentwalletTransactionRepo.getTransactionofOrder(orderProdId, "RT"));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
 	
 }
