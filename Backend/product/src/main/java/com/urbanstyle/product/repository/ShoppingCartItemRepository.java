@@ -36,6 +36,8 @@ public interface ShoppingCartItemRepository extends PagingAndSortingRepository<S
 	ShoppingCartItem findByShoppingCartUserIdAndProductVariantProductVariantIdAndStatus(long userId, Long productIds,
 			int active);
 
+	long countByShoppingCartUserIdAndStatus(long parseLong, int active);
+
 
 
 }

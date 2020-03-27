@@ -70,12 +70,12 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
-		return productVarRepo.findByFetauredProduct(true);
+		return productVarRepo.findByFetauredProductAndStatus(true,1);
 	}
 
 	@Override
 	public boolean setFeaturedProduct(long prodVarId,String featured) {
-		Optional<ProductVariant> productVarient = productVarRepo.findByProductVariantId(prodVarId);
+		Optional<ProductVariant> productVarient = productVarRepo.findById(prodVarId);
 		if(productVarient.isPresent()) {
 			ProductVariant proModel = productVarient.get();
 			
@@ -94,13 +94,13 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		}
 	}
 	@Override
-	public ProductVariant getDealOftheDay() {
-		return productVarRepo.findByDealOfTheDay(true);
+	public List<ProductVariant> getDealOftheDay() {
+		return productVarRepo.findByDealOfTheDayAndStatus(true,1);
 	}
 
 	@Override
 	public boolean setDealOftheDay(long prodId, String deal) {
-		Optional<ProductVariant> productVarient = productVarRepo.findByProductVariantId(prodId);
+		Optional<ProductVariant> productVarient = productVarRepo.findById(prodId);
 		if(productVarient.isPresent()) {
 			ProductVariant proModel = productVarient.get();
 			

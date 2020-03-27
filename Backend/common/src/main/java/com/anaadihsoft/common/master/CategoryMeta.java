@@ -151,5 +151,13 @@ public class CategoryMeta {
 		this.modifiedBy = modifiedBy;
 	}
 	
+	public CategoryMeta()
+	{
+		
+	}
 	
+	public CategoryMeta(int id)
+	{
+		this.id=id;
+	}
 }

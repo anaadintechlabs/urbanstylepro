@@ -229,8 +229,8 @@ public class OrderServiceImpl implements OrderService {
 		  }
 			
 			// maintaining enteries for affiliate commisiomn
-			Long affiiateId = userOrder.getAffiliateId();
-			if(affiiateId != null) {
+			long affiiateId = userOrder.getAffiliateId();
+			if(affiiateId != 0) {
 				AffiliateCommisionOrder afcommOrder = new AffiliateCommisionOrder();
 				Optional<User> affiliateuser = userRepo.findById(affiiateId);
 				if(affiliateuser.isPresent()) {
@@ -241,7 +241,7 @@ public class OrderServiceImpl implements OrderService {
 				if(categoryProd.isPresent()) {
 					afcommOrder.setCommision(categoryProd.get().getCommissionPercentage());
 				}
-				afcommOrder.setOrderdate((java.sql.Date) new Date());
+				afcommOrder.setOrderdate( new Date());
 				afcommOrder.setOrderprodid(userOrderProduct);
 				afcommOrder.setProdvarid(productVar);
 				afcommOrder.setReturnId(null);
@@ -552,10 +552,11 @@ public class OrderServiceImpl implements OrderService {
 //					updateBalanceInCaseOfDispatch(userOrder);
 //				}
 				
-				if("DISPATCHED".equalsIgnoreCase(status)) {
-					updateBalanceInCaseOfDispatchForSingleProduct(userOrderProd);
-				}
 				
+				
+			}
+			if("DISPATCHED".equalsIgnoreCase(status)) {
+				updateBalanceInCaseOfDispatchForSingleProduct(userOrderProd);
 			}
 		}
 		return null;
@@ -605,7 +606,7 @@ public class OrderServiceImpl implements OrderService {
 				//now all work will for one order product
 			//	List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
 				Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
-				if(!userOrdrProdOpt.isPresent())
+				if(userOrdrProdOpt.isPresent())
 				{
 					UserOrderProducts userOrdrProd=userOrdrProdOpt.get();
 				//for(UserOrderProducts userOrdrProd :userOrderProducts) {
@@ -634,7 +635,7 @@ public class OrderServiceImpl implements OrderService {
 			
 			Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
 			UserOrderProducts userOrdrProd = null;
-			if(!userOrdrProdOpt.isPresent())
+			if(userOrdrProdOpt.isPresent())
 			{
 				 userOrdrProd=userOrdrProdOpt.get();
 			}
@@ -738,7 +739,7 @@ public class OrderServiceImpl implements OrderService {
 						userWalletVendor.setAmount(amountWallet + amount);
 						userWalletVendor.setModifiedDate(new Date());
 						userWalletVendor.setStatus("1");
-						userWalletVendor.setUser(admin);
+						userWalletVendor.setUser(Uservendor);
 						UserWalletRepo.save(userWalletVendor);
 					}else {
 						userWalletVendor = new UserWallet();
@@ -985,7 +986,7 @@ public class OrderServiceImpl implements OrderService {
 			usrOrdr.setOrderStatus("CANCELLED");
 			orderRepo.save(usrOrdr);
 			Optional<UserOrderProducts> userOrderProductOpt = userOrderProdRepo.findById(orderProductId);
-			if(!userOrderProductOpt.isPresent())
+			if(userOrderProductOpt.isPresent())
 			{
 				 userOrderProducts = userOrderProductOpt.get();
 			
@@ -1005,11 +1006,12 @@ public class OrderServiceImpl implements OrderService {
 			
 						User admin = userRepo.findByUserType("SUPERADMIN");
 						PaymentWalletTransaction pwt = new PaymentWalletTransaction();
-						pwt.setAmount(userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity());
+						pwt.setAmount(userOrderProducts.getOrderProductPrice());
 						pwt.setCreatedDate(new Date());
 						pwt.setOrder(usrOrdr);
 						pwt.setReciever(String.valueOf(usrOrdr.getUser().getId()));
 						pwt.setSender(admin);
+						pwt.setOrderProds(userOrderProducts);
 						pwt.setStatus("1"); 
 						pwt.setType("CANCEL");  //Order Placed
 						paymentwalletTransactionRepo.save(pwt);			
@@ -1017,7 +1019,9 @@ public class OrderServiceImpl implements OrderService {
 						UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
 						if(userWalletAdmin != null) {
 							double amount = userWalletAdmin.getAmount();
-							userWalletAdmin.setAmount(amount - (userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity()));
+//							userWalletAdmin.setAmount(amount - (userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity()));
+							userWalletAdmin.setAmount(amount - (userOrderProducts.getOrderProductPrice()));
+
 							userWalletAdmin.setModifiedDate(new Date());
 							userWalletAdmin.setStatus("1");
 							userWalletAdmin.setUser(admin);
@@ -1027,14 +1031,14 @@ public class OrderServiceImpl implements OrderService {
 						UserWallet userWalletuser = UserWalletRepo.findByUserId(usrOrdr.getUser().getId()); 
 						if(userWalletuser != null) {
 							double amount = userWalletuser.getAmount();
-							userWalletuser.setAmount(amount + (userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity()));
+							userWalletuser.setAmount(amount + (userOrderProducts.getOrderProductPrice()));
 							userWalletuser.setModifiedDate(new Date());
 							userWalletuser.setStatus("1");
 							userWalletuser.setUser(usrOrdr.getUser());
 							UserWalletRepo.save(userWalletuser);
 						}else {
 							userWalletuser = new UserWallet();
-							userWalletuser.setAmount(userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity());
+							userWalletuser.setAmount(userOrderProducts.getOrderProductPrice());
 							userWalletuser.setModifiedDate(new Date());
 							userWalletuser.setStatus("1");
 							userWalletuser.setUser(usrOrdr.getUser());
@@ -1064,7 +1068,7 @@ public class OrderServiceImpl implements OrderService {
 			if(userOrdrProdOpt.isPresent())
 			{
 				userOrdrProd=userOrdrProdOpt.get();
-				if(userOrdrProd.getStatus().equals("COMPLETED"))
+				if(userOrdrProd.getStatus().equals("COMPLETE"))
 				{
 				 userOrdrProd=userOrdrProdOpt.get();
 				userOrdrProd.setStatus("RETURNED REQUESTED");
@@ -1186,6 +1190,20 @@ public class OrderServiceImpl implements OrderService {
 	public long countForSuperAdmin() {
 		return userOrderProdRepo.count();
 	}
+
+	@Override
+	public long getCountOrderProductByUser(long userId) {
+		return userOrderProdRepo.countByUserOrderUserId(userId);
+
+	}
+
+	@Override
+	public long getVendorOrderCount(long vendorId) {
+		return userOrderProdRepo.getVendorOrderCount(vendorId);
+
+	}
+	
+
 
 	
 

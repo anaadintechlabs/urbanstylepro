@@ -22,5 +22,9 @@ public interface ReturnService {
 
 	long getCountForSuperAdmin(Filter filter);
 
+	long getReturnCountByUser(long parseLong);
+
+	long getReturnCountByVendor(long parseLong);
+
 
 }

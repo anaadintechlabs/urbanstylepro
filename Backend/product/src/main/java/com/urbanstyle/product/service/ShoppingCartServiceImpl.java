@@ -219,6 +219,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		return null;
 	}
 
+
+	@Override
+	public long getShoppingCartCountOfUser(String userId) {
+		return shoppingCartItemRepository.countByShoppingCartUserIdAndStatus(Long.parseLong(userId),ACTIVE);
+
+	}
+
 	
 
 
