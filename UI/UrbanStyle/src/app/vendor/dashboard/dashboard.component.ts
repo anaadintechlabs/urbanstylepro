@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getVendorId();
-    // this.getLastOrderList();
+    this.getLastOrderList();
     this.getLastReviewList();
   }
 
@@ -37,16 +37,16 @@ export class DashboardComponent implements OnInit {
     console.log(this.vendorId);
   }
 
-  // getLastOrderList() {
-  //   let url = 'api/getLastOrdersForVendor';
-  //   this.service.getLastOrdersForVendor(url, 0, this.vendorId, 'PLACED').subscribe(
-  //     data => {
-  //       this.lastOrdersList = data;
-  //     }, error => {
-  //       console.log(error);
-  //     }
-  //   )
-  // }
+  getLastOrderList() {
+    let url = 'api/getLastOrdersForVendor';
+    this.service.getLastOrdersForVendor(url, 0, this.vendorId, 'PLACED').subscribe(
+      data => {
+        this.lastOrdersList = data;
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
 
   // getReturnsList() {
   //   let url = 'api/getReturnForVendor';

@@ -428,16 +428,16 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
        });
   }
 
-  // getLastOrdersForVendor(url, offset, vendorId, status) {
-  //   const param: HttpParams = new HttpParams().set("offset", offset).set("vendorId", vendorId).set("status", status);
-  //   return new Observable<any[]>(obs => {
-  //     this._apiService.getOrder(url, param).subscribe(res => {
-  //       if (res.isSuccess) {
-  //         obs.next(res);
-  //       }
-  //     });
-  //   });
-  // }
+  getLastOrdersForVendor(url, offset, vendorId, status) {
+    const param: HttpParams = new HttpParams().set("offset", offset).set("vendorId", vendorId).set("status", status);
+    return new Observable<any[]>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res);
+        }
+      });
+    });
+  }
 
   // getReturnForVendor(url, vendorId, filter) {
   //   url=url+'?vendorId='+vendorId;
