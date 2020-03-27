@@ -296,11 +296,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 						attributeMini.setId(obj[1].toString());
 						attributeMini.setName(obj[2].toString());
 
-<<<<<<< HEAD
-						if(!optAttr.isPresent())
-=======
 						if(optAttr.isPresent())
->>>>>>> 48f6233cb438df18a8df2ec0ee46525f9724df22
 						{					
 						variant.getVariationData().add(attributeMini);
 						}
@@ -321,11 +317,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 					}
 					
 					Optional<VariantDTOWithId> variantWithIdOpt = variantCombinations.stream().filter(elem -> elem.getVariationId().equals(obj[3].toString())).findAny();
-<<<<<<< HEAD
-					if(variantWithIdOpt.isPresent())
-=======
 					if(!variantWithIdOpt.isPresent())
->>>>>>> 48f6233cb438df18a8df2ec0ee46525f9724df22
 					{
 
 						System.out.println("same variant");
