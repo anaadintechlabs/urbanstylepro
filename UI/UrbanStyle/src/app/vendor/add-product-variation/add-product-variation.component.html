@@ -39,7 +39,7 @@
       <div><p>Quantity</p></div>
     </div>
     <div class="" formArraryName="_addProduct.productVariantDTO" *ngFor="let item of _addProduct.productVariantDTO.controls; let i = index">
-      <div class="variationBody" [formGroup]="item.controls.productVariant">
+      <div class="variationBody" [formGroup]="_addProduct.productVariantDTO.at(i).get('productVariant')">
         <!-- <div  class="checkBox"> 
           <input type="checkbox" class="custom-checkbox" (change)="selectData(item.controls.productVariant)">
         </div> -->

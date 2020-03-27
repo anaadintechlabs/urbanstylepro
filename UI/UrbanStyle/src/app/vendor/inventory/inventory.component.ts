@@ -245,10 +245,12 @@ export class InventoryComponent implements OnInit {
       .post(`product/getCompleteProduct?prodId=${item.productId}`)
       .subscribe(res => {
         if (res.isSuccess) {
+          this._addProduct.selectedCatID = res.data.productList.product.categoryId
           console.log(res.data.productList);
           this._addProduct.productFormGroup.patchValue(
             res.data.productList.product
           );
+          this._addProduct.productVariantDTO.clear();
           if(res.data.productList.productVariantDTO.length == 1){
              if(Object.keys(res.data.productList.productVariantDTO[0].attributesMap).length){
               this._addProduct.selectedVariation = res.data.productList.productVariantDTO;
@@ -259,11 +261,13 @@ export class InventoryComponent implements OnInit {
             this._addProduct.selectedVariation = res.data.productList.productVariantDTO;
           }
           console.log(this._addProduct.productFormGroup.value);
-          res.data.productList.productVariantDTO.forEach(element => {
+          for (let i = 0; i < res.data.productList.productVariantDTO.length; i++) {
+            const element = res.data.productList.productVariantDTO[i];
             let temp: FormGroup = this._addProduct.initializeProductVarientDto();
-            temp.get('productVariant').patchValue(element.productVariant);;
+            // temp.get('productVariant').patchValue(element.productVariant);;
             this._addProduct.productVariantDTO.push(temp);
-          });
+            this._addProduct.productVariantDTO.at(i).patchValue(element)
+          }
 
           console.log('varient value',this._addProduct.productVariantDTO)
           this._addProduct.metaList = res.data.productList.productMetaInfo;
@@ -297,6 +301,7 @@ export class InventoryComponent implements OnInit {
         this._addProduct.productFormGroup.patchValue(
           res.data.completeVariant.product
         );
+        this._addProduct.productVariantDTO.clear();
         if(res.data.completeVariant.productVariantDTO.length == 1){
            if(Object.keys(res.data.completeVariant.productVariantDTO[0].attributesMap).length){
             this._addProduct.selectedVariation = res.data.completeVariant.productVariantDTO;
@@ -307,12 +312,13 @@ export class InventoryComponent implements OnInit {
           this._addProduct.selectedVariation = res.data.completeVariant.productVariantDTO;
         }
         console.log(this._addProduct.productFormGroup.value);
-        this._addProduct.productVariantDTO.clear();
-        res.data.completeVariant.productVariantDTO.forEach(element => {
+        for (let i = 0; i < res.data.completeVariant.productVariantDTO.length; i++) {
+          const element = res.data.completeVariant.productVariantDTO[i];
           let temp: FormGroup = this._addProduct.initializeProductVarientDto();
-          temp.get('productVariant').patchValue(element.productVariant);;
+          // temp.get('productVariant').patchValue(element.productVariant);;
           this._addProduct.productVariantDTO.push(temp);
-        });
+          this._addProduct.productVariantDTO.at(i).patchValue(element)
+        }
 
         console.log('varient value',this._addProduct.productVariantDTO)
         this._addProduct.metaList = res.data.completeVariant.productMetaInfo;
