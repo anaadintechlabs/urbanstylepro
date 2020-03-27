@@ -49,4 +49,9 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 	@Query("Select  uop from UserOrderProducts uop where uop.vendor.id =?3 and uop.status=?2 order by uop.userOrder.orderPlacedDate desc")
 	List<UserOrderProducts> getAllOrderByStatusAndUserId(Pageable pagable, String string, int vendorId);
 
+	long countByUserOrderUserId(long userId);
+
+	@Query("Select count(distinct uop) from UserOrderProducts uop where uop.vendor.id =?1 order by uop.userOrder.orderPlacedDate desc")
+	long getVendorOrderCount(long vendorId);
+
 }

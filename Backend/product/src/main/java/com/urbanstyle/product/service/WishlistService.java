@@ -16,4 +16,6 @@ public interface WishlistService {
 
 	boolean softDeleteWishList(long userId, long id);
 
+	long getAllWishListCountOfUser(long userId);
+
 }

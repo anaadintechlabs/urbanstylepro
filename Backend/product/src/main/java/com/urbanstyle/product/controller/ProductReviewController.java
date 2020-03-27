@@ -65,6 +65,7 @@ public class ProductReviewController {
 	{
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("reviewList", productReviewService.getAllReviewsOfUser(filter,userId));
+		map.put("count", productReviewService.getAllReviewsCountOfUser(userId));
 		return CommonResponseSender.createdSuccessResponse(map, response);	
 	}
 	

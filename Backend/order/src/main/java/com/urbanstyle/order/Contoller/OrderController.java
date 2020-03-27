@@ -77,7 +77,9 @@ public class OrderController {
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("orderList",orderService.getOrderProductByUser(Long.parseLong(userId),filter));
-		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+			resultMap.put("count",orderService.getCountOrderProductByUser(Long.parseLong(userId)));
+
+			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 
 	}
 	
@@ -136,6 +138,7 @@ public class OrderController {
 			HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<>();
 			resultMap.put("orderList",orderService.getVendorOrder(vendorId));
+			resultMap.put("count",orderService.getVendorOrderCount(vendorId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	

@@ -284,5 +284,16 @@ public class ReturnServiceImpl implements ReturnService{
 		return returnOrderRepository.count();
 	}
 
+	@Override
+	public long getReturnCountByUser(long userId) {
+		return returnOrderRepository.countByUserId(userId);
+
+	}
+
+	@Override
+	public long getReturnCountByVendor(long vendorId) {
+		return returnOrderRepository.countByOrderProductVendorId(vendorId);
+	}
+
 
 }

@@ -65,6 +65,9 @@ public class ShoppingCartController {
 	{
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("cartList", shoppingCartService.getShoppingCartListOfUser(filter,userId));
+		
+		map.put("count", shoppingCartService.getShoppingCartCountOfUser(userId));
+
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}
