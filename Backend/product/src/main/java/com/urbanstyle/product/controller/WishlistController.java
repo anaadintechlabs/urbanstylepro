@@ -64,6 +64,8 @@ public class WishlistController {
 	{
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("wishList", wishlistService.getAllWishListOfUser(filter,userId));
+		map.put("count", wishlistService.getAllWishListCountOfUser(userId));
+
 		return CommonResponseSender.createdSuccessResponse(map, response);	
 	}
 	

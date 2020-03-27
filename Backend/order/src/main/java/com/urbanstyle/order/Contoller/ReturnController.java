@@ -43,6 +43,7 @@ public class ReturnController {
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("returnList",returnService.getReturnByUser(Long.parseLong(userId),filter));
+			resultMap.put("count",returnService.getReturnCountByUser(Long.parseLong(userId)));
 			resultMap.put("RESPONSE", "SUCCESS");
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
@@ -63,6 +64,7 @@ public class ReturnController {
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="vendorId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("returnList",returnService.getReturnByVendor(Long.parseLong(userId),filter));
+			resultMap.put("count",returnService.getReturnCountByVendor(Long.parseLong(userId)));
 			resultMap.put("RESPONSE", "SUCCESS");
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}

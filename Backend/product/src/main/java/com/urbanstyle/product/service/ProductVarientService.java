@@ -22,7 +22,7 @@ public interface ProductVarientService {
 
 	boolean setFeaturedProduct(long prodId, String featured);
 
-	ProductVariant getDealOftheDay();
+	List<ProductVariant> getDealOftheDay();
 
 	boolean setDealOftheDay(long prodId, String deal);
 

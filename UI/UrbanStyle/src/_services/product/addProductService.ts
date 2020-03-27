@@ -24,8 +24,8 @@ export class AddProductService {
   //// edit or add status
   public productStatus: string = "";
   public features : string[] = [];
-  public selectedVariation: CategoryAttribute[] = [];
-  public categoryAttribute: CategoryAttribute[] = [];
+  public selectedVariation: any[] = [];
+  public categoryAttribute: any[] = [];
   public selectedProductType: string = "ADVANCE";
   public selectedCatID: number = 0;
   public myFiles: string[] = [];
@@ -291,6 +291,7 @@ export class AddProductService {
       this.metaList.forEach(element => {
         let tempGrp = this._fb.group({
           metaKey: new FormControl(element.metaKey),
+          metaId : new FormControl(element.metaId),
           metaValue: new FormControl(element.metaValue)
         });
         this.getProductMetaAllInfo.push(tempGrp);

@@ -70,12 +70,12 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 	
 	@Override
 	public List<ProductVariant> getAllFeaturedProducts() {
-		return productVarRepo.findByFetauredProduct(true);
+		return productVarRepo.findByFetauredProductAndStatus(true,1);
 	}
 
 	@Override
 	public boolean setFeaturedProduct(long prodVarId,String featured) {
-		Optional<ProductVariant> productVarient = productVarRepo.findByProductVariantId(prodVarId);
+		Optional<ProductVariant> productVarient = productVarRepo.findById(prodVarId);
 		if(productVarient.isPresent()) {
 			ProductVariant proModel = productVarient.get();
 			
@@ -94,13 +94,13 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		}
 	}
 	@Override
-	public ProductVariant getDealOftheDay() {
-		return productVarRepo.findByDealOfTheDay(true);
+	public List<ProductVariant> getDealOftheDay() {
+		return productVarRepo.findByDealOfTheDayAndStatus(true,1);
 	}
 
 	@Override
 	public boolean setDealOftheDay(long prodId, String deal) {
-		Optional<ProductVariant> productVarient = productVarRepo.findByProductVariantId(prodId);
+		Optional<ProductVariant> productVarient = productVarRepo.findById(prodId);
 		if(productVarient.isPresent()) {
 			ProductVariant proModel = productVarient.get();
 			
@@ -296,7 +296,11 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 						attributeMini.setId(obj[1].toString());
 						attributeMini.setName(obj[2].toString());
 
+<<<<<<< HEAD
 						if(!optAttr.isPresent())
+=======
+						if(optAttr.isPresent())
+>>>>>>> 48f6233cb438df18a8df2ec0ee46525f9724df22
 						{					
 						variant.getVariationData().add(attributeMini);
 						}
@@ -317,7 +321,11 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 					}
 					
 					Optional<VariantDTOWithId> variantWithIdOpt = variantCombinations.stream().filter(elem -> elem.getVariationId().equals(obj[3].toString())).findAny();
+<<<<<<< HEAD
 					if(variantWithIdOpt.isPresent())
+=======
+					if(!variantWithIdOpt.isPresent())
+>>>>>>> 48f6233cb438df18a8df2ec0ee46525f9724df22
 					{
 
 						System.out.println("same variant");

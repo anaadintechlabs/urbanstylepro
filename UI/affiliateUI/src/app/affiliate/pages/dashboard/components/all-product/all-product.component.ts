@@ -19,14 +19,14 @@ export class AllProductComponent implements OnInit {
     this.user = JSON.parse(window.localStorage.getItem("user"));
     if (this.user.token) {
       this.userId = this.user.id;
-      // this.getAllActiveOrInactiveProductVariantOfUser('ACTIVE')
+      this.getAllActiveProduct();
     }
    }
 
   ngOnInit() {
   }
 
-  getAllActiveOrInactiveProductVariantOfUser(status) {
+  getAllActiveProduct() {
     let body = {
       limit: 15,
       offset: 0,
@@ -34,21 +34,12 @@ export class AllProductComponent implements OnInit {
       sortingField: "modifiedDate"
     };
 
-    let url =
-      "product/getAllActiveOrInactiveProductVariantOfUser?userId=" +
-      this.userId +
-      "&status=" +
-      status;
-    this.dataService
-      .getAllActiveOrInactiveProductVariantOfUser(url, body)
-      .subscribe(
-        data => {
+    let url = `product/getAllVariantsByStatus?status=1`;
+    this.dataService.getAllActiveProduct(url, body).subscribe(data => {
           this.productList = data;
-        },
-        error => {
+      }, error => {
           console.log("error======", error);
-        }
-      );
+      });
     console.log(this.productList);
   }
 

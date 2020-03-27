@@ -31,6 +31,9 @@ public class ProductMeta {
 	
 	private String metaKey;
 	
+	@ManyToOne
+	private CategoryMeta metaId;
+	
 	private String metaValue;
 	
 	private Date createdDate;
@@ -51,6 +54,22 @@ public class ProductMeta {
 
 
 
+	public String getMetaKey() {
+		return metaKey;
+	}
+
+	public void setMetaKey(String metaKey) {
+		this.metaKey = metaKey;
+	}
+
+	public CategoryMeta getMetaId() {
+		return metaId;
+	}
+
+	public void setMetaId(CategoryMeta metaId) {
+		this.metaId = metaId;
+	}
+
 	public Product getProduct() {
 		return product;
 	}
@@ -67,13 +86,9 @@ public class ProductMeta {
 		this.status = status;
 	}
 
-	public String getMetaKey() {
-		return metaKey;
-	}
+	
 
-	public void setMetaKey(String metaKey) {
-		this.metaKey = metaKey;
-	}
+
 
 	public String getMetaValue() {
 		return metaValue;

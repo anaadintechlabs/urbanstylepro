@@ -76,18 +76,18 @@ public class FileUploadService {
 
 
 
-	public void saveImageofUser(MultipartFile file, User user) {
+	public void saveImageofUser(MultipartFile[] files, User user) {
 		String fileName = StringUtils.cleanPath(generateFileNameForUser(user.getId()));
 		 try {
 	            // Check if the file's name contains invalid characters
 	            if(fileName.contains("..")) {
 	                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
 	            }
-	            
+	            for(MultipartFile file : files){
 	            	Path targetLocation = this.fileStorageLocation.resolve(fileName);
 		            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 		            user.setImageUrl(fileName);
-				
+	            }
 	            // Copy file to the target location (Replacing existing file with the same name)
 	            userRepository.save(user);
 	        } catch (IOException ex) {

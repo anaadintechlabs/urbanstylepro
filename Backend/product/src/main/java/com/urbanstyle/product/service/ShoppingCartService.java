@@ -22,4 +22,6 @@ public interface ShoppingCartService  {
 
 	Object updateQuantityOfProduct(String userId, Long productId, int quantity);
 
+	long getShoppingCartCountOfUser(String userId);
+
 }

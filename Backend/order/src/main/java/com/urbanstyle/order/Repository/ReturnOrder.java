@@ -23,4 +23,8 @@ public interface ReturnOrder extends PagingAndSortingRepository<ReturnManagement
 	List<ReturnManagement> findByUserId(long userId, Pageable pagable);
 
 	List<ReturnManagement> findByOrderProductVendorId(long vendorId, Pageable pagable);
+
+	long countByUserId(long userId);
+
+	long countByOrderProductVendorId(long vendorId);
 }
