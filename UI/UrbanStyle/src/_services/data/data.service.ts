@@ -462,16 +462,16 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
   // }
 
 
-  // getLast5ProductReviewsOfVendor(url, offset, vendorId) {
-  //   const param: HttpParams = new HttpParams().set("offset", offset).set("vendorId", vendorId);
-  //   return new Observable<any[]>(obs => {
-  //     this._apiService.getOrder(url, param).subscribe(res => {
-  //       if (res.isSuccess) {
-  //         obs.next(res);
-  //       }
-  //     });
-  //   });
-  // }
+  getLast5ProductReviewsOfVendor(url, offset, vendorId) {
+    const param: HttpParams = new HttpParams().set("offset", offset).set("vendorId", vendorId);
+    return new Observable<any[]>(obs => {
+      this._apiService.get(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.reviewList);
+        }
+      });
+    });
+  }
 
   // getWalletByUser(url,userId) {
   //   const param: HttpParams = new HttpParams().set("userId", userId);

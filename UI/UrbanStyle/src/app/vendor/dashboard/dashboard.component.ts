@@ -28,6 +28,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getVendorId();
+    // this.getLastOrderList();
+    this.getLastReviewList();
   }
 
   getVendorId() {
@@ -71,17 +73,17 @@ export class DashboardComponent implements OnInit {
   //   )
   // }
 
-  // getLastReviewList() {
-  //   let url = 'review/getLast5ProductReviewsOfVendor';
-  //   this.service.getLast5ProductReviewsOfVendor(url, 0, this,this.vendorId).subscribe(
-  //     data => {
-  //       this.lastReviewList = data;
-  //       console.log(this.lastReviewList);
-  //     }, error => {
-  //       console.log(error);
-  //     }
-  //   )
-  // }
+  getLastReviewList() {
+    let url = 'review/getLast5ProductReviewsOfVendor';
+    this.service.getLast5ProductReviewsOfVendor(url, 0, this.vendorId).subscribe(
+      data => {
+        this.lastReviewList = data;
+        console.log(this.lastReviewList);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
 
 
   // getUserWallet() {
