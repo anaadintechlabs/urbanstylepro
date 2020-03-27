@@ -1164,7 +1164,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<UserOrderProducts> getLastOrdersForVendor(int offset, int vendorId,String status) {
+	public List<UserOrderProducts> getLastOrdersForVendor(int offset, long vendorId,String status) {
 		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
 		return userOrderProdRepo.getAllOrderByStatusAndUserId(status,vendorId,pagable);
 	}
