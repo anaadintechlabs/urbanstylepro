@@ -37,14 +37,14 @@
             <td>ORDER-{{ order.id }}</td>
             <td>{{ order.userOrder.orderPlacedDate | date }}</td>
             <td>{{ order.status }}</td>
-            <td>{{ order.userOrder.orderTotalPrice }}</td>
+            <td>{{ order.orderProductPrice }}</td>
             <td>{{ order.userOrder.user.name }}</td>
             <td>
               <button class="btn actionBtn" (click)="getOrderProductForVendor(order.id,order.userOrder.id)">
                 View Details
               </button>
               <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder " -->
-              <button class="btn actionBtn" *ngIf="order.orderStatus!='DISPATCHED'  "
+              <button class="btn" *ngIf="order.orderStatus!='DISPATCHED' "
                 (click)="changeStatusOfPartialOrder('DISPATCHED',order.id,order.userOrder.id)">
                 Dispatch
               </button>

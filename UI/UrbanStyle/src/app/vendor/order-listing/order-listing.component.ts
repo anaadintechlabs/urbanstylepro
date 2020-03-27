@@ -103,7 +103,8 @@ export class OrderListingComponent implements OnInit {
     );
   }
 
-  changeStatusOfPartialOrder(status, orderId,orderProdId) {
+  changeStatusOfPartialOrder(status, orderProdId,orderId) {
+    console.log("called");
     this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor").subscribe(
       data => {
         this.getOrderProductForVendor(orderProdId,orderId);
