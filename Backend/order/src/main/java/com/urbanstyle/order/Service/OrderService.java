@@ -56,7 +56,7 @@ public interface OrderService {
 
 	List<UserOrderProducts> getAllOrderForSuperAdmin(Filter filter);
 
-	List<UserOrderProducts> getLastOrdersForVendor(int offset, int vendorId, String status);
+	List<UserOrderProducts> getLastOrdersForVendor(int offset, long vendorId, String status);
 
 	UserOrder getOrderDetails(long orderId);
 
