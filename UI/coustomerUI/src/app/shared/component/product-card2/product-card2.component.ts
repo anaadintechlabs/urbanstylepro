@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -38,7 +39,8 @@ export class ProductCard2Component implements OnInit {
     public wishlist: WishlistService,
     public compare: CompareService,
     public currency : CurrencyService,
-    public _userService : UserService
+    public _userService : UserService,
+    public toastr:ToastrService
   ) {
     setTimeout(() => {
       let allWishListItem : ProductVerient[] = [];
@@ -78,25 +80,42 @@ export class ProductCard2Component implements OnInit {
     });
   }
 
-  addToWishlist(): void {
-    if (this.addingToWishlist) {
-     this.wishlist.remove(this.product).subscribe({
-       complete: () =>{
-         this.cd.markForCheck();
-       }
-     })
-    }
+  // addToWishlist(): void {
+  //   if (this.addingToWishlist) {
+  //    this.wishlist.remove(this.product).subscribe({
+  //      complete: () =>{
+  //        this.cd.markForCheck();
+  //      }
+  //    })
+  //   }
 
-    this.addingToWishlist = true;
-    this.wishlist.add(this.product).subscribe({
-      complete: () => {
-        // this.addingToWishlist = false;
-        this.cd.markForCheck();
-      }
-    });
+  //   this.addingToWishlist = true;
+  //   this.wishlist.add(this.product).subscribe({
+  //     complete: () => {
+  //       // this.addingToWishlist = false;
+  //       this.cd.markForCheck();
+  //     }
+  //   });
+  // }
+
+  addToWishlist(productVariantId)
+  {
+     this.addingToWishlist = true;
+    this.wishlist.add(productVariantId).subscribe(res=>{
+     if(res && res.data.alreadyAdded)
+     {
+      this.toastr.warning("Product already added to wishlist")
+     }
+     else
+     {
+      this.toastr.success("Product  added to wishlist")
+     }
+    },error=>{
+      console.log("error is",error);
+    }); 
   }
 
-  removeFromWishList() {
+  removeFromWishList(prodVar) {
     this.wishlist.remove(this.product).subscribe({
       complete: () => {
         this.addingToWishlist = false;
@@ -121,7 +140,7 @@ export class ProductCard2Component implements OnInit {
 
   openPage() {
     console.log(location.origin);
-    let url : string = `${location.origin}/classic/shop/product/${this.product.uniqueprodvarId}`
+    let url : string = `${location.origin}/classic/shop/product/${this.product.productVariantId}`
     window.open(url,'_blank');
   }
 

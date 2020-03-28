@@ -1,0 +1,45 @@
+<div class="container" >
+    <div class="row my-5" >
+      <div class="col-12 col-md-12">
+        <div class="ordder_heading">
+          <h4>My Reviews </h4>
+        </div>
+      </div>
+    </div>
+  
+   
+    <div class="row" >
+      <div class="col-12 col-md-12">
+        <table class="table table-striped">
+          <thead class="thead-default">
+            <tr>
+              <th>Review </th>
+              <th>Rating</th>
+              <th>Title</th>
+              <th>Product</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let review of reviewList">
+              <td>{{ review.review }}</td>
+              <td>{{ review.rating }}</td>
+              <td>{{ review.title }}</td>
+              <td>{{ review.product.variantName }}</td>
+              <td>
+                <button class="btn actionBtn" (click)="softDeleteProductReview(review.id)">
+                  Delete
+                </button>
+               
+              </td>
+            </tr>
+            <tr *ngIf="reviewList && reviewList.length ==0 ">
+              <td scope="row">No record found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+
+  </div>

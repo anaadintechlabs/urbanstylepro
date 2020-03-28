@@ -1,3 +1,4 @@
+import { WalletComponent } from './components/wallet/wallet.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserDashboardComponent } from './user-dashboard.component';
@@ -6,6 +7,9 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { LoginComponent } from '../login/login.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { SettingComponent } from './components/setting/setting.component';
+import { UserReviewComponent } from './components/user-review/user-review.component';
+import { ReturnsComponent } from './components/returns/returns.component';
+import { ManageAddressComponent } from './components/manage-address/manage-address.component';
 
 
 const routes: Routes = [
@@ -18,6 +22,11 @@ const routes: Routes = [
                 component : EditProfileComponent
             },
             {
+                path : 'address',
+                component : ManageAddressComponent
+            },
+            
+            {
                 path : 'orders',
                 component : OrdersComponent
             },
@@ -28,7 +37,21 @@ const routes: Routes = [
             {
                 path : 'setting',
                 component : SettingComponent
-            }
+            },
+            {
+                path : 'review',
+                component : UserReviewComponent
+            },
+            
+            {
+                path : 'return',
+                component : ReturnsComponent
+            },
+
+            {
+                path : 'wallet',
+                component : WalletComponent
+            },
         ]
     },
 ];

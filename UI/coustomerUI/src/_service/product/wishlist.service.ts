@@ -8,6 +8,7 @@ import { UserService } from '../http_&_login/user-service.service';
 import { urls } from 'src/constants/urlLists';
 import { HttpParams } from '@angular/common/http';
 
+
 interface WishlistData {
     items: ProductVerient[];
 }
@@ -35,23 +36,67 @@ export class WishlistService implements OnDestroy {
         private _userService : UserService
     ) {
         if (isPlatformBrowser(this.platformId)) {
-            this.load();
+           // this.load();
         }
     }
 
-    add(product: ProductVerient): Observable<void> {
-        // timer only for demo
-        return timer(1000).pipe(map(() => {
-            this.onAddingSubject$.next(product);
+    // add(product: ProductVerient): Observable<void> {
+    //     // timer only for demo
+    //     return timer(1000).pipe(map(() => {
+    //         this.onAddingSubject$.next(product);
 
-            const index = this.data.items.findIndex(item => item.productVariantId === product.productVariantId);
+    //         const index = this.data.items.findIndex(item => item.productVariantId === product.productVariantId);
 
-            if (index === -1) {
-                this.data.items.push(product);
-                this.save();
+    //         if (index === -1) {
+    //             this.data.items.push(product);
+    //             this.save();
+    //         }
+    //     }));
+    // }
+
+    add(productVariantId){
+            let currunt_user = JSON.parse(this._userService.getUser());
+             let obj = {
+            user : {id:currunt_user.id},
+             productVariant :{productVariantId: productVariantId}
             }
-        }));
+          return new Observable<any>(obs => {
+              this._apiService.post(urls.saveWishList,obj).subscribe(res=>{
+                  return obs.next(res);
+                
+            });
+        });  
     }
+
+    getAllWishListOfUser(filter)
+    {
+        if(filter)
+        {
+        let currunt_user = JSON.parse(this._userService.getUser());
+        let url='wishlist/getAllWishListOfUser?userId='+currunt_user.id;
+        return new Observable<any>(obs => {
+            this._apiService.post(url,filter).subscribe(res=>{
+                return obs.next(res.data);
+              
+          });
+      });  
+    }
+    }
+
+
+    softDeleteWishlist(id)
+    {
+        let currunt_user = JSON.parse(this._userService.getUser());
+        let url='wishlist/softDeleteWishList?userId='+currunt_user.id+'&id='+id;
+        return new Observable<any>(obs => {
+            this._apiService.delete(url).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });  
+    }
+
+
 
     remove(product: ProductVerient): Observable<void> {
         // timer only for demo
@@ -66,8 +111,8 @@ export class WishlistService implements OnDestroy {
     }
 
     private save(): void {
-        localStorage.setItem('wishlistItems', JSON.stringify(this.data.items));
-        this.itemsSubject$.next(this.data.items);
+        // localStorage.setItem('wishlistItems', JSON.stringify(this.data.items));
+        // this.itemsSubject$.next(this.data.items);
         this.saveCart();
     }
     

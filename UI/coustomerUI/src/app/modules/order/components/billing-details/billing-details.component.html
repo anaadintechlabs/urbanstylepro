@@ -67,24 +67,24 @@
         <div class="col-12 col-md-3">
         <div class="form-group">
             <label for="">Country*</label>
-            <select class="form-control" formControlName="country" name="" id="">
+            <!-- <select class="form-control" name="" id="">
             <option>India</option>
             <option>UK</option>
-            <option>UAE</option>
-            <!-- <input type="text" formControlName="country" /> -->
-            </select>
-        </div>
-        </div>
-        <div class="col-12 col-md-3">
-        <div class="form-group">
-            <label for="">State / Province</label>
-            <input type="text" name="" formControlName="state" /> 
+            <option>UAE</option> -->
+            <input type="text" formControlName="country" />
+            <!-- </select> -->
         </div>
         </div>
         <div class="col-12 col-md-3">
         <div class="form-group">
             <label for="">City*</label>
             <input type="text" name="" formControlName="cite" /> 
+        </div>
+        </div>
+        <div class="col-12 col-md-3">
+        <div class="form-group">
+            <label for="">State / Province</label>
+            <input type="text" name="" formControlName="state" /> 
         </div>
         </div>
         <div class="col-12 col-md-3">
@@ -105,7 +105,7 @@
     </div>
     <div class="row mt-2">
         <div class="col-12 text-right">
-            <button href="javaScript:coid(0)" [disabled]="_orderService.addressForm.status != 'VALID'" (click)="selectAddress()" class="cart-btn">Use this address</button>
+            <a href="javaScript:coid(0)" (click)="selectAddress()" class="cart-btn">Use this address</a>
         </div>
     </div>
 </div> 
