@@ -9,7 +9,7 @@ import { OrderService } from 'src/_service/product/order.service';
 import { ActivatedRoute } from '@angular/router';
 
 type orderList = {
-  uniqueprodvarId : any,
+  productVariantId : number,
   qty : number,
 }
 @Component({
@@ -41,7 +41,7 @@ export class OrderComponent implements OnInit {
       console.log(data);
       data.forEach(ele=>{
         let obj : orderList = {
-          uniqueprodvarId : ele.product.uniqueprodvarId,
+          productVariantId : ele.product.productVariantId,
           qty : ele.quantity
         }
         this.ordersList.push(obj);
@@ -55,6 +55,74 @@ export class OrderComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  // ngAfterViewInit(): void {
+  //   if (isPlatformBrowser(this.platformId)) {
+  //       this.zone.runOutsideAngular(() => {
+  //           setTimeout(() => {
+  //             var current_fs, next_fs, previous_fs; //fieldsets
+  //             var opacity;
+              
+  //             $(".next").click(function(){
+              
+  //             current_fs = $(this).parent();
+  //             next_fs = $(this).parent().next();
+              
+  //             //Add Class Active
+  //             $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+              
+  //             //show the next fieldset
+  //             next_fs.show();
+  //             //hide the current fieldset with style
+  //             current_fs.animate({opacity: 0}, {
+  //             step: function(now) {
+  //             // for making fielset appear animation
+  //             opacity = 1 - now;
+              
+  //             current_fs.css({
+  //             'display': 'none',
+  //             'position': 'relative'
+  //             });
+  //             next_fs.css({'opacity': opacity});
+  //             },
+  //             duration: 600
+  //             });
+  //             });
+              
+  //             $(".previous").click(function(){
+              
+  //             current_fs = $(this).parent();
+  //             previous_fs = $(this).parent().prev();
+              
+  //             //Remove class active
+  //             $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+              
+  //             //show the previous fieldset
+  //             previous_fs.show();
+              
+  //             //hide the current fieldset with style
+  //             current_fs.animate({opacity: 0}, {
+  //             step: function(now) {
+  //             // for making fielset appear animation
+  //             opacity = 1 - now;
+              
+  //             current_fs.css({
+  //             'display': 'none',
+  //             'position': 'relative'
+  //             });
+  //             previous_fs.css({'opacity': opacity});
+  //             },
+  //             duration: 600
+  //             });
+  //             });
+              
+  //             $(".submit").click(function(){
+  //             return false;
+  //             })
+  //           }, 300);
+  //       });
+  //   }
+  // }
 
   next(ele:string) {
     var current_fs, next_fs, previous_fs; //fieldsets
@@ -108,7 +176,7 @@ export class OrderComponent implements OnInit {
     if(this._orderService.SinglecheckoutItem){
      this.ordersList = [];
      let obj : orderList = {
-        uniqueprodvarId : this._orderService.SinglecheckoutItem.product.uniqueprodvarId,
+        productVariantId : this._orderService.SinglecheckoutItem.product.productVariantId,
         qty : this._orderService.SinglecheckoutItem.quantity
       }
       this.ordersList.push(obj);

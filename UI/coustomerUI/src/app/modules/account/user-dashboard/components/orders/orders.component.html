@@ -1,1 +1,57 @@
-<p>orders works!</p>
+<div class="container" >
+    <div class="row my-5" >
+      <div class="col-12 col-md-12">
+        <div class="ordder_heading">
+          <h4>My Order </h4>
+        </div>
+      </div>
+    </div>
+  
+   
+    <div class="row" >
+      <div class="col-12 col-md-12">
+        <table class="table table-striped">
+          <thead class="thead-default">
+            <tr>
+                <th>Order Id</th>
+                <th>Order Product</th>
+                <th>Order Date</th>
+                <th>Order Status</th>
+                <th>Order Price</th>
+                
+                <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orderList">
+                <td>ORDER-{{ order.id }}</td>
+                <td>{{ order.product.variantName }}</td>
+                
+                <td>{{ order.userOrder.orderPlacedDate | date }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.userOrder.orderTotalPrice }}</td>
+                <td>
+                    <!-- (click)="getOrderProductForVendor(order.id,order.userOrder.id)" -->
+                  <button class="btn actionBtn" >
+                    View Details
+                  </button>
+                  <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder " -->
+                  
+                  <button class="btn actionBtn" (click)="cancelOrderByUser(order.userOrder.id,order.id)">
+                    CANCEL
+                  </button>
+                  <button *ngIf="order.status=='COMPLETED'" class="btn actionBtn" (click)="returnOrderByUserPopUp(order.id,order.userOrder.id)">
+                    RETURN
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="orderList && orderList.length ==0 ">
+                <td scope="row">No record found</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+
+  </div>

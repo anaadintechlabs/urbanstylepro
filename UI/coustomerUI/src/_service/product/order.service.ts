@@ -4,6 +4,7 @@ import { CartItem } from 'src/_modals/cartItem';
 import { UserService } from '../http_&_login/user-service.service';
 import { ApiService } from '../http_&_login/api.service';
 import { User } from 'src/_modals/user';
+import { Observable } from '../../../node_modules/rxjs';
 
 @Injectable({
     providedIn:'root'
@@ -61,16 +62,97 @@ export class OrderService {
         }
 
         if(this.selectedAddress == 'form'){
-            body['bankCardDetails'] = this.bankInfo.value;
+            body['bankInfo'] = this.bankInfo.value;
         } else {
-            body['bankCardDetails'] = {'id' : this.selectedBank.id}
+            body['bankInfo'] = {'id' : this.selectedBank.id}
         }
 
         body['userOrderList'] = list;
 
         console.log('body is', body);
-        this._apiService.postOrder('api/saveOrder',body).subscribe(res=>{
-            console.log(res);
-        })
+        // this._apiService.postOrder('api/saveOrder',body).subscribe(res=>{
+        //     console.log(res);
+        // })
+    }
+
+    getOrderOfUser(filter)
+    {
+        console.log("filter is",filter)
+        if(filter)
+        {
+        let currunt_user = JSON.parse(this._userService.getUser());
+        let url='api/getOrderByUser?userId='+currunt_user.id;
+        return new Observable<any>(obs => {
+            this._apiService.postOrder(url,filter).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });  
+    }
+    }
+
+
+    cancelOrderByUser(orderId,orderProductId)
+    {
+        let currunt_user = JSON.parse(this._userService.getUser());
+        let url='api/cancelOrderByUser?userId='+currunt_user.id+'&orderId='+orderId+'&orderProductId='+orderProductId;
+        return new Observable<any>(obs => {
+            this._apiService.getOrder(url).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });  
+    }
+
+
+    returnOrderByUser(orderId,orderProdId,reason)
+    {
+        let currunt_user = JSON.parse(this._userService.getUser());
+        let url='api/returnOrderByUser?userId='+currunt_user.id+'&orderId='+orderId+'&orderProdId='+orderProdId+'&reason='+reason;
+        return new Observable<any>(obs => {
+            this._apiService.getOrder(url).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });   
+    }
+
+
+    getOrderById(orderId)
+    {
+        let url='api/returnOrderByUser?userOrderId='+orderId;
+        return new Observable<any>(obs => {
+            this._apiService.getOrder(url).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });   
+    }
+
+    getAllDetailOfReturn(returnId)
+    {
+        let url='api/getAllDetailOfReturn?returnId='+returnId;
+        return new Observable<any>(obs => {
+            this._apiService.getOrder(url).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });   
+    }
+
+    getReturnByUser(filter)
+    {
+        console.log("filter is",filter)
+        if(filter)
+        {
+        let currunt_user = JSON.parse(this._userService.getUser());
+        let url='api/getReturnByUser?userId='+currunt_user.id;
+        return new Observable<any>(obs => {
+            this._apiService.postOrder(url,filter).subscribe(res=>{
+                return obs.next(res.data);
+              
+          });
+      });  
+    }
     }
 }

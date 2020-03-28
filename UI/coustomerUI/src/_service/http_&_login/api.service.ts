@@ -14,10 +14,10 @@ import { Observable, throwError } from "rxjs";
   providedIn: "root"
 })
 export class ApiService {
-   userUrl='http://localhost:8081/urban/';
-  // userUrl='https://user2.cfapps.io/urban/';
-  // orderUrl = "https://myorder.cfapps.io/";
-  orderUrl = "http://localhost:8083/";
+    userUrl='http://localhost:8081/urban/';
+  //userUrl='https://user2.cfapps.io/urban/';
+  // orderUrl = "https://myorder.cfapps.io/"
+   orderUrl = "http://localhost:8083/"
   constructor(
     private http: HttpClient,
     // private jwtService: JwtServiceService,
@@ -38,6 +38,12 @@ export class ApiService {
    getUser(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http
       .get(this.userUrl + path, { params })
+      .pipe(catchError(this.formatErrors));
+  }
+
+  getOrder(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    return this.http
+      .get(this.orderUrl + path, { params })
       .pipe(catchError(this.formatErrors));
   }
 

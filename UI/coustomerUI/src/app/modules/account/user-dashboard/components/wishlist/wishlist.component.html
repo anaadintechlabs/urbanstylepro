@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row">
-        <div class="prodct-item-element col-sm-6 col-md-4" *ngFor="let item of _wishList.items$|async">
+        <div class="prodct-item-element col-sm-6 col-md-4" *ngFor="let item of wishlist">
             <!-- <product-card [product]="item"></product-card> -->
-            <productCard2 [product]="item"></productCard2>
+            <productCard2 [product]="item.productVariant"></productCard2>
         </div>        
     </div>
 </div>

@@ -34,6 +34,11 @@ const navigations: Nav[] = [
     icon : 'fas fa-user'
   },
   {
+    name : 'Manage Address',
+    url : '/classic/account/dashboard/address',
+    icon : 'fas fa-user'
+  },
+  {
     name : 'Wishlist',
     url : '/classic/account/dashboard/wishlist',
     icon : 'fas fa-heart'
@@ -47,6 +52,16 @@ const navigations: Nav[] = [
     name : 'Review',
     url : '/classic/account/dashboard/review',
     icon : 'fas fa-comments'
+  },
+  {
+    name : 'Wallet',
+    url : '/classic/account/dashboard/wallet',
+    icon : 'fas fa-comments'
+  },
+  {
+    name : 'Return',
+    url : '/classic/account/dashboard/return',
+    icon : 'fas fa-cogs'
   },
   {
     name : 'Setting',

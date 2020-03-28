@@ -23,13 +23,12 @@ export interface product {
 
 export interface ProductVerient {
     productVariantId: number
-    uniqueprodvarId : string
     categoryId: number
     product: product
     productIdType: string
     sku: string
-    prodName: string
-    prodDesc: string
+    variantName: string
+    variantCode: string
     mainImageUrl: string
     displayPrice: number
     actualPrice: number
@@ -44,4 +43,3 @@ export interface ProductVerient {
     fetauredProduct: boolean
     dealOfTheDay: boolean
 }
-

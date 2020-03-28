@@ -1,1 +1,40 @@
-<p>setting works!</p>
+<div class="row">
+    <div class="col-md-12 d-flex">
+        <div class="card flex-grow-1 mb-md-0">
+            <div class="card-body">
+                <form [formGroup]="passwordFormGroup" (ngSubmit)="onSubmit()" >
+                <div class="card-body">
+                    <div class="row">
+                      <div class="col-12 col-lg-6 col-xl-6">
+                        <div class="form-group">
+                          <label for="profile-first-name">Type Current Password</label>
+                          <input formControlName="oldPassword" type="password" class="form-control" id="profile-first-name" placeholder="Type Current Password">
+                        </div>
+                      </div>
+                     
+                    </div>
+                   
+                    <div class="row">
+                      <div class="col-12 col-lg-6 col-xl-6">
+                        <div class="form-group">
+                          <label for="profile-first-name">Type New Password</label>
+                          <input formControlName="newPassword" type="password" class="form-control" id="profile-first-name" placeholder="Type New Password">
+                        </div>
+                      </div>
+                      <div class="col-12 col-lg-6 col-xl-6">
+                        <div class="form-group">
+                          <label for="profile-first-name">Retype New Password</label>
+                          <input  formControlName="confirmPassword" type="password" class="form-control" id="profile-first-name" placeholder="Retype New Password">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group  mb-0">
+                        <button class="btn btn-primary" type="submit">Change Password</button>
+                    </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

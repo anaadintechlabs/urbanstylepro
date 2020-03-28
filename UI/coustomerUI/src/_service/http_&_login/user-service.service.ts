@@ -1,6 +1,6 @@
 import { JwtServiceService } from './jwt-service.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChanged';
@@ -8,6 +8,7 @@ import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
 import { ApiService } from './api.service';
 import { Router } from "@angular/router";
 import { User } from 'src/_modals/user';
+import { HttpHeaders, HttpClient, HttpBackend } from '../../../node_modules/@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ import { User } from 'src/_modals/user';
 export class UserService {
 
   public redirectUrl: string;
+
+  userUrl='http://localhost:8081/urban/'
 
   private currentUserSubject = new BehaviorSubject<User>({} as User);
   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
@@ -24,7 +27,9 @@ export class UserService {
   constructor(
     private jwtService:JwtServiceService,
     private apiService:ApiService, 
-    private router: Router
+    private router: Router,private httpBackend:HttpBackend,
+    private httpClient:HttpClient,
+    private jwtServiceService:JwtServiceService
   ) {
     this.load();
   }
@@ -167,5 +172,114 @@ export class UserService {
       }
     ));
   }
+
+
+  getAllReviewsOfUser(filter)
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    const route ='review/getAllReviewsOfUser?userId='+currunt_user.id;
+    return this.apiService.post( route, filter).pipe(
+      map(data => {
+        return data;
+      }
+    ));
+  }
+
+
+  softDeleteProductReview(id)
+  {
+    const route ='review/softDeleteProductReview?reviewId='+id;
+    return this.apiService.delete( route).pipe(
+      map(data => {
+        return data.data;
+      }
+    ));
+  }
+
+  getAddressDetailsByUser()
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    const route ='api/getAddressDetailsByUser?userId='+currunt_user.id;
+    return this.apiService.getUser( route).pipe(
+      map(data => {
+        return data.data;
+      }
+    ));
+  }
+
+  deleteAddressDetails(addressId)
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    let url =
+      "api/deleteAddressDetails?userId=" +
+      currunt_user.id +
+      "&addressId=" +
+      addressId +
+      "&status=0";
+    return this.apiService.deleteUser( url).pipe(
+      map(data => {
+        return data.data;
+      }
+    ));
+  }
+
+
+  changePassword(obj)
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    let url =
+      "api/user/changePassword?userId=" +
+      currunt_user.id ;
+    return this.apiService.postUser(url,obj).pipe(
+      map(data => {
+        return data;
+      }
+    ));
+  }
+
+
+  getLoggerInUserDetails()
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    let url =
+      "api/user/getUserById?userId=" +
+      currunt_user.id ;
+    return this.apiService.getUser(url).pipe(
+      map(data => {
+        return data.data;
+      }
+    ));
+  }
+
+  updateUser(data)
+  {
+        const HttpUploadOptions = {
+       headers: new HttpHeaders({
+         'Authorization': 'Bearer ' + this.jwtServiceService.getToken()
+       }),
+     }
+ 
+     this.httpClient= new HttpClient(this.httpBackend);
+          let url=this.userUrl+'api/user/updateUser';
+        return this.httpClient.put(url,data,HttpUploadOptions).pipe(map(this.successResponse), catchError(this.errorHandler));
+  }
+
+
+  errorHandler(error){
+    return Observable.throw(error) ;
+    }
   
+    successResponse(response){
+    try {
+        if (response) {
+          return response.data;
+        }
+      }
+      catch (ex) {
+        console.log(ex);
+      }
+      return response;
+  
+    }
+
 }
