@@ -1,0 +1,42 @@
+<section id="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p> Free Shipping on all orders over $100! <a href="#"> Shop Now </a> </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<header>
+    <div class="container">
+     <nav class="navbar navbar-expand-lg">
+         <a class="navbar-brand" href="#"> <img src="../../../assets/img/logo.png" class="main-logo"> </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fas fa-bars"></i>
+         </button>
+
+         <ul id="shop-mobile">
+            
+             <li class="nav-item">
+               <a class="nav-link" href="#"> <i class="fas fa-search"></i> </a>
+             </li>
+
+             <li class="nav-item">
+               <a class="nav-link" href="#" data-toggle="tooltip" data-placement="bottom" title="Profile">  <i class="far fa-user"></i> </a>
+             </li>
+
+             <li class="nav-item">
+               <a class="nav-link" href="#" data-toggle="tooltip" data-placement="bottom" title="Cart">  <i class="fas fa-cart-plus"></i> </a>
+             </li>                    
+             
+           </ul>
+       
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <menu class=" mr-auto" *ngIf="!showSearch"></menu>
+          <topBarSearch class="mr-auto" style="margin-top: 1em; margin-bottom: 1em; width: 100%;" *ngIf="showSearch"></topBarSearch>
+          <right-menu (showSearch)="changeSearchStatus($event)"></right-menu>
+         </div>
+         </nav>
+    </div>
+</header>

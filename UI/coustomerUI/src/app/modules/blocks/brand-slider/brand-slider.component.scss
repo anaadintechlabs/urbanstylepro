@@ -1,0 +1,17 @@
+.brand-item{
+    text-align: center;
+    img {
+        max-width: 100% !important;
+        width: auto !important;
+        max-height: 50px;
+        height: auto;
+        margin: auto;
+        vertical-align: middle;
+        opacity: 0.6;
+        transition: all 350ms ease-out 0s;
+
+        &:hover{
+            opacity: 1;
+        }
+    }
+}

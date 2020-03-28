@@ -1,0 +1,12 @@
+<div class="sidemenu">
+    <ul class="sidemenu_list">
+        <li class="sidemenu_list_element" *ngFor="let item of nav">
+            <a *ngIf="item.name != 'Logout'" class="sidemenu_list_element_link" [routerLink]="[item.url]" routerLinkActive="router-link-active" >
+                <i [class]="item.icon"></i>  {{ item?.name }} 
+            </a>
+            <a href="Javascript.void(0);" *ngIf="item.name == 'Logout'" class="sidemenu_list_element_link" (click)="logout()">
+                <i [class]="item.icon"></i>  {{ item?.name }} 
+            </a>
+        </li>
+    </ul>
+</div>

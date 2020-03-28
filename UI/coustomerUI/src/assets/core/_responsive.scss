@@ -1,0 +1,124 @@
+@media only screen and (min-width: 1024px) and (max-width: 1366px) {
+    /* .addtoCart {
+      align-items: flex-start;
+      flex-direction: column;
+    } */
+    .addtoCart li {
+      margin: 0 5px 20px 0;
+    }
+    .addtoCart li a {
+      display: inline-flex;
+    }
+    .mainProduct img {
+      height: 465px;
+    }
+    .cart-btn, .checkout-btn {
+      padding: 10px;
+    }  
+  }
+  @media only screen and (min-width: 992px) and (max-width: 1179px) {
+    
+  }
+  @media only screen and (min-width: 768px) and (max-width: 991px) {
+    
+  }
+  @media (max-width: 991px) {
+    .mainProduct img {
+      height: 395px;
+    }
+    .product-details .review-ul li.star {
+      font-size: 14px;
+    }
+    .like-card img {
+      height: 180px;
+    }
+    .addtoCart {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .addtoCart li {
+      margin: 0 5px 20px 0;
+    }
+    .addtoCart li a {
+      display: inline-flex;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .breadcrumb-bg {
+      min-height: 150px;
+      margin-bottom: 3rem;
+    }
+    .breadcrumb-head {
+      font-size: 22px;
+      text-align: center;
+    }
+    .breadcrumb-bg .breadcrumb-item {
+      font-size: 14px;
+    }
+    .breadcrumb {
+      justify-content: center;
+      font-size: 14px;
+    }
+    .leftproduct img {
+      margin: 0 2px 10px 0;
+      width: 55px;
+    }
+    .leftproduct img:last-child {
+      margin: 0 0 10px;
+    }
+    .mainProduct img {
+      height: 325px;
+      width: 100%;
+    }
+    .hl-product {
+      display: flex;
+      margin: 0 0 1rem;
+      flex-direction: column;
+    }
+    .leftproduct {
+      flex-direction: row;
+      margin: 0;
+      justify-content: space-between;
+    }
+    .like-card img {
+      height: 260px;
+    }
+    .proHead {
+      font-size: 22px;
+    }
+    .review-ul {
+      flex-direction: column;
+    }
+    .product-details .review-ul li {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    .color-choice {
+      margin: 15px 10px;
+    }
+    .addtoCart {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .addtoCart li {
+      margin: 0 5px 20px 0;
+    }
+    .addtoCart li a {
+      display: inline-flex;
+    }
+    .cart-btn {
+      padding: 10px;
+    }
+    .innerPageContent .nav-tabs .nav-link {
+      padding: 0 0.5rem 1.5rem;
+      font-size: 14px;
+    }
+    .review-ul .star span {
+      font-size: 10px;
+    }
+    .also-like .proHead {
+      margin-top: 3rem;
+      padding: 0 15px;
+    }
+  }

@@ -1,0 +1,51 @@
+@import 'owlCarousel';
+@import 'sideMenu';
+@import 'review';
+@import 'userDashboard';
+@import 'productCard';
+@import 'topSearch';
+@import 'singleProductView';
+@import 'breadcrumb';
+@import 'responsive';
+@import 'order';
+// @import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700|Roboto:300,400,500,700,900&display=swap');
+
+:root {
+    --hlTheme : #27AF9A; 
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    // font-family: 'Roboto', sans-serif;
+  }
+  .row {
+    margin: 0;
+  }
+  
+  h1, h2, h3, h4, h5, p {
+    margin: 0;
+  }
+  a:hover, a:focus {
+    text-decoration: none;
+  }
+  ul, ol {
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    list-style: none;
+  }
+  img {
+    max-width: 100%;
+  }
+  button:focus, .btn:focus, select:focus {
+    outline: none;
+  }
+  .mt-5rem {
+    margin-top: 5rem;
+  }
+  input:focus, .form-control:focus {
+    outline: none;
+    box-shadow: none;
+  }

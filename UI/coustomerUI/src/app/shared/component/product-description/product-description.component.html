@@ -1,0 +1,94 @@
+<!-- 
+<div class="product_desc">
+    <h2 class="desc_heading">{{ description.productVariant.product.productName }}</h2>
+    <p class="desc_content">{{ description.productVariant.prodDesc }}</p>
+    <div class="desc_price">
+        <p class="desc_price_display">{{ description.productVariant.displayPrice | currencyFormat }}</p>
+        <p class="desc_price_discount">{{ description.productVariant.discountPrice | currencyFormat }}</p>
+        <p class="desc_price_actual">{{ description.productVariant.actualPrice | currencyFormat }}</p>
+    </div>
+</div> -->
+
+<div class="product-details">
+    <h2 class="proHead">{{ description.mainProductPacket.mainProduct.productVariant.product.productName }}</h2>
+
+    <ul class="review-ul">
+      <li class="star">
+        <span class="fa fa-star"  [ngClass]="{'checked': (avrageRating >= '1')}"></span>
+        <span class="fa fa-star"  [ngClass]="{'checked': (avrageRating >= '2')}"></span>
+        <span class="fa fa-star"  [ngClass]="{'checked': (avrageRating >= '3')}"></span>
+        <span class="fa fa-star"  [ngClass]="{'checked': (avrageRating >= '4')}"></span>
+        <span class="fa fa-star"  [ngClass]="{'checked': (avrageRating >= '5')}"></span>
+      </li>
+      <li>Reviews ({{ description.allReviews.length }})</li>
+      <li>
+        <a href="javascript:void(0);" (click)="scroll()" class="write-review-btn" *ngIf="_userService.isAuthenticated | async">Write a Review</a>
+      </li>
+    </ul>
+
+    <h3>{{ description.mainProductPacket.mainProduct.productVariant.displayPrice | currencyFormat }}</h3>
+    <div class="proCard">
+      <p [innerHTML]="description.mainProductPacket.mainProduct.productVariant.prodDesc"></p>
+      <!-- <ul class="pro-point">
+        <li>Our best-selling night</li>
+        <li>Wicks away moisture to secure your grip</li>
+        <li>5mm of premium cushion</li>
+        <li>Supports you and your joints</li>
+        <li>Lightweight and durable </li>
+      </ul> -->
+    </div>
+    <div class="row mb-3 mt-3 align-items-center" >
+      <div class="col-12 col-md-12 col-xl-7 col-lg-7 pl-0 pl-md-0">
+        <form>
+          <div class="form-group row align-items-center">
+            <label for="staticEmail" class="col-sm-3 col-form-label">Size :</label>
+            <div class="col-sm-9 p-0">
+              <!-- <select class="form-control">
+                <option>Standard 71" (180cm)</option>
+              </select> -->
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-12 col-md-12 col-xl-5 col-lg-5 p-0 pl-md-2 pr-md-0">
+        <ul class="color-choice">
+          <li class="mr-3"><p>Color :</p></li>
+          <li>
+            <span class="color1"><i class="fas fa-circle"></i></span>
+            <span class="color2"><i class="fas fa-circle"></i></span>
+            <span class="color3"><i class="fas fa-circle"></i></span>
+            <span class="color4"><i class="fas fa-circle"></i></span>
+            <span class="color5"><i class="fas fa-circle"></i></span>
+          </li>
+        </ul>  
+      </div>
+    </div>
+
+    <ul class="addtoCart">
+      <li>
+        <a href="javascript:void(0);" class="pro-number"><i class="fas fa-plus" (click)="cartAdd()"></i> <span>{{ selectedQuantity }}</span> <i class="fas fa-minus" (click)="cartMinus()"></i></a>
+      </li>
+      <li>
+        <a *ngIf="addingToCart" href="javascript:void(0);" class="cart-btn" (click)="update()">Update Cart</a>
+        <a *ngIf="!addingToCart" href="javascript:void(0);" class="cart-btn" (click)="addToCart()">Add To Card</a>
+      </li>
+      <li *ngIf="_userService.isAuthenticated | async">
+        <a *ngIf="!addingToWishlist"  href="javascript:void(0);" class="pro-shape" (click)="addToWishlist()">
+          <span>
+            <i class="far fa-heart"></i>
+          </span>
+        </a>
+        <a *ngIf="addingToWishlist" href="javascript:void(0);" class="pro-shape" (click)="removeFromWishList()">
+          <span>
+            <i class="fas fa-heart"></i>
+          </span>
+        </a>
+        <!-- <a href="javascript:void(0);" class="pro-twt"><span><i class="fas fa-retweet"></i></span></a> -->
+      </li>
+      <li>
+        <a class="cart-btn" href="javascript:void(0);" (click)="checkout(description.mainProductPacket.mainProduct.productVariant)" >Checkout</a>
+      </li>
+    </ul>
+
+    
+  </div>

@@ -1,0 +1,78 @@
+<!-- <div class="row reviews_form">
+    <div class="col-md-2 px-0">
+        <div class="userImage">
+            <img src="../../../../assets/img/logo.png" alt="">
+        </div>
+    </div>
+    <div class="col-md-8 px-0" [formGroup]="reviewForm">
+        <div class="form-group">
+            <input formControlName="title" class="form-control" type="text" name="" id="" placeholder="Title">
+        </div>
+        <div class="form-group">
+          <textarea formControlName="review" class="form-control" name="" id="review" rows="3" placeholder="Add a review"></textarea>
+        </div>
+    </div>
+    <div class="col-md-10 text-right px-0">
+        <button (click)="submit()" type="button" name="" id="" class="btn btn-primary" btn-lg btn-block>
+            Submit
+        </button>
+    </div>
+</div>
+<div class="row reviews_form" *ngFor="let review of reviews">
+    <div class="col-md-2 px-0">
+        <div class="userImage">
+            <img src="../../../../assets/img/logo.png" alt="">
+        </div>
+    </div>
+    <div class="col-md-8 px-0">
+        <h6>{{ review.title }}</h6>
+        <p>{{ review.review }}</p>
+        <p></p>
+    </div>
+</div> -->
+
+<div #reviewForm class="add-Your-Review" *ngIf="_userService.isAuthenticated | async">
+    <h3>Add Your Review</h3>
+    <ul class="review-ul">
+      <li class="yrating">Your Rating</li>
+      <li class="star">
+        <span (click)="selectRating(1)" class="fa fa-star"  [ngClass]="{'checked': (userRating >= '1')}"></span>
+        <span (click)="selectRating(2)" class="fa fa-star"  [ngClass]="{'checked': (userRating >= '2')}"></span>
+        <span (click)="selectRating(3)" class="fa fa-star"  [ngClass]="{'checked': (userRating >= '3')}"></span>
+        <span (click)="selectRating(4)" class="fa fa-star"  [ngClass]="{'checked': (userRating >= '4')}"></span>
+        <span (click)="selectRating(5)" class="fa fa-star"  [ngClass]="{'checked': (userRating >= '5')}"></span>
+      </li>
+    </ul>
+
+    <form [formGroup]="reviewForm">
+      <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 col-xl-12 p-0 pl-md-0">
+          <div class="form-group">
+            <label for="exampleInputPassword1">Title</label>
+            <input formControlName="title" type="text" class="form-control" placeholder="" />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Your Review</label>
+        <textarea formControlName="review" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+      </div>
+
+      <!-- <div class="row">
+        <div class="col-12 col-md-6 col-lg-6 col-xl-6 p-0 pl-md-0">
+          <div class="form-group">
+            <label for="exampleInputPassword1">Name</label>
+            <input type="text" class="form-control" placeholder="" />
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-6 col-xl-6 p-0 pl-md-2">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+          </div>
+        </div>
+      </div> -->
+
+      <button type="submit" class="cart-btn" (click)="submit()">Submit</button>
+    </form>
+  </div>
