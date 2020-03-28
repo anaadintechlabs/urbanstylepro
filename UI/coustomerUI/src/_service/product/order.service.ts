@@ -70,9 +70,9 @@ export class OrderService {
         body['userOrderList'] = list;
 
         console.log('body is', body);
-        // this._apiService.postOrder('api/saveOrder',body).subscribe(res=>{
-        //     console.log(res);
-        // })
+        this._apiService.postOrder('api/saveOrder',body).subscribe(res=>{
+            console.log(res);
+        })
     }
 
     getOrderOfUser(filter)

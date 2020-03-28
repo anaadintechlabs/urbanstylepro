@@ -140,7 +140,7 @@ export class ProductCard2Component implements OnInit {
 
   openPage() {
     console.log(location.origin);
-    let url : string = `${location.origin}/classic/shop/product/${this.product.productVariantId}`
+    let url : string = `${location.origin}/classic/shop/product/${this.product.uniqueprodvarId}`
     window.open(url,'_blank');
   }
 
