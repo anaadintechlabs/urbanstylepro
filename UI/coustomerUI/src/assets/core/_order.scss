@@ -1,0 +1,361 @@
+
+
+/* -------------------- Checkout css start -------------------- */
+.bg-theme {
+    background: var(--hlTheme) !important;
+  }
+  .return-login {
+    padding: 13px 15px;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .return-login a {
+    color: #fff;
+  }
+  .return-login a:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .checkmark-img {
+    margin: 0 8px 0 0px;
+  }
+  #accordion .card {
+    border: none;
+  }
+  #code-collapse .card-body {
+    background: #fff;
+    transition: all 0.1s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 18%);
+  }
+  .codeInput {
+    background: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 40px;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s;
+  }
+  .codeInput:focus {
+    box-shadow: inset 0px 0px 5px 2px rgba(0,0,0,0.05);
+  }
+  
+  
+  
+  
+  
+  /* ------------------ Multi step form ------------------ */
+  
+  #msform {
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+  }
+  
+  #msform fieldset .form-card {
+    background: white;
+    border: 0 none;
+    border-radius: 10px;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 10%);
+    -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 10%);
+    -moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 10%);
+    -o-box-shadow: 0 1px 10px rgba(0, 0, 0, 10%);
+    padding: 25px 15px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 20px 0;
+    position: relative;
+  }
+  
+  #msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 25px 0 0;
+    padding-bottom: 20px;
+    position: relative;
+  }
+  
+  #msform fieldset:not(:first-of-type) {
+    display: none;
+  }
+  
+  #msform fieldset .form-card {
+    text-align: left;
+  }
+  #msform .form-group label {
+    color: #111111;
+  }
+  #msform input,
+  #msform select {
+    height: 40px;
+  }
+  #msform input,
+  #msform textarea, #msform select {
+    padding: 8px 10px;
+    border: 1px solid #DFDFDF;
+    border-radius: 6px;
+    margin: 0 0 0 0;
+    width: 100%;
+    box-sizing: border-box;
+    color: #111;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+  
+  #msform input:focus,
+  #msform textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border-color: var(--hlTheme);
+    outline-width: 0
+  }
+  #msform select#month, #msform select#year {
+    width: 49%;  
+  }
+  #msform .card-info input, #msform .card-info select {
+    border: 1px solid #DFDFDF;
+    border-radius: 40px;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+  .sn-card {
+    border: 1px solid #eee;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 2px;
+    text-align: center;
+    margin: 0 0px 0 0;
+    position: relative;
+    left: -10px;
+  }
+  
+  #msform .action-button, #msform .action-button-previous {
+    width: auto;
+    background: var(--hlTheme);
+    color: white;
+    border: 0 none;
+    border-radius: 40px;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin: 10px 5px;
+    /* font-size: 24px; */
+    line-height: 20px;
+    position: absolute;
+    bottom: 10px;
+  }
+  #msform .action-button-previous {
+    right: 56%;
+  }
+  #msform .action-button {
+    right: 50%;
+  }
+  #msform .stepFour .action-button {
+    right: 40%;
+  }
+  
+  #msform .action-button:hover,
+  #msform .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--hlTheme);
+  }
+  
+  #msform button i {
+    font-size: 20px;
+  }
+  #msform .action-button-previous:hover,
+  #msform .action-button-previous:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--hlTheme);
+  }
+  select.list-dt {
+    border: none;
+    outline: 0;
+    border-bottom: 1px solid #ccc;
+    padding: 2px 5px 3px 5px;
+    margin: 2px
+  }
+  select.list-dt:focus {
+    border-bottom: 2px solid var(--hlTheme);
+  }
+  
+  #msform .custom-control-label::before, #msform .custom-control-label::after {
+    border-radius: 30px;
+    width: 30px;
+    height: 30px;
+  }
+  #msform .form-group .custom-control-label {
+    color: #707070;
+    font-size: 20px;
+    vertical-align: middle;
+    padding: 2px 0 0 15px;
+  }
+  #msform .custom-control-label::before {
+    background-color: rgba(193, 193, 193, 0.67);
+    border: none;
+  }
+  #msform .custom-control-input:checked ~ .custom-control-label::before {
+    border-color: var(--hlTheme);
+    background-color: var(--hlTheme);
+  }
+  .custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(39, 175, 154, 0.25);
+  }
+  
+  .card {
+    z-index: 0;
+    border: none;
+    border-radius: 0.5rem;
+    position: relative
+  }
+  
+  .sc-title {
+    font-size: 20px;
+    color: var(--hlTheme);
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 400;
+  }
+  
+  #progressbar {
+    padding-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey;
+    position: relative;
+  }
+  #progressbar::after {
+    background: #f2f2f2;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 10%);
+    -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 10%);
+    -moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 10%);
+    -o-box-shadow: 0 1px 10px rgba(0, 0, 0, 10%);
+    width: 100%;
+    height: 80px;
+    content: '';
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: -2;
+    border-radius: 6px;
+    bottom: 13px;
+  }
+  
+  #progressbar .active {
+    color: #000000
+  }
+  
+  #progressbar li {
+    color: #111111;
+    list-style-type: none;
+    font-size: 18px;
+    width: 25%;
+    float: left;
+    position: relative
+  }
+  
+  #progressbar #account:before {
+    content: "01"
+  }
+  
+  #progressbar #personal:before {
+    content: "02"
+  }
+  
+  #progressbar #payment:before {
+    content: "03"
+  }
+  
+  #progressbar #review:before {
+    content: "04"
+  }
+  
+  #progressbar #confirm:before {
+    content: "05"
+  }
+  
+  #progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 18px;
+    color: #ffffff;
+    background: #C1C1C1;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+  }
+  #progressbar li.active:before {
+    background: var(--hlTheme);
+  }
+  .card-details-sec .row {
+    margin: 0 -15px 0 -15px;
+    background: #F2F2F2;
+    padding: 15px;
+  }
+  
+  .card-details-sec p {
+    color: #111;
+    font-size: 20px;
+    margin: 0 0 15px 0;
+  }
+  
+  .card-details-sec span {
+    font-size: 16px;
+  }
+  
+  .quantity-Hl {
+    display: flex;
+    align-items: center;
+  }
+  .minus-icon, .plus-icon {
+    border-radius: 40px;
+    padding: 1px 6px;
+    color: #fff;
+    font-size: 12px;
+    width: 25px;
+    height: 25px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;  
+  }
+  .minus-icon {
+    background: #707070;
+    margin: 0 10px 0 0;  
+  }
+  
+  .plus-icon {
+    background: var(--hlTheme);
+    margin: 0 0 0 10px;
+  }
+  .billing-info h5 {
+    color: #707070;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 15px 0 5px 0;
+  }
+  .billing-info h5 + p {
+    margin: 0px 0 15px;
+  }
+  .congoHead {
+    font-size: 26px;
+    font-weight: 400;
+    color: #111111;
+  }
+  .congoHead + p {
+    color: #707070;
+  }
+
+  .addressDetails {
+    padding-bottom: 10px;
+  }
+  
+  
+  
+  
+  
+  /* -------------------- Checkout css end -------------------- */

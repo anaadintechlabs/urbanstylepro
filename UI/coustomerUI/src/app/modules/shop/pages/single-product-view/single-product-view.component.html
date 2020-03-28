@@ -1,0 +1,58 @@
+<bredcrumb></bredcrumb>
+
+<section class="innerPageContent" *ngIf="singleProductData">
+    <div class="container">
+        <div class="row py-4" >
+            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                <product-image-slider [allImages]="singleProductData?.mainProductPacket?.allImages"></product-image-slider>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <product-description [avrageRating]="avgRating" [description]="singleProductData" (scrollToForm)="scroll(reviewForm)"></product-description>
+                <!-- <reviews [reviews]="singleProductData?.allReviews"></reviews> -->
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="features-tab" data-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="false">Features</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Review</a>
+                </li>
+              </ul>
+              <div class="tab-content mb-4" id="myTabContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                    <prod-desc [desc]="singleProductData.mainProductPacket.mainProduct.productVariant"></prod-desc>
+                </div>
+                <div class="tab-pane fade" id="features" role="tabpanel" aria-labelledby="features-tab">
+                    <featue-details [feature]="singleProductData.mainProductPacket.mainProduct.productVariant"></featue-details>
+                </div>
+                <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                    <review-card *ngFor="let item of singleProductData?.allReviews" [review]="item"></review-card>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        
+        <div #reviewForm class="row mt-5">
+          <div class="col-12">
+            <reviews [reviews]="singleProductData?.allReviews"></reviews>
+          </div>
+        </div>
+
+       
+
+        <div class="row py-4" *ngIf="singleProductData">
+            <div class="col-md-12 col-xs-12">
+                <app-carousal2 [productList]="singleProductData?.relatedProductsPackets"></app-carousal2>
+            </div>
+        </div>
+    </div>
+    <brand-slider></brand-slider>
+</section>

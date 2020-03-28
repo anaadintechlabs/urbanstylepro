@@ -1,0 +1,68 @@
+
+.sideMenu {
+    display: none;
+}
+.open-cart .sideMenu {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.2);
+    color: #fff !important;
+
+    .dropcart {
+        min-width: 330px;
+        max-width: 330px;
+        position: absolute;
+        overflow-y: scroll;
+        right: 0;
+        height: 100%;
+        background: #fff;
+        color: #000;
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        &_cancel {
+            background-color: transparent;
+            box-shadow: none;
+            border: none;
+            font-size: 18px;
+            &:hover{
+                transform: rotate(90deg);
+                transition-duration: 1.2s;
+            }
+        }
+
+        .cartHeader, .dropcart__products-list, .dropcart__empty,.dropcart__footer {
+            padding: 30px;
+        }
+
+        &__product{
+            border: 1px solid #c1c1c1;
+            padding: 15px 0;
+            margin: 0 0 10px;
+            width: 100%;
+            &-image{
+                img{
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
+
+.nopadding {
+
+    padding: 0 4px !important;
+ 
+    margin: 0 !important;
+ 
+ }

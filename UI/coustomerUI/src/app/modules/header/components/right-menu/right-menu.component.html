@@ -1,0 +1,16 @@
+<form class="form-inline my-2 my-lg-0">
+    <ul class="navbar-nav ml-auto">
+   
+        <li class="nav-item" (click)="searchClicked()">
+          <a class="nav-link" href="Javascript:void(0)"> <i class="fas fa-search"></i> </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['./account/dashboard'] " routerLinkActive="router-link-active"  data-toggle="tooltip" data-placement="bottom" title="Profile">  <i class="far fa-user"></i> </a>
+        </li>
+
+        <li class="nav-item" sideMenu="open-cart" #sideMenu="sideMenu">
+          <a class="nav-link" href="#" data-toggle="tooltip"  (click)="$event.preventDefault(); sideMenu.toggle()" sideMenu="open-cart" data-placement="bottom" title="Cart">  <i class="fas fa-cart-plus"></i> </a>
+        </li>                          
+    </ul>
+</form>

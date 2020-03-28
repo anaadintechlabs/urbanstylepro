@@ -1,0 +1,36 @@
+.sidemenu{
+    border: 1px solid #b1b1b1;
+    &_list{
+        list-style: none;
+        padding: 0;
+        margin-bottom: 0;
+        // padding-left: 20px;
+
+        &_element {
+            padding : 0;
+            border-bottom: 1px solid #b1b1b1;
+            &:last-child {
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+            &_link{
+                padding: 8px 20px;
+                color: black;
+                width: 100%;
+                display: block;
+                &.router-link-active {
+                    background-color: #000;
+                    color: white;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                } 
+                
+                .fas {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
+}

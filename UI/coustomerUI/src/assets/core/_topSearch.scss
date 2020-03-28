@@ -1,0 +1,30 @@
+.topSearch {
+    width: 100%;
+    &_list{
+        width: 100%;
+        &_input{
+            min-height: 40px;
+            width: 75%;
+            padding: 0 16px;
+            /* border-color: snow !important; */
+            box-shadow: none;
+            border: 1px solid #ef8d8d;
+            &:focus {
+                outline-offset: 0px;
+                border: 1px solid #ef8d8d;
+                outline: none;
+            }
+        }
+
+        &_button {
+            min-height: 40px;
+            background-color: #f16565;
+            margin: 0 !important;
+            border: none;
+            font-size: 16px;
+            padding: 0 12px;
+            color: #fff;
+        }
+    }
+}
+
