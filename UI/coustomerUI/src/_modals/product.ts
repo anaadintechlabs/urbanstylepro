@@ -22,7 +22,8 @@ export interface product {
 }
 
 export interface ProductVerient {
-    productVariantId: number
+    productVariantId: number,
+    uniqueprodvarId : string;
     categoryId: number
     product: product
     productIdType: string

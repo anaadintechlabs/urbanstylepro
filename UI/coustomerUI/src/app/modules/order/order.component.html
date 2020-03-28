@@ -88,7 +88,7 @@
                     <!-- step 1 -->
                     <fieldset class="stepOne">
                         <app-billing-details (nextStep)="next('stepOne')"></app-billing-details>
-                        <button type="button" name="next" class="action-button" value="Next Step" (click)="next('stepOne')"><i class="fas fa-chevron-right"></i></button>
+                        <!-- <button type="button" name="next" class="action-button" value="Next Step" (click)="next('stepOne')"><i class="fas fa-chevron-right"></i></button> -->
                     </fieldset>
 
                     <!-- step 2 -->
@@ -128,14 +128,14 @@
                     <!-- step 3 -->
                     <fieldset class="stepTwo">
                       <app-bank-details (nextStep)="next('stepTwo')"></app-bank-details>
-                      <button type="button" name="previous" class="action-button-previous" value="Previous" (click)="prev('stepTwo')"><i class="fas fa-chevron-left"></i></button>
-                      <button type="button" name="next" class="action-button" value="Next Step" (click)="next('stepTwo')"><i class="fas fa-chevron-right"></i></button>
+                      <!-- <button type="button" name="previous" class="action-button-previous" value="Previous" (click)="prev('stepTwo')"><i class="fas fa-chevron-left"></i></button> -->
+                      <!-- <button type="button" name="next" class="action-button" value="Next Step" (click)="next('stepTwo')"><i class="fas fa-chevron-right"></i></button> -->
                     </fieldset>
 
                     <!-- step 4   -->
                     <fieldset class="stepThree">
                        <app-review-order></app-review-order>
-                       <button type="button" name="previous" class="action-button-previous" value="Previous" (click)="prev('stepThree')"><i class="fas fa-chevron-left"></i></button>
+                       <!-- <button type="button" name="previous" class="action-button-previous" value="Previous" (click)="prev('stepThree')"><i class="fas fa-chevron-left"></i></button> -->
                        <button type="button" name="make_payment" class="placeOrder action-button" value="Place order now" (click)="placeOrder()">Place order now</button>
                     </fieldset>
 
