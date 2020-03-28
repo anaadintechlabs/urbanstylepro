@@ -1,37 +1,37 @@
 <!-- 1 -->
-<hr>
+<!-- <hr> -->
 <!-- <h3>Top 5 Vendors</h3> -->
 <div class="row">
     <!-- Column -->
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title">Last Orders</h3>
+                <h3 class="card-title">Latest Orders</h3>
                 <div class="table-responsive">
                     <table class="table v-middle product-overview" id="zero_config">
                         <thead>
                             <tr>
                                 <th>Sr no.</th>
-                                <th>Vendor ID</th>
-                                <th>Name</th>
+                                <th>Order ID</th>
                                 <th>Image</th>
-                                <th>Price</th>
-                                <th>Date</th>
-                                <th>Status</th>
+                                <th>Name</th>
+                                <th>Order Price</th>
+                                <th>Customer ID</th>
+                                <th>Customer Name</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of vendorList; let i = index">
+                            <tr *ngFor="let data of lastOrdersList; let i = index">
                                 <td>{{i+1}}</td>
-                                <td (click)="navigateToProfile(data.user?.id)">VEN-{{data.user?.id}}</td>
-                                <td>{{data.user?.name}}</td>
+                                <td>ORD-{{data.id}}</td>
                                 <td>
-                                    <img [src]="data.user?.imageUrl" alt="pic" width="80"> 
-                                </td>
-                                <td>{{data.amount}}</td>
-                                <td>{{data.user?.joinDate | date: 'medium'}}</td>
+                                  <img [src]="data.product?.mainImageUrl" alt="pic" width="80"> 
+                              </td>
+                                <td>{{data.product?.product?.productName}}</td>
+                                <td>{{data.orderProductPrice}}</td>
+                                <td>CUS-{{data.userOrder?.user?.id}}</td>
                                 <td>
-                                    {{data.status}}
+                                  {{data.userOrder?.user?.name}}
                                     <!-- <span class="label label-danger font-weight-100">Failed</span> -->
                                 </td>
                             </tr>
@@ -46,7 +46,7 @@
 
 <!-- 2 -->
 
-<hr>
+<!-- <hr> -->
 <!-- <h3>Top 5 Affiliate</h3>
 <br> -->
 <div class="row">
@@ -54,32 +54,35 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title">Top 5 Affiliate</h3>
+                <h3 class="card-title">Latest Returns</h3>
                 <div class="table-responsive">
                     <table class="table v-middle product-overview" id="zero_config">
                         <thead>
                             <tr>
                                 <th>Sr no.</th>
-                                <th>Affiliate ID</th>
-                                <th>Name</th>
+                                <th>Return ID</th>
                                 <th>Image</th>
-                                <th>Price</th>
-                                <th>Date</th>
-                                <th>Status</th>
+                                <th>Name</th>
+                                <th>Ordered Date</th>
+                                <th>Reason</th>
+                                <th>Return Date</th>
+                                <th>Ordered Price</th>
+                                <th>Customer ID</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of vendorList; let i = index">
+                            <tr *ngFor="let data of returnsList; let i = index">
                                 <td>{{i+1}}</td>
-                                <td>AFF-{{data.user?.id}}</td>
-                                <td>{{data.user?.name}}</td>
+                                <td>RET-{{data.returnId}}</td>
                                 <td>
-                                    <img [src]="data.user?.imageUrl" alt="pic" width="80"> 
-                                </td>
-                                <td>{{data.amount}}</td>
-                                <td>{{data.user?.joinDate | date: 'medium'}}</td>
-                                <td>
-                                    {{data.status}}
+                                  <img [src]="data.orderProduct?.product?.mainImageUrl" alt="pic" width="80"> 
+                              </td>
+                                <td>{{data.orderProduct?.product?.product?.productName}}</td>
+                                <td>{{data.order?.orderPlacedDate| date: 'medium'}}</td>
+                                <td>{{data.reason}}</td>
+                                <td>{{data.returnAuthorizeDate| date: 'medium'}}</td>
+                                <td>{{data.orderProductPrice}}</td>
+                                <td>CUS-{{data.order?.user?.id}}
                                     <!-- <span class="label label-danger font-weight-100">Failed</span> -->
                                 </td>
                             </tr>
@@ -94,42 +97,42 @@
 
 <!-- 3 -->
 
-<hr>
-<!-- <h3>Top 5 Order</h3>
+<!-- <hr> -->
+<!-- <h3>Top 5 Sales</h3>
 <br> -->
 <div class="row">
     <!-- Column -->
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title">Top 5 Orders</h3>
+                <h3 class="card-title">Latest Sales</h3>
                 <div class="table-responsive">
                     <table class="table v-middle product-overview" id="zero_config">
                         <thead>
                             <tr>
                                 <th>Sr no.</th>
                                 <th>Order ID</th>
-                                <th>Product Name</th>
                                 <th>Image</th>
+                                <th>Product Name</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Customer Id</th>
-                                <th>Vendor Id</th>
+                                <th>Customer Name</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of vendorList; let i = index">
+                            <tr *ngFor="let data of lastSalesList; let i = index">
                                 <td>{{i+1}}</td>
-                                <td (click)="navigateToOrderProfile(data.id)">ORD-{{data.id}}</td>
-                                <td>{{data.product?.product?.productName}}</td>
+                                <td>SAL-{{data.id}}</td>
                                 <td>
-                                    <img [src]="data.product?.mainImageUrl" alt="pic" width="80"> 
-                                </td>
+                                  <img  [src]="data.product?.mainImageUrl" alt="pic" width="80"> 
+                              </td>
+                                <td>{{data.product?.product?.productName}}</td>
                                 <td>{{data.quantity}}</td>
                                 <td>{{data.orderProductPrice}}</td>
-                                <td>CUST- {{data.userOrder?.user?.id}}</td>
-                                <td>VEN- {{data.vendor?.id}}
-                                </td>
+                                <td>CUST-{{data.userOrder?.user?.id}}</td>
+                                <td>{{data.userOrder?.user?.name}}</td>
+                                
                             </tr>
                         </tbody>
                     </table>
@@ -142,55 +145,7 @@
 
 <!-- 4 -->
 
-<hr>
-<!-- <h3>Top 5 Sales</h3>
-<br> -->
-<div class="row">
-    <!-- Column -->
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Top 5 Sales</h3>
-                <div class="table-responsive">
-                    <table class="table v-middle product-overview" id="zero_config">
-                        <thead>
-                            <tr>
-                                <th>Sr no.</th>
-                                <th>Order ID</th>
-                                <th>Product Name</th>
-                                <th>Image</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Customer Id</th>
-                                <th>Vendor Id</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of vendorList; let i = index">
-                                <td>{{i+1}}</td>
-                                <td>SAL-{{data.id}}</td>
-                                <td>{{data.product?.product?.productName}}</td>
-                                <td>
-                                    <img  [src]="data.product?.mainImageUrl" alt="pic" width="80"> 
-                                </td>
-                                <td>{{data.quantity}}</td>
-                                <td>{{data.orderProductPrice}}</td>
-                                <td>CUST- {{data.userOrder?.user?.id}}</td>
-                                <td>VEN- {{data.vendor?.id}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-</div>
-
-<!-- 5 -->
-
-<hr>
+<!-- <hr> -->
 <!-- <h3>Top 5 Return List</h3>
 <br> -->
 <div class="row">
@@ -198,7 +153,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title">Last 5 Returns</h3>
+                <h3 class="card-title">Latest Reviews</h3>
                 <div class="table-responsive">
                     <table class="table v-middle product-overview" id="zero_config">
                         <thead>
@@ -216,7 +171,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of vendorList; let i = index">
+                            <tr *ngFor="let data of lastReviewList; let i = index">
                                 <td>{{i+1}}</td>
                                 <td>RET-{{data.returnId}}</td>
                                 <td>ORD-{{data.order?.id}}</td>

@@ -8,13 +8,12 @@ import { UserServiceService } from 'src/_services/http_&_login/user-service.serv
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  public vendorList: any[]=[];
   public vendorId : number;
   public lastOrdersList: any[];
   public returnsList: any[];
   public lastSalesList: any[];
   public lastReviewList: any[];
-  public wallet: any;
+  public walletDetails: any;
 
   public filter = {
     "limit":5,
@@ -29,6 +28,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getVendorId();
     this.getLastOrderList();
+    this.getReturnsList();
+    this.getUserWalletDetails();
+    this.getSalesList();
     this.getLastReviewList();
   }
 
@@ -42,36 +44,37 @@ export class DashboardComponent implements OnInit {
     this.service.getLastOrdersForVendor(url, 0, this.vendorId, 'PLACED').subscribe(
       data => {
         this.lastOrdersList = data;
+        console.log(this.lastOrdersList);
       }, error => {
         console.log(error);
       }
     )
   }
 
-  // getReturnsList() {
-  //   let url = 'api/getReturnForVendor';
-  //   this.service.getReturnForVendor(url, this.vendorId, this.filter).subscribe(
-  //     data => {
-  //       this.returnsList = data;
-  //       console.log(this.returnsList);
-  //     }, error => {
-  //       console.log(error);
-  //     }
-  //   )
-  // }
+  getReturnsList() {
+    let url = 'api/getReturnForVendor';
+    this.service.getReturnForVendor(url, this.vendorId, this.filter).subscribe(
+      data => {
+        this.returnsList = data;
+        console.log(this.returnsList);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
 
 
-  // getSalesList() {
-  //   let url = 'api/getLastOrdersForVendor';
-  //   this.service.getLastOrdersForVendor(url, 0, this.vendorId, 'COMPLETE').subscribe(
-  //     data => {
-  //       this.lastSalesList = data;
-  //       console.log(this.lastSalesList);
-  //     }, error => {
-  //       console.log(error);
-  //     }
-  //   )
-  // }
+  getSalesList() {
+    let url = 'api/getLastOrdersForVendor';
+    this.service.getLastOrdersForVendor(url, 0, this.vendorId, 'COMPLETE').subscribe(
+      data => {
+        this.lastSalesList = data;
+        console.log(this.lastSalesList);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
 
   getLastReviewList() {
     let url = 'review/getLast5ProductReviewsOfVendor';
@@ -86,17 +89,17 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // getUserWallet() {
-  //   let url = 'api/getWalletByUser';
-  //   this.service.getWalletByUser(url, this.vendorId).subscribe(
-  //     data => {
-  //       this.wallet = data;
-  //       console.log(this.wallet);
-  //     }, error => {
-  //       console.log(error);
-  //     }
-  //   )
-  // }
+  getUserWalletDetails() {
+    let url = 'api/getWalletByUser';
+    this.service.getWalletByUser(url, this.vendorId).subscribe(
+      data => {
+        this.walletDetails = data;
+        console.log(this.walletDetails);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
 
 
 }
