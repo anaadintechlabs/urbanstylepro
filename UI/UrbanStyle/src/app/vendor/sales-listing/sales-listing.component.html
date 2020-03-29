@@ -34,19 +34,19 @@
     
                   <tr *ngFor="let order of salesList">
                     <td>ORDER-{{ order.id }}</td>
-                    <td>{{ order.orderPlacedDate }}</td>
-                    <td>{{ order.orderPaidDate }}</td>
-                    <td>{{ order.orderStatus }}</td>
-                    <td>{{ order.orderTotalPrice }}</td>
-                    <td>{{ order.user.name }}</td>
-                    <td>
+                    <td>{{ order.userOrder.orderPlacedDate }}</td>
+                    <td>{{ order.userOrder.orderPaidDate }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.orderProductPrice }}</td>
+                    <td>{{ order.userOrder.user.name }}</td>
+                    <!-- <td>
                       <button
                         (click)="getOrderProductForVendor(order.id)"
                       >
                         View Details
                       </button>
                      
-                    </td>
+                    </td> -->
                   </tr>
                   <tr *ngIf="salesList.length ==0 ">
                     <td>No record found</td>

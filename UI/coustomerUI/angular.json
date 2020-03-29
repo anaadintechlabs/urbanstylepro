@@ -134,6 +134,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "urbanStyleCustomer"
+    }
+  },
+  "defaultProject": "urbanStyleCustomer",
+  "cli": {
+    "analytics": false
+  }
 }

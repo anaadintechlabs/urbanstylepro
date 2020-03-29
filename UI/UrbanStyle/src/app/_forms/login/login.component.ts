@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
-    });
+        });
     // get return url from route parameters or default to '/'
    
   }
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
         return;
     } else {
+      console.log("form",this.loginForm);
       this.onLogin.emit(this.loginForm);
     }
   }

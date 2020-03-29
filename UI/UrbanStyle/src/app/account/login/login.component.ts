@@ -31,11 +31,13 @@ export class LoginComponent implements OnInit {
 
   get f() { return this.loginForm.controls; }
 
+  //USER TYPE HARD CODED
   onSubmit(loginForm : FormGroup) {
     this.loginForm = loginForm;
     let body = {
       email : this.f.email.value,
-      password : this.f.password.value
+      password : this.f.password.value,
+      userType:'VENDOR'
     }
     this._userService.attemptAuth("",body).subscribe(res=>{
       this.toastr.success('Login Successfull', 'Success');

@@ -52,7 +52,6 @@ public class AuthController {
 
 	@PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-    	System.out.println("inside login");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
@@ -63,7 +62,6 @@ public class AuthController {
 
         String token = tokenProvider.createToken(authentication);
         UserPrincipal user=(UserPrincipal)authentication.getPrincipal();
-        System.out.println("userprincipal"+user);
         if(user!=null)
         {
         	if(user.isBlocked()) {
@@ -73,10 +71,10 @@ public class AuthController {
         	{
         		throw new BadRequestException("Your account have been deactivated.");
         	}
-//        	if(user.getUserType().equals(loginRequest.getUserType()))
-//        	{
-//        		throw new BadRequestException("You are not allowed to login.");
-//        	}
+        	if(!user.getUserType().equals(loginRequest.getUserType()))
+        	{
+        		throw new BadRequestException("You are not allowed to login.");
+        	}
         }
         return ResponseEntity.ok(new JwtAuthenticationResponse(token,(UserPrincipal) authentication.getPrincipal()));
        // return ResponseEntity.ok(new AuthResponse(token));
