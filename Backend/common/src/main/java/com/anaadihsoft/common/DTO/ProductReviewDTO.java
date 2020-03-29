@@ -19,6 +19,14 @@ public class ProductReviewDTO {
 	
 	private String createdBy;
 	
+	
+	private String user;
+	
+	
+	private String productName;
+	
+	private String productImage;
+	
 	public ProductReviewDTO() {
 		
 	}
@@ -30,6 +38,9 @@ public class ProductReviewDTO {
 		this.status = pr.getStatus();
 		this.createdBy = pr.getCreatedBy();
 		this.createdDate = pr.getCreatedDate();
+		this.user=pr.getUser().getName();
+		this.productName=pr.getProduct().getVariantName();
+		this.productImage=pr.getProduct().getMainImageUrl();
 	}
 	
 	public String getReview() {
@@ -74,6 +85,32 @@ public class ProductReviewDTO {
 
 	public String getCreatedBy() {
 		return createdBy;
+	}
+	
+	
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(String productImage) {
+		this.productImage = productImage;
 	}
 
 	public void setCreatedBy(String createdBy) {

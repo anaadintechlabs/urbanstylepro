@@ -44,6 +44,7 @@ export class AddProductVariationComponent implements OnInit {
   }
 
   getVarient(item : FormGroup) {
+   
     let temp : string[]=[]; 
     let data = item.value.attributesMap;
     let formGroup : FormGroup = item.controls.productVariant as FormGroup;
