@@ -1,0 +1,113 @@
+.sec-padding-t {
+    padding-top: 90px;
+}
+.page-head {
+    text-align: center;
+    display: block;
+}
+.page-head, .page-title {
+    margin-bottom: 34px;
+}
+.page-head .page-sub-title, .page-sub-title {
+    margin-bottom: 2px;
+    display: block;
+}
+.page-head .page-title, .page-head .page-lead, .page-head p {
+    margin-bottom: 0;
+}
+.nf-grid {
+    margin-top: -15px;
+    margin-bottom: -15px;
+}
+.nf-grid .nf-grid-item {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.categories-item.categories-item_1 {
+    height: 310px;
+}
+.categories-item {
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+.categories-item .categories-image {
+    overflow: hidden;
+    position: relative;
+    display: block;
+}
+
+.categories-item .categories-image .categories-img-link {
+    display: block;
+    overflow: hidden;
+}
+
+a:not([href]):not([tabindex]) {
+    color: inherit;
+    text-decoration: none;
+}
+.categories-item .categories-image .categories-img-link img {
+    transition: all 350ms ease-out 0s;
+    -moz-transition: all 350ms ease-out 0s;
+    -o-transition: all 350ms ease-out 0s;
+    -webkit-transition: all 350ms ease-out 0s;
+    width: 100%;
+    height: auto;
+}
+img {
+    outline: 0 none;
+    max-width: 100%;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.categories-item .categories-content-overlay {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    transition: all 350ms ease-out 0s;
+    -moz-transition: all 350ms ease-out 0s;
+    -o-transition: all 350ms ease-out 0s;
+    -webkit-transition: all 350ms ease-out 0s;
+}
+.categories-item .categories-caption-bottom {
+    bottom: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+}
+
+.categories-item .categories-caption {
+    position: absolute;
+    line-height: 1.5;
+    background: #fff;
+    padding: 10px 25px;
+    display: inline-block;
+    z-index: 1;
+    color: #333;
+    text-align: center;
+}
+.title-font, .product-item-title, .categories-item .categories-caption {
+    font-weight: 500;
+    font-family: 'Barlow', sans-serif;
+    color: #333;
+}
+.categories-item:hover .categories-image .categories-img-link img {
+    transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+}
+.categories-item:hover .categories-content-overlay {
+    background: rgba(0,0,0,0.2);
+}

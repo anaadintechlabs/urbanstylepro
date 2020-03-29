@@ -1,0 +1,14 @@
+<div class="main-slide-1-img" (click)="openPage()">
+    <img [src]="product.mainImageUrl" onError="this.src='../../../../assets/img/bathrug.jpg'"> 
+</div>
+<div (click)="openPage()" class="main-product-name">
+    <h6 class="product-name-pro">{{ product.product.productName }}</h6>
+    <h4 class="product-name-prices"> {{ product.actualPrice }} </h4>
+    <h6 class="actucal-prices"> {{ product.discountPrice }}</h6>
+    <a href="#" class="cart-btn-main"> Buy Now </a>
+
+</div>
+<ul class="main-icon-product-slider-list">
+    <a (click)="addToWishlist()"> <i class="far fa-heart"></i> </a>
+    <a (click)="addToCart()"> <i class="fas fa-cart-plus"></i> </a>
+</ul>

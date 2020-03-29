@@ -1,0 +1,33 @@
+.carousel_1{
+    .owl-nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80%;
+        margin: 0;
+
+        button{
+            transform: translateY(-60%);
+            width: 30px;
+            font-size: 2rem !important;
+            top: 50%;
+            background-color: #282c3f !important;
+            color: #fff !important;
+            &.owl-prev {
+                position: absolute;
+                left: -5%;
+            }
+            &.owl-next {
+                position: absolute;
+                right: -5%;
+            }
+        }
+    }
+    .owl-dots{
+        margin-top: 20px;
+    }
+    .owl-stage-outer {
+        z-index: 999;
+    }
+}

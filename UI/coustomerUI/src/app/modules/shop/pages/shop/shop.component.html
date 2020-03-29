@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="row my-5">
+        <div class="col-md-3" *ngIf="allData">
+            <shop-filters [filters]="allData.attributeDataMap"></shop-filters>            
+        </div>
+        <div class="col-md-9">
+            <div class="row" *ngIf="allData">
+                <div class="col-md-12 shop_header">
+
+                </div>
+                <div class="col-md-12 products">
+                    <shop-products [productList]="allData.allVarients"></shop-products>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

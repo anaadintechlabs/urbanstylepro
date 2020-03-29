@@ -1,0 +1,153 @@
+<!-- <div class="col-md-12">
+    <button type="button" class="btn btn-secondary btn-lg mb-2" (click)="placeOrder()">Checkout</button>
+</div> -->
+
+    <div class="breadcrumb-bg">
+        <h1 class="breadcrumb-head">CheckOut</h1>
+        <div aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Shop</a></li>
+            <li class="breadcrumb-item active" aria-current="page">CheckOut</li>
+        </ol>
+        </div>
+    </div>
+  
+    <section class="innerPageContent">
+        <div class="container">
+            <!-- <div class="row mb-4" *ngIf="_orderService.SinglecheckoutItem"> 
+                <div class="col-12">
+                    <div class="row card-details-sec">
+                        <div class="col-12 col-md-3">
+                            <p>Product</p>
+                            <span>{{ _orderService.SinglecheckoutItem.product.product.productName }}</span>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <p>Name</p>
+                            <span>Robe</span>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <p>Price</p>
+                            <span> {{ _orderService.SinglecheckoutItem.product.displayPrice | currencyFormat }} </span>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <p>Quantity</p>
+                            <ul class="quantity-Hl">
+                            <li class="minus-icon" (click)="minus()"><i class="fas fa-minus"></i></li>
+                            <li><span>{{ _orderService.SinglecheckoutItem.quantity }}</span></li>
+                            <li class="plus-icon" (click)="plus()"><i class="fas fa-plus"></i></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <p>Total</p>
+                            <span> {{ ( _orderService.SinglecheckoutItem.product.displayPrice * _orderService.SinglecheckoutItem.quantity ) | currencyFormat }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        <div class="row">
+            <div class="col-12 mb-4">
+            <p class="bg-theme return-login">Returning customer? <a href="javascript:void(0);">Click here to login</a> </p>  
+            </div>
+            <div class="col-12">
+            <div id="accordion" role="tablist">
+                <div class="card">
+                <div class="bg-theme return-login" role="tab" id="codeheading">
+                    <a data-toggle="collapse" href="#code-collapse" aria-expanded="false" aria-controls="code-collapse" class="collapsed">
+                    Have a coupon? Click here to enter your code
+                    </a>
+                </div>
+            
+                <div id="code-collapse" class="collapse" role="tabpanel" aria-labelledby="codeheading" style="">
+                    <div class="card-body">
+                    <input type="text" placeholder="Type your code here..." class="codeInput" />
+                    </div>
+                </div>
+                </div>
+            </div>
+                
+            </div>
+        </div>
+
+        <div class="row mt-5">        
+            <!-- MultiStep Form -->
+            <div class="col-12 text-center p-0 mb-2">
+            <div class="card">
+                <div class="row">
+                <div class="col-md-12 mx-0">
+                    <form id="msform">
+                    <!-- progressbar -->
+                    <ul id="progressbar">
+                        <li  class="active" id="account">Billing Details</li>
+                        <!-- <li id="personal">Delivery Method</li> -->
+                        <li id="payment">Payment Method</li>
+                        <li id="review">Review Order</li>
+                        <li id="confirm">Confirmation</li>
+                    </ul> <!-- fieldsets -->
+
+                    <!-- step 1 -->
+                    <fieldset class="stepOne">
+                        <app-billing-details (nextStep)="next('stepOne')"></app-billing-details>
+                        <!-- <button type="button" name="next" class="action-button" value="Next Step" (click)="next('stepOne')"><i class="fas fa-chevron-right"></i></button> -->
+                    </fieldset>
+
+                    <!-- step 2 -->
+                    <!-- <fieldset>
+                        <div class="form-card">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                <label class="custom-control-label" for="customCheck1">Free Delivery $0.00 / Delivery in 7 to 12 Days</label>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                <label class="custom-control-label" for="customCheck2">Free Delivery $0.00 / Delivery in 7 to 08 Days</label>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                <label class="custom-control-label" for="customCheck3">Free Delivery $0.00 / Delivery in 7 to 02 Days</label>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div> 
+                        <button type="button" name="previous" class="previous action-button-previous" value="Previous"><i class="fas fa-chevron-left"></i></button>
+                        <button type="button" name="next" class="next action-button" value="Next Step"><i class="fas fa-chevron-right"></i></button>
+                    </fieldset> -->
+
+                    <!-- step 3 -->
+                    <fieldset class="stepTwo">
+                      <app-bank-details (nextStep)="next('stepTwo')"></app-bank-details>
+                      <!-- <button type="button" name="previous" class="action-button-previous" value="Previous" (click)="prev('stepTwo')"><i class="fas fa-chevron-left"></i></button> -->
+                      <!-- <button type="button" name="next" class="action-button" value="Next Step" (click)="next('stepTwo')"><i class="fas fa-chevron-right"></i></button> -->
+                    </fieldset>
+
+                    <!-- step 4   -->
+                    <fieldset class="stepThree">
+                       <app-review-order></app-review-order>
+                       <!-- <button type="button" name="previous" class="action-button-previous" value="Previous" (click)="prev('stepThree')"><i class="fas fa-chevron-left"></i></button> -->
+                       <button type="button" name="make_payment" class="placeOrder action-button" value="Place order now" (click)="placeOrder()">Place order now</button>
+                    </fieldset>
+
+                    <!-- step 5 -->
+                    <fieldset>
+                       <app-confirmation></app-confirmation>
+                    </fieldset>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>  
+    </section>

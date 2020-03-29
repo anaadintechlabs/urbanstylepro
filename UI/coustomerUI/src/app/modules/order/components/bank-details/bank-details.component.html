@@ -1,0 +1,88 @@
+<div class="form-card">
+    <div class="row">
+        <div class="col-12 col-md-6 addressDetails" *ngFor="let bank of bankDetails; let i = index">
+            <!-- <h6>Address {{ i+1 }}</h6> -->
+            <p>
+                <span>
+                    <a (click)="chooseCard(bank)">
+                        Deliever to this Address
+                    </a>
+                </span> | 
+                <span>
+                    <a href="JavaScript.void(0);">
+                        Delete this Address
+                    </a>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="form-card" [formGroup]="_orderService.bankInfo">
+    <!-- <div class="radio-group">
+        <div class='radio' data-value="credit"><img src="https://i.imgur.com/XzOzVHZ.jpg" width="200px" height="100px"></div>
+        <div class='radio' data-value="paypal"><img src="https://i.imgur.com/jXjwZlj.jpg" width="200px" height="100px"></div> <br>
+    </div>  -->
+    <ul class="row">
+        <!-- <li class="col-12 mb-3"><span class="sn-card">01</span> Phone Pe</li> -->
+        <li class="col-12 mb-3">
+        <!-- <span class="sn-card">02</span>  -->
+        <p class="mb-2">Credit / Debit / ATM Card</p> 
+        <div class="row card-info">
+            <div class="col-6">
+                <div class="form-group">
+                    <input type="text" name="cardno" placeholder="Enter Card Number" formControlName="cardNumber"/> 
+                </div> 
+            </div>
+        </div>
+        <div class="row card-info">
+            <div class="col-3">
+                <div class="form-group">
+                    <!-- <select class="list-dt" id="month" name="expmonth">
+                        <option selected>Month</option>
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+                    </select>
+                    <select class="list-dt" id="year" name="expyear">
+                        <option selected>Year</option>
+                    </select> -->
+                    <input type="text" placeholder="Month" formControlName="month" />
+                   
+                </div>
+                </div>
+                <div class="col-3"> 
+                <div class="form-group">
+                    <input type="text" placeholder="Year" formControlName="year" />
+                </div>
+                </div>
+        </div>
+        <div class="row card-info">
+                <div class="col-6"> 
+                <div class="form-group">
+                    <input type="password" name="cvcpwd" placeholder="CVV" formControlName="cvv"/> 
+                </div>
+                </div>
+        </div>
+        </li>
+        <!-- <li class="col-12 mb-3"><span class="sn-card">03</span> Net Banking</li>
+        <li class="col-12 mb-3"><span class="sn-card">04</span> Cash on Delivery</li> -->
+    </ul>
+    <div class="row mt-2">
+        <div class="col-12 text-right">
+            <a href="javaScript:coid(0)" (click)="selectBank()" class="cart-btn">Pay</a>
+        </div>
+    </div>
+    </div> 
+    <!-- <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
+    <input type="button" name="make_payment" class="next action-button" value="Confirm" /> -->
+    

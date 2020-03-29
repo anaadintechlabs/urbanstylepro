@@ -1,0 +1,13 @@
+<section class="sec-padding pb-5">
+    <div class="container">
+        <owl-carousel #owlElement [options]="options" [carouselClasses]="['owl-theme', 'row', 'sliding']">
+            <div class="item" *ngFor="let item of imgs">
+                <div class="brand-item">
+                    <a>
+                        <img [src]="item" alt="brand" />
+                    </a>
+                </div>
+            </div>
+        </owl-carousel>
+    </div>
+</section>

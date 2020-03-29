@@ -1,0 +1,99 @@
+<div class="form-card">
+    <div class="row">
+        <div class="col-12">
+        <h4 class="sc-title">Shopping Cart</h4>
+        </div>
+    </div>
+
+    <div class="card-details-sec"> 
+        <div class="row">
+        <div class="col-12 col-md-3">
+            <p>Product</p>
+            <span>{{ _orderService.SinglecheckoutItem.product.product.productName }}</span>
+        </div>
+        <div class="col-12 col-md-2">
+            <p>Name</p>
+            <span>Robe</span>
+        </div>
+        <div class="col-12 col-md-3">
+            <p>Price</p>
+            <span>{{ _orderService.SinglecheckoutItem.product.displayPrice | currencyFormat }}</span>
+        </div>
+        <div class="col-12 col-md-2">
+            <p>Quantity</p>
+            <ul class="quantity-Hl">
+                <li class="minus-icon" (click)="minus()"><i class="fas fa-minus"></i></li>
+                <li><span>{{ _orderService.SinglecheckoutItem.quantity }}</span></li>
+                <li class="plus-icon" (click)="plus()"><i class="fas fa-plus"></i></li>
+            </ul>
+        </div>
+        <div class="col-12 col-md-2">
+            <p>Total</p>
+            <span>{{ ( _orderService.SinglecheckoutItem.product.displayPrice * _orderService.SinglecheckoutItem.quantity ) | currencyFormat }}</span>
+        </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mt-3">
+        <h4 class="sc-title">Billing information</h4>
+        </div>
+    </div>
+    <div class="billing-info">
+        <div class="row">
+        <div class="col-12 col-md-3">
+            <h5>Name</h5>
+            <p>Jonson maikal </p>
+        </div>
+        <div class="col-12 col-md-3">
+            <h5>Email :</h5>
+            <p>example123@gmail.com</p>
+        </div>
+        <div class="col-12 col-md-3">
+            <h5>Phone:</h5>
+            <p>(+91) 123 456 7892</p>
+        </div>
+        <div class="col-12 col-md-3">
+            <h5>Country:</h5>
+            <p>{{ _orderService.addressForm.value.country }}</p>
+        </div>
+        <div class="col-12 col-md-3">
+            <h5>City:</h5>
+            <p>{{ _orderService.addressForm.value.cite }}</p>
+        </div>
+        <div class="col-12 col-md-3">
+            <h5>State:</h5>
+            <p>{{ _orderService.addressForm.value.state }}</p>
+        </div>
+        <div class="col-12 col-md-3">
+            <h5>Zip/Postal Code:</h5>
+            <p>{{ _orderService.addressForm.value.zip }}</p>
+        </div>
+        <div class="col-12 col-md-3">
+            <h5>Address:</h5>
+            <p>{{ _orderService.addressForm.value.addressOne }}</p>
+        </div>
+        </div>  
+    </div>
+
+    <div class="row mt-3 mb-5">
+        <!-- <div class="col-12 col-md-4">
+        <h4 class="sc-title">Delivery information</h4>
+        <p>Free Delivery $0.00 / Delivery in 7 to 12  Days</p>
+        </div>  -->
+        <div class="col-12 col-md-4">
+        <h4 class="sc-title">Payment information</h4>
+        <p>{{ _orderService.bankInfo.value.cardNumber }}</p>
+        </div> 
+        <div class="col-12 col-md-4">
+        <h4 class="sc-title">Total Price:</h4>
+        <p>{{ ( _orderService.SinglecheckoutItem.product.displayPrice * _orderService.SinglecheckoutItem.quantity ) | currencyFormat }}</p>
+        </div>
+    </div>
+
+
+
+    </div> 
+    <!-- <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
+    <input type="button" name="make_payment" class="next action-button" value="Place order now" /> -->
+   

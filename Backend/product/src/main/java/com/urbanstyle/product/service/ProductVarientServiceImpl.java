@@ -317,7 +317,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 					}
 					
 					Optional<VariantDTOWithId> variantWithIdOpt = variantCombinations.stream().filter(elem -> elem.getVariationId().equals(obj[3].toString())).findAny();
-					if(!variantWithIdOpt.isPresent())
+					if(variantWithIdOpt.isPresent())
 					{
 
 						System.out.println("same variant");
