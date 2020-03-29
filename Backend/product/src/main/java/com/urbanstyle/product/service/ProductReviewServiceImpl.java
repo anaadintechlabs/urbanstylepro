@@ -66,13 +66,13 @@ public class ProductReviewServiceImpl implements ProductReviewService{
 	
 	@Override
 		public Long getAverageRatingOnProduct(long productId, int active) {
-		return	null;//productReviewRepository.getAverageRatingOnProduct(productId,active);	
+		return	productReviewRepository.getAverageRatingOnProduct(productId,active);	
 
 	}
 	@Override
 	public List<ProductReviewDTO> getLast5ProductReviewsOfVendor(long vendorId, int offset) {
 		final Pageable pageable = PageRequest.of(offset, 5);
-		return	null;//productReviewRepository.getLast5ProductReviewsOfVendor(vendorId,ACTIVE,pageable);
+		return productReviewRepository.getLast5ProductReviewsOfVendor(vendorId,ACTIVE,pageable);
 	}
 	@Override
 	public long getAllReviewsCountOfUser(long userId) {
