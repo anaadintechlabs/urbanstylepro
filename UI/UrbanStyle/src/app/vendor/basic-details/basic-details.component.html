@@ -1,7 +1,6 @@
 <form
   *ngIf="basicDetailForm"
   [formGroup]="basicDetailForm"
-  (ngSubmit)="onSubmit()"
 >
   <div class="form-group">
     <!-- Name -->
@@ -16,10 +15,6 @@
         placeholder=""
         [ngClass]="{ 'is-invalid': submitted && f.name?.errors }"
       />
-      <!-- <mat-error ngxErrors="basicDetailForm.name" [ngClass]="['dirty', 'touched']">
-                                            Enter valid first name
-                  </mat-error> -->
-      <!-- <p class="help-block">Username can contain any letters or numbers, without spaces</p> -->
     </div>
   </div>
 
@@ -36,10 +31,6 @@
         placeholder=""
         [ngClass]="{ 'is-invalid': submitted && f.lastname?.errors }"
       />
-      <!-- <mat-error ngxErrors="basicDetailForm.lastname" [ngClass]="['dirty', 'touched']">
-                                            Enter valid last name
-          </mat-error> -->
-      <!-- <p class="help-block">Username can contain any letters or numbers, without spaces</p> -->
     </div>
   </div>
 
@@ -56,13 +47,6 @@
         placeholder=""
         [ngClass]="{ 'is-invalid': submitted && f.username?.errors }"
       />
-      <!-- <mat-error
-        ngxErrors="basicDetailForm.username"
-        [ngClass]="['dirty', 'touched']"
-      >
-        Enter valid lastname
-      </mat-error> -->
-      <!-- <p class="help-block">Username can contain any letters or numbers, without spaces</p> -->
     </div>
   </div>
 
@@ -79,14 +63,6 @@
         placeholder=""
         [ngClass]="{ 'is-invalid': submitted && f.email?.errors }"
       />
-      <!-- <mat-error
-        ngxErrors="basicDetailForm.email"
-        [ngClass]="['dirty', 'touched']"
-      >
-        Enter valid email address
-      </mat-error> -->
-
-      <!-- <p class="help-block">Please provide your E-mail</p> -->
     </div>
   </div>
 
@@ -103,20 +79,6 @@
         placeholder=""
         [ngClass]="{ 'is-invalid': submitted && f.password?.errors }"
       />
-      <!-- <mat-error
-        ngxErrors="basicDetailForm.password"
-        [ngClass]="['dirty', 'touched']"
-      >
-        Enter valid password
-      </mat-error> -->
-      <!-- <p class="help-block">Password should be at least 4 characters</p> -->
-    </div>
-  </div>
-
-  <div class="form-group">
-    <!-- Button -->
-    <div class="controls">
-      <button class="btn btn-success">Next</button>
     </div>
   </div>
 </form>

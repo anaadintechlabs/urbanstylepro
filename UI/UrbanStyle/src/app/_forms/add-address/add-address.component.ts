@@ -19,8 +19,8 @@ export class AddAddressComponent implements OnInit {
   public cityList: City[];
   public address: Address;
   @Input() fromVendorSignUp: boolean;
-  @Output()
-  addressDetails: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+  @Input() addressForm : FormGroup;
+  @Output() addressDetails: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
@@ -55,37 +55,6 @@ export class AddAddressComponent implements OnInit {
     });
   }
 
-  addressForm = new FormGroup({
-    id: new FormControl(""),
-    addressOne: new FormControl("", [
-      Validators.required,
-      Validators.minLength(4)
-    ]),
-    addressTwo: new FormControl("", [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(255)
-    ]),
-    status: new FormControl(1),
-    zip: new FormControl("", [
-      Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(6)
-    ]),
-    country: new FormGroup({
-      id: new FormControl("")
-    }),
-    state: new FormGroup({
-      id: new FormControl("")
-    }),
-    cite: new FormGroup({
-      id: new FormControl("")
-    }),
-    user: new FormGroup({
-      id: new FormControl("")
-    })
-  });
-
   get f() {
     return this.addressForm.controls;
   }
@@ -96,15 +65,15 @@ export class AddAddressComponent implements OnInit {
     });
   }
 
-  countryOnChange(event) {
-    let url = "api/getAllStatesOfCountry?countryId=" + event;
+  countryOnChange(ev: any) {
+    let url = "api/getAllStatesOfCountry?countryId=" + ev.target.value;
     this.dataService.getAllStatesOfCountry(url).subscribe(data => {
       this.stateList = data;
     });
   }
 
   stateOnChange(event) {
-    let url = "api/getAllCityOfState?stateId=" + event;
+    let url = "api/getAllCityOfState?stateId=" + event.target.value;
     this.dataService.getAllCityOfState(url).subscribe(data => {
       this.cityList = data;
     });
@@ -126,16 +95,16 @@ export class AddAddressComponent implements OnInit {
 
   ngOnInit() {
     console.log("inside oninit", this.fromVendorSignUp);
-              this.getAllCountry();
-
+    this.getAllCountry();
   }
 
   onSubmit() {
-    if (this.addressForm.invalid) {
+    this.addressDetails.emit(this.addressForm);
+    if (this.addressForm.status != 'VALID') {
       // this.toast.warning('Please fill all details in mandatory fields');
       return;
     } else {
-      //    console.log('form value is', this.createRoleForm.value);
+      
       this.addressForm.controls.user.patchValue({
         id: this.userId
       });
@@ -148,8 +117,7 @@ export class AddAddressComponent implements OnInit {
           .saveAddressDetails("api/saveAddressDetails", this.addressForm.value)
           .subscribe(
             data => {
-             
-                   this.router.navigateByUrl('/vendor/account/addresses');
+              this.router.navigateByUrl("/vendor/account/addresses");
 
               //this.router.navigateByUrl("secure/" + this.customerId + "/admin/role/edit/" + data.role.id);
             },
