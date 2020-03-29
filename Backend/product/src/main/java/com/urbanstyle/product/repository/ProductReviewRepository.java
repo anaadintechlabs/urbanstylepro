@@ -36,7 +36,7 @@ public interface ProductReviewRepository extends PagingAndSortingRepository<Prod
 	  @Query(value="select avg(pr.rating) from ProductReview pr where  pr.product.id=?1 and pr.status=?2")
 	  Long getAverageRatingOnProduct(long productId, int active);
 	  
-	  @Query(value="select avg(pr.rating) from ProductReview pr where  pr.product.user.id=?1 and pr.status=?2")
+	  @Query(value="select new com.anaadihsoft.common.DTO.ProductReviewDTO(pr) from ProductReview pr where  pr.product.product.user.id=?1 and pr.status=?2")
 	  List<ProductReviewDTO> getLast5ProductReviewsOfVendor(long vendorId, int
 	  active, Pageable pageable);
 	 
