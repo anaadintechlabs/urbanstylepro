@@ -9,7 +9,6 @@ import { UserServiceService } from 'src/_services/http_&_login/user-service.serv
 })
 export class BasicDetailsComponent implements OnInit {
 
-  @Output() basicDetails : EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   @Input() basicDetailForm : FormGroup;
 
   submitted : boolean = false;
@@ -22,14 +21,5 @@ export class BasicDetailsComponent implements OnInit {
 
   get f() { return this.basicDetailForm.controls;}
 
-  onSubmit(){
-    this.submitted = true;
-    if(this.basicDetailForm.invalid){
-      
-    } else {
-      console.log(this.basicDetailForm);
-      this.basicDetails.emit(this.basicDetailForm);
-    }
-  }
 
 }

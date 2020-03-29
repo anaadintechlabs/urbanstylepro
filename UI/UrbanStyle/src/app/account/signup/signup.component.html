@@ -1,3 +1,4 @@
+<acc-header></acc-header>
 <div class="container">
     <div class="row">
         <div class="col-sm-2">
@@ -7,16 +8,19 @@
             <mat-horizontal-stepper linear  #stepper>
                 <mat-step [stepControl]="basicDetails">
                 <ng-template matStepLabel>Basic-details</ng-template>
-                    <basic-details #details [basicDetailForm]="basicDetails" (basicDetails)="basicdetialForm($event)" ></basic-details>
+                    <basic-details #details [basicDetailForm]="basicDetails"  ></basic-details>
+                    <button (click)="next(basicDetails)" class="btn btn-success">Next</button>
                 </mat-step>
-                <!-- <mat-step [stepControl]="addressDetails" >
-                <ng-template matStepLabel>Address-details</ng-template>
-                  <app-add-address [fromVendorSignUp]="fromVendorSignUp" (addressDetails)="addressForm($event)"></app-add-address> 
+                <mat-step [stepControl]="addressDetails" >
+                <ng-template matStepLabel>Address-details</ng-template> 
+                  <app-add-address [fromVendorSignUp]="fromVendorSignUp" [addressForm]="addressDetails"></app-add-address>
+                  <button (click)="next(addressDetails)" class="btn btn-success">Next</button> 
                 </mat-step>
                 <mat-step [stepControl]="bankDetails">
                 <ng-template matStepLabel>Banks-details</ng-template>
-                    <app-add-bank-details [fromVendorSignUp]="fromVendorSignUp" (bankDetailsVendor)="bankDetailsForm($event)"></app-add-bank-details>
-                </mat-step> -->
+                    <app-add-bank-details [fromVendorSignUp]="fromVendorSignUp" [bankDetailForm]="bankDetails"></app-add-bank-details>
+                    <button (click)="save()" class="btn btn-success">Next</button> 
+                </mat-step>
             </mat-horizontal-stepper>
         </div>
         <div class="col-sm-2">
@@ -25,3 +29,4 @@
     </div>
 </div>
 
+<acc-footer></acc-footer>

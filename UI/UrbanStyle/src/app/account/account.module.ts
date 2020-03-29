@@ -10,6 +10,8 @@ import { RouterModule } from '@angular/router';
 import { FormModule } from '../_forms/form.module';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 
 
 
@@ -19,6 +21,8 @@ import { ToastrModule } from "ngx-toastr";
     SignupComponent,
     BankDetailsComponent,
     AddressComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     RouterModule.forChild(AccountRoutes),

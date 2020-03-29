@@ -15,9 +15,8 @@ export class AddBankDetailsComponent implements OnInit {
   public userId: any;
 
   public bankDetail: BankDetails;
+  @Input() bankDetailForm : FormGroup
   @Input() fromVendorSignUp: boolean;
-  @Output()
-  bankDetailsVendor: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   constructor(
     private dataService: DataService,
@@ -53,34 +52,6 @@ export class AddBankDetailsComponent implements OnInit {
     });
   }
 
-  bankDetailForm = new FormGroup({
-    id: new FormControl(""),
-    bankName: new FormControl("", [
-      Validators.required,
-      Validators.minLength(3)
-    ]),
-    accountNumber: new FormControl("", [
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(255)
-    ]),
-    status: new FormControl(1),
-    accType: new FormControl("", [
-      Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(10)
-    ]),
-    ifscCode: new FormControl("", [
-      Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(15)
-    ]),
-
-    user: new FormGroup({
-      id: new FormControl("")
-    })
-  });
-
   get f() {
     return this.bankDetailForm.controls;
   }
@@ -101,40 +72,6 @@ export class AddBankDetailsComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSubmit() {
-    if (this.bankDetailForm.invalid) {
-      // this.toast.warning('Please fill all details in mandatory fields');
-      return;
-    } else {
-      if (this.fromVendorSignUp) {
-        console.log("from vendor sign up");
-        this.bankDetailsVendor.emit(this.bankDetailForm);
-      } else {
-        console.log("from add address");
-        this.bankDetailForm.controls.user.patchValue({
-          id: this.userId
-        });
-
-        this.dataService
-          .saveBankDetails("api/saveBankDetails", this.bankDetailForm.value)
-          .subscribe(
-            data => {
-              if (data.duplicate) {
-                alert("duplicte ifsc code");
-              } else {
-                // alert("sucess");
-                this.router.navigateByUrl('/vendor/account/bank_details');
-
-              }
-              //this.router.navigateByUrl("secure/" + this.customerId + "/admin/role/edit/" + data.role.id);
-            },
-            error => {
-              // this.toast.error('Something went wrong');
-            }
-          );
-      }
-    }
-  }
 
   backButton() {
     this.router.navigateByUrl("vendor/account/bank_details");

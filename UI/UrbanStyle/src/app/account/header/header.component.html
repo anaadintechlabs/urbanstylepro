@@ -1,0 +1,30 @@
+<div class="v_header">
+    <nav>
+        <div class="navbar navbar-expand-lg navbar-light bg-transparent">
+            <a [routerLink]="['/account/login']" routerLinkActive="router-link-active" class="navbar-brand">
+                <h3>Urban Style Decor</h3>
+                <!-- <img src="../../../assets/img/logo.png" alt="" class="img-fluid"> -->
+            </a>
+            <a href="" class="navbar-brand"><i class="far fa-bell-slash"></i>
+            </a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#topbar"><span
+                    class="navbar-toggler-icon"></span></button>
+    
+            <div class="collapse navbar-collapse" id="topbar">
+                <span class="mx-auto"></span>
+                <ul class="navbar-nav text-capitalize">
+                    <li class="nav-item">
+                        <form action="" class="nav-link">
+                            <div class="">
+                                <input type="text" class="form-control w-75 float-left rounded-0" placeholder="Search">
+                                <button class="btn btn-info rounded-0"><i class="fas fa-search"></i></button>
+                            </div>
+                        </form>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link border-right" [routerLink]="['/account/login']" routerLinkActive="router-link-active" >Login</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link border-right" [routerLink]="['/account/forgetPassword']" routerLinkActive="router-link-active">Forget Password</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>       
+</div>
