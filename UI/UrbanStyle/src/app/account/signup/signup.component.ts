@@ -21,32 +21,80 @@ export class SignupComponent implements OnInit {
   bankDetails : FormGroup;
   fromVendorSignUp:boolean=true;
   @ViewChild('stepper',{static:true}) private myStepper: MatStepper;
-
   @ViewChild('details',{read: ElementRef,static:true}) details : ElementRef;
   constructor(
     private _fb : FormBuilder,
     private _userService : UserServiceService,
     private _router : Router
   ) {
-   this.signUpform = this._fb.group({
-    signUp : new FormControl,
-    address : new FormControl,
-    bankDetails : new FormControl
-   }) 
     this.basicDetails = this._fb.group({
       name: ["", Validators.required],
       lastname: [""],
       username: ["", Validators.required],
       email: ["", Validators.required],
       password: ["", Validators.required],
-      userType: [""]
+      userType: ["VENDOR"]
     });
 
-    this.signUpform = this._fb.group({
-      signUp: this.basicDetails,
-      address: this.addressDetails,
-      bankDetails: this.bankDetails
+    this.addressDetails = new FormGroup({
+      id: new FormControl(""),
+      addressOne: new FormControl("", [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
+      addressTwo: new FormControl("", [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(255)
+      ]),
+      status: new FormControl(1),
+      zip: new FormControl("", [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(6)
+      ]),
+      country: new FormGroup({
+        id: new FormControl("")
+      }),
+      state: new FormGroup({
+        id: new FormControl("")
+      }),
+      cite: new FormGroup({
+        id: new FormControl("")
+      }),
+      user: new FormGroup({
+        id: new FormControl("")
+      })
     });
+
+    this.bankDetails = new FormGroup({
+      id: new FormControl(""),
+      bankName: new FormControl("", [
+        Validators.required,
+        Validators.minLength(3)
+      ]),
+      accountNumber: new FormControl("", [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(255)
+      ]),
+      status: new FormControl(1),
+      accType: new FormControl("", [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(10)
+      ]),
+      ifscCode: new FormControl("", [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(15)
+      ]),
+  
+      user: new FormGroup({
+        id: new FormControl("")
+      })
+    });
+
   }
 
   ngOnInit() {}
@@ -56,20 +104,28 @@ export class SignupComponent implements OnInit {
     return this.basicDetails.controls;
   }
 
-  basicdetialForm(data: FormGroup): void {
-    this.basicDetails = data;
-    this.f.userType.setValue("VENDOR");
-    this.myStepper.next();
+  next(form : FormGroup){
+    if(form.status == 'VALID'){
+      this.myStepper.next();
+    }
   }
 
-  addressForm(data: FormGroup): void {
-    this.addressDetails = data;
-    this.signUpform.controls.address.patchValue(this.addressDetails);
-     console.log("save", this.signUpform.value);
-    this.myStepper.next();
+  save(){
+    this.signUpform = this._fb.group({
+      signUp: this.basicDetails,
+      address: this.addressDetails,
+      bankDetails: this.bankDetails
+    });
+    console.log(this.signUpform);
+    this._userService.attempIntegratedAuth(this.signUpform.value).subscribe(
+      data => {
+        this._router.navigateByUrl('/account/login');
+      },
+      error => {
+        console.log("error======", error);
+      }
+    );
   }
-
-
 
    bankDetailsForm(data : FormGroup) : void {
     this.bankDetails = data;

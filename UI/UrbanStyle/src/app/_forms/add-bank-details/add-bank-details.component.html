@@ -1,91 +1,69 @@
-    <!-- <div class="row">
-        <div class="col-xl-12">
-            <div class="row">
-                <div class="col-xl-6">
-                </div>
-                <div class="col-xl-6 text-right">
-                    <button *ngIf="!fromVendorSignUp" type="button" mat-button (click)="backButton()">
-                        Back
-                    </button>
-                </div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="row">
+            <div class="col-xl-6">
             </div>
-            <form [formGroup]="bankDetailForm" (ngSubmit)="onSubmit()">
-                <div class="row pt-3">
-                    <div class="col-xl-12 pb-3">
-                        <div class="shadow bg-white plr-15 pt-3 pb-3">
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 pt-2 pb-2">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Bank Name*</mat-label>
-                                        <input matInput formControlName="bankName" id="name"
-                                            [ngClass]="{ 'is-invalid': submitted && f.bankName.errors }">
-
-                                        <mat-error ngxErrors="bankDetailForm.bankName" [ngClass]="['dirty', 'touched']">
-                                            Enter valid bank one
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 pt-2 pb-2">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Account number*</mat-label>
-                                        <input matInput formControlName="accountNumber" id="name"
-                                            [ngClass]="{ 'is-invalid': submitted && f.accountNumber.errors }">
-
-                                        <mat-error ngxErrors="bankDetailForm.accountNumber" [ngClass]="['dirty', 'touched']">
-                                            Enter valid address two
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 pt-2 pb-2">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>IFSC Code*</mat-label>
-                                        <input matInput formControlName="ifscCode" id="name"
-                                            [ngClass]="{ 'is-invalid': submitted && f.ifscCode.errors }">
-
-                                        <mat-error ngxErrors="bankDetailForm.ifscCode" [ngClass]="['dirty', 'touched']">
-                                            Enter valid address one
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                                 
-
-
-
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 pt-2 pb-2">
-
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Account Type</mat-label>
-                                         <mat-select    [ngClass]="{ 'is-invalid': submitted && f.accType.errors }"placeholder="id" class="common" matInput required formControlName="accType"  >
-                                         <mat-option value="SAVING" >SAVING</mat-option>
-                                          <mat-option value="COMPANY" >COMPANY</mat-option>
-                                           <mat-option value="RDA" >RD</mat-option>
-                                         
-                                    </mat-select>
-                                
-                                        <mat-error ngxErrors="bankDetailForm.accType" [ngClass]="['dirty', 'touched']">
-                                            Enter valid address one
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                           
-                            
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row" *ngIf="action=='add' || action == 'edit'">
-                    <div class="col-md-12 text-right pt-2 pb-2">
-                        <button mat-raised-button [disabled]="!bankDetailForm.valid" id="saveRole"
-                            >SAVE
-                        </button>
-                    </div>
-                </div>
-                
-            </form>
+            <div class="col-xl-6 text-right">
+                <button *ngIf="!fromVendorSignUp" type="button" mat-button (click)="backButton()">
+                    Back
+                </button>
+            </div>
         </div>
-    </div> -->
+    </div>
+</div>
+<form [formGroup]="bankDetailForm">
+    <div class="form-group">
+        <!-- Password-->
+        <label class="control-label" for="password">Bank Name</label>
+        <div class="controls">
+            <input
+            type="text"
+            class="form-control"
+            formControlName="bankName"
+            placeholder=""
+            />
+        </div>
+    </div>
+    <div class="form-group">
+        <!-- Password-->
+        <label class="control-label" for="password">Account number</label>
+        <div class="controls">
+            <input
+            type="text"
+            class="form-control"
+            formControlName="accountNumber"
+            placeholder=""
+            />
+        </div>
+    </div>
+    <div class="form-group">
+        <!-- Password-->
+        <label class="control-label" for="password">IFSC Code</label>
+        <div class="controls">
+            <input
+            type="text"
+            class="form-control"
+            formControlName="ifscCode"
+            placeholder=""
+            />
+        </div>
+    </div>
+    <div class="form-group">
+        <!-- Password-->
+        <label class="control-label" for="password">Account Type</label>
+        <div class="controls">
+            <select
+            type="text"     
+            class="form-control"
+            formControlName="accType"
+            placeholder=""
+            >
+            <option value="SAVING" >SAVING</option>
+            <option value="COMPANY" >COMPANY</option>
+            <option value="RDA" >RD</option>
+        </select>
+            
+        </div>
+    </div>                
+</form>
+
