@@ -148,9 +148,10 @@ public class OrderController {
 //	@RequestBody Filter filter,
 	@RequestMapping(value= {"/getOrderForVendor"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> getOrderForVendor(@RequestParam(value="vendorId")long vendorId,
+			@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<>();
-			resultMap.put("orderList",orderService.getVendorOrder(vendorId));
+			resultMap.put("orderList",orderService.getVendorOrder(vendorId,filter));
 			resultMap.put("count",orderService.getVendorOrderCount(vendorId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
@@ -308,4 +309,15 @@ public class OrderController {
 		resultMap.put("ReturnTransaction",paymentwalletTransactionRepo.getTransactionofOrder(orderProdId, "RT"));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
+	
+	
+	
+	// API To get all payment transaction Before Payment
+	
+		@RequestMapping(value= {"/getTransactionSummaryofOrder"},method= {RequestMethod.POST,RequestMethod.GET})
+		public Map<String,Object> getTransactionSummaryofOrder(@RequestParam(value="orderProdId")long orderProdId,HttpServletRequest request,HttpServletResponse response){
+			Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("TransactionSummary",orderService.getTransactionSummaryofOrder(orderProdId));
+			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+		}
 }

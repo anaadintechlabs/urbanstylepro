@@ -295,15 +295,16 @@ changeStatusOfCategory(
   }
 
   //get all order of vendor
-  getAllOrderOfVendor(vendorId,url)
+  getAllOrderOfVendor(vendorId,body,url)
   {
 
-     const param: HttpParams = new HttpParams().set("vendorId", vendorId);
-    console.log(param);
-    return new Observable<any[]>(obs => {
-      this._apiService.getOrder(url, param).subscribe(res => {
+    //  const param: HttpParams = new HttpParams().set("vendorId", vendorId);
+    // console.log(param);
+    url=url+"?vendorId="+vendorId;
+    return new Observable<any>(obs => {
+      this._apiService.postOrder(url,body).subscribe(res => {
         if (res.isSuccess) {
-          obs.next(res.data.orderList);
+          obs.next(res.data);
         }
       });
     });
@@ -343,7 +344,7 @@ changeStatusOfCategory(
   {
     const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("status",status);
     console.log(param);
-    return new Observable<any[]>(obs => {
+    return new Observable<any>(obs => {
       this._apiService.getOrder(url, param).subscribe(res => {
         if (res.isSuccess) {
           obs.next(res.data.orderList);

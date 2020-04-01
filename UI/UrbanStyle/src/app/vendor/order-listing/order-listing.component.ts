@@ -16,6 +16,18 @@ export class OrderListingComponent implements OnInit {
   orderProduct: any ;
   orderDetails:any;
   selectedOrderId: any;
+
+  public limit=3;
+  public offset=0;
+  public sortingField="createdDate";
+  public sortingDirection="desc";
+
+ 
+
+
+  public count;
+
+
   constructor(
     public dataService: DataService
   ) { }
@@ -48,7 +60,9 @@ export class OrderListingComponent implements OnInit {
       .subscribe(
         data => {
           console.log("All order", data);
-          this.orderList = data;
+          this.orderList = data.orderList;
+          this.count=data.count;
+         
         },
         error => {
           console.log("error======", error);
@@ -56,12 +70,22 @@ export class OrderListingComponent implements OnInit {
       );
   }
   getAllOrderOfVendor(vendorId) {
+    let request = {
+      "limit":this.limit,
+      "offset":this.offset,
+      "sortingDirection":this.sortingDirection,
+      "sortingField":this.sortingField
+    };
     this.dataService
-      .getAllOrderOfVendor(vendorId, "api/getOrderForVendor")
+      .getAllOrderOfVendor(vendorId,request, "api/getOrderForVendor")
       .subscribe(
         data => {
           console.log("All order", data);
-          this.orderList = data;
+          this.orderList = data.orderList;
+          this.count=data.count;
+          //jiust for getting exact page number
+          this.offset+=1;
+
         },
         error => {
           console.log("error======", error);
@@ -163,6 +187,13 @@ export class OrderListingComponent implements OnInit {
         console.log("error======", error);
       }
     );
+  }
+
+
+  pageChanged(event){
+    console.log("page changes"+event)
+    this.offset=event-1;
+    this.getAllOrderOfVendor(this.userId);
   }
 }
 

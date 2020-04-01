@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.OrderTransactionSummaryDTO;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
@@ -23,7 +24,7 @@ public interface OrderService {
 
 	Object saveorUpdate(UserOrderSaveDTO userDetailSave);
 
-	List<UserOrderProducts> getVendorOrder(long vendorId);
+	List<UserOrderProducts> getVendorOrder(long vendorId, Filter filter);
 
 	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId,long orderProdId);
 
@@ -71,4 +72,6 @@ public interface OrderService {
 	long getCountOrderProductByUser(long parseLong);
 
 	long getVendorOrderCount(long vendorId);
+
+	List<OrderTransactionSummaryDTO>  getTransactionSummaryofOrder(long orderProdId);
 }

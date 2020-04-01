@@ -44,6 +44,15 @@ public class UserOrderProducts {
 	
 	private String modifiedBy;
 	
+	private String orderCode;
+	
+	public String getOrderCode() {
+		return orderCode;
+	}
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
+	
 	@PrePersist
 	public void setDate()
 	{

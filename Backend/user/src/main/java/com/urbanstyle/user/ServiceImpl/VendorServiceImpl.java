@@ -41,6 +41,8 @@ public class VendorServiceImpl implements VendorService{
 	    // Creating user's account
         User user = new User();
         user.setName(vendorSignupDTO.getSignUp().getName());
+        user.setLastName(vendorSignupDTO.getSignUp().getLastname());
+        user.setPhoneNumber(vendorSignupDTO.getSignUp().getPhoneNumber());
         user.setEmail(vendorSignupDTO.getSignUp().getEmail());
         user.setPassword(vendorSignupDTO.getSignUp().getPassword());
         user.setProvider(AuthProvider.local);

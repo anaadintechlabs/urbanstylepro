@@ -33,7 +33,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of orderList">
+          <tr *ngFor="let order of orderList | paginate: { itemsPerPage: limit, currentPage: offset,totalItems: count }; let i = index">
             <td>ORDER-{{ order.id }}</td>
             <td>{{ order.userOrder.orderPlacedDate | date }}</td>
             <td>{{ order.status }}</td>
@@ -59,7 +59,9 @@
               </button>
             </td>
           </tr>
-          <tr *ngIf="orderList.length ==0 ">
+          <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+          <tr *ngIf="orderList && orderList.length ==0 ">
             <td scope="row">No record found</td>
           </tr>
         </tbody>

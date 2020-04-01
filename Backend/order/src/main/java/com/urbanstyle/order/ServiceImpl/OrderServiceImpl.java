@@ -17,10 +17,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.OrderTransactionSummaryDTO;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.external.UrlShortner;
 import com.anaadihsoft.common.master.Address;
 import com.anaadihsoft.common.master.AffiliateCommisionOrder;
 import com.anaadihsoft.common.master.BankDetails;
@@ -106,6 +108,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private CategoryRepo catRepo;
+	
 	
 	@Transactional
 	@Override
@@ -401,9 +404,13 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	
 	@Override
-	public List<UserOrderProducts> getVendorOrder(long vendorId) {
-		
-		return userOrderProdRepo.findByvendorvendor_Id(vendorId);
+	public List<UserOrderProducts> getVendorOrder(long vendorId,Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return userOrderProdRepo.findByvendorvendor_Id(vendorId,pagable);
 
 	}
 
@@ -1204,6 +1211,91 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 
+	
+	@Override
+	public List<OrderTransactionSummaryDTO> getTransactionSummaryofOrder(long orderProdId) {
+		List<OrderTransactionSummaryDTO> allTransactionDetails = new ArrayList<>();
+		Optional<UserOrderProducts> userOrdrProdOpt=userOrderProdRepo.findById(orderProdId);
+		 HashMap<Long,Double> userBal = new HashMap<>();
+		if(userOrdrProdOpt.isPresent())
+		{
+			UserOrderProducts userOrdrProd=userOrdrProdOpt.get();
+			ProductVariant varient = userOrdrProd.getProduct();
+			if(userBal.get(Long.valueOf(varient.getCreatedBy())) != null) {
+				double oldAmount = userBal.get(Long.valueOf(varient.getCreatedBy()));
+				oldAmount += userOrdrProd.getQuantity()*varient.getDisplayPrice();
+				userBal.put(Long.valueOf(varient.getCreatedBy()), oldAmount);
+			}else {
+				double amount = userOrdrProd.getQuantity()*varient.getDisplayPrice();
+				userBal.put(Long.valueOf(varient.getCreatedBy()), amount);
+			}
+
+			double orderTotalPrice = userOrdrProd.getQuantity()*userOrdrProd.getOrderProductPrice();
+
+		Set<Long> allvendor = userBal.keySet();
+		Iterable<PaymentWalletDistribution> allSources =  paymentWalletDistRepo.findAll();
+		double percToVendor = 0;
+		double TotalPerc = 0;
+		for(PaymentWalletDistribution source : allSources) {
+			long perc = source.getPerc();
+			if(source.getDistributionTo().equals("AFFILIATE")) {
+				long affiliatid;
+				User affiliatiduser = null;
+				double amountToVendor;
+				AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(orderProdId);
+				if(afOrder != null) {
+					affiliatid = afOrder.getAffiliateId().getId();
+					 affiliatiduser =afOrder.getAffiliateId();
+				}else {
+					affiliatid = Long.parseLong(source.getSource());
+					affiliatiduser = userRepo.findById(affiliatid).get();
+				}
+				if(afOrder != null) {
+					 amountToVendor = (orderTotalPrice*afOrder.getCommision())/100;							
+				}else {
+					 amountToVendor = (orderTotalPrice*source.getPerc())/100;
+				}
+				User admin = userRepo.findByUserType("SUPERADMIN");
+				UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId());
+				OrderTransactionSummaryDTO afDto = new OrderTransactionSummaryDTO();
+				afDto.setSenderuserCode(admin.getUserCode());
+				afDto.setSenderuserName(admin.getName());
+				afDto.setSenderuserId(admin.getId());
+				afDto.setRecieveruserId(affiliatid);
+				afDto.setRecieveruserName(affiliatiduser.getName());
+				afDto.setRecieveruserCode(affiliatiduser.getUserCode());
+				afDto.setAmount(amountToVendor);
+				allTransactionDetails.add(afDto);
+			}
+			TotalPerc +=perc;
+		}
+		
+		////
+		
+		for(Long vendor : allvendor){
+			//TotalPerc = TotalPerc-percToVendor;
+			double percAmount = (userBal.get(vendor) * TotalPerc)/100;
+			double amount = userBal.get(vendor) - percAmount;
+			// update wallet for vendor
+			User Uservendor = userRepo.findById(vendor).get();
+			
+			User admin = userRepo.findByUserType("SUPERADMIN");
+			UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId());
+			OrderTransactionSummaryDTO vendDto = new OrderTransactionSummaryDTO();
+			vendDto.setSenderuserCode(admin.getUserCode());
+			vendDto.setSenderuserName(admin.getName());
+			vendDto.setSenderuserId(admin.getId());
+			vendDto.setRecieveruserId(Uservendor.getId());
+			vendDto.setRecieveruserName(Uservendor.getName());
+			vendDto.setRecieveruserCode(Uservendor.getUserCode());
+			vendDto.setAmount(amount);
+			allTransactionDetails.add(vendDto);
+			
+		}
+		
+	  }
+		return allTransactionDetails;
+	}
 
 	
 

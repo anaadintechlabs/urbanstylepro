@@ -48,10 +48,10 @@
           <input type="text" [value]="getVarient(item)" formControlName="variantName" hidden>
         </div>
         <div>
-          <input type="text"  class="form-control" formControlName="variantCode" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+          <input type="text" id="name"  class="form-control" formControlName="variantCode" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
         </div>
         <div>
-          <select formControlName='productIdType'  class="custom-select">
+          <select formControlName='productIdType' id="" class="custom-select">
             <option value="ASIN">UPC</option>
             <option value="UPC">UIN</option>
           </select>
