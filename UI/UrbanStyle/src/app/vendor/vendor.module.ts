@@ -21,7 +21,7 @@ import { ToastrModule } from "ngx-toastr";
 import { OrderListingComponent } from './order-listing/order-listing.component';
 import { SalesListingComponent } from './sales-listing/sales-listing.component';
 import { SalesReturnListingComponent } from './sales-return-listing/sales-return-listing.component';
-import { SharedModule } from '../shared/component/action-handler/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { NgxPaginationModule } from '../../../node_modules/ngx-pagination';
 
@@ -51,7 +51,7 @@ import { NgxPaginationModule } from '../../../node_modules/ngx-pagination';
     AddProductHeaderComponent,
     OrderListingComponent,
     SalesListingComponent,
-    SalesReturnListingComponent,
+    SalesReturnListingComponent
   ],
   bootstrap: [VendorComponent]
 })

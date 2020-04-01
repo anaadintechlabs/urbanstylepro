@@ -240,6 +240,7 @@ export class InventoryComponent implements OnInit {
   pageEvent(event) {}
 
   goToEdit(item) {
+    // this._router.navigate(['edit', item.productId, 0])
     this._addProduct.productStatus = "EDIT";
     this._apiService
       .post(`product/getCompleteProduct?prodId=${item.productId}`)
@@ -263,10 +264,8 @@ export class InventoryComponent implements OnInit {
           console.log(this._addProduct.productFormGroup.value);
           for (let i = 0; i < res.data.productList.productVariantDTO.length; i++) {
             const element = res.data.productList.productVariantDTO[i];
-            let temp: FormGroup = this._addProduct.initializeProductVarientDto();
-            // temp.get('productVariant').patchValue(element.productVariant);;
+            let temp: FormGroup = this._addProduct.initializeProductVarientDtoForEdit(element);
             this._addProduct.productVariantDTO.push(temp);
-            this._addProduct.productVariantDTO.at(i).patchValue(element)
           }
 
           console.log('varient value',this._addProduct.productVariantDTO)
@@ -293,6 +292,7 @@ export class InventoryComponent implements OnInit {
 
   editProductVariant(item) {
     console.log(item);
+    this._router.navigate(['edit', item.product.productId, item.productVariantId])
     this._addProduct.editVarient = true;
     this._addProduct.productStatus = "EDIT";
     this._apiService.post(`product/getCompleteVariant?productVariantId=${item.productVariantId}&prodId=${item.product.productId}`).subscribe(res=>{
@@ -314,10 +314,8 @@ export class InventoryComponent implements OnInit {
         console.log(this._addProduct.productFormGroup.value);
         for (let i = 0; i < res.data.completeVariant.productVariantDTO.length; i++) {
           const element = res.data.completeVariant.productVariantDTO[i];
-          let temp: FormGroup = this._addProduct.initializeProductVarientDto();
-          // temp.get('productVariant').patchValue(element.productVariant);;
+          let temp: FormGroup = this._addProduct.initializeProductVarientDtoForEdit(element);
           this._addProduct.productVariantDTO.push(temp);
-          this._addProduct.productVariantDTO.at(i).patchValue(element)
         }
 
         console.log('varient value',this._addProduct.productVariantDTO)

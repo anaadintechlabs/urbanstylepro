@@ -41,8 +41,7 @@ export const VendorRoutes: Routes=[
             {
                 path : 'addProduct',
                 loadChildren : ()=> import('./add-product/addProduct.module').then(m => m.AddProductModule)
-
-            }
+            },
         ]
     }
 ];

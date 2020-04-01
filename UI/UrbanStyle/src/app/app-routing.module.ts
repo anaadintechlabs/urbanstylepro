@@ -17,14 +17,8 @@ const routes: Routes = [
     canActivate : [UserGuardGuard]
   },
   {
-    path : 'affiliate',
-    loadChildren: () => import('./affiliate/affiliate.module').then(m=> m.AffiliateModule),
-    canActivate : [UserGuardGuard]
-  },
-  {
-    path:'admin',
-    loadChildren: () => import("./admin/admin.module").then(m=> m.AdminModule),
-    canActivate : [UserGuardGuard]
+    path : 'edit/:productID/:variantID',
+    loadChildren : () => import("./edit-product/edit-product.module").then(m => m.EditProductModule)
   },
   {
     path : 'account',
