@@ -1,0 +1,14 @@
+<nav class="">
+    <div class="navbar navbar-expand-md navbar-light bg-transparent">
+      <a [routerLink]="['/vendor']"  class="navbar-brand">
+        <h3>Urban Style Decor</h3><!-- <img src="image/logo.png" alt="" class="img-fluid"> -->
+      </a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#topbar2"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="topbar2">
+        
+        <ul class="nav text-capitalize" *ngIf="menu">
+          <li class="nav-item" *ngFor="let item of menu"><a [routerLink]="[item.url]" routerLinkActive="router-link-active" class="nav-link" [ngClass]="{'active': item.status}" data-toggle="tab"><b>{{ item.name }}</b></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
