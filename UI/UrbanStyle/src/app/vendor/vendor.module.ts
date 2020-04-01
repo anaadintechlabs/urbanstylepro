@@ -22,6 +22,7 @@ import { OrderListingComponent } from './order-listing/order-listing.component';
 import { SalesListingComponent } from './sales-listing/sales-listing.component';
 import { SalesReturnListingComponent } from './sales-return-listing/sales-return-listing.component';
 import { SharedModule } from '../shared/shared.module';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { SharedModule } from '../shared/shared.module';
     AddProductHeaderComponent,
     OrderListingComponent,
     SalesListingComponent,
-    SalesReturnListingComponent
+    SalesReturnListingComponent,
+    OrderDetailsComponent
   ],
   bootstrap: [VendorComponent]
 })

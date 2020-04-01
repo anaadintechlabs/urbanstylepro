@@ -33,6 +33,7 @@ export class InventoryComponent implements OnInit {
   @ViewChild("variant", { static: false })
   modal;
   private filter: search;
+  showSale : boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -81,6 +82,10 @@ export class InventoryComponent implements OnInit {
 
   bulkAction(value) {
     console.log(value);
+  }
+
+  saleStatus() {
+    this.showSale = !this.showSale;
   }
 
   getAllProductOfUser() {

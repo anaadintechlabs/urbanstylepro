@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from "src/_modals/user.modal";
 import { DataService } from "src/_services/data/data.service";
+import { PlatformLocation } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-listing',
@@ -16,9 +18,17 @@ export class OrderListingComponent implements OnInit {
   orderProduct: any ;
   orderDetails:any;
   selectedOrderId: any;
+  status : string;
   constructor(
-    public dataService: DataService
-  ) { }
+    public dataService: DataService,
+    public _router : Router,
+    public location: PlatformLocation
+  ) {
+    location.onPopState(() => {
+      this.showProduct = false;
+      console.log('pressed back!');
+  });
+   }
 
   ngOnInit() {
     this.user = JSON.parse(window.localStorage.getItem("user"));
@@ -26,7 +36,26 @@ export class OrderListingComponent implements OnInit {
       this.userId = this.user.id;
       console.log("logged in vendor id", this.userId);
       this.getAllOrderOfVendor(this.userId);
+    }
+  }
 
+  chooseAction(data) {
+    console.log(data);
+    if(!data.f_Status){
+      return
+    }
+    if(data.f_Status == "") {
+      return
+    }
+    if(data.f_Status == "PROGRESS"){
+      this.changeStatusOfPartialOrder('INPROGRESS',data.id,data.userOrder.id);
+      return
+    } else if(data.f_Status == 'DISPATCH'){
+      this.changeStatusOfPartialOrder('DISPATCHED',data.id,data.userOrder.id);
+      return
+    } else if(data.f_Status == 'CANCEL'){
+      this.cancelOrderByUser(data.id);
+      return
     }
   }
 
@@ -49,6 +78,7 @@ export class OrderListingComponent implements OnInit {
         data => {
           console.log("All order", data);
           this.orderList = data;
+          this.addF_Status(this.orderList);
         },
         error => {
           console.log("error======", error);
@@ -62,6 +92,7 @@ export class OrderListingComponent implements OnInit {
         data => {
           console.log("All order", data);
           this.orderList = data;
+          this.addF_Status(this.orderList);
         },
         error => {
           console.log("error======", error);
@@ -69,25 +100,19 @@ export class OrderListingComponent implements OnInit {
       );
   }
 
+  addF_Status(list){
+    list.forEach(element => {
+      element['f_Status'] = '';
+    });
+  }
+
   backButton() {
     this.showProduct = false;
   }
 
   getOrderProductForVendor(orderProductId,orderId) {
+    this._router.navigate(['/vendor/orderDetails',orderProductId,orderId])
     this.selectedOrderId = orderId;
-    this.dataService.getOrderProductForVendor(orderId,orderProductId, this.userId, "api/getOrderProductForVendor").subscribe(
-      data => {
-        console.log("All Products inside order", data);
-        this.showProduct = true;
-        //now single product
-        this.orderProduct = data.orderList;
-        this.orderDetails=data.orderDetails;
-        console.log("Address ",this.orderDetails)
-      },
-      error => {
-        console.log("error======", error);
-      }
-    );
   }
 
 
@@ -107,8 +132,7 @@ export class OrderListingComponent implements OnInit {
     console.log("called");
     this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor").subscribe(
       data => {
-        this.getOrderProductForVendor(orderProdId,orderId);
-
+        console.log(data);
       },
       error => {
         console.log("error======", error);

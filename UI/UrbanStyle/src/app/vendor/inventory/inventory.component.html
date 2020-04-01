@@ -29,49 +29,29 @@
 						Inactive
 					</button>
 				</div>
-				<!-- <div class="col-md-7">
-					<div class="dropdown">
-						<button class="dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
-							Additional Filters
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-							<a class="dropdown-item" href="#">Action</a>
-						</div>
-					</div>
-				</div> -->
+				<div class="col-md-6">
+					<button class="btn actionBtn" style="margin-left:auto;display: block;" (click)="saleStatus()">
+						Show Sales Details
+					</button>
+				</div>
 			</div>
 		</div>
 
-		<div class="p-2 v_filter-sec">
+		<!-- <div class="p-2 v_filter-sec">
 			<div class="row py-3 bg-light">
-				<!-- <div class="col-md-1">
-					<span>Filters</span>
-				</div> -->
 				<div class="col-md-6">
 					<span>Action </span>
 					<span>
 						<actionHandler [options]="bulkOption" (selectedValue)="bulkAction($event)"></actionHandler>
 					</span>
 				</div>
-				<!-- <div class="col-md-7">
-					<div class="dropdown">
-						<button class="dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
-							Additional Filters
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-							<a class="dropdown-item" href="#">Action</a>
-						</div>
-					</div>
-				</div> -->
 			</div>
-		</div>
+		</div> -->
 
 		<div class="row">
 			<div class="second-tab bg-white mt-5 border-top">
 				<div class="header">
-				  <div class="checkBox"></div>
+				  <!-- <div class="checkBox"></div> -->
 				  <div><p>Status</p></div>
 				  <div><p>Image</p></div>
 				  <div><p>SKU/(Product Id)</p></div>
@@ -79,16 +59,16 @@
 				  <div><p>Available</p></div>
 				  <div><p>MSRP</p></div>
 				  <div><p>Price</p></div>
-				  <div ><p>Sale Price</p></div>
-				  <div ><p>Sale Start Date</p></div>
-				  <div ><p>Sale End Date</p></div>
+				  <div *ngIf="showSale"><p>Sale Price</p></div>
+				  <div *ngIf="showSale"><p>Sale Start Date</p></div>
+				  <div *ngIf="showSale"><p>Sale End Date</p></div>
 				  <div><p>Action</p></div>
 				</div>
 				<div class="" *ngFor="let item of productList">
 				  <div class="variationBody">
-					<div  class="checkBox"> 
+					<!-- <div  class="checkBox"> 
 					  <input type="checkbox" class="custom-checkbox" >
-					</div>
+					</div> -->
 					<div (click)="getAllVeriant(item)">
 					  	<p> 
 							<span>
@@ -111,13 +91,13 @@
 					<div >
 					 <p>-</p>
 					</div>
-					<div >
+					<div *ngIf="showSale">
 						<p>-</p>
 					</div>
-					<div>
+					<div *ngIf="showSale">
 						<p>-</p>
 					</div>
-					<div>
+					<div *ngIf="showSale">
 						<p>-</p>
 					</div>
 					<div>
@@ -131,9 +111,9 @@
 					</div>
 				  </div>
 				  <div class="variationBody childs" *ngFor="let data of item?.child">
-					<div  class="checkBox"> 
+					<!-- <div  class="checkBox"> 
 					  <input type="checkbox" class="custom-checkbox" (change)="checkboxChangeEvent($event,data)">
-					</div>
+					</div> -->
 					<div>
 					  <p> {{ data.status?'ACTIVE':'INACTIVE' }} </p>
 					</div>
@@ -146,19 +126,19 @@
 					</div>
 					<div >
 					 <p>{{ data.variantName }}</p>
-					 <p>`{{ data.variantCode }}</p>
+					 <p>{{ data.variantCode }}</p>
 					</div>
 					<div >
 					 <p>{{ data.totalQuantity }}</p>
 					</div>
-					<div>
-						<p>{{ data.manufacturerSuggesstedPrice }} </p> 
+					<div *ngIf="showSale">
+						<p>{{ data.manufacturerSuggesstedPrice | currencyFormat}} </p> 
 					</div>
-					<div>
-						<p>{{ data.displayPrice }} </p> 
+					<div *ngIf="showSale">
+						<p>{{ data.displayPrice | currencyFormat}} </p> 
 					</div>
-					<div >
-					  <p>{{ data.salesPrice }} </p> 
+					<div *ngIf="showSale">
+					  <p>{{ data.salesPrice | currencyFormat }} </p> 
 					</div>
 					<div>
 					  <p>{{ data.salesStartDate | date }}</p> 
