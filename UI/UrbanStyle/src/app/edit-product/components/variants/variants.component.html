@@ -1,0 +1,100 @@
+<div class="container-fluid" >
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row bg mt-5 " >
+            <div class="col-md-12">
+              <p>Your variation child ASINs have been created. To complete your listings, find the variation child listings in your inventory and select ‘Edit’ to add an image for each variation child.  Please note that each variation child listing requires an image to be active on the Amazon website</p>
+            </div>
+            <div class="col-md-6">
+              <div class="second-btn">
+                <span><b>{{_editProduct.productVariant.length}} Variation</b></span>
+              </div>
+            </div>
+            <div class="col-md-6 text-right">
+              <input type="checkbox" name="saleCheck" id="" [(ngModel)]="_editProduct.saleSelect">
+              <label for="saleCheck">Apply Sale</label>
+            </div>
+            <div class="col-12 col-md-12">
+              <div class="ordder_heading">
+                <p>
+                  <span>Action : </span>
+                  <span><button class="btn actionBtn" >Delete</button></span>
+                  <!-- <span><button class="btn actionBtn" (click)="getOrderByStatus('PLACED')">Pending Order </button></span>
+                  <span><button class="btn actionBtn" (click)="getOrderByStatus('CANCELLED')">Cancelled Order </button></span> -->
+                </p>
+              </div>
+            </div>
+        </div>
+        
+        <div class="second-tab bg-white mt-5 border-top" [formGroup]="_editProduct.productVariant">
+            <div class="header">
+              <!-- <div class="checkBox"></div> -->
+              <div><p>Product Name</p></div>
+              <div><p>Product Id</p></div>
+              <div><p>Product Type</p></div>
+              <div><p>Seller SKU</p></div>
+              <div><p>MRSP</p></div>
+              <div><p>Standard Price</p></div>
+              <div *ngIf="_editProduct.saleSelect"><p>Sale Price</p></div>
+              <div *ngIf="_editProduct.saleSelect"><p>Sale Start Date</p></div>
+              <div *ngIf="_editProduct.saleSelect"><p>Sale End Date</p></div>
+              <div *ngIf="_editProduct.saleSelect"><p>Sale Quantity</p></div>
+              <div><p>Quantity</p></div>
+            </div>
+            <div class="" formArraryName="productVariantForm" *ngFor="let item of _editProduct.productVariant.get('productVariantForm').controls; let i = index">
+              <div class="variationBody" [formGroup]="item">
+                <!-- <div  class="checkBox"> 
+                  <input type="checkbox" class="custom-checkbox" (change)="selectData(item.controls.productVariant)">
+                </div> -->
+                <div>
+                  <!-- <p> {{ item.variantName.value }} </p> -->
+                  <!-- <input type="text" [value]="getVarient(item)" formControlName="variantName" hidden> -->
+                </div>
+                <div>
+                  <input type="text" id="name"  class="form-control" formControlName="variantCode" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+                </div>
+                <div>
+                  <select formControlName='productIdType' id="" class="custom-select">
+                    <option value="ASIN">UPC</option>
+                    <option value="UPC">UIN</option>
+                  </select>
+                </div>
+                <div>
+                  <input type="text"   class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+                </div>
+                <div>
+                  <span class="input-group-text">$</span>
+                  <input type="number" name="username" class="form-control" formControlName="manufacturerSuggesstedPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.actualPrice?.errors }">
+                </div>
+                <div>
+                  <span class="input-group-text">$</span>
+                  <input type="number" name="username" class="form-control" formControlName="displayPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.actualPrice?.errors }">
+                </div>
+                <div *ngIf="_editProduct.saleSelect">
+                  <span class="input-group-text">$</span>
+                  <input type="number" formControlName="salesPrice" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.discountPrice?.errors }">
+                </div>
+                <div *ngIf="_editProduct.saleSelect">
+                  <span class="input-group-text">
+                    <i class="fas fa-calendar-alt"></i>
+                  </span>
+                  <input type="date" class="form-control" formControlName="salesStartDate" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+                </div>
+                <div *ngIf="_editProduct.saleSelect">
+                  <span class="input-group-text">
+                    <i class="fas fa-calendar-alt"></i>
+                  </span>
+                  <input type="date" class="form-control" formControlName="salesEndDate" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+                </div>
+                <div  *ngIf="_editProduct.saleSelect">
+                  <input type="number" name="salesQuantity" class="form-control" formControlName="totalQuantity" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.totalQuantity?.errors }">
+                </div>
+                <div>
+                  <input type="number" name="totalQuantity" class="form-control" formControlName="totalQuantity" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.totalQuantity?.errors }">
+                </div>
+              </div>
+            </div>    
+        </div>
+      </div>
+    </div>  
+  </div>

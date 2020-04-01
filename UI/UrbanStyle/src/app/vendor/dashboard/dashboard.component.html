@@ -1,228 +1,81 @@
 <!-- 1 -->
 <!-- <hr> -->
 <!-- <h3>Top 5 Vendors</h3> -->
-<div class="row">
-    <!-- Column -->
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Latest Orders</h3>
-                <div class="table-responsive">
-                    <table class="table v-middle product-overview" id="zero_config">
-                        <thead>
-                            <tr>
-                                <th>Sr no.</th>
-                                <th>Order ID</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Order Price</th>
-                                <th>Customer ID</th>
-                                <th>Customer Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of lastOrdersList; let i = index">
-                                <td>{{i+1}}</td>
-                                <td>ORD-{{data.id}}</td>
-                                <td>
-                                  <img [src]="data.product?.mainImageUrl" alt="pic" width="80"> 
-                              </td>
-                                <td>{{data.product?.product?.productName}}</td>
-                                <td>{{data.orderProductPrice}}</td>
-                                <td>CUS-{{data.userOrder?.user?.id}}</td>
-                                <td>
-                                  {{data.userOrder?.user?.name}}
-                                    <!-- <span class="label label-danger font-weight-100">Failed</span> -->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-md-6 col-xs-12 col-12 pb-2 pt-2">
+            <div class="card customCardWidth" >
+                <div class="card-header">
+                    Latest Orders
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-</div>
-
-<!-- 2 -->
-
-<!-- <hr> -->
-<!-- <h3>Top 5 Affiliate</h3>
-<br> -->
-<div class="row">
-    <!-- Column -->
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Latest Returns</h3>
-                <div class="table-responsive">
-                    <table class="table v-middle product-overview" id="zero_config">
-                        <thead>
-                            <tr>
-                                <th>Sr no.</th>
-                                <th>Return ID</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Ordered Date</th>
-                                <th>Reason</th>
-                                <th>Return Date</th>
-                                <th>Ordered Price</th>
-                                <th>Customer ID</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of returnsList; let i = index">
-                                <td>{{i+1}}</td>
-                                <td>RET-{{data.returnId}}</td>
-                                <td>
-                                  <img [src]="data.orderProduct?.product?.mainImageUrl" alt="pic" width="80"> 
-                              </td>
-                                <td>{{data.orderProduct?.product?.product?.productName}}</td>
-                                <td>{{data.order?.orderPlacedDate| date: 'medium'}}</td>
-                                <td>{{data.reason}}</td>
-                                <td>{{data.returnAuthorizeDate| date: 'medium'}}</td>
-                                <td>{{data.orderProductPrice}}</td>
-                                <td>CUS-{{data.order?.user?.id}}
-                                    <!-- <span class="label label-danger font-weight-100">Failed</span> -->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <div class="row m-0" *ngFor="let data of lastOrdersList; let i = index">
+                        <div class="col-md-4 col-4">
+                           <p>ORD-{{data.id}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                           <p>{{data.product?.product?.productName}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                           <p>{{data.orderProductPrice | currencyFormat}}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-</div>
-
-<!-- 3 -->
-
-<!-- <hr> -->
-<!-- <h3>Top 5 Sales</h3>
-<br> -->
-<div class="row">
-    <!-- Column -->
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Latest Sales</h3>
-                <div class="table-responsive">
-                    <table class="table v-middle product-overview" id="zero_config">
-                        <thead>
-                            <tr>
-                                <th>Sr no.</th>
-                                <th>Order ID</th>
-                                <th>Image</th>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Customer Id</th>
-                                <th>Customer Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of lastSalesList; let i = index">
-                                <td>{{i+1}}</td>
-                                <td>SAL-{{data.id}}</td>
-                                <td>
-                                  <img  [src]="data.product?.mainImageUrl" alt="pic" width="80"> 
-                              </td>
-                                <td>{{data.product?.product?.productName}}</td>
-                                <td>{{data.quantity}}</td>
-                                <td>{{data.orderProductPrice}}</td>
-                                <td>CUST-{{data.userOrder?.user?.id}}</td>
-                                <td>{{data.userOrder?.user?.name}}</td>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-</div>
-
-<!-- 4 -->
-
-<!-- <hr> -->
-<!-- <h3>Top 5 Return List</h3>
-<br> -->
-<div class="row">
-    <!-- Column -->
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Latest Reviews</h3>
-                <div class="table-responsive">
-                    <table class="table v-middle product-overview" id="zero_config">
-                        <thead>
-                            <tr>
-                                <th>Sr no.</th>
-                                <th>Return ID</th>
-                                <th>Order ID</th>
-                                <th>Image</th>
-                                <th>Customer Name</th>
-                                <th>Order Product Id</th>
-                                <th>Reason</th>
-                                <th>Price</th>
-                                <th>Order Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of lastReviewList; let i = index">
-                                <td>{{i+1}}</td>
-                                <td>RET-{{data.returnId}}</td>
-                                <td>ORD-{{data.order?.id}}</td>
-                                <td>
-                                    <img [src]="data.orderProduct?.product?.mainImageUrl" alt="pic" width="80"> 
-                                </td>
-                                <td>{{data.user?.name}}</td>
-                                <td>PROD-{{data.orderProduct?.id}}</td>
-                                <td>{{data.reason}}</td>
-                                <td>{{data.orderProduct?.orderProductPrice}}</td>
-                                <td>{{data.order?.orderPlacedDate | date: 'medium'}}</td>
-                                <td>
-                                    {{data.status}}
-                                    <!-- <span class="label label-danger font-weight-100">Failed</span> -->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-</div>
-
-
-
-
-<!-- ////////////////////////////////////////////////////////////////////////// -->
-
-<!-- <section class="main-head text-capitalize">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-10 offset-md-2">
-          <p><b>To begin adding products</b></p>
-          <p class="display-4">Find your products in inventory.</p>
-          <form action="">
-              <div class="">
-                <p><input type="text" class="p-3 w-75 rounded-0 float-left" placeholder="Search">
-                <button class="btn btn-info rounded-0 p-3"><i class="fas fa-search"></i></button></p>
               </div>
-            </form>
-            <div class="row">
-              <div class="col-md-6">
-                <a href="#" class="border-left border-right"><span>I'm Adding a product not sold on UrbanStyle</span></a>
-              </div>
-              <div class="col-md-6">
-                <a href="#" class="border-left border-right"><span>I'm Uploading a file to add multipeproducts</span></a>         
-              </div>
-            </div>
         </div>
-      </div>
+        <div class="col-md-6 col-xs-12 col-12 pb-2 pt-2">
+            <div class="card customCardWidth" >
+                <div class="card-header">
+                    Latest Returns
+                </div>
+                <div class="card-body">
+                    <div class="row m-0" *ngFor="let data of returnsList; let i = index">
+                        <div class="col-md-4 col-4">
+                           <p>RET-{{data.returnId}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                           <p>{{data.orderProduct?.product?.product?.productName}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                           <p>{{data.orderProductPrice | currencyFormat}}</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-6 col-xs-12 col-12 pb-2 pt-2">
+            <div class="card customCardWidth" >
+                <div class="card-header">
+                    Latest Sales
+                </div>
+                <div class="card-body">
+                    <div class="row m-0" *ngFor="let data of lastSalesList; let i = index">
+                        <div class="col-md-4 col-4">
+                           <p>SAL-{{data.id}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                           <p>{{data.product?.product?.productName}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                           <p>{{data.orderProductPrice | currencyFormat}}</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-6 col-xs-12 col-12 pb-2 pt-2">
+            <div class="card customCardWidth" >
+                <div class="card-header">
+                    Latest Reviews
+                </div>
+                <div class="card-body">
+                    <div class="row m-0" *ngFor="let data of lastReviewList; let i = index">
+                        <div class="col-md-12 col-12">
+                           <p [innerHTML]="data.review"></p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
     </div>
-</section> -->
+</div>

@@ -138,15 +138,6 @@ export class AddProductService {
     return productVarientDto;
   }
 
-  public initializeProductVarientDtoForEdit(element) : FormGroup {
-    let productVarientDto: FormGroup;
-    productVarientDto = this._fb.group({
-      attributesMap: new FormControl(element.attributesMap),
-      productVariant: this.variantValue(element.productVariant)
-    });
-    return productVarientDto;
-  }
-
   removeProductVarientDto(item : FormGroup) {
     console.log(item);
     console.log(this.productVariantDTO.controls);
@@ -230,24 +221,6 @@ export class AddProductService {
       }
       return result;
     }
-  }
-
-  variantValue(element) : FormGroup {
-    let form = new FormGroup({
-        sku: new FormControl(element.sku, []),
-        variantName : new FormControl(element.variantName,[]),
-        variantCode : new FormControl(element.variantCode,[]),
-        productIdType : new FormControl(element.productIdType,[]),
-        displayPrice: new FormControl(element.displayPrice, []),
-        salesPrice: new FormControl(element.salesPrice, []),
-        salesStartDate: new FormControl(element.salesStartDate, []),
-        salesEndDate: new FormControl(element.salesEndDate, []),
-        salesQuantity: new FormControl(element.salesQuantity, []),
-        manufacturerSuggesstedPrice: new FormControl(element.manufacturerSuggesstedPrice, []),
-        totalQuantity: new FormControl(element.totalQuantity, []),
-        reservedQuantity: new FormControl(element.reservedQuantity),
-      });
-      return form;
   }
 
   saveChanges() {
