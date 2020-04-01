@@ -27,6 +27,28 @@ export class SalesReturnListingComponent implements OnInit {
     }
   }
 
+  chooseAction(data) {
+    console.log(data);
+    if(!data.f_Status){
+      return
+    }
+    if(data.f_Status == "") {
+      return
+    }
+    if(data.f_Status == "ACCEPT"){
+      this.setReturnStatusbyAdmin(data.returnId,'ACCEPT');
+      return
+    } else if(data.f_Status == 'REJECT'){
+      this.setReturnStatusbyAdmin(data.returnId,'REJECT');
+    }
+  }
+
+  addF_Status(list){
+    list.forEach(element => {
+      element['f_Status'] = '';
+    });
+  }
+
 
 
   getAllReturnOfVendor(vendorId) {
@@ -42,6 +64,7 @@ export class SalesReturnListingComponent implements OnInit {
         data => {
           console.log("All order", data);
           this.returnList = data;
+          this.addF_Status(this.returnList);
         },
         error => {
           console.log("error======", error);
