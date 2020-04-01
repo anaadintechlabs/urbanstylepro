@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -1295,6 +1296,19 @@ public class OrderServiceImpl implements OrderService {
 		
 	  }
 		return allTransactionDetails;
+	}
+
+	@Override
+	public boolean canPlaceOrderOrNot(List<UserOrderQtyDTO> userOrderList) {
+		for(UserOrderQtyDTO userOrder:userOrderList)
+		{
+			long availableQuantity=productVariantRepo.getAvailableQuantityOfVariant(userOrder.getProductVariantId());
+			if(availableQuantity<userOrder.getQty())
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	

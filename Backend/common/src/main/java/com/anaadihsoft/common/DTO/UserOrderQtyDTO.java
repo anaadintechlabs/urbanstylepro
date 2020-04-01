@@ -1,7 +1,7 @@
 package com.anaadihsoft.common.DTO;
 
-public class UserOrderQtyDTO {
 
+public class UserOrderQtyDTO {
 	private long productVariantId;
 	
 	private int qty;

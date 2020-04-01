@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anaadihsoft.common.DTO.AffiliatetransactionDTO;
+import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.AffiliateCommisionOrder;
@@ -320,4 +321,15 @@ public class OrderController {
 			resultMap.put("TransactionSummary",orderService.getTransactionSummaryofOrder(orderProdId));
 			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 		}
+		
+	
+	@RequestMapping(value="/canPlaceOrderOrNot",method=RequestMethod.POST)
+	public Map<String,Object> canPlaceOrderOrNot(
+			HttpServletRequest request,HttpServletResponse response,
+			@RequestBody List<UserOrderQtyDTO> userOrderList){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("canPlace",orderService.canPlaceOrderOrNot(userOrderList));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+		
 }

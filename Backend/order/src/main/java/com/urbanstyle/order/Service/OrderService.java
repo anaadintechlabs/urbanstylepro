@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.OrderTransactionSummaryDTO;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
+import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.PaymentWalletTransaction;
@@ -74,4 +75,6 @@ public interface OrderService {
 	long getVendorOrderCount(long vendorId);
 
 	List<OrderTransactionSummaryDTO>  getTransactionSummaryofOrder(long orderProdId);
+
+	boolean canPlaceOrderOrNot(List<UserOrderQtyDTO> userOrderList);
 }
