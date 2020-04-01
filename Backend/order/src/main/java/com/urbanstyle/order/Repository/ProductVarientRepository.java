@@ -14,7 +14,7 @@ public interface ProductVarientRepository extends PagingAndSortingRepository<Pro
 
 	List<ProductVariant> findByProductUserId(long vendorId, Pageable pagable);
 
-	@Query("select pv.totalQuantity - pv.reservedQuantity as available_quanity from ProductVariant pv where productVariantId=?1;")
+	@Query("select pv.totalQuantity - pv.reservedQuantity as available_quanity from ProductVariant pv where productVariantId=?1")
 	long getAvailableQuantityOfVariant(long productVariantId);
 
 }

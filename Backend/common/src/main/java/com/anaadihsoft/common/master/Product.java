@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"productCode"})})
+@Table
 public class Product {
 
 	@Id

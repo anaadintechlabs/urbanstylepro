@@ -28,49 +28,18 @@
                 <div class="card-header">
                     Latest Returns
                 </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-</div>
-
-<!-- 4 -->
-
-<!-- <hr> -->
-<!-- <h3>Top 5 Return List</h3>
-<br> -->
-<div class="row">
-    <!-- Column -->
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Latest Reviews</h3>
-                <div class="table-responsive">
-                    <table class="table v-middle product-overview" id="zero_config">
-                        <thead>
-                            <tr>
-                                <th>Sr no.</th>
-                                <th>Review</th>
-                                <th>Rating</th>
-                                <th>Title</th>
-                                <th>Review Date</th>
-                                <th>User</th>
-                                <th>Product</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of lastReviewList; let i = index">
-                                <td>{{i+1}}</td>
-                                <td>{{data.review}}</td>
-                                <td>{{data.rating}}</td>
-                                <td>{{data.title}}</td>
-                                <td>{{data.user}}</td>
-                                <td>{{data.product}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                <div class="card-body">
+                    <div class="row m-0" *ngFor="let data of returnsList; let i = index">
+                        <div class="col-md-4 col-4">
+                           <p>RET-{{data.returnId}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                           <p>{{data.orderProduct?.product?.product?.productName}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                           <p>{{data.orderProductPrice | currencyFormat}}</p>
+                        </div>
+                    </div>
                 </div>
               </div>
         </div>
