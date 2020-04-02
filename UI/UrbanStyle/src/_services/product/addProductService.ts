@@ -4,7 +4,9 @@ import {
   FormControl,
   Validators,
   FormBuilder,
-  FormArray
+  FormArray,
+  AbstractControl,
+  ValidationErrors
 } from "@angular/forms";
 import { CategoryAttribute } from "src/_modals/categoryAttribute.modal";
 import { ApiService } from "../http_&_login/api.service";
@@ -13,7 +15,6 @@ import { MetaInfo } from "src/_modals/productMeta";
 import { BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-
 @Injectable({
   providedIn: "root"
 })
@@ -82,17 +83,16 @@ export class AddProductService {
 
   /////// product variation formGroup
   public productVariantForm = new FormGroup({
-    sku: new FormControl("", []),
-    variantName : new FormControl("",[]),
-    variantCode : new FormControl("",[]),
-    productIdType : new FormControl("",[]),
-    displayPrice: new FormControl("", []),
-    salesPrice: new FormControl("", []),
+    sku: new FormControl("", [Validators.required, Validators.minLength(8),Validators.maxLength(80)]),
+    variantName : new FormControl("",[Validators.required, Validators.minLength(8),Validators.maxLength(80)]),
+    variantCode : new FormControl("",[Validators.required, Validators.minLength(12),Validators.maxLength(12)]),
+    productIdType : new FormControl("",[Validators.required]),
+    displayPrice: new FormControl("", [this.validateDisplayPrice]),
+    salesPrice: new FormControl("", [this.validateSalePrice]),
     salesStartDate: new FormControl("", []),
     salesEndDate: new FormControl("", []),
     salesQuantity: new FormControl("", []),
     manufacturerSuggesstedPrice: new FormControl("", []),
-    discountPrice: new FormControl("", []),
     totalQuantity: new FormControl("", []),
     reservedQuantity: new FormControl("0")
   });
@@ -100,15 +100,15 @@ export class AddProductService {
   /////// formGroup for vital information for product
   public productForm = new FormGroup({
     user: new FormGroup({
-      id: new FormControl("")
+      id: new FormControl("",[Validators.required])
     }),
     productId: new FormControl("", []),
     productCode: new FormControl("", [
       Validators.maxLength(40)
     ]),
-    categoryId: new FormControl("", []),
+    categoryId: new FormControl("", [Validators.required]),
     productName: new FormControl("", [
-      ,
+      Validators.required,
       Validators.maxLength(100)
     ]),
     brandName: new FormControl("", [Validators.maxLength(80)]),
@@ -119,7 +119,7 @@ export class AddProductService {
     coverPhoto: new FormControl("", []),
     defaultSize : new FormControl("",[]),
     defaultColor : new FormControl("",[]),
-    productIdType: new FormControl("UPC")
+    productIdType: new FormControl("UPC",[Validators.required])
   });
 
   product: FormGroup;
@@ -174,17 +174,16 @@ export class AddProductService {
     productVarientDto = this._fb.group({
       attributesMap: new FormControl(myMap),
       productVariant: new FormGroup({
-        sku: new FormControl("", []),
-        variantName : new FormControl("",[]),
-        variantCode : new FormControl("",[]),
-        productIdType : new FormControl("",[]),
-        displayPrice: new FormControl("", []),
-        salesPrice: new FormControl("", []),
+        sku: new FormControl("", [Validators.required, Validators.minLength(8),Validators.maxLength(80)]),
+        variantName : new FormControl("",[Validators.required, Validators.minLength(8),Validators.maxLength(80)]),
+        variantCode : new FormControl("",[Validators.required, Validators.minLength(12),Validators.maxLength(12)]),
+        productIdType : new FormControl("",[Validators.required]),
+        displayPrice: new FormControl("", [this.validateDisplayPrice]),
+        salesPrice: new FormControl("", [this.validateSalePrice]),
         salesStartDate: new FormControl("", []),
         salesEndDate: new FormControl("", []),
         salesQuantity: new FormControl("", []),
         manufacturerSuggesstedPrice: new FormControl("", []),
-        discountPrice: new FormControl("", []),
         totalQuantity: new FormControl("", []),
         reservedQuantity: new FormControl("0")
       })
@@ -222,7 +221,6 @@ export class AddProductService {
     } else {
       var result = [];
       var allCasesOfRest = this.makeCombinations(arr.slice(1)); // recur with the rest of array
-
       for (var i = 0; i < allCasesOfRest.length; i++) {
         for (var j = 0; j < arr[0].length; j++) {
           result.push([arr[0][j] + "," + allCasesOfRest[i]]);
@@ -234,23 +232,62 @@ export class AddProductService {
 
   variantValue(element) : FormGroup {
     let form = new FormGroup({
-        sku: new FormControl(element.sku, []),
-        variantName : new FormControl(element.variantName,[]),
-        variantCode : new FormControl(element.variantCode,[]),
-        productIdType : new FormControl(element.productIdType,[]),
-        displayPrice: new FormControl(element.displayPrice, []),
-        salesPrice: new FormControl(element.salesPrice, []),
-        salesStartDate: new FormControl(element.salesStartDate, []),
-        salesEndDate: new FormControl(element.salesEndDate, []),
-        salesQuantity: new FormControl(element.salesQuantity, []),
-        manufacturerSuggesstedPrice: new FormControl(element.manufacturerSuggesstedPrice, []),
-        totalQuantity: new FormControl(element.totalQuantity, []),
-        reservedQuantity: new FormControl(element.reservedQuantity),
-      });
-      return form;
+      sku: new FormControl(element.sku, []),
+      variantName : new FormControl(element.variantName,[Validators.required,Validators.minLength(8),Validators.maxLength(80)]),
+      variantCode : new FormControl(element.variantCode,[Validators.required]),
+      productIdType : new FormControl(element.productIdType,[Validators.required]),
+      displayPrice: new FormControl(element.displayPrice, [Validators.required,this.validateDisplayPrice]),
+      salesPrice: new FormControl(element.salesPrice, [this.validateSalePrice]),
+      salesStartDate: new FormControl(element.salesStartDate, []),
+      salesEndDate: new FormControl(element.salesEndDate, []),
+      salesQuantity: new FormControl(element.salesQuantity, []),
+      manufacturerSuggesstedPrice: new FormControl(element.manufacturerSuggesstedPrice, []),
+      totalQuantity: new FormControl(element.totalQuantity, []),
+      reservedQuantity: new FormControl(element.reservedQuantity),
+    });
+    return form;
+  }
+
+  validateDisplayPrice(control : AbstractControl) : ValidationErrors {
+    if (!control.parent || !control) return;
+    let dPrice = control.value;
+    let msp = control.parent.get('manufacturerSuggesstedPrice').value;
+    if(dPrice >= msp){
+      const message = {
+        displayPriceValidator : {
+            message: 'Display Price cannot be greater than manufacturerSuggesstedPrice.'
+        }
+      };
+      return message
+    } else {
+      return null;
+    }
+  }
+
+  validateSalePrice(control : AbstractControl) : ValidationErrors {
+    if (!control.parent || !control) return;
+    let sPrice = control.value;
+    let dPrice = control.parent.get('manufacturerSuggesstedPrice').value;
+    if(sPrice >= dPrice){
+      const message = {
+        salePriceValidator: {
+            message: 'Sale Price cannot be greater than Display Price.'
+        }
+      };
+      return message
+    } else {
+      return null;
+    }
   }
 
   saveChanges() {
+    if(this.productDTO.status == 'VALID') {
+      console.log("in valid",this.productDTO);
+      return
+    } else if(this.productDTO.status == 'INVALID') {
+      console.log("in Invalid",this.productDTO);
+      return
+    }
     console.log(this.features[0]);
     this.productFormGroup.get('features').patchValue(JSON.stringify(this.features));
     this.uploadedPhoto = this.myFiles;
@@ -262,7 +299,6 @@ export class AddProductService {
         frmData.append("file", this.uploadedPhoto[i]);
       }
     }
-
     frmData.append("productDTOString", JSON.stringify(this.productDTO.value));
     if (this.productStatus == "EDIT") {
       url = "product/updateProduct";
@@ -300,10 +336,10 @@ export class AddProductService {
     );
   }
 
-    cancelListing() {
-      this.flushData();
-      this._router.navigateByUrl('');
-    }
+  cancelListing() {
+    this.flushData();
+    this._router.navigateByUrl('');
+  }
 
 
   getMetaInfoArray() {
@@ -326,19 +362,23 @@ export class AddProductService {
     }
   }
 
+  removeImage(index) {
+    this.urlArray[index] = '-';
+}
+
   onSelectFile(event,index) {
-    for (var i = 0; i < event.target.files.length; i++) {
-      if (event.target.files[i].size <= 2048000) {
-        this.myFiles[index] = event.target.files[i];
+    // for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[0].size <= 2048000) {
+        this.myFiles[index] = event.target.files[0];
         var reader = new FileReader();
-        reader.readAsDataURL(event.target.files[i]);
+        reader.readAsDataURL(event.target.files[0]);
         reader.onload = event => {
           this.urlArray[index] = reader.result;
         };
       } else {
         alert("Please select image less than 2MB.");
       }
-    }
+    // }
     console.log("total imags" + this.urlArray);
   }
 

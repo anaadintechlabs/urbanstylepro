@@ -15,7 +15,8 @@ export class SalesReturnListingComponent implements OnInit {
   returnDetails:any;
   selectedReturnId: any;
   constructor(
-    public dataService: DataService,public _router : Router
+    public dataService: DataService,
+    public _router : Router
   ) { }
 
   ngOnInit() {
@@ -48,6 +49,10 @@ export class SalesReturnListingComponent implements OnInit {
     list.forEach(element => {
       element['f_Status'] = '';
     });
+  }
+
+  getOrderProductForVendor(orderProductId,orderId) {
+    this._router.navigate(['/vendor/orderDetails',orderProductId,orderId])
   }
 
 
