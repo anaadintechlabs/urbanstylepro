@@ -304,6 +304,7 @@ export class InventoryComponent implements OnInit {
       if (res.isSuccess) {
         this._addProduct.selectedCatID = res.data.completeVariant.product.categoryId;
         console.log(res.data.completeVariant);
+        this._addProduct.selectedCatID = res.data.completeVariant.product.categoryId;
         this._addProduct.productFormGroup.patchValue(
           res.data.completeVariant.product
         );
