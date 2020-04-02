@@ -93,9 +93,7 @@ export class SalesReturnListingComponent implements OnInit {
   //   );
   // }
 
-  getOrderProductForVendor(orderProductId,orderId) {
-    this._router.navigate(['/vendor/orderDetails',orderProductId,orderId])
-  }
+
 
 
 
