@@ -103,9 +103,7 @@ export class AddProductService {
       id: new FormControl("",[Validators.required])
     }),
     productId: new FormControl("", []),
-    productCode: new FormControl("", [
-      Validators.maxLength(40)
-    ]),
+    productCode: new FormControl("", []),
     categoryId: new FormControl("", [Validators.required]),
     productName: new FormControl("", [
       Validators.required,
@@ -233,6 +231,9 @@ export class AddProductService {
   variantValue(element) : FormGroup {
     let form = new FormGroup({
       sku: new FormControl(element.sku, []),
+      productVariantId : new FormControl(element.productVariantId),
+      uniqueprodvarId: new FormControl(element.uniqueprodvarId),
+      categoryId: new FormControl(element.categoryId),
       variantName : new FormControl(element.variantName,[Validators.required,Validators.minLength(8),Validators.maxLength(80)]),
       variantCode : new FormControl(element.variantCode,[Validators.required]),
       productIdType : new FormControl(element.productIdType,[Validators.required]),
@@ -281,13 +282,13 @@ export class AddProductService {
   }
 
   saveChanges() {
-    if(this.productDTO.status == 'VALID') {
-      console.log("in valid",this.productDTO);
-      return
-    } else if(this.productDTO.status == 'INVALID') {
-      console.log("in Invalid",this.productDTO);
-      return
-    }
+    // if(this.productDTO.status == 'VALID') {
+    //   console.log("in valid",this.productDTO);
+    //   return
+    // } else if(this.productDTO.status == 'INVALID') {
+    //   console.log("in Invalid",this.productDTO);
+    //   return
+    // }
     console.log(this.features[0]);
     this.productFormGroup.get('features').patchValue(JSON.stringify(this.features));
     this.uploadedPhoto = this.myFiles;
