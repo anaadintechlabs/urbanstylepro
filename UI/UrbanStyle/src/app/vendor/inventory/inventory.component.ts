@@ -303,6 +303,7 @@ export class InventoryComponent implements OnInit {
     this._apiService.post(`product/getCompleteVariant?productVariantId=${item.productVariantId}&prodId=${item.product.productId}`).subscribe(res=>{
       if (res.isSuccess) {
         console.log(res.data.completeVariant);
+        this._addProduct.selectedCatID = res.data.completeVariant.product.categoryId;
         this._addProduct.productFormGroup.patchValue(
           res.data.completeVariant.product
         );

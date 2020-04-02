@@ -228,16 +228,17 @@ public class ProductServiceImpl implements ProductService{
 		List<ProductVariantDTO> productVariantDTOList = productDTO.getProductVariantDTO();
 		String mainImageUrl=null;
 		String fileName=null;
-//		if(file!=null)
-//		{
-//	         fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
-//	        mainImageUrl=generateFileUri(fileName);
-//	        
-//		}
+		if(file!=null)
+		{
+	         fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
+	        mainImageUrl=generateFileUri(fileName);
+	        
+		}
 		for(ProductVariantDTO productVariantDTO:productVariantDTOList)
 		{
 			ProductVariant productVariant=productVariantDTO.getProductVariant();
 			productVariant.setProduct(product);
+			productVariant.setStatus(1);
 			productVariant.setCategoryId(product.getCategoryId());
 			productVariant.setLongDescription(product.getLongDescription());
 			productVariant.setFeatures(product.getFeatures());
