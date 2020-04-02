@@ -25,7 +25,8 @@
         </thead>
         <tbody *ngIf="returnList">
           <tr *ngFor="let return of returnList">
-            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(return.order.id,return.orderProduct.userOrder.id)">RET-{{ return.returnId }}</td>
+
+            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(return.orderProduct.id,return.order.id)">RET-{{ return.returnId }}</td>
             <td><img *ngIf="return.orderProduct.product" class="productImage" [src]="return.orderProduct.product.mainImageUrl" alt="" srcset=""></td>
             <td>{{ return.orderProduct.product.variantName }}</td> 
             <td>{{ return.reason }}</td>
@@ -34,9 +35,9 @@
             <td>{{ return.unitRecieveDate | date}}</td>
             <td>{{ return.status }}</td>
             <td>
-              <p class="mb-0" *ngIf="return.status != 'Requested'">NA</p>
-              <select *ngIf="return.status == 'Requested'" [(ngModel)]="return.f_Status" (ngModelChange)="chooseAction(return)" name="" id="">
-                <option value="" disabled>Select Action</option>
+              <p class="mb-0" *ngIf="return.status != 'REQUESTED'">NA</p>
+              <select *ngIf="return.status == 'REQUESTED'" [(ngModel)]="return.f_Status" (ngModelChange)="chooseAction(return)" name="" id="">
+                <option value="DISABLE" disabled>Select Action</option>
                 <option value="ACCEPT">APPROVE</option>
                 <option value="REJECT">REJECT</option>
               </select>

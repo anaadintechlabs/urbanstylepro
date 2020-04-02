@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anaadihsoft.common.DTO.AffiliatetransactionDTO;
+import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.AffiliateCommisionOrder;
@@ -148,9 +149,10 @@ public class OrderController {
 //	@RequestBody Filter filter,
 	@RequestMapping(value= {"/getOrderForVendor"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> getOrderForVendor(@RequestParam(value="vendorId")long vendorId,
+			@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<>();
-			resultMap.put("orderList",orderService.getVendorOrder(vendorId));
+			resultMap.put("orderList",orderService.getVendorOrder(vendorId,filter));
 			resultMap.put("count",orderService.getVendorOrderCount(vendorId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
@@ -239,9 +241,11 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping(value= {"/setStatusbyVendor"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> setStatusbyVendor(@RequestParam(value="orderProdId")long orderProdId,@RequestParam(value="status")String status,HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> setStatusbyVendor(@RequestParam(value="orderProdId")long orderProdId,@RequestParam(value="status")String status,
+			@RequestParam(value="trackingId",required=false)String trackingId,
+			@RequestParam(value="trackingLink",required = false)String link,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",orderService.setStatusbyVendor(orderProdId,status));
+			resultMap.put("orderList",orderService.setStatusbyVendor(orderProdId,status,trackingId,link));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
@@ -308,4 +312,26 @@ public class OrderController {
 		resultMap.put("ReturnTransaction",paymentwalletTransactionRepo.getTransactionofOrder(orderProdId, "RT"));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
+	
+	
+	
+	// API To get all payment transaction Before Payment
+	
+		@RequestMapping(value= {"/getTransactionSummaryofOrder"},method= {RequestMethod.POST,RequestMethod.GET})
+		public Map<String,Object> getTransactionSummaryofOrder(@RequestParam(value="orderProdId")long orderProdId,HttpServletRequest request,HttpServletResponse response){
+			Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("TransactionSummary",orderService.getTransactionSummaryofOrder(orderProdId));
+			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+		}
+		
+	
+	@RequestMapping(value="/canPlaceOrderOrNot",method=RequestMethod.POST)
+	public Map<String,Object> canPlaceOrderOrNot(
+			HttpServletRequest request,HttpServletResponse response,
+			@RequestBody List<UserOrderQtyDTO> userOrderList){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("canPlace",orderService.canPlaceOrderOrNot(userOrderList));
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+		
 }

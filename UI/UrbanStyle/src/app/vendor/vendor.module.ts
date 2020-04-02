@@ -24,6 +24,8 @@ import { SalesReturnListingComponent } from './sales-return-listing/sales-return
 import { SharedModule } from '../shared/shared.module';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 
+import { NgxPaginationModule } from '../../../node_modules/ngx-pagination';
+
 @NgModule({
   imports: [
     VendorRoutingModule,
@@ -34,6 +36,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
     ServicesModule,
     SharedModule,
     ModalModule ,
+    NgxPaginationModule,
     ToastrModule.forRoot() // ToastrModule added
     // RouterModule
   ],

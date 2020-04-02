@@ -70,8 +70,16 @@
                 </div>
                 <div class="card-body">
                     <div class="row m-0" *ngFor="let data of lastReviewList; let i = index">
-                        <div class="col-md-12 col-12">
-                           <p [innerHTML]="data.review"></p>
+                        <div class="col-md-2 col-2">
+                            <img style="width:50px; height:50ox" [src]="data.productImage" alt="" srcset="">
+                        </div>
+                        <div class="col-md-6 col-6">
+                                <p>{{data.productName}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <p class="mb-0" [innerHTML]="data.review"></p>
+                            <p class="mb-0">({{ data.rating + ' start rating' }})</p>
+                            <p *ngIf="data?.user">By : {{data.user}}</p>
                         </div>
                     </div>
                 </div>

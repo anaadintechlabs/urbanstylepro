@@ -66,6 +66,8 @@ public class User {
     
     private Date deactivatedDate;
     
+    private String userCode;
+    
     @PrePersist
     public void setData() {
     	//this.setUserType("USER");
@@ -75,7 +77,13 @@ public class User {
     }
 
     
-    
+    public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
     
 
 	public String getLastName() {

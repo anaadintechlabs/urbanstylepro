@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.OrderTransactionSummaryDTO;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
+import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.master.PaymentWalletTransaction;
@@ -23,11 +25,11 @@ public interface OrderService {
 
 	Object saveorUpdate(UserOrderSaveDTO userDetailSave);
 
-	List<UserOrderProducts> getVendorOrder(long vendorId);
+	List<UserOrderProducts> getVendorOrder(long vendorId, Filter filter);
 
 	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId,long orderProdId);
 
-	UserOrderProducts setStatusbyVendor(long orderProdId, String status);
+	UserOrderProducts setStatusbyVendor(long orderProdId, String status, String trackingId, String link);
 
 	void setStatusbyAdmin(long orderId, long orderProdId, String status,long userId);
 
@@ -71,4 +73,8 @@ public interface OrderService {
 	long getCountOrderProductByUser(long parseLong);
 
 	long getVendorOrderCount(long vendorId);
+
+	List<OrderTransactionSummaryDTO>  getTransactionSummaryofOrder(long orderProdId);
+
+	boolean canPlaceOrderOrNot(List<UserOrderQtyDTO> userOrderList);
 }
