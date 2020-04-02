@@ -338,7 +338,7 @@ public class ProductServiceImpl implements ProductService{
 		productAttrRepo.deleteAllProductAttribute(pvList);
 		}
 
-		productVariantRepository.deleteAllProductVarient(oldProduct.getProductId());
+		//productVariantRepository.deleteAllProductVarient(oldProduct.getProductId());
 		try {
 			return  createProduct(productDTO, files,true);
 		} catch (Exception e) {

@@ -7,6 +7,7 @@ import { InventoryComponent } from "src/app/vendor/inventory/inventory.component
 import { OrderListingComponent } from "src/app/vendor/order-listing/order-listing.component";
 import { SalesListingComponent } from 'src/app/vendor/sales-listing/sales-listing.component';
 import { SalesReturnListingComponent } from './sales-return-listing/sales-return-listing.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 
 export const VendorRoutes: Routes=[
     {
@@ -28,6 +29,10 @@ export const VendorRoutes: Routes=[
              {
                 path : 'order',
                 component : OrderListingComponent,
+            },
+            {
+                path : 'orderDetails/:productId/:orderId',
+                component : OrderDetailsComponent
             },
             {
                 path : 'sales',

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from "src/_modals/user.modal";
 import { DataService } from "src/_services/data/data.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sales-return-listing',
@@ -14,7 +15,7 @@ export class SalesReturnListingComponent implements OnInit {
   returnDetails:any;
   selectedReturnId: any;
   constructor(
-    public dataService: DataService
+    public dataService: DataService,public _router : Router
   ) { }
 
   ngOnInit() {
@@ -25,6 +26,28 @@ export class SalesReturnListingComponent implements OnInit {
       this.getAllReturnOfVendor(this.userId);
 
     }
+  }
+
+  chooseAction(data) {
+    console.log(data);
+    if(!data.f_Status){
+      return
+    }
+    if(data.f_Status == "") {
+      return
+    }
+    if(data.f_Status == "ACCEPT"){
+      this.setReturnStatusbyAdmin(data.returnId,'ACCEPT');
+      return
+    } else if(data.f_Status == 'REJECT'){
+      this.setReturnStatusbyAdmin(data.returnId,'REJECT');
+    }
+  }
+
+  addF_Status(list){
+    list.forEach(element => {
+      element['f_Status'] = '';
+    });
   }
 
 
@@ -42,6 +65,7 @@ export class SalesReturnListingComponent implements OnInit {
         data => {
           console.log("All order", data);
           this.returnList = data;
+          this.addF_Status(this.returnList);
         },
         error => {
           console.log("error======", error);
@@ -64,7 +88,9 @@ export class SalesReturnListingComponent implements OnInit {
   //   );
   // }
 
-
+  getOrderProductForVendor(orderProductId,orderId) {
+    this._router.navigate(['/vendor/orderDetails',orderProductId,orderId])
+  }
 
 
 

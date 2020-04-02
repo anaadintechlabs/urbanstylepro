@@ -1,71 +1,56 @@
-<div class="container">
-
-    <div class="row my-5">
-      <div class="col-12 col-md-12">
-        <div class="ordder_heading">
-          <h4>Return Managment</h4>
-        </div>
+<div class="container" >
+  <div class="row my-5" >
+    <div class="col-12 col-md-12">
+      <div class="ordder_heading">
+        <h4>Return Managment</h4>
       </div>
     </div>
-  
-    <div class="row">
-      <div class="col-12 col-md-12">
-        <div class="ordder_heading">
-          <p>
-            <span>Action : </span>
-            <span><button class="btn actionBtn" (click)="getOrderByStatus('ALL')">All Return </button></span>
-            <span><button class="btn actionBtn" (click)="getOrderByStatus('PLACED')">In-Progress </button></span>
-            <span><button class="btn actionBtn" (click)="getOrderByStatus('CANCELLED')">Completed </button></span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="row" >
-      <div class="col-12 col-md-12">
-        <table class="table table-striped">
-          <thead class="thead-default">
-            <tr>
-              <th>Order Id</th>
-              <th>Image</th>
-              <th>Product Name</th>
-              <th>Customer return Reason</th>
-              <th>Return Authorize Date</th>
-              <th>Customer Refund Date</th>
-              <th>Unit Recived Date</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let return of returnList">
-              <td>ORDER-{{ return.orderProduct.id }}</td>
-              <td><img *ngIf="return.orderProduct.product" class="v_modal_productImage" [src]="return.orderProduct.product.mainImageUrl" alt="" srcset=""></td>
-              <td>{{ return.orderProduct.product.variantName }}</td> 
-              <td>{{ return.reason }}</td>
-              <td>{{ return.returnAuthorizeDate | date }}</td>
-              <td>{{ return.customerRefundDate | date}}</td>
-              <td>{{ return.unitRecieveDate | date}}</td>
-              <td>{{ return.status }}</td>
-              <td>
-                <button class="btn actionBtn" (click)="setReturnStatusbyAdmin(return.returnId,'ACCEPT')">
-                  Accept
-                </button>
-                <button class="btn actionBtn" (click)="setReturnStatusbyAdmin(return.returnId,'REJECT')">
-                    Rejeet
-                  </button>
-                  <button class="btn actionBtn" (click)="setReturnStatusbyAdmin(return.returnId,'RECIEVED')">
-                      Receive
-                    </button>
-              </td>
-            </tr>
-            <tr *ngIf="returnList.length ==0 ">
-              <td scope="row">No record found</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    
   </div>
+
+  <div class="row" >
+    <div class="col-12 col-md-12">
+      <table class="table table-striped">
+        <thead class="thead-default">
+          <tr>
+            <th>Return Id</th>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Customer return Reason</th>
+            <th>Return Authorize Date</th>
+            <th>Customer Refund Date</th>
+            <th>Unit Recived Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let return of returnList">
+            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(return.orderProduct.id,return.order.id)">RET-{{ return.returnId }}</td>
+            <td><img *ngIf="return.orderProduct.product" class="productImage" [src]="return.orderProduct.product.mainImageUrl" alt="" srcset=""></td>
+            <td>{{ return.orderProduct.product.variantName }}</td> 
+            <td>{{ return.reason }}</td>
+            <td>{{ return.returnAuthorizeDate | date }}</td>
+            <td>{{ return.customerRefundDate | date}}</td>
+            <td>{{ return.unitRecieveDate | date}}</td>
+            <td>{{ return.status }}</td>
+            <td>
+              <p class="mb-0" *ngIf="return.status != 'Requested'">NA</p>
+              <select *ngIf="return.status == 'Requested'" [(ngModel)]="return.f_Status" (ngModelChange)="chooseAction(return)" name="" id="">
+                <option value="" disabled>Select Action</option>
+                <option value="ACCEPT">APPROVE</option>
+                <option value="REJECT">REJECT</option>
+              </select>
+            </td>
+          </tr>
+          <tr *ngIf="returnList?.length ==0 ">
+            <td scope="row">No record found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
   
   
