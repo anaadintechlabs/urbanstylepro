@@ -60,11 +60,11 @@ export class CategotySelectionComponent implements OnInit {
   }
 
   pickedCategory(id: number): void {
+    this._addProductService.selectedCatID = id;
     this._addProductService.productStatus = 'ADD';
     this._addProductService.selectedCategory(id);
     this._addProductService.productFormGroup.get("categoryId").setValue(id);
     this._addProductService.changeHeaderStaus(true);
-    this._addProductService.selectedCatID = id;
     this._router.navigateByUrl('/vendor/addProduct/vitalInfo');
   }
 }

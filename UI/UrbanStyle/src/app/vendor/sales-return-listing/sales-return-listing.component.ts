@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from "src/_modals/user.modal";
 import { DataService } from "src/_services/data/data.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sales-return-listing',
@@ -14,7 +15,8 @@ export class SalesReturnListingComponent implements OnInit {
   returnDetails:any;
   selectedReturnId: any;
   constructor(
-    public dataService: DataService
+    public dataService: DataService,
+    public _router : Router
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,10 @@ export class SalesReturnListingComponent implements OnInit {
     list.forEach(element => {
       element['f_Status'] = '';
     });
+  }
+
+  getOrderProductForVendor(orderProductId,orderId) {
+    this._router.navigate(['/vendor/orderDetails',orderProductId,orderId])
   }
 
 

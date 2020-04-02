@@ -10,6 +10,7 @@ import { AddProductMediaComponent } from 'src/app/vendor/add-product-media/add-p
 import { MatSidenavModule, MatToolbarModule, MatIconModule, MatButtonModule, MatInputModule, MatStepperModule, MatFormFieldModule, MatCheckboxModule, MatCardModule, MatRadioModule, MatSelectModule } from '@angular/material';
 import { ExtraDetailsComponent } from '../extra-details/extra-details.component';
 import { MetaInfoComponent } from '../meta-info/meta-info.component';
+import { AddProductGuard } from 'src/_gaurds/addProduct/addProduct.gaurd';
 
 
 @NgModule({
@@ -46,5 +47,8 @@ import { MetaInfoComponent } from '../meta-info/meta-info.component';
     ExtraDetailsComponent,
     MetaInfoComponent,
   ],
+  providers : [
+    AddProductGuard
+  ]
 })
 export class AddProductModule {}
