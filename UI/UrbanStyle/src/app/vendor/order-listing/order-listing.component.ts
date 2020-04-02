@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { User } from "src/_modals/user.modal";
 import { DataService } from "src/_services/data/data.service";
@@ -18,11 +19,21 @@ export class OrderListingComponent implements OnInit {
   orderProduct: any ;
   orderDetails:any;
   selectedOrderId: any;
+
+
+  public limit=15;
+  public offset=0;
+  public sortingField="createdDate";
+  public sortingDirection="desc";
+  public count;
+
   status : string;
+
   constructor(
     public dataService: DataService,
     public _router : Router,
-    public location: PlatformLocation
+    public location: PlatformLocation,
+    public toastr:ToastrService
   ) {
     location.onPopState(() => {
       this.showProduct = false;
@@ -41,22 +52,49 @@ export class OrderListingComponent implements OnInit {
 
   chooseAction(data) {
     console.log(data);
+    let check=confirm("Are you sure, you want to change the status");
+    console.log(check);
+    if(check)
+    {
     if(!data.f_Status){
       return
     }
     if(data.f_Status == "") {
       return
     }
-    if(data.f_Status == "PROGRESS"){
+    if(data.f_Status == "INPROGRESS"){
       this.changeStatusOfPartialOrder('INPROGRESS',data.id,data.userOrder.id);
-      return
-    } else if(data.f_Status == 'DISPATCH'){
+      this.toastr.success("Order marked as INPROGRESS,Take further action","Success")
+     
+      // return
+    } else if(data.f_Status == 'DISPATCHED'){
       this.changeStatusOfPartialOrder('DISPATCHED',data.id,data.userOrder.id);
-      return
-    } else if(data.f_Status == 'CANCEL'){
-      this.cancelOrderByUser(data.id);
-      return
+      this.toastr.success("Order marked as DISPATCHED,Quantity reserved from your inventory","Success")
+      
+      // return
+    } 
+    else if(data.f_Status == 'PLACED'){
+      this.changeStatusOfPartialOrder('PLACED',data.id,data.userOrder.id);
+      this.toastr.success("Order marked as PLACED,Wait for admin action","Success")
+      
+    } 
+    else if(data.f_Status == 'CANCEL'){
+      this.cancelOrderByUser(data.id,data.userOrder.id,data.userOrder.user.id);
+      // return
     }
+    else if(data.f_Status == 'RETURN'){
+      this.returnOrderByUser(data.id,data.userOrder.id,data.userOrder.user.id);
+      // return
+    }
+    
+
+  }
+  else{
+    setTimeout(() => {
+      data.f_Status = "DISABLE";
+    }, 0);
+  
+  }
   }
 
   getOrderByStatus(status) {
@@ -77,7 +115,9 @@ export class OrderListingComponent implements OnInit {
       .subscribe(
         data => {
           console.log("All order", data);
-          this.orderList = data;
+          this.orderList = data.orderList;
+          //this.count=data.count;
+
           this.addF_Status(this.orderList);
         },
         error => {
@@ -86,12 +126,23 @@ export class OrderListingComponent implements OnInit {
       );
   }
   getAllOrderOfVendor(vendorId) {
+    let request = {
+      "limit":this.limit,
+      "offset":0,
+      "sortingDirection":this.sortingDirection,
+      "sortingField":this.sortingField
+    };
     this.dataService
-      .getAllOrderOfVendor(vendorId, "api/getOrderForVendor")
+      .getAllOrderOfVendor(vendorId,request, "api/getOrderForVendor")
       .subscribe(
         data => {
           console.log("All order", data);
-          this.orderList = data;
+          this.orderList = data.orderList;
+          this.count=data.count;
+          //jiust for getting exact page number
+          // this.offset+=1;
+
+
           this.addF_Status(this.orderList);
         },
         error => {
@@ -102,7 +153,7 @@ export class OrderListingComponent implements OnInit {
 
   addF_Status(list){
     list.forEach(element => {
-      element['f_Status'] = '';
+      element['f_Status'] = 'DISABLE';
     });
   }
 
@@ -130,9 +181,10 @@ export class OrderListingComponent implements OnInit {
 
   changeStatusOfPartialOrder(status, orderProdId,orderId) {
     console.log("called");
-    this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor").subscribe(
+    this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor",'','').subscribe(
       data => {
         console.log(data);
+        this.getAllOrderOfVendor(this.userId);
       },
       error => {
         console.log("error======", error);
@@ -141,12 +193,13 @@ export class OrderListingComponent implements OnInit {
   }
 
 
-  cancelOrderByUser(orderId) {
+  cancelOrderByUser(orderProductId,orderId,userId) {
     //this user id will be id of user
-    let userId = 1;
-    this.dataService.cancelOrderByUser(userId, orderId, "api/cancelOrderByUser").subscribe(
+    //let userId = 1;
+    this.dataService.cancelOrderByUser(userId, orderId,orderProductId, "api/cancelOrderByUser").subscribe(
       data => {
         //instead of this call api for get all order of user
+        this.toastr.success("Order cancelled Successfully");
         this.getAllOrderOfVendor(this.userId);
 
       },
@@ -156,13 +209,12 @@ export class OrderListingComponent implements OnInit {
     );
   }
 
-  returnOrderByUser(orderProdId,orderId) {
+  returnOrderByUser(orderProductId,orderId,userId) {
     //this user id will be id of user
-    let userId = 1;
     //prompt reason from user
     let reason = 'bad quality product';
   
-    this.dataService.returnOrderByUser(userId, orderId,orderProdId, reason, "api/returnOrderByUser").subscribe(
+    this.dataService.returnOrderByUser(userId, orderId,orderProductId, reason, "api/returnOrderByUser").subscribe(
       data => {
         //instead of this call api for get all order of user
         this.getAllOrderOfVendor(this.userId);
@@ -187,6 +239,13 @@ export class OrderListingComponent implements OnInit {
         console.log("error======", error);
       }
     );
+  }
+
+
+  pageChanged(event){
+    console.log("page changes"+event)
+    this.offset=event-1;
+    this.getAllOrderOfVendor(this.userId);
   }
 }
 

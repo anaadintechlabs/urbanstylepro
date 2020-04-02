@@ -34,23 +34,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of orderList">
+
+          <tr *ngFor="let order of orderList | paginate: { itemsPerPage: limit, currentPage: offset,totalItems: count }; let i = index">
             <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(order.id,order.userOrder.id)">ORDER-{{ order.id }}</td>
+
             <td>{{ order.userOrder.orderPlacedDate | date }}</td>
             <td>{{ order.status }}</td>
             <td>{{ order.orderProductPrice | currencyFormat}}</td>
             <td>{{ order.userOrder.user.name }}</td>
             <td>
-              <p class="mb-0" *ngIf="order.status == 'PLACED'">NA</p>
-              <select *ngIf="order.status != 'PLACED'" [(ngModel)]="order.f_Status" (ngModelChange)="chooseAction(order)" name="" id="">
-                <option value="" disabled>Change Status</option>
-                <option value="PROGRESS">IN-PROGRESS</option>
-                <option value="DISPATCH">DISPATCH</option>
-                <option value="CANCEL">CANCEL</option>
+              <p class="mb-0" *ngIf="order.status == 'PLACED' ||  order.status == 'COMPLETE' ||  order.status == 'CANCELLED' ||  order.status == 'RETURNED REQUESTED'  ||  order.status == 'RETURNED' ">NA</p>
+              <select *ngIf="order.status != 'PLACED' && order.status != 'COMPLETE' &&   order.status != 'CANCELLED' &&   order.status != 'RETURNED REQUESTED' &&   order.status != 'RETURNED'" [(ngModel)]="order.f_Status" (ngModelChange)="chooseAction(order)" name="" id="">
+                <option value="DISABLE" disabled>Change Status</option>
+                <option *ngIf="order.status == 'PENDING'" value="INPROGRESS">IN-PROGRESS</option>
+                <option  *ngIf="order.status == 'INPROGRESS'" value="DISPATCHED">DISPATCH</option>
+                <option  *ngIf="order.status == 'DISPATCHED'" value="PLACED">PLACED</option>
+                <option *ngIf="order.status == 'PENDING'" value="CANCEL">CANCEL</option>
+                <!-- <option value="RETURN">RETURN</option> -->
               </select>
             </td>
           </tr>
-          <tr *ngIf="orderList.length ==0 ">
+          <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+          <tr *ngIf="orderList && orderList.length ==0 ">
             <td scope="row">No record found</td>
           </tr>
         </tbody>

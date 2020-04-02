@@ -10,6 +10,6 @@ public interface CategoryMetaRepository extends PagingAndSortingRepository<Categ
 
 	List<CategoryMeta> findByCategoryCategoryId(long categoryId);
 
-	CategoryMeta findByMetaKey(String metaKey);
+	List<CategoryMeta> findByMetaKey(String metaKey);
 
 }

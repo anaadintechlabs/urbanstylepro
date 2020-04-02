@@ -59,6 +59,16 @@ public class UserOrder {
 	
 	private boolean singleVendorOrder;
 	
+	private String orderCode;
+	
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
+	
 	@PrePersist
 	public void setAudit()
 	{

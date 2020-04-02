@@ -1,9 +1,8 @@
 
 applications:
-  - name: user2
+  - name: userurban
 path: target/user.jar
 domain: cfapps.io
 memory: 1G
 instances: 1
-services:
-- urban
+timeout: 180

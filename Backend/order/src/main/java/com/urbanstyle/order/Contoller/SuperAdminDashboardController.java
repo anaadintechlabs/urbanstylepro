@@ -111,7 +111,7 @@ public class SuperAdminDashboardController {
 						: Sort.Direction.ASC,
 						filter.getSortingField());
 		map.put("vendorProducts",productVarRepo.findByProductUserId(vendorId,pagable));
-		map.put("vendorOrders",orderService.getVendorOrder(vendorId));
+		map.put("vendorOrders",orderService.getVendorOrder(vendorId,filter));
 		map.put("vendorAddress",addressRepo.findByUserId(vendorId));
 		return CommonResponseSender.getRecordSuccessResponse(map, response);
 		

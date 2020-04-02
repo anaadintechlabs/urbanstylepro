@@ -1,4 +1,12 @@
 <div class="container" >
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
+      <!-- <button class="button btn-success" (click)="backButton()">Back</button> -->
+    </div>
+  </div>
     <div class="row my-5" >
       <div class="col-md-6 mb-4">
         <h4>Order Summary</h4>
@@ -6,8 +14,10 @@
           <p>Order Id : ORDER-{{ orderDetails.id }}</p>
           <p>Order Date : {{ orderDetails.orderPlacedDate | date }}</p>
           <p>Order Status : {{ orderDetails.orderStatus }}</p>
-          <p>Order Price {{ orderDetails.orderTotalPrice }}</p>
+          <p>Order Price {{ orderProduct.orderProductPrice}}</p>
           <p>Order Placed By : {{ orderDetails.user.name }}</p>
+          <p>Tracking Id : {{ orderProduct.trackingId }}</p>
+          <p>Tracking Link : {{ orderProduct.trackingLink }}</p>
         </div>
       </div>
       <div class="col-md-6 mb-4">
@@ -23,8 +33,9 @@
         <table class="table table-striped">
           <thead class="thead-default">
             <tr>
+                <th>Image</th>
               <th>Product Name</th>
-              <th>Image</th>
+              
               <th>Listing Id</th>
               <th>Quantity</th>
               <th>Variant Total Price</th>
@@ -34,10 +45,11 @@
           <tbody>
               <!-- *ngFor="let orderProduct of orderProductList" -->
             <tr >
+                <td>
+                    <img height="75px" width="auto" [src]="orderProduct.product.mainImageUrl" alt="" srcset="">
+                  </td>
               <td>{{ orderProduct.product.variantName }}</td>
-              <td>
-                <img [src]="orderProduct.product.mainImageUrl" alt="" srcset="">
-              </td>
+              
               <td>{{ orderProduct.product.uniqueprodvarId }}</td>
               <td>{{ orderProduct.quantity }}</td>
               <td>{{ orderProduct.orderProductPrice }}</td>
@@ -55,17 +67,17 @@
         </table>
       </div>
     </div>
-    <div class="row mt-4 tracking"  *ngIf="orderProduct?.status != 'PENDING'">
+    <div class="row mt-4 tracking"  *ngIf="orderProduct?.status == 'INPROGRESS'">
       <div class="col-md-4">
         <label for="">Tracking Id: </label>
-        <input type="text">
+        <input [(ngModel)]="trackingId" type="text">
       </div>
       <div class="col-md-4">
         <label for="">Tracking Link: </label>
-        <input type="text">
+        <input [(ngModel)]="trackingLink" type="text">
       </div>
       <div class="col-md-4">  
-        <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">DISPATCHED</button>
+        <button class="btn actionBtn" *ngIf="orderProduct?.status == 'INPROGRESS'" (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id,orderDetails.id)">DISPATCH ORDER</button>
       </div>
     </div>
   </div>

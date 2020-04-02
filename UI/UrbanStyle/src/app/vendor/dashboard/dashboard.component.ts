@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
 
   getLastOrderList() {
     let url = 'api/getLastOrdersForVendor';
-    this.service.getLastOrdersForVendor(url, 0, this.vendorId, 'PLACED').subscribe(
+    this.service.getLastOrdersForVendor(url, 0, this.vendorId, 'PENDING').subscribe(
       data => {
         this.lastOrdersList = data;
         console.log(this.lastOrdersList);
