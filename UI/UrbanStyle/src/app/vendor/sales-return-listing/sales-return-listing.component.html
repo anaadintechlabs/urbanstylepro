@@ -37,7 +37,7 @@
             <td>
               <p class="mb-0" *ngIf="return.status != 'REQUESTED'">NA</p>
               <select *ngIf="return.status == 'REQUESTED'" [(ngModel)]="return.f_Status" (ngModelChange)="chooseAction(return)" name="" id="">
-                <option value="" disabled>Select Action</option>
+                <option value="DISABLE" disabled>Select Action</option>
                 <option value="ACCEPT">APPROVE</option>
                 <option value="REJECT">REJECT</option>
               </select>

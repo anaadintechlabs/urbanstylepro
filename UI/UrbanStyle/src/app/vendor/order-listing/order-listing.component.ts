@@ -82,6 +82,10 @@ export class OrderListingComponent implements OnInit {
       this.cancelOrderByUser(data.id,data.userOrder.id,data.userOrder.user.id);
       // return
     }
+    else if(data.f_Status == 'RETURN'){
+      this.returnOrderByUser(data.id,data.userOrder.id,data.userOrder.user.id);
+      // return
+    }
     
 
   }
@@ -205,13 +209,12 @@ export class OrderListingComponent implements OnInit {
     );
   }
 
-  returnOrderByUser(orderProdId,orderId) {
+  returnOrderByUser(orderProductId,orderId,userId) {
     //this user id will be id of user
-    let userId = 1;
     //prompt reason from user
     let reason = 'bad quality product';
   
-    this.dataService.returnOrderByUser(userId, orderId,orderProdId, reason, "api/returnOrderByUser").subscribe(
+    this.dataService.returnOrderByUser(userId, orderId,orderProductId, reason, "api/returnOrderByUser").subscribe(
       data => {
         //instead of this call api for get all order of user
         this.getAllOrderOfVendor(this.userId);

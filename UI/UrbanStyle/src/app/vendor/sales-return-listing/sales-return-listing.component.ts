@@ -33,6 +33,9 @@ export class SalesReturnListingComponent implements OnInit {
 
   chooseAction(data) {
     console.log(data);
+    let check=confirm("Are you sure, you want to change the status");
+    if(check)
+    {
     if(!data.f_Status){
       return
     }
@@ -46,12 +49,18 @@ export class SalesReturnListingComponent implements OnInit {
     } else if(data.f_Status == 'REJECT'){
       this.setReturnStatusbyAdmin(data.returnId,'REJECT');
     }
-    this.toastr.success("Status changes successfully, Wait for Admin status","Success");
+  }
+  else
+  {
+    setTimeout(() => {
+      data.f_Status = "DISABLE";
+    }, 0);
+  }
   }
 
   addF_Status(list){
     list.forEach(element => {
-      element['f_Status'] = '';
+      element['f_Status'] = 'DISABLE';
     });
   }
 
@@ -107,6 +116,8 @@ export class SalesReturnListingComponent implements OnInit {
     this.dataService.changeStatusOfReturn( returnId,status, "api/setReturnStatusbyAdmin").subscribe(
       data => {
         //instead of this call api for get all order of user
+        this.toastr.success("Status changes successfully, Wait for Admin status","Success");
+
         this.getAllReturnOfVendor(this.userId);
         
       },
