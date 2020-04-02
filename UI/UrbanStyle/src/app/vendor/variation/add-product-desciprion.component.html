@@ -33,7 +33,7 @@
                 </div>
                 <div *ngFor="let map of item?.allAttributeMap?.variationAttribute; let z = index" class="col-md-3">
                   <div class="form-group">
-                    <input  [value]="map" (change)="addVariation($event.target.value,i,z)" type="text">
+                    <input  [value]="map" (change)="addVariation($event,i,z)" type="text">
                 
                   </div>
                 </div>

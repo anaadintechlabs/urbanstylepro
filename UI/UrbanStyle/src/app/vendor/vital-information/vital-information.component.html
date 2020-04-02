@@ -10,6 +10,28 @@
               <b> When multiple sellers sell the same product through a single detail page, we combine and present the best product data to ensure customers get the best experience</b>
             </p>
             <form [formGroup]="_addProductService.productFormGroup" (ngSubmit)="onSubmit()" class="custom">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Product Name
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="productName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.productName?.errors }" />
+                    <div *ngIf="submitted && f.productName?.errors" class="invalid-feedback">
+                      <div *ngIf="f.productName?.errors.required">
+                        Product Name is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
               <div class="row " *ngIf="_addProductService.selectedVariation.length==0">
                 <div class="col-md-4">
                   <label for="" class="float-md-right">
@@ -51,25 +73,47 @@
                 <div class="col-md-4">
                   <label for="" class="float-md-right">
                     <i class="fas fa-star mr-2"></i>
-                    Product Name
+                    Brand Name
                     <i class="far fa-question-circle ml-2"></i>
                   </label>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input type="text" formControlName="productName" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.productName?.errors }" />
-                    <div *ngIf="submitted && f.productName?.errors" class="invalid-feedback">
-                      <div *ngIf="f.productName?.errors.required">
-                        Product Name is required
+                    <input type="text" formControlName="brandName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.brandName?.errors }" />
+                    <div *ngIf="submitted && f.brandName?.errors" class="invalid-feedback">
+                      <div *ngIf="f.brandName?.errors.required">Brand is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="float-md-right">
+                    <i class="fas fa-star mr-2"></i>
+                    Manufacturer
+                    <i class="far fa-question-circle ml-2"></i>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="manufacturer" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.manufacturer?.errors }" />
+                    <div *ngIf="submitted && f.manufacturer?.errors" class="invalid-feedback">
+                      <div *ngIf="f.manufacturer?.errors.required">
+                        Manufacturer is required
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-2">
+                  
                 </div>
               </div>
-              
+            
               <div class="row" *ngIf="_addProductService.selectedVariation.length==0" [formGroup]="_addProductService.productVariantDTO.controls[0].controls.productVariant">
                 <div class="col-md-4">
                   <label for="" class="float-md-right">
@@ -251,52 +295,6 @@
                   </div>
                 </div>
                 <div class="col-md-2">
-                </div>
-              </div>
-
-      
-              <div class="row">
-                <div class="col-md-4">
-                  <label for="" class="float-md-right">
-                    <i class="fas fa-star mr-2"></i>
-                    Brand Name
-                    <i class="far fa-question-circle ml-2"></i>
-                  </label>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" formControlName="brandName" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.brandName?.errors }" />
-                    <div *ngIf="submitted && f.brandName?.errors" class="invalid-feedback">
-                      <div *ngIf="f.brandName?.errors.required">Brand is required</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <label for="" class="float-md-right">
-                    <i class="fas fa-star mr-2"></i>
-                    Manufacturer
-                    <i class="far fa-question-circle ml-2"></i>
-                  </label>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" formControlName="manufacturer" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.manufacturer?.errors }" />
-                    <div *ngIf="submitted && f.manufacturer?.errors" class="invalid-feedback">
-                      <div *ngIf="f.manufacturer?.errors.required">
-                        Manufacturer is required
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  
                 </div>
               </div>
             </form>

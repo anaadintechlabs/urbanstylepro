@@ -11,7 +11,7 @@ export class AddProductMediaComponent implements OnInit {
 
 
   constructor(
-    private _addProduct : AddProductService,
+    public _addProduct : AddProductService,
     private _router:Router
   ) {}
 

@@ -111,21 +111,37 @@ export class AddProductDesciprionComponent implements OnInit {
     console.log(this._addProduct.productDTO);
   }
 
-  addVariation(value, index: number, index2: number) {
-    console.log(value, index, index2);
-    if (value != '') {
-      console.log(value, index, index2);
-      this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute[index2] = value;
-      setTimeout(() => {
-        this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute.push("");
-        this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute[index2+1] = "";
-      }, 200);
-    }
-    else {
-      if (this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute.length > 1) {
+  addVariation(ev, index: number, index2: number) {
+    let value = ev.target.value;
+    let ele = ev.path[0] as HTMLElement;
+    if((this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute.length - 1) == index2){
+      if(value != '') {
+        this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute[index2] = value;
+        setTimeout(() => {
+          this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute.push("");
+          this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute[(index2+1)] = "";
+          ele.focus();
+        }, 0);
+      }
+    } else {
+      if(value != '') {
+
+      } else {
         this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute.splice(index2, 1)
       }
     }
+    // console.log(value, index, index2);
+    // if (value != '') {
+    //   console.log(value, index, index2);
+    //   this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute[index2] = value;
+    //   setTimeout(() => {
+    //     this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute.push("");
+    //     this._addProduct.selectedVariation[index].allAttributeMap.variationAttribute[index2+1] = "";
+    //   }, 200);
+    // }
+    // else {
+    
+    // }
 
   }
 
