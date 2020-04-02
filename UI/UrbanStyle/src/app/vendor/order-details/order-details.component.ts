@@ -1,7 +1,10 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/_services/data/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/_modals/user.modal';
+import {Location} from '@angular/common';
+
 
 @Component({
   selector: 'app-order-details',
@@ -15,10 +18,13 @@ export class OrderDetailsComponent implements OnInit {
   orderId : any;
   orderProductId: any;
   user : User;
-
+  trackingId:any;
+  trackingLink:any;
   constructor(
     public dataService: DataService,
-    public _param : ActivatedRoute
+    public _param : ActivatedRoute,
+    private _location: Location,
+    public toastr:ToastrService
   ) { 
     this._param.params.subscribe(data=>{
       this.orderId = data.orderId
@@ -50,4 +56,22 @@ export class OrderDetailsComponent implements OnInit {
     );
   }
 
+  changeStatusOfPartialOrder(status, orderProdId,orderId) {
+    console.log("called");
+    this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor",this.trackingId,this.trackingLink).subscribe(
+      data => {
+        console.log(data);
+        this.toastr.success("Order marked as DISPATCHED,Quantity reserved from your inventory","Success");
+        this.getDetails(this.user.id);
+      },
+      error => {
+        console.log("error======", error);
+      }
+    );
+  }
+
+  backButton()
+  {
+    this._location.back();
+  }
 }

@@ -144,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
 				 userOrderSave.setAddress(address);
 				 userOrderSave.setOrderTotalPrice(totalPrice);
 				 userOrderSave.setOrderPlacedDate(new Date());
-				 userOrderSave.setOrderStatus("PLACED");
+				 userOrderSave.setOrderStatus("PENDING");
 				 
 				 BankcardInfo bankCardInfo = userOrder.getBankCardDetails();
 					Optional<BankcardInfo> bankCardInfoold = bankCardInfoRepo.findByCardNumber(bankCardInfo.getCardNumber());
@@ -209,7 +209,7 @@ public class OrderServiceImpl implements OrderService {
 				
 			 userOrderProduct = new UserOrderProducts();
 			userOrderProduct.setProduct(productVar);
-			userOrderProduct.setStatus("PLACED");
+			userOrderProduct.setStatus("PENDING");
 			// addd reserved quantity
 			userOrderProduct.setStatus(userOrderSave.getOrderStatus());
 			userOrderProduct.setQuantity(quantity);
@@ -249,7 +249,7 @@ public class OrderServiceImpl implements OrderService {
 				afcommOrder.setOrderprodid(userOrderProduct);
 				afcommOrder.setProdvarid(productVar);
 				afcommOrder.setReturnId(null);
-				afcommOrder.setStatus("PLACED");
+				afcommOrder.setStatus("PENDING");
 				Optional<User> customer = userRepo.findById(userOrder.getUserId());
 				if(customer.isPresent()) {
 					afcommOrder.setUser(customer.get());
@@ -534,12 +534,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public UserOrderProducts setStatusbyVendor(long orderProdId, String status) {
+	public UserOrderProducts setStatusbyVendor(long orderProdId, String status, String trackingId, String link) {
 		
 		Optional<UserOrderProducts> userordrProd = userOrderProdRepo.findById(orderProdId);
 		if(userordrProd.isPresent()) {
 			UserOrderProducts userOrderProd = userordrProd.get();
 			userOrderProd.setStatus(status);
+			userOrderProd.setTrackingId(trackingId);
+			userOrderProd.setTrackingLink(link);
 			userOrderProd=userOrderProdRepo.save(userOrderProd);
 			
 			UserOrder userOrder  =  userOrderProd.getUserOrder();

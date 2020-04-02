@@ -5,3 +5,4 @@ path: target/order.jar
 domain: cfapps.io
 memory: 2G
 instances: 1
+timeout: 180

@@ -241,9 +241,11 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping(value= {"/setStatusbyVendor"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> setStatusbyVendor(@RequestParam(value="orderProdId")long orderProdId,@RequestParam(value="status")String status,HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> setStatusbyVendor(@RequestParam(value="orderProdId")long orderProdId,@RequestParam(value="status")String status,
+			@RequestParam(value="trackingId",required=false)String trackingId,
+			@RequestParam(value="trackingLink",required = false)String link,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",orderService.setStatusbyVendor(orderProdId,status));
+			resultMap.put("orderList",orderService.setStatusbyVendor(orderProdId,status,trackingId,link));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	

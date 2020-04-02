@@ -347,7 +347,7 @@ changeStatusOfCategory(
     return new Observable<any>(obs => {
       this._apiService.getOrder(url, param).subscribe(res => {
         if (res.isSuccess) {
-          obs.next(res.data.orderList);
+          obs.next(res.data);
         }
       });
     });
@@ -380,9 +380,9 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
     });
   }
 
-  changeStatusOfPartialOrder(status,orderProdId,url)
+  changeStatusOfPartialOrder(status,orderProdId,url,trackingId,trackingLink)
   {
-    const param: HttpParams = new HttpParams().set("orderProdId", orderProdId).set("status",status);   
+    const param: HttpParams = new HttpParams().set("orderProdId", orderProdId).set("status",status).set("trackingId",trackingId).set("trackingLink",trackingLink);   
  return new Observable<any[]>(obs => {
       this._apiService.getOrder(url, param).subscribe(res => {
         if (res.isSuccess) {

@@ -29,7 +29,7 @@ public interface OrderService {
 
 	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId,long orderProdId);
 
-	UserOrderProducts setStatusbyVendor(long orderProdId, String status);
+	UserOrderProducts setStatusbyVendor(long orderProdId, String status, String trackingId, String link);
 
 	void setStatusbyAdmin(long orderId, long orderProdId, String status,long userId);
 

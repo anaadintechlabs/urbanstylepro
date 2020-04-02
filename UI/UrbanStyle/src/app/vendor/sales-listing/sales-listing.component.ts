@@ -40,7 +40,7 @@ export class SalesListingComponent implements OnInit {
       .subscribe(
         data => {
          console.log("All order",data);
-         this.salesList=data;
+         this.salesList=data.orderList;
         },
         error => {
           console.log("error======", error);

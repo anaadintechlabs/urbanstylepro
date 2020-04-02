@@ -20,6 +20,7 @@ import com.anaadihsoft.common.DTO.ProductDTOWithImage;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
 import com.anaadihsoft.common.external.Filter;
 import com.anaadihsoft.common.external.UrlShortner;
+import com.anaadihsoft.common.master.CategoryMeta;
 import com.anaadihsoft.common.master.Product;
 import com.anaadihsoft.common.master.ProductAttributeDetails;
 import com.anaadihsoft.common.master.ProductImages;
@@ -227,12 +228,12 @@ public class ProductServiceImpl implements ProductService{
 		List<ProductVariantDTO> productVariantDTOList = productDTO.getProductVariantDTO();
 		String mainImageUrl=null;
 		String fileName=null;
-		if(file!=null)
-		{
-	         fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
-	        mainImageUrl=generateFileUri(fileName);
-	        
-		}
+//		if(file!=null)
+//		{
+//	         fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
+//	        mainImageUrl=generateFileUri(fileName);
+//	        
+//		}
 		for(ProductVariantDTO productVariantDTO:productVariantDTOList)
 		{
 			ProductVariant productVariant=productVariantDTO.getProductVariant();
@@ -284,17 +285,20 @@ public class ProductServiceImpl implements ProductService{
 		for(ProductMeta productMeta:productMetaInfo)
 		{
 			
-			if(productMeta.getMetaKey()!=null && !productMeta.getMetaKey().isEmpty() && productMeta.getMetaValue()!=null && !productMeta.getMetaValue().isEmpty())
-			{
+//			if(productMeta.getMetaKey()!=null && !productMeta.getMetaKey().isEmpty() && productMeta.getMetaValue()!=null && !productMeta.getMetaValue().isEmpty())
+//			{
 			ProductMeta newProd= new ProductMeta();
 			newProd.setMetaKey(productMeta.getMetaKey());
 			newProd.setMetaValue(productMeta.getMetaValue());
-			
-			newProd.setMetaId(categoryMetaRepository.findByMetaKey(productMeta.getMetaKey()));
+			List<CategoryMeta> metaList=categoryMetaRepository.findByMetaKey(productMeta.getMetaKey());
+			if(metaList!=null && !metaList.isEmpty())
+			{
+					newProd.setMetaId(metaList.get(0));
+			}
 			newProd.setProduct(product);
 			newProd.setProductVariant(productVariant);
 			productMetaList.add(newProd);
-			}
+			//}
 		}
 		return productMetaList;
 	}

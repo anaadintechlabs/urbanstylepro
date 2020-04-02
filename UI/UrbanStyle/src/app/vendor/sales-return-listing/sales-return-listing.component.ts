@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { User } from "src/_modals/user.modal";
 import { DataService } from "src/_services/data/data.service";
@@ -16,7 +17,8 @@ export class SalesReturnListingComponent implements OnInit {
   selectedReturnId: any;
   constructor(
     public dataService: DataService,
-    public _router : Router
+    public _router : Router,
+    public toastr:ToastrService
   ) { }
 
   ngOnInit() {
@@ -39,10 +41,12 @@ export class SalesReturnListingComponent implements OnInit {
     }
     if(data.f_Status == "ACCEPT"){
       this.setReturnStatusbyAdmin(data.returnId,'ACCEPT');
+      
       return
     } else if(data.f_Status == 'REJECT'){
       this.setReturnStatusbyAdmin(data.returnId,'REJECT');
     }
+    this.toastr.success("Status changes successfully, Wait for Admin status","Success");
   }
 
   addF_Status(list){
@@ -71,6 +75,7 @@ export class SalesReturnListingComponent implements OnInit {
           console.log("All order", data);
           this.returnList = data;
           this.addF_Status(this.returnList);
+          
         },
         error => {
           console.log("error======", error);
@@ -103,7 +108,7 @@ export class SalesReturnListingComponent implements OnInit {
       data => {
         //instead of this call api for get all order of user
         this.getAllReturnOfVendor(this.userId);
-
+        
       },
       error => {
         console.log("error======", error);

@@ -22,12 +22,12 @@
 					<button class="btn actionBtn" (click)="getAllProductOfUser()">
 						All
 					</button>
-					<button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(1)">
+					<!-- <button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(1)">
 						Active
 					</button>
 					<button class="btn actionBtn" (click)="getAllActiveOrInactiveProductVariantOfUser(0)">
 						Inactive
-					</button>
+					</button> -->
 				</div>
 				<div class="col-md-6">
 					<button class="btn actionBtn" style="margin-left:auto;display: block;" (click)="saleStatus()">
@@ -131,19 +131,19 @@
 					<div >
 					 <p>{{ data.totalQuantity }}</p>
 					</div>
-					<div *ngIf="showSale">
+					<div >
 						<p>{{ data.manufacturerSuggesstedPrice | currencyFormat}} </p> 
 					</div>
-					<div *ngIf="showSale">
+					<div >
 						<p>{{ data.displayPrice | currencyFormat}} </p> 
 					</div>
 					<div *ngIf="showSale">
 					  <p>{{ data.salesPrice | currencyFormat }} </p> 
 					</div>
-					<div>
+					<div *ngIf="showSale">
 					  <p>{{ data.salesStartDate | date }}</p> 
 					</div>
-					<div>
+					<div *ngIf="showSale">
 						<p>{{ data.salesEndDate | date }}</p>
 					</div>
 					<div>

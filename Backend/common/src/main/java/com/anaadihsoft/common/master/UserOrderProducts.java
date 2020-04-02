@@ -32,6 +32,10 @@ public class UserOrderProducts {
 	
 	private String status;
 	
+	private String trackingId;
+	
+	private String trackingLink;
+	
 	@ManyToOne
 	@JoinColumn(name="vendor_Id",nullable = false)
 	private User vendor;
@@ -96,6 +100,19 @@ public class UserOrderProducts {
 		this.modifiedBy = modifiedBy;
 	}
 
+	
+	public String getTrackingId() {
+		return trackingId;
+	}
+	public void setTrackingId(String trackingId) {
+		this.trackingId = trackingId;
+	}
+	public String getTrackingLink() {
+		return trackingLink;
+	}
+	public void setTrackingLink(String trackingLink) {
+		this.trackingLink = trackingLink;
+	}
 	public String getStatus() {
 		return status;
 	}
