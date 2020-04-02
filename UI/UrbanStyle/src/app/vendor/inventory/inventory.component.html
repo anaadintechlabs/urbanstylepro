@@ -70,7 +70,7 @@
 					  <input type="checkbox" class="custom-checkbox" >
 					</div> -->
 					<div (click)="getAllVeriant(item)">
-					  	<p> 
+					  	<p style="cursor: pointer; color: blue;"> 
 							<span>
 								<i class="fas fa-angle-right"></i>
 								<!-- <i class="fas fa-angle-down"></i> -->
@@ -131,19 +131,19 @@
 					<div >
 					 <p>{{ data.totalQuantity }}</p>
 					</div>
-					<div *ngIf="showSale">
+					<div >
 						<p>{{ data.manufacturerSuggesstedPrice | currencyFormat}} </p> 
 					</div>
-					<div *ngIf="showSale">
+					<div >
 						<p>{{ data.displayPrice | currencyFormat}} </p> 
 					</div>
 					<div *ngIf="showSale">
 					  <p>{{ data.salesPrice | currencyFormat }} </p> 
 					</div>
-					<div>
+					<div *ngIf="showSale">
 					  <p>{{ data.salesStartDate | date }}</p> 
 					</div>
-					<div>
+					<div *ngIf="showSale">
 						<p>{{ data.salesEndDate | date }}</p>
 					</div>
 					<div>
