@@ -43,8 +43,8 @@
             <td>{{ order.orderProductPrice | currencyFormat}}</td>
             <td>{{ order.userOrder.user.name }}</td>
             <td>
-              <p class="mb-0" *ngIf="order.status == 'PLACED' ||  order.status == 'COMPLETE' ">NA</p>
-              <select *ngIf="order.status != 'PLACED' && order.status != 'COMPLETE'" [(ngModel)]="order.f_Status" (ngModelChange)="chooseAction(order)" name="" id="">
+              <p class="mb-0" *ngIf="order.status == 'PLACED' ||  order.status == 'COMPLETE' ||  order.status == 'CANCELLED' ">NA</p>
+              <select *ngIf="order.status != 'PLACED' && order.status != 'COMPLETE' &&   order.status != 'CANCELLED'" [(ngModel)]="order.f_Status" (ngModelChange)="chooseAction(order)" name="" id="">
                 <option value="DISABLE" disabled>Change Status</option>
                 <option *ngIf="order.status == 'PENDING'" value="INPROGRESS">IN-PROGRESS</option>
                 <option  *ngIf="order.status == 'INPROGRESS'" value="DISPATCHED">DISPATCH</option>

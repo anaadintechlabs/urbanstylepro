@@ -62,25 +62,27 @@ export class OrderListingComponent implements OnInit {
     if(data.f_Status == "") {
       return
     }
-    if(data.f_Status == "PROGRESS"){
+    if(data.f_Status == "INPROGRESS"){
       this.changeStatusOfPartialOrder('INPROGRESS',data.id,data.userOrder.id);
       this.toastr.success("Order marked as INPROGRESS,Take further action","Success")
+     
       // return
-    } else if(data.f_Status == 'DISPATCH'){
+    } else if(data.f_Status == 'DISPATCHED'){
       this.changeStatusOfPartialOrder('DISPATCHED',data.id,data.userOrder.id);
       this.toastr.success("Order marked as DISPATCHED,Quantity reserved from your inventory","Success")
+      
       // return
     } 
     else if(data.f_Status == 'PLACED'){
       this.changeStatusOfPartialOrder('PLACED',data.id,data.userOrder.id);
       this.toastr.success("Order marked as PLACED,Wait for admin action","Success")
-      // return
+      
     } 
     else if(data.f_Status == 'CANCEL'){
-      this.cancelOrderByUser(data.id);
+      this.cancelOrderByUser(data.id,data.userOrder.id,data.userOrder.user.id);
       // return
     }
-    this.getAllOrderOfVendor(this.userId);
+    
 
   }
   else{
@@ -178,6 +180,7 @@ export class OrderListingComponent implements OnInit {
     this.dataService.changeStatusOfPartialOrder(status, orderProdId, "api/setStatusbyVendor",'','').subscribe(
       data => {
         console.log(data);
+        this.getAllOrderOfVendor(this.userId);
       },
       error => {
         console.log("error======", error);
@@ -186,12 +189,13 @@ export class OrderListingComponent implements OnInit {
   }
 
 
-  cancelOrderByUser(orderId) {
+  cancelOrderByUser(orderProductId,orderId,userId) {
     //this user id will be id of user
-    let userId = 1;
-    this.dataService.cancelOrderByUser(userId, orderId, "api/cancelOrderByUser").subscribe(
+    //let userId = 1;
+    this.dataService.cancelOrderByUser(userId, orderId,orderProductId, "api/cancelOrderByUser").subscribe(
       data => {
         //instead of this call api for get all order of user
+        this.toastr.success("Order cancelled Successfully");
         this.getAllOrderOfVendor(this.userId);
 
       },

@@ -393,13 +393,15 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
   }
 
 
-  cancelOrderByUser(userId,orderId,url)
+  cancelOrderByUser(userId,orderId,orderProductId,url)
   {
-    const param: HttpParams = new HttpParams().set("orderId", orderId).set("userId",userId);   
+    const param: HttpParams = new HttpParams().set("orderId", orderId).set("userId",userId).set("orderProductId",orderProductId);   
     return new Observable<any[]>(obs => {
          this._apiService.getOrder(url, param).subscribe(res => {
            if (res.isSuccess) {
              obs.next(res.data.orderList);
+             
+
            }
          });
        });

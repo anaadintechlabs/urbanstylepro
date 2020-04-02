@@ -172,7 +172,7 @@ export class AddProductService {
     productVarientDto = this._fb.group({
       attributesMap: new FormControl(myMap),
       productVariant: new FormGroup({
-        sku: new FormControl("", [Validators.required, Validators.minLength(8),Validators.maxLength(80)]),
+        sku: new FormControl("", [Validators.required, Validators.minLength(2),Validators.maxLength(80)]),
         variantName : new FormControl("",[Validators.required, Validators.minLength(2),Validators.maxLength(80)]),
         variantCode : new FormControl("",[Validators.required, Validators.minLength(2),Validators.maxLength(80)]),
         productIdType : new FormControl("",[Validators.required]),
