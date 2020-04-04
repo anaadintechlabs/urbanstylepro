@@ -35,6 +35,13 @@ public class VendorController {
 	@Autowired
 	private BankRepository bankRepository;
 	
+	/**
+	 * NOT IN USE
+	 * @param filter
+	 * @param request
+	 * @param response
+	 * @return get all vendors 
+	 */
 	@RequestMapping(value="/getAllVendors",method=RequestMethod.POST)
 	public Map<String,Object> getAllVendors(@RequestBody Filter filter,
 			HttpServletRequest request,HttpServletResponse response)
@@ -48,7 +55,14 @@ public class VendorController {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param email
+	 * @param ifscCode
+	 * @param request
+	 * @param response
+	 * @return checkk duplicate codde
+	 */
 	@RequestMapping(value="/checkDuplicateEmailAndIfscCode",method=RequestMethod.GET)
 	public Map<String,Object> checkDuplicateEmailAndIfscCode(
 			@RequestParam(value="email") String email,
@@ -62,6 +76,13 @@ public class VendorController {
 	}
 	
 	
+	/**
+	 * sign up integrated
+	 * @param vendorSignupDTO
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value="/vendorSignUpIntegrated",method=RequestMethod.POST)
 	public Map<String,Object> vendorSignUpIntegrated(
 			@RequestBody VendorSignupDTO vendorSignupDTO,

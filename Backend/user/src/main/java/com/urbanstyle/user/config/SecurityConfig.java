@@ -99,7 +99,8 @@ public class SecurityConfig	extends WebSecurityConfigurerAdapter  {
 	                        "/**/*.html",
 	                        "/**/*.css",
 	                        "/**/*.js",
-	                        "/**/api/**","/api/getAddressDetailsByUser","/**/downloadFile/*"
+	                        "/**/api/**","/api/getAddressDetailsByUser","/**/downloadFile/*",
+	                        "/api/user/getAllUserByUserType"
 	                        )
 	                        .permitAll()
 	                    .antMatchers("urban/api/auth/**", "urban/api/**")

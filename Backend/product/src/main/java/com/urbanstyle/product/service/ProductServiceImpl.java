@@ -103,6 +103,7 @@ public class ProductServiceImpl implements ProductService{
 		ProductVariantDTO pvDTO=pvDTOList.get(0);	
 		ProductVariant productVariant=pvDTO.getProductVariant();
 		productVariant.setProduct(productDTO.getProduct());
+		productVariant.setStatus(1);
 		Product product=productDTO.getProduct();
 		//values which are copied from Product to each variant
 		productVariant.setLegalDisclaimer(product.getLegalDisclaimer());

@@ -236,14 +236,14 @@ public class FileUploadServiceImpl implements FileUploadService {
 	@Override
 	public ProductImages storeSingleMediaForProduct(MultipartFile file, Product oldProduct, boolean firstVariant, String mainImageUrl, ProductVariant productVariant) {
 	    String fileName="";
-		if(firstVariant)
-	    {
-	    	 fileName = mainImageUrl;
-	    }
-	    else
-	    {
+//		if(firstVariant)
+//	    {
+//	    	 fileName = mainImageUrl;
+//	    }
+//	    else
+//	    {
 		 fileName = StringUtils.cleanPath(generateFileNameFromMultipart(file));
-	    }
+	    //}
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {

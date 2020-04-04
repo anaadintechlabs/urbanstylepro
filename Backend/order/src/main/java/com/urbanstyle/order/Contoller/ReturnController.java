@@ -1,4 +1,4 @@
-package com.urbanstyle.order.Contoller;
+  package com.urbanstyle.order.Contoller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anaadihsoft.common.external.Filter;
+import com.urbanstyle.order.Repository.PaymentWalletTransactionRepo;
 import com.urbanstyle.order.Service.OrderService;
 import com.urbanstyle.order.Service.ReturnService;
 import com.urbanstyle.order.util.CommonResponseSender;
@@ -30,6 +31,9 @@ public class ReturnController {
 	@Autowired
 	private OrderService orderService;
 	
+	@Autowired
+	private PaymentWalletTransactionRepo paymentwalletTransactionRepo;
+	
 	/**
 	 * ALL RETURNS OF A CUSTOMER
 	 * @param request
@@ -43,8 +47,28 @@ public class ReturnController {
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("returnList",returnService.getReturnByUser(Long.parseLong(userId),filter));
-			resultMap.put("count",returnService.getReturnCountByUser(Long.parseLong(userId)));
+			resultMap.put("count",returnService.getReturnCountByUser(Long.parseLong(userId),filter));
 			resultMap.put("RESPONSE", "SUCCESS");
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	
+	
+	/**
+	 * ALL RETURNS OF A CUSTOMER
+	 * @param request
+	 * @param filter
+	 * @param response
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value= {"/getSingleReturnDetails"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getSingleReturnDetails(HttpServletRequest request,
+			HttpServletResponse response,@RequestParam(value="returnId",required=true) long returnId ,
+			@RequestParam(value="orderProdId",required=true) long orderProdId ){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("returnDetails",returnService.getAllDetailOfReturn(returnId));
+			resultMap.put("transactionList",paymentwalletTransactionRepo.getTransactionofOrder(returnId, "RT"));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
@@ -64,8 +88,7 @@ public class ReturnController {
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="vendorId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("returnList",returnService.getReturnByVendor(Long.parseLong(userId),filter));
-			resultMap.put("count",returnService.getReturnCountByVendor(Long.parseLong(userId)));
-			resultMap.put("RESPONSE", "SUCCESS");
+			resultMap.put("count",returnService.getReturnCountByVendor(Long.parseLong(userId),filter));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	

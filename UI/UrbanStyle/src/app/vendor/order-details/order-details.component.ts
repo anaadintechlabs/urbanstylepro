@@ -48,6 +48,7 @@ export class OrderDetailsComponent implements OnInit {
         console.log("All Products inside order", data);
         this.orderProduct = data.orderList;
         this.orderDetails=data.orderDetails;
+        
         console.log("Address ",this.orderDetails)
       },
       error => {
