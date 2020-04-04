@@ -35,7 +35,8 @@ export class LoginComponent implements OnInit {
     this.loginForm = loginForm;
     let body = {
       email : this.f.email.value,
-      password : this.f.password.value
+      password : this.f.password.value,
+      userType:'VENDOR'
     }
     this._userService.attemptAuth(body).subscribe(res=>{
       this.toastr.success('Login Successfull', 'Success');
