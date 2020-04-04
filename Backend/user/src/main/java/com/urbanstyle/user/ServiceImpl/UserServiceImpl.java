@@ -1,5 +1,6 @@
 package com.urbanstyle.user.ServiceImpl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,22 @@ public class UserServiceImpl implements UserService {
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
+		//CHANGE IMPLEMENTING DATE FILTER AND SEARCH STRING
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userRepository.getAllUsersBySearchString(userType,filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userRepository.getAllUsersByDateRange(userType,startDate,endDate,pagable);
+		}
+		}
 		return userRepository.getAllUsers(userType,pagable);
 	}
 
@@ -113,7 +130,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public long getCountByUserType(String userType) {
+	public long getCountByUserType(Filter filter,String userType) {
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userRepository.getAllUsersCountBySearchString(userType,filter.getSearchString());
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			return userRepository.getAllUsersCountByDateRange(userType,startDate,endDate);
+		}
+		}
 		return userRepository.countByUserType(userType);
 	}
 

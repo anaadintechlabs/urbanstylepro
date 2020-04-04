@@ -13,7 +13,7 @@ public interface PaymentWalletTransactionRepo extends PagingAndSortingRepository
 
 	PaymentWalletTransaction findByRecieverAndOrderId(String string, long id);
 
-	@Query("FROM PaymentWalletTransaction where orderProds =?1 and status =?2 order by amount")
+	@Query("FROM PaymentWalletTransaction where orderProds.id =?1 and status =?2 order by amount")
 	List<PaymentWalletTransaction> getTransactionofOrder(long orderProdId,String status);
 
 }

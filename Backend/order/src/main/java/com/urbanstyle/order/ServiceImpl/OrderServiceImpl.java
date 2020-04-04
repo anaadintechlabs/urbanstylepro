@@ -19,6 +19,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.OrderTransactionSummaryDTO;
+import com.anaadihsoft.common.DTO.OrderUiDTO;
+import com.anaadihsoft.common.DTO.OrderUiListingDTO;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
@@ -353,12 +355,29 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<UserOrderProducts> getOrderProductByUser(long userId, Filter filter) {
+	public List<OrderUiListingDTO> getOrderProductByUser(long userId, Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
+		//CHANGE IMPLEMENTING DATE FILTER AND SEARCH STRING
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getAllUsersOrderBySearchString(userId,filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.findByUserOrderUserIdAndCreatedDateBetween(userId,startDate,endDate,pagable);
+		}
+		}
+		
 		return userOrderProdRepo.findByUserOrderUserId(userId,pagable);
 	}
 //	@Override
@@ -405,12 +424,27 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	
 	@Override
-	public List<UserOrderProducts> getVendorOrder(long vendorId,Filter filter) {
+	public List<OrderUiListingDTO> getVendorOrder(long vendorId,Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getAllOrderForVendorBySearchString(vendorId,filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.findByvendorvendor_IdByDateRange(vendorId,startDate,endDate,pagable);
+		}
+		}
 		return userOrderProdRepo.findByvendorvendor_Id(vendorId,pagable);
 
 	}
@@ -928,7 +962,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public UserOrderProducts getOrderProductForVendor(long vendorId, long orderProductId) {
+	public OrderUiDTO getOrderProductForVendor(long vendorId, long orderProductId) {
 		return  userOrderProdRepo.findByIdAndVendorId(orderProductId,vendorId);
 		//return userOrderProdRepo.findByUserOrderIdAndVendorId(orderId,vendorId);
 	}
@@ -981,7 +1015,29 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<UserOrderProducts> getOrderForVendorByStatus(long vendorId, String status) {
+	public List<OrderUiListingDTO> getOrderForVendorByStatus(long vendorId, String status, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		//CHANGE IMPLEMENTING DATE FILTER AND SEARCH STRING
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getAllVendorOrderAndStatusAndBySearchString(vendorId,status,filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.findByvendorvendor_IdAndStatusCreatedDateBetween(vendorId,status,startDate,endDate,pagable);
+		}
+		}
+		
 		return userOrderProdRepo.findByvendorvendor_IdAndStatus(vendorId,status);
 	}
 
@@ -1202,13 +1258,44 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public long getCountOrderProductByUser(long userId) {
+	public long getCountOrderProductByUser(long userId, Filter filter) {
+		//CHANGE IMPLEMENTING DATE FILTER AND SEARCH STRING
+				if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+				{
+					return userOrderProdRepo.getAllUsersOrderCountBySearchString(userId,filter.getSearchString());
+				}
+				else
+				{
+				if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+				{
+					String[] dates=filter.getDateRange().split(",");
+					Date startDate= new Date(Long.parseLong(dates[0]));
+					Date endDate = new Date(Long.parseLong(dates[1]));
+					System.out.println("start date "+startDate+"  end Date"+endDate);
+					return userOrderProdRepo.countByUserOrderUserIdAndCreatedDateBetween(userId,startDate,endDate);
+				}
+				}
 		return userOrderProdRepo.countByUserOrderUserId(userId);
 
 	}
 
 	@Override
-	public long getVendorOrderCount(long vendorId) {
+	public long getVendorOrderCount(long vendorId,Filter filter) {
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getVendorOrderCountBySearchString(vendorId,filter.getSearchString());
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.getVendorOrderCountByDateRange(vendorId,startDate,endDate);
+		}
+		}
 		return userOrderProdRepo.getVendorOrderCount(vendorId);
 
 	}
@@ -1311,6 +1398,26 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public long getVendorOrderCountByStatus(long vendorId, String status, Filter filter) {
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getVendorOrderCountBySearchStringAndStatus(vendorId,status,filter.getSearchString());
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.getVendorOrderCountByDateRangeAndStatus(vendorId,status,startDate,endDate);
+		}
+		}
+		return userOrderProdRepo.getVendorOrderCountAndStatus(vendorId,status);
 	}
 
 	

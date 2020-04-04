@@ -1,5 +1,6 @@
 package com.urbanstyle.user.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,27 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> getAllUsers(String userType, Pageable pagable);
 
 	long countByUserType(String userType);
+
+	@Query("from User Where userType =?1 and joinDate between ?2 and ?3")
+	List<User> getAllUsersByDateRange(String userType, Date startDate, Date endDate, Pageable pagable);
+
+	
+	@Query("Select u FROM User u where  u.userType =?1  AND "+
+			"LOWER(u.name) LIKE %?2% OR LOWER(u.lastName) LIKE %?2% OR " +  
+			"CONCAT(LOWER(u.name),' ',LOWER(u.lastName)) LIKE LOWER(concat('%',?2,'%'))" + 
+			"OR CONCAT(LOWER(u.lastName),' ',LOWER(u.name)) LIKE LOWER(concat('%',?2,'%'))"+
+			"OR LOWER(u.email) LIKE %?2%")
+	List<User> getAllUsersBySearchString(String userType, String searchString, Pageable pagable);
+
+	@Query("Select count(u) FROM User u where  u.userType =?1  AND "+
+			"LOWER(u.name) LIKE %?2% OR LOWER(u.lastName) LIKE %?2% OR " +  
+			"CONCAT(LOWER(u.name),' ',LOWER(u.lastName)) LIKE LOWER(concat('%',?2,'%'))" + 
+			"OR CONCAT(LOWER(u.lastName),' ',LOWER(u.name)) LIKE LOWER(concat('%',?2,'%'))"+
+			"OR LOWER(u.email) LIKE %?2%")
+	long getAllUsersCountBySearchString(String userType, String searchString);
+
+	@Query("select count(u) from User u Where u.userType =?1 and u.joinDate between ?2 and ?3")
+	long getAllUsersCountByDateRange(String userType, Date startDate, Date endDate);
      
 
 }

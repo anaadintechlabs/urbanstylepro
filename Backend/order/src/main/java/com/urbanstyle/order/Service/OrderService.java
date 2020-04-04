@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.OrderTransactionSummaryDTO;
+import com.anaadihsoft.common.DTO.OrderUiDTO;
+import com.anaadihsoft.common.DTO.OrderUiListingDTO;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
@@ -25,7 +27,7 @@ public interface OrderService {
 
 	Object saveorUpdate(UserOrderSaveDTO userDetailSave);
 
-	List<UserOrderProducts> getVendorOrder(long vendorId, Filter filter);
+	List<OrderUiListingDTO> getVendorOrder(long vendorId, Filter filter);
 
 	UserOrder setStatusbyUser(long orderId,String status,String reason,long userId,long orderProdId);
 
@@ -33,11 +35,11 @@ public interface OrderService {
 
 	void setStatusbyAdmin(long orderId, long orderProdId, String status,long userId);
 
-	UserOrderProducts getOrderProductForVendor(long vendorId, long orderProductId);
+	OrderUiDTO getOrderProductForVendor(long vendorId, long orderProductId);
 
 	Object setStatusbyVendorForCompleteOrder(long orderId, String status,long orderProdId);
 
-	List<UserOrderProducts> getOrderForVendorByStatus(long vendorId, String status);
+	List<OrderUiListingDTO> getOrderForVendorByStatus(long vendorId, String status, Filter filter);
 
 	Object cancelOrderByUser(long orderId, long userId, long orderProductId);
 
@@ -62,7 +64,7 @@ public interface OrderService {
 
 	UserOrder getOrderDetails(long orderId);
 
-	List<UserOrderProducts> getOrderProductByUser(long parseLong, Filter filter);
+	List<OrderUiListingDTO> getOrderProductByUser(long parseLong, Filter filter);
 
 	UserOrderProducts getOrderById(long parseLong);
 
@@ -70,11 +72,13 @@ public interface OrderService {
 
 	long countForSuperAdmin();
 
-	long getCountOrderProductByUser(long parseLong);
+	long getCountOrderProductByUser(long parseLong, Filter filter);
 
-	long getVendorOrderCount(long vendorId);
+	long getVendorOrderCount(long vendorId, Filter filter);
 
 	List<OrderTransactionSummaryDTO>  getTransactionSummaryofOrder(long orderProdId);
 
 	boolean canPlaceOrderOrNot(List<UserOrderQtyDTO> userOrderList);
+
+	long getVendorOrderCountByStatus(long vendorId, String status, Filter filter);
 }
