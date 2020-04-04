@@ -308,7 +308,7 @@ public class OrderController {
 			AffiliatetransactionDTO dto = new AffiliatetransactionDTO();
 			dto.setAffiliateId(affiliateId);
 			dto.setAffUserDesc(affOrder.getAffiliateId().getName());
-			dto.setAmount(affOrder.getProdvarid().getDisplayPrice()*affOrder.getOrderprodid().getQuantity());
+			dto.setAmount(affOrder.getOrderprodid().getOrderProductPrice());
 			dto.setCommision(affOrder.getCommision());
 			dto.setCustid(affOrder.getUser().getId());
 			dto.setOrderdate(affOrder.getOrderdate());

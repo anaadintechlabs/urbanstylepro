@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.anaadihsoft.common.DTO.OrderTransactionSummaryDTO;
 import com.anaadihsoft.common.DTO.OrderUiDTO;
 import com.anaadihsoft.common.DTO.OrderUiListingDTO;
+import com.anaadihsoft.common.DTO.ReturnUiListDTO;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
@@ -46,21 +47,21 @@ public interface OrderService {
 	Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId);
 
 	
-	List<UserOrderProducts> getLastOrders(int offset);
+	List<OrderUiListingDTO> getLastOrders(int offset);
 
-	List<ReturnManagement> getLastReturns(int offset);
+	List<ReturnUiListDTO> getLastReturns(int offset);
 
-	List<UserOrderProducts> getAllOrderByStatus(int offset,String status);
+	List<OrderUiListingDTO> getAllOrderByStatus(int offset,String status);
 
 	UserWallet getAllWalletDetails(long userId);
 
-	List<UserOrderProducts> getAllVendorSales(long userId, Filter filter);
+	List<OrderUiListingDTO> getAllVendorSales(long userId, Filter filter);
 
 	List<UserWallet> getTop5Users(String userType);
 
-	List<UserOrderProducts> getAllOrderForSuperAdmin(Filter filter);
+	List<OrderUiListingDTO> getAllOrderForSuperAdmin(Filter filter);
 
-	List<UserOrderProducts> getLastOrdersForVendor(int offset, long vendorId, String status);
+	List<OrderUiListingDTO> getLastOrdersForVendor(int offset, long vendorId, String status);
 
 	UserOrder getOrderDetails(long orderId);
 

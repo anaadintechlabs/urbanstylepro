@@ -19,8 +19,8 @@ public interface ReturnOrder extends PagingAndSortingRepository<ReturnManagement
 
 	ReturnManagement findByOrderId(long l);
 
-	@Query(" FROM ReturnManagement order by createdDate")
-	List<ReturnManagement> getLastReturns(Pageable pagable);
+	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) FROM ReturnManagement uop order by uop.createdDate")
+	List<ReturnUiListDTO> getLastReturns(Pageable pagable);
 
 	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) from ReturnManagement uop where uop.user.id =?1 order by uop.createdDate desc")
 	List<ReturnUiListDTO> findByUserId(long userId, Pageable pagable);

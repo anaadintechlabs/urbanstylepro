@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.anaadihsoft.common.DTO.ReturnUiDTO;
 import com.anaadihsoft.common.DTO.ReturnUiListDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.master.AffiliateCommisionOrder;
 import com.anaadihsoft.common.master.PaymentWalletDistribution;
 import com.anaadihsoft.common.master.PaymentWalletTransaction;
 import com.anaadihsoft.common.master.ProductVariant;
@@ -24,6 +25,7 @@ import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.common.master.UserOrderProducts;
 import com.anaadihsoft.common.master.UserWallet;
+import com.urbanstyle.order.Repository.AffiliateCommisionOrderRepo;
 import com.urbanstyle.order.Repository.OrderRepository;
 import com.urbanstyle.order.Repository.PaymentWalletDistributionRepo;
 import com.urbanstyle.order.Repository.PaymentWalletTransactionRepo;
@@ -59,6 +61,9 @@ public class ReturnServiceImpl implements ReturnService{
 	
 	@Autowired 
 	private UserRepository userRepo;
+	
+	@Autowired
+	private AffiliateCommisionOrderRepo affiliateCommOrderRepo;
 	
 	
 	
@@ -128,6 +133,10 @@ public class ReturnServiceImpl implements ReturnService{
 				System.out.println("quantity to return"+userOrdrProd.getQuantity());
 				//for(UserOrderProducts userOrdrProd :userOrderProducts) {
 					userOrdrProd.setStatus("RETURNED");
+					if(userOrdrProd.isAffiliateCommisionExists())
+					{
+						updateAffiliateCommission(userOrdrProd);
+					}
 					ProductVariant varient = userOrdrProd.getProduct();
 					varient.setTotalQuantity(varient.getTotalQuantity() + userOrdrProd.getQuantity());
 					if(userBal.get(Long.valueOf(varient.getCreatedBy())) != null) {
@@ -159,6 +168,16 @@ public class ReturnServiceImpl implements ReturnService{
 			
 			
 	
+		
+	}
+
+	private void updateAffiliateCommission(UserOrderProducts userOrdrProd) {
+		AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(userOrdrProd.getId());
+		if(afOrder!=null)
+		{
+			afOrder.setStatus(userOrdrProd.getStatus());
+			affiliateCommOrderRepo.save(afOrder);
+		}
 		
 	}
 
@@ -226,7 +245,7 @@ public class ReturnServiceImpl implements ReturnService{
 				pwtinnerAff.setOrderProds(userOrdrProd);
 				pwtinnerAff.setReciever(String.valueOf(userOrder.getUser().getId()));
 				pwtinnerAff.setSender(affiliatiduser);
-				pwtinnerAff.setStatus("1"); 
+				pwtinnerAff.setStatus("RETURNED"); 
 				pwtinnerAff.setType("RT");  //Return
 				paymentwalletTransactionRepo.save(pwtinnerAff);
 			}else {

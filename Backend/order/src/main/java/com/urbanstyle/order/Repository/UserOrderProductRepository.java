@@ -32,7 +32,7 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 //	List<UserOrder> findByvendorvendor_IdAndStatus(long vendorId, String status);
 
 	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop where uop.vendor.id =?1 and uop.status=?2 order by uop.userOrder.orderPlacedDate desc")
-	List<OrderUiListingDTO> findByvendorvendor_IdAndStatus(long vendorId, String status);
+	List<OrderUiListingDTO> findByvendorvendor_IdAndStatus(long vendorId, String status, Pageable pagable);
 
 	
 	List<UserOrderProducts> findByVendorIdAndStatus(long userId, String string, Pageable pagable);
@@ -45,14 +45,14 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 
 	UserOrderProducts findByIdAndUserOrderUserId(long orderId, long userId);
 
-	@Query(" From UserOrderProducts where status =?1")
-	List<UserOrderProducts> getAllOrderByStatus(String status, Pageable pagable);
+	@Query(" Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(u) From UserOrderProducts u where u.status =?1")
+	List<OrderUiListingDTO> getAllOrderByStatus(String status, Pageable pagable);
 
 	@Query("Select new com.anaadihsoft.common.DTO.OrderUiDTO(u) FROM UserOrderProducts u where  u.id =?1 and u.vendor.id=?2")
 	OrderUiDTO findByIdAndVendorId(long orderProductId, long vendorId);
 
-	@Query("Select  uop from UserOrderProducts uop where uop.vendor.id =?2 and uop.status=?1 order by uop.userOrder.orderPlacedDate desc")
-	List<UserOrderProducts> getAllOrderByStatusAndUserId(String status, long vendorId, Pageable pagable);
+	@Query("Select  new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop where uop.vendor.id =?2 and uop.status=?1 order by uop.userOrder.orderPlacedDate desc")
+	List<OrderUiListingDTO> getAllOrderByStatusAndUserId(String status, long vendorId, Pageable pagable);
 
 	long countByUserOrderUserId(long userId);
 
@@ -119,5 +119,8 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 			"OR LOWER(u.product.product.productName) LIKE %?3%")
 	List<OrderUiListingDTO> getAllVendorOrderAndStatusAndBySearchString(long vendorId, String status,
 			String searchString, Pageable pagable);
+
+	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop  order by uop.userOrder.orderPlacedDate desc")
+	List<OrderUiListingDTO> findAllOrderForSuperAdmin();
 
 }
