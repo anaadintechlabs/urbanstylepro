@@ -205,6 +205,7 @@ public class OrderServiceImpl implements OrderService {
 			affialiateUser=affiliateuser.get();
 		}
 		}
+		User admin = userRepo.findByUserType("SUPERADMIN");
 		for(UserOrderQtyDTO userDTO : userOrderList) {
 			long prodVarId = userDTO.getProductVariantId();
 			int quantity = userDTO.getQty();
@@ -222,10 +223,6 @@ public class OrderServiceImpl implements OrderService {
 			 userOrderProduct = new UserOrderProducts();
 			userOrderProduct.setProduct(productVar);
 			userOrderProduct.setStatus("PENDING");
-			UrlShortner urlSShort = new UrlShortner();
-			String UID = urlSShort.generateUid("OD-", 9);
-			 userOrderSave.setOrderCode("OD-"+UID);
-			 
 			// addd reserved quantity
 			//userOrderProduct.setStatus(userOrderSave.getOrderStatus());
 			userOrderProduct.setQuantity(quantity);
@@ -246,6 +243,21 @@ public class OrderServiceImpl implements OrderService {
 			totalAmount += productVar.getDisplayPrice()*quantity;
 			
 			totalProducts.add(userOrderProduct);
+			
+			// if 3 products are ordered then 3 entries are maintained user to admin against order prod id
+			
+			if(admin != null) {
+				PaymentWalletTransaction pwt = new PaymentWalletTransaction();
+				pwt.setAmount(productVar.getDisplayPrice()*quantity);
+				pwt.setCreatedDate(new Date());
+				pwt.setOrder(userOrderSave);
+				pwt.setReciever(String.valueOf(admin.getId()));
+				pwt.setSender(userOrderSave.getUser());
+				pwt.setStatus("1"); 
+				pwt.setType("OP");  //Order Placed
+				pwt.setOrderProds(userOrderProduct);
+				paymentwalletTransactionRepo.save(pwt);		
+			}
 		  }
 			
 			// maintaining enteries for affiliate commisiomn
@@ -339,15 +351,13 @@ public class OrderServiceImpl implements OrderService {
 				User admin = userRepo.findByUserType("SUPERADMIN");
 				if(admin!=null)
 				{
-					PaymentWalletTransaction pwt = new PaymentWalletTransaction();
-					pwt.setAmount(totalAmount);
-					pwt.setCreatedDate(new Date());
-					pwt.setOrder(userOrderSave);
-					pwt.setReciever(String.valueOf(admin.getId()));
-					pwt.setSender(userOrderSave.getUser());
-					pwt.setStatus("1"); 
-					pwt.setType("OP");  //Order Placed
-					paymentwalletTransactionRepo.save(pwt);			
+			/*
+			 * PaymentWalletTransaction pwt = new PaymentWalletTransaction();
+			 * pwt.setAmount(totalAmount); pwt.setCreatedDate(new Date());
+			 * pwt.setOrder(userOrderSave); pwt.setReciever(String.valueOf(admin.getId()));
+			 * pwt.setSender(userOrderSave.getUser()); pwt.setStatus("1");
+			 * pwt.setType("OP"); //Order Placed paymentwalletTransactionRepo.save(pwt);
+			 */	
 	
 					UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
 					if(userWalletAdmin != null) {
@@ -1186,11 +1196,6 @@ public class OrderServiceImpl implements OrderService {
 			returnManage.setReason(reason);
 			returnManage.setStatus("REQUESTED");
 			returnManage.setOrderProduct(userOrdrProd);
-			UrlShortner urlSShort = new UrlShortner();
-			
-			String UID = urlSShort.generateUid("RT-", 9);
-			returnManage.setReturnCode("RT-"+UID);
-			
 			Optional<User> loginUser = userRepo.findById(userId);
 			if(loginUser.isPresent()) {
 				returnManage.setUser(loginUser.get());					
