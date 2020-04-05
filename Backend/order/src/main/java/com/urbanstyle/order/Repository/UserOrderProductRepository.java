@@ -22,7 +22,7 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 
 //	@Query("Select distinct uop.userOrder from UserOrderProducts uop where uop.vendor.id =?1 order by uop.userOrder.orderPlacedDate desc")
 //	List<UserOrder> findByvendorvendor_Id(long vendorId);
-	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop where uop.vendor.id =?1 order by uop.userOrder.orderPlacedDate desc")
+	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop where uop.vendor.id =?1 ")
 	List<OrderUiListingDTO> findByvendorvendor_Id(long vendorId, Pageable pagable);
 
 	
@@ -31,7 +31,7 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 //	@Query("Select distinct uop.userOrder from UserOrderProducts uop where uop.vendor.id =?1 and uop.userOrder.orderStatus=?2 order by uop.userOrder.orderPlacedDate desc")
 //	List<UserOrder> findByvendorvendor_IdAndStatus(long vendorId, String status);
 
-	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop where uop.vendor.id =?1 and uop.status=?2 order by uop.userOrder.orderPlacedDate desc")
+	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop where uop.vendor.id =?1 and uop.status=?2 ")
 	List<OrderUiListingDTO> findByvendorvendor_IdAndStatus(long vendorId, String status, Pageable pagable);
 
 	
@@ -51,7 +51,7 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 	@Query("Select new com.anaadihsoft.common.DTO.OrderUiDTO(u) FROM UserOrderProducts u where  u.id =?1 and u.vendor.id=?2")
 	OrderUiDTO findByIdAndVendorId(long orderProductId, long vendorId);
 
-	@Query("Select  new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop where uop.vendor.id =?2 and uop.status=?1 order by uop.userOrder.orderPlacedDate desc")
+	@Query("Select  new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop where uop.vendor.id =?2 and uop.status=?1 ")
 	List<OrderUiListingDTO> getAllOrderByStatusAndUserId(String status, long vendorId, Pageable pagable);
 
 	long countByUserOrderUserId(long userId);

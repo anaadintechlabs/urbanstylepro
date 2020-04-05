@@ -11,22 +11,22 @@
       <div class="col-md-6 mb-4">
         <h4>Order Summary</h4>
         <div class="order_details">
-          <p>Order Id : ORDER-{{ orderDetails.id }}</p>
+          <p>Order Id : ORDER-{{ orderDetails.orderProductId }}</p>
           <p>Order Date : {{ orderDetails.orderPlacedDate | date }}</p>
-          <p>Order Status : {{ orderDetails.orderStatus }}</p>
-          <p>Order Price {{ orderProduct.orderProductPrice}}</p>
-          <p>Order Placed By : {{ orderDetails.user.name }}</p>
-          <p>Tracking Id : {{ orderProduct.trackingId }}</p>
-          <p>Tracking Link : {{ orderProduct.trackingLink }}</p>
+          <p>Order Status : {{ orderDetails.status }}</p>
+          <p>Order Price {{ orderDetails.orderProductPrice}}</p>
+          <p>Order Placed By : {{ orderDetails.userName }}</p>
+          <p>Tracking Id : {{ orderDetails.trackingId }}</p>
+          <p>Tracking Link : {{ orderDetails.trackingLink }}</p>
         </div>
       </div>
       <div class="col-md-6 mb-4">
         <h4>Shipped Address</h4>
         <div class="shiped_details">
-          <p>Address Main: {{ orderDetails.address.addressOne }}</p>
-          <p>Address Secondary: {{ orderDetails.address.addressTwo }}</p>
-          <p>Zipcode: {{ orderDetails.address.zip }}</p>
-          <p>Primary Address: {{ orderDetails.address.primaryAddress }}</p>
+          <p>Address Main: {{ orderDetails.addressOne }}</p>
+          <p>Address Secondary: {{ orderDetails.addressTwo }}</p>
+          <p>Zipcode: {{ orderDetails.zip }}</p>
+          <p>State/Country: {{ orderDetails.state }}/{{ orderDetails.country }}</p>
         </div>
       </div>
       <div class="col-md-12">
@@ -46,14 +46,14 @@
               <!-- *ngFor="let orderProduct of orderProductList" -->
             <tr >
                 <td>
-                    <img height="75px" width="auto" [src]="orderProduct.product.mainImageUrl" alt="" srcset="">
+                    <img height="75px" width="auto" [src]="orderDetails.mainImageUrl" alt="" srcset="">
                   </td>
-              <td>{{ orderProduct.product.variantName }}</td>
+              <td>{{ orderDetails.variantName }}</td>
               
-              <td>{{ orderProduct.product.uniqueprodvarId }}</td>
-              <td>{{ orderProduct.quantity }}</td>
-              <td>{{ orderProduct.orderProductPrice }}</td>
-              <td>{{ orderProduct.status }}</td>
+              <td>{{ orderDetails.uniqueprodvarId }}</td>
+              <td>{{ orderDetails.quantity }}</td>
+              <td>{{ orderDetails.orderProductPrice }}</td>
+              <td>{{ orderDetails.status }}</td>
               <!-- <td>
                 <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('INPROGRESS',orderProduct.id)">
                   Inprogress
@@ -66,8 +66,37 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Transaction Details -->
+<div><b>Transaction Details</b></div><br>
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead class="thead-default">
+          <tr>
+              <th>Sender</th>
+            <th>Reciever</th>
+            
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transDet of transactionDetails">
+            <td>{{transDet.sender.name}}</td>
+            <td>{{transDet.reciever}}</td>
+            <td>{{transDet.amount}}</td>
+            <td>{{transDet.type}}</td>
+            <td>{{transDet.createdDate}}</td>
+          </tr>
+          </tbody>
+        </table>
     </div>
-    <div class="row mt-4 tracking"  *ngIf="orderProduct?.status == 'INPROGRESS'">
+
+    <!-- Transaction Details -->
+    
+    </div>
+    <div class="row mt-4 tracking"  *ngIf="orderDetails?.status == 'INPROGRESS'">
       <div class="col-md-4">
         <label for="">Tracking Id: </label>
         <input [(ngModel)]="trackingId" type="text">
@@ -77,7 +106,7 @@
         <input [(ngModel)]="trackingLink" type="text">
       </div>
       <div class="col-md-4">  
-        <button class="btn actionBtn" *ngIf="orderProduct?.status == 'INPROGRESS'" (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id,orderDetails.id)">DISPATCH ORDER</button>
+        <button class="btn actionBtn" *ngIf="orderDetails?.status == 'INPROGRESS'" (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.orderProductId,orderDetails.orderId)">DISPATCH ORDER</button>
       </div>
     </div>
   </div>

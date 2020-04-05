@@ -39,6 +39,8 @@ public class ReturnManagement {
 	
 	private Date customerRefundDate;
 	
+	private String returnCode;
+	
 	
 	private Date createdDate;
 	private String createdBy;
@@ -175,4 +177,14 @@ public class ReturnManagement {
 	{
 		this.setModifiedDate(new Date());
 	}
+
+	public String getReturnCode() {
+		return returnCode;
+	}
+
+	public void setReturnCode(String returnCode) {
+		this.returnCode = returnCode;
+	}
+	
+	
 }

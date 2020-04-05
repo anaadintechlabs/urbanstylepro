@@ -222,6 +222,10 @@ public class OrderServiceImpl implements OrderService {
 			 userOrderProduct = new UserOrderProducts();
 			userOrderProduct.setProduct(productVar);
 			userOrderProduct.setStatus("PENDING");
+			UrlShortner urlSShort = new UrlShortner();
+			String UID = urlSShort.generateUid("OD-", 9);
+			 userOrderSave.setOrderCode("OD-"+UID);
+			 
 			// addd reserved quantity
 			//userOrderProduct.setStatus(userOrderSave.getOrderStatus());
 			userOrderProduct.setQuantity(quantity);
@@ -1182,6 +1186,11 @@ public class OrderServiceImpl implements OrderService {
 			returnManage.setReason(reason);
 			returnManage.setStatus("REQUESTED");
 			returnManage.setOrderProduct(userOrdrProd);
+			UrlShortner urlSShort = new UrlShortner();
+			
+			String UID = urlSShort.generateUid("RT-", 9);
+			returnManage.setReturnCode("RT-"+UID);
+			
 			Optional<User> loginUser = userRepo.findById(userId);
 			if(loginUser.isPresent()) {
 				returnManage.setUser(loginUser.get());					
