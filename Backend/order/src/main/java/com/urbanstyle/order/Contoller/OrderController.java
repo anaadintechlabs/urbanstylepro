@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anaadihsoft.common.DTO.AffiliatetransactionDTO;
+import com.anaadihsoft.common.DTO.OrderUiDTO;
 import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
 import com.anaadihsoft.common.external.Filter;
@@ -88,8 +89,10 @@ public class OrderController {
 	public Map<String,Object> getOrderByUser(HttpServletRequest request,
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="userId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
+		
 			resultMap.put("orderList",orderService.getOrderProductByUser(Long.parseLong(userId),filter));
 			resultMap.put("count",orderService.getCountOrderProductByUser(Long.parseLong(userId),filter));
+			
 			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 
 	}
@@ -183,7 +186,15 @@ public class OrderController {
 	public Map<String,Object> getOrderProductForVendor(@RequestParam(value="vendorId")long vendorId,@RequestParam(value="orderId")long orderId,
 			@RequestParam(value="orderProductId")long orderProductId,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		resultMap.put("orderDetails",orderService.getOrderProductForVendor(vendorId,orderProductId));
+		OrderUiDTO orderDto=orderService.getOrderProductForVendor(vendorId,orderProductId);
+		resultMap.put("orderDetails",orderDto);
+		
+
+		if(orderDto.getStatus().equals("COMPLETE")) {
+			resultMap.put("transactionDetails", orderService.getTransactionofOrder(orderProductId));
+		}
+		
+		
 		//resultMap.put("orderDetails", orderService.getOrderDetails(orderId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}

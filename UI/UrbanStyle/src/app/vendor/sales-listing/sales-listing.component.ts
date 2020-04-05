@@ -16,6 +16,12 @@ export class SalesListingComponent implements OnInit {
   salesList:any=[];
   salesProductList:any=[];
   selectedOrderId: any;
+   public limit=15;
+  public offset=0;
+  public sortingField="createdDate";
+  public sortingDirection="desc";
+  public count;
+
   constructor(
     public dataService:DataService,
     public _router : Router
@@ -35,12 +41,19 @@ export class SalesListingComponent implements OnInit {
   }
 
   getAllSalesOfVendor(vendorId){
+    let request = {
+      "limit":this.limit,
+      "offset":0,
+      "sortingDirection":this.sortingDirection,
+      "sortingField":this.sortingField
+    };
      this.dataService
-      .getAllOrderOfVendorByStatus( vendorId,'COMPLETE', "api/getOrderForVendorByStatus")
+      .getAllOrderOfVendorByStatus( vendorId,'COMPLETE',request, "api/getOrderForVendorByStatus")
       .subscribe(
         data => {
          console.log("All order",data);
          this.salesList=data.orderList;
+         this.count=data.count;
         },
         error => {
           console.log("error======", error);

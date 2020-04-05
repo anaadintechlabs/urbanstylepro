@@ -26,9 +26,9 @@
         <tbody *ngIf="returnList">
           <tr *ngFor="let return of returnList">
 
-            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(return.orderProduct.id,return.order.id)">RET-{{ return.returnId }}</td>
-            <td><img *ngIf="return.orderProduct.product" class="productImage" [src]="return.orderProduct.product.mainImageUrl" alt="" srcset=""></td>
-            <td>{{ return.orderProduct.product.variantName }}</td> 
+            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(return.orderProductId,return.orderId)">RET-{{ return.returnId }}</td>
+            <td><img  class="productImage" [src]="return.mainImageUrl" alt="" srcset=""></td>
+            <td>{{ return.variantName }}</td> 
             <td>{{ return.reason }}</td>
             <td>{{ return.returnAuthorizeDate | date }}</td>
             <td>{{ return.customerRefundDate | date}}</td>

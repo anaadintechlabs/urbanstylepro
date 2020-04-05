@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./order-listing.component.scss']
 })
 export class OrderListingComponent implements OnInit {
-
+  filterSelected: boolean;
+  selectdStatus: any;
+  pageNumber=1;
+  timeRange='WEEKLY';
   user: User;
   userId: any;
   showProduct = false;
@@ -21,9 +24,9 @@ export class OrderListingComponent implements OnInit {
   selectedOrderId: any;
 
 
-  public limit=15;
+  public limit=5;
   public offset=0;
-  public sortingField="createdDate";
+  public sortingField="id";
   public sortingDirection="desc";
   public count;
 
@@ -37,7 +40,6 @@ export class OrderListingComponent implements OnInit {
   ) {
     location.onPopState(() => {
       this.showProduct = false;
-      console.log('pressed back!');
   });
    }
 
@@ -45,15 +47,12 @@ export class OrderListingComponent implements OnInit {
     this.user = JSON.parse(window.localStorage.getItem("user"));
     if (this.user && this.user.token) {
       this.userId = this.user.id;
-      console.log("logged in vendor id", this.userId);
       this.getAllOrderOfVendor(this.userId);
     }
   }
 
   chooseAction(data) {
-    console.log(data);
     let check=confirm("Are you sure, you want to change the status");
-    console.log(check);
     if(check)
     {
     if(!data.f_Status){
@@ -98,6 +97,8 @@ export class OrderListingComponent implements OnInit {
   }
 
   getOrderByStatus(status) {
+    this.selectdStatus=status;
+    this.filterSelected=true;
     this.showProduct = false;
     if (status == 'ALL') {
       this.getAllOrderOfVendor(this.userId);
@@ -111,7 +112,14 @@ export class OrderListingComponent implements OnInit {
 
   getAllOrderOfVendorByStatus(vendorId, status) {
 
-    this.dataService.getAllOrderOfVendorByStatus(vendorId, status, "api/getOrderForVendorByStatus")
+    let request = {
+      "limit":this.limit,
+      "offset":0,
+      "sortingDirection":this.sortingDirection,
+      "sortingField":this.sortingField
+    };
+
+    this.dataService.getAllOrderOfVendorByStatus(vendorId, status,request, "api/getOrderForVendorByStatus")
       .subscribe(
         data => {
           console.log("All order", data);
@@ -128,7 +136,7 @@ export class OrderListingComponent implements OnInit {
   getAllOrderOfVendor(vendorId) {
     let request = {
       "limit":this.limit,
-      "offset":0,
+      "offset":this.offset,
       "sortingDirection":this.sortingDirection,
       "sortingField":this.sortingField
     };
@@ -245,7 +253,63 @@ export class OrderListingComponent implements OnInit {
   pageChanged(event){
     console.log("page changes"+event)
     this.offset=event-1;
+    this.pageNumber=event;
     this.getAllOrderOfVendor(this.userId);
   }
+
+
+  sortHeaderClick(sortinField)
+  {
+            if(this.sortingDirection=='asc')
+          {
+            this.sortingDirection='desc';
+          }
+          else
+            {
+              this.sortingDirection='asc';
+            }
+    this.sortingField=sortinField;
+    if(this.filterSelected)
+      {
+        if (this.selectdStatus == 'ALL') {
+      this.getAllOrderOfVendor(this.userId);
+    }
+    else{
+        this.getAllOrderOfVendorByStatus(this.userId,this.selectdStatus);
+    }
+      }
+      else
+        {
+          
+      this.getAllOrderOfVendor(this.userId);
+        }
+  }
+
+  isSorting(name: string) {
+  return this.sortingField !== name && name !== '';
+};
+ 
+isSortAsc(name: string) {
+  if(this.sortingField === name && this.sortingDirection === 'asc')
+    {
+  return true;
+    }
+
+};
+ 
+isSortDesc(name: string) {
+  if(this.sortingField === name && this.sortingDirection === 'desc')
+    {
+  return true;
+    }
+
+};
+
+
+
+chooseDateRange()
+{
+console.log(this.timeRange);
+}
 }
 
