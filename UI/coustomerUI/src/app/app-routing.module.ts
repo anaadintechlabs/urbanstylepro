@@ -9,11 +9,6 @@ import { AuthGuardService } from 'src/_service/http_&_login/authGuard.service';
 const routes: Routes = [
   {
       path: '',
-      pathMatch: 'full',
-      redirectTo: 'classic'
-  },
-  {
-      path: 'classic',
       component: RootComponent,
       data: {
           headerLayout: 'classic'
@@ -27,6 +22,10 @@ const routes: Routes = [
           {
               path: 'home',
               component: HomeOneComponent
+          },
+          {
+            path: ':id',
+            loadChildren: () => import('./single-product-view/single-product-view.module').then(m => m.SingleProductViewModule)
           },
           // {
           //     path: 'blog',

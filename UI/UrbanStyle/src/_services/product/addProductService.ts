@@ -269,6 +269,9 @@ export class AddProductService {
     if (!control.parent || !control) return;
     let sPrice = control.value;
     let dPrice = control.parent.get('manufacturerSuggesstedPrice').value;
+    if(dPrice == ''){
+      return null
+    }
     if(sPrice >= dPrice){
       const message = {
         salePriceValidator: {

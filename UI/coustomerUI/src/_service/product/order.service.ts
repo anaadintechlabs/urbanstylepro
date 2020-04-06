@@ -33,7 +33,7 @@ export class OrderService {
         private _userService : UserService,
         private _apiService : ApiService
     ) {
-        this.user = JSON.parse(this._userService.getUser());
+        this.user = this._userService.getCurrentUser();
 
         this.bankInfo = this._fb.group({
             cardNumber : new FormControl(''),

@@ -252,10 +252,12 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 
 	@Override
 	public SingleProductDTO getSingleProductDetail(String uniqueId) {
+		System.out.println("uniqueId"+uniqueId);
 		SingleProductDTO singleProductDTO = new SingleProductDTO();
 		long affiliateId=0;
 		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
 		ProductVariant prodVarient =  productVarRepo.findByUniqueprodvarId(uniqueId);
+		System.out.println("prodVarient"+prodVarient);
 		if(prodVarient==null)
 		{
 			//check in Short Code table
@@ -267,11 +269,15 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			}
 			else
 			{
+				System.out.println("no variant exists"+prodVarient);
+
 				//RETURN WITH MESSAGE THAT NO VARIANT EXISTS
 				return null;
 			}
 		}
 		if(prodVarient!=null) {
+			System.out.println("prodVarient not null"+prodVarient);
+
 			long prodVarId=prodVarient.getProductVariantId();
 			Map<String, String> attrDetails = productAttributeServce.findAllAttributeListWithAttributeKey(prodVarId);
 			List<String> allImagesMain = productImagesRepository.findUrlByProductForVariant(prodVarId);
@@ -372,7 +378,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			singleProductDTO.setAffiliateId(affiliateId);
 			
 		}
-
+		System.out.println("returning oject"+singleProductDTO);
 		return singleProductDTO;
 		
 	}
