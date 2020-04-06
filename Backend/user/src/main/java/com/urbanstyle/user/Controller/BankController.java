@@ -106,6 +106,13 @@ public class BankController {
 	}
 	
 	
+	/**
+	 * get bank details by id
+	 * @param bankId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value="/getBankDetailsById",method=RequestMethod.GET)
 	public  Map<String,Object> getBankDetailsById(@RequestParam("bankId")long bankId,
 			HttpServletRequest request,HttpServletResponse response) {

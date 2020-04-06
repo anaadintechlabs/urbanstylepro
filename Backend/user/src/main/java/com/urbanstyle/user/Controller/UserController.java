@@ -59,7 +59,14 @@ public class UserController {
 		
 	}
 	
-	
+	/**
+	 *  return all user by user type
+	 * @param filter
+	 * @param userType
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value="/getAllUserByUserType",method=RequestMethod.POST)
 	public Map<String,Object> getAllUserByUserType(@RequestBody Filter filter,
 			@RequestParam(value="userType") String userType,
@@ -68,12 +75,22 @@ public class UserController {
 		final HashMap<String, Object> map = new HashMap<>();
 		
 		map.put("userList", userService.getAllUsers(filter,userType));
-		map.put("count", userService.getCountByUserType(userType));
+		map.put("count", userService.getCountByUserType(filter,userType));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 		
 	}
 	
 	
+	/**
+	 * 
+	 * @param files
+	 * @param userString
+	 * @param request
+	 * @param response
+	 * @return update the user
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 */
 	@RequestMapping(value="/updateUser",method=RequestMethod.PUT)
 	public Map<String,Object> updateUser(@RequestParam(value="file",required=false) MultipartFile[] files,@RequestParam(value="userString",required=false) String userString,
 			HttpServletRequest request,HttpServletResponse response) throws JsonMappingException, JsonProcessingException
@@ -97,6 +114,15 @@ public class UserController {
 	}
 	
 	
+	/**
+	 *  change the password of user
+	 * @param passwordDTO
+	 * @param userId
+	 * @param response
+	 * @param request
+	 * @return
+	 * @throws CustomException
+	 */
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public Map<String, Object> changePassword(
 			@RequestBody PasswordDTO passwordDTO,
@@ -111,6 +137,14 @@ public class UserController {
 	}
 	
 	
+	/**
+	 * get single user details
+	 * @param userId
+	 * @param response
+	 * @param request
+	 * @return
+	 * @throws CustomException
+	 */
 	@RequestMapping(value = "/getUserById", method = RequestMethod.GET)
 	public Map<String, Object> getUserById(
 			@RequestParam(value = "userId", required = true) long userId,

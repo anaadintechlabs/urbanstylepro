@@ -21,14 +21,7 @@ public class UserOrderSaveDTO {
 	
 	private String cvv;
 	
-//	private BankDetails bankInfo;
-	
-//	public BankDetails getBankInfo() {
-//		return bankInfo;
-//	}
-//	public void setBankInfo(BankDetails bankInfo) {
-//		this.bankInfo = bankInfo;
-//	}
+
 	public long getUserId() {
 		return userId;
 	}

@@ -1,6 +1,5 @@
 package com.urbanstyle.user.Controller;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,20 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.anaadihsoft.common.master.Address;
-import com.anaadihsoft.common.master.BankDetails;
-import com.anaadihsoft.common.master.Category;
 import com.anaadihsoft.common.master.City;
 import com.anaadihsoft.common.master.Country;
 import com.anaadihsoft.common.master.State;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.urbanstyle.user.Service.AddressService;
-import com.urbanstyle.user.Service.BankService;
 import com.urbanstyle.user.util.CommonResponseSender;
 
 @RestController
@@ -40,7 +31,7 @@ public class AddressController {
 	public AddressService addressService;
 	
 	/**
-	 * 
+	 * @description save the address details 
 	 * @param bankDetails
 	 * @param request
 	 * @param response
@@ -58,6 +49,14 @@ public class AddressController {
 	      }
 	}
 	
+	
+	/**
+	 * 
+	 * @param addressId
+	 * @param request
+	 * @param response
+	 * @return get address details by Id
+	 */
 	@RequestMapping(value="/getAddressById",method=RequestMethod.GET)
 	public  Map<String,Object> getAddressById(@RequestParam("addressId")long addressId,
 			HttpServletRequest request,HttpServletResponse response) {

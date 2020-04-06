@@ -13,7 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.ReturnUiDTO;
+import com.anaadihsoft.common.DTO.ReturnUiListDTO;
 import com.anaadihsoft.common.external.Filter;
+import com.anaadihsoft.common.master.AffiliateCommisionOrder;
 import com.anaadihsoft.common.master.PaymentWalletDistribution;
 import com.anaadihsoft.common.master.PaymentWalletTransaction;
 import com.anaadihsoft.common.master.ProductVariant;
@@ -22,6 +25,7 @@ import com.anaadihsoft.common.master.User;
 import com.anaadihsoft.common.master.UserOrder;
 import com.anaadihsoft.common.master.UserOrderProducts;
 import com.anaadihsoft.common.master.UserWallet;
+import com.urbanstyle.order.Repository.AffiliateCommisionOrderRepo;
 import com.urbanstyle.order.Repository.OrderRepository;
 import com.urbanstyle.order.Repository.PaymentWalletDistributionRepo;
 import com.urbanstyle.order.Repository.PaymentWalletTransactionRepo;
@@ -58,15 +62,36 @@ public class ReturnServiceImpl implements ReturnService{
 	@Autowired 
 	private UserRepository userRepo;
 	
+	@Autowired
+	private AffiliateCommisionOrderRepo affiliateCommOrderRepo;
+	
 	
 	
 	@Override
-	public List<ReturnManagement> getReturnByUser(long userId, Filter filter) {
+	public List<ReturnUiListDTO> getReturnByUser(long userId, Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
+		
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return returnOrderRepository.getAllReturnBySearchString(userId,filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return returnOrderRepository.findByUserIdAndCreatedDateBetween(userId,startDate,endDate,pagable);
+		}
+		}
+		
+		
 		return returnOrderRepository.findByUserId(userId,pagable);
 	}
 
@@ -108,6 +133,10 @@ public class ReturnServiceImpl implements ReturnService{
 				System.out.println("quantity to return"+userOrdrProd.getQuantity());
 				//for(UserOrderProducts userOrdrProd :userOrderProducts) {
 					userOrdrProd.setStatus("RETURNED");
+					if(userOrdrProd.isAffiliateCommisionExists())
+					{
+						updateAffiliateCommission(userOrdrProd);
+					}
 					ProductVariant varient = userOrdrProd.getProduct();
 					varient.setTotalQuantity(varient.getTotalQuantity() + userOrdrProd.getQuantity());
 					if(userBal.get(Long.valueOf(varient.getCreatedBy())) != null) {
@@ -139,6 +168,16 @@ public class ReturnServiceImpl implements ReturnService{
 			
 			
 	
+		
+	}
+
+	private void updateAffiliateCommission(UserOrderProducts userOrdrProd) {
+		AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(userOrdrProd.getId());
+		if(afOrder!=null)
+		{
+			afOrder.setStatus(userOrdrProd.getStatus());
+			affiliateCommOrderRepo.save(afOrder);
+		}
 		
 	}
 
@@ -206,7 +245,7 @@ public class ReturnServiceImpl implements ReturnService{
 				pwtinnerAff.setOrderProds(userOrdrProd);
 				pwtinnerAff.setReciever(String.valueOf(userOrder.getUser().getId()));
 				pwtinnerAff.setSender(affiliatiduser);
-				pwtinnerAff.setStatus("1"); 
+				pwtinnerAff.setStatus("RETURNED"); 
 				pwtinnerAff.setType("RT");  //Return
 				paymentwalletTransactionRepo.save(pwtinnerAff);
 			}else {
@@ -250,48 +289,128 @@ public class ReturnServiceImpl implements ReturnService{
 	}
 
 	@Override
-	public List<ReturnManagement> getReturnByVendor(long vendorId, Filter filter) {
+	public List<ReturnUiListDTO> getReturnByVendor(long vendorId, Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
 		//Here We have to get return from User Order
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return returnOrderRepository.getAllReturnOfVendorBySearchString(vendorId,filter.getSearchString(),pagable);
+		}
+		else
+		{
+			if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+			{
+				String[] dates=filter.getDateRange().split(",");
+				Date startDate= new Date(Long.parseLong(dates[0]));
+				Date endDate = new Date(Long.parseLong(dates[1]));
+				System.out.println("start date "+startDate+"  end Date"+endDate);
+				return returnOrderRepository.findByOrderProductVendorIdAndDateRange(vendorId,startDate,endDate,pagable);
+			}
+		}
+		
 		return returnOrderRepository.findByOrderProductVendorId(vendorId,pagable);
 		//return returnOrderRepository
 	}
 
 	@Override
-	public List<ReturnManagement> getReturnForSuperAdmin(Filter filter) {
+	public List<ReturnUiListDTO> getReturnForSuperAdmin(Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
 		//Here We have to get return from User Order
-		Page<ReturnManagement> page= returnOrderRepository.findAll(pagable);
-		return page.hasContent()?page.getContent():null;
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return returnOrderRepository.getAllReturnForSuperadmiBySearchString(filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return returnOrderRepository.getAllReturnsByDateRange(startDate,endDate,pagable);
+		}
+		}
+		return returnOrderRepository.findAllForSuperAdmin(pagable);
+//		return page.hasContent()?page.getContent():null;
 	}
 
 	@Override
-	public ReturnManagement getAllDetailOfReturn(long returnId) {
+	public ReturnUiDTO getAllDetailOfReturn(long returnId) {
 		Optional<ReturnManagement> returnManage=returnOrderRepository.findById(returnId);
-		return returnManage.isPresent()?returnManage.get():null;
+		 if(returnManage.isPresent())
+		 {
+		return new ReturnUiDTO(returnManage.get());
+		 }
+		 return null;
 	}
 
 	@Override
 	public long getCountForSuperAdmin(Filter filter) {
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return returnOrderRepository.getAllReturnCountBySearchString(filter.getSearchString());
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			return returnOrderRepository.countByCreatedDateBetween(startDate,endDate);
+		}
+		}
 		return returnOrderRepository.count();
 	}
 
 	@Override
-	public long getReturnCountByUser(long userId) {
+	public long getReturnCountByUser(long userId,Filter filter) {
+		
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return returnOrderRepository.getAllUsersBySearchString(userId,filter.getSearchString());
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return returnOrderRepository.getCountAllReturnByDateRange(userId,startDate,endDate);
+		}
+		}
+		
 		return returnOrderRepository.countByUserId(userId);
 
 	}
 
 	@Override
-	public long getReturnCountByVendor(long vendorId) {
+	public long getReturnCountByVendor(long vendorId,Filter filter) {
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return returnOrderRepository.getAllReturnCountBySearchString(vendorId,filter.getSearchString());
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			return returnOrderRepository.countAllReturnByDateRange(vendorId,startDate,endDate);
+		}
+		}
 		return returnOrderRepository.countByOrderProductVendorId(vendorId);
 	}
 

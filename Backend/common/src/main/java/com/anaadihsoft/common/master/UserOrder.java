@@ -36,13 +36,7 @@ public class UserOrder {
 	
 	private Date orderPaidDate;
 	
-	public Address getAddress() {
-		return address;
-	}
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
 
 	private double orderTotalPrice;
 	
@@ -60,6 +54,14 @@ public class UserOrder {
 	private boolean singleVendorOrder;
 	
 	private String orderCode;
+	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 	
 	public String getOrderCode() {
 		return orderCode;

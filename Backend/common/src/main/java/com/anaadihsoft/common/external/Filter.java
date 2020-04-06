@@ -9,6 +9,10 @@ public class Filter {
 	private String sortingDirection;
 	
 	private String sortingField;
+	
+	private String dateRange;
+	
+	private String searchString;
 
 	//limit 
 	//offset
@@ -17,8 +21,27 @@ public class Filter {
 	//rating
 	//sortingByDate
 	//SortingByPrice
+	
+	
+	
 	public int getLimit() {
 		return limit;
+	}
+
+	public String getDateRange() {
+		return dateRange;
+	}
+
+	public void setDateRange(String dateRange) {
+		this.dateRange = dateRange;
+	}
+
+	public String getSearchString() {
+		return searchString;
+	}
+
+	public void setSearchString(String searchString) {
+		this.searchString = searchString;
 	}
 
 	public void setLimit(int limit) {

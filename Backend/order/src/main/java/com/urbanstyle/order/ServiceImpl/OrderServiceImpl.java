@@ -19,6 +19,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.anaadihsoft.common.DTO.OrderTransactionSummaryDTO;
+import com.anaadihsoft.common.DTO.OrderUiDTO;
+import com.anaadihsoft.common.DTO.OrderUiListingDTO;
+import com.anaadihsoft.common.DTO.ReturnUiListDTO;
 import com.anaadihsoft.common.DTO.UserOrderFetchDTO;
 import com.anaadihsoft.common.DTO.UserOrderQtyDTO;
 import com.anaadihsoft.common.DTO.UserOrderSaveDTO;
@@ -193,6 +196,16 @@ public class OrderServiceImpl implements OrderService {
 		List<UserOrderProducts> totalProducts = new ArrayList<>();
 		long vendorId;
 		UserOrderProducts userOrderProduct = new UserOrderProducts();
+		long affiiateId = userOrder.getAffiliateId();
+		User affialiateUser =null;
+		if(affiiateId!=0)
+		{
+		Optional<User> affiliateuser = userRepo.findById(affiiateId);
+		if(affiliateuser.isPresent()) {
+			affialiateUser=affiliateuser.get();
+		}
+		}
+		User admin = userRepo.findByUserType("SUPERADMIN");
 		for(UserOrderQtyDTO userDTO : userOrderList) {
 			long prodVarId = userDTO.getProductVariantId();
 			int quantity = userDTO.getQty();
@@ -211,7 +224,7 @@ public class OrderServiceImpl implements OrderService {
 			userOrderProduct.setProduct(productVar);
 			userOrderProduct.setStatus("PENDING");
 			// addd reserved quantity
-			userOrderProduct.setStatus(userOrderSave.getOrderStatus());
+			//userOrderProduct.setStatus(userOrderSave.getOrderStatus());
 			userOrderProduct.setQuantity(quantity);
 			userOrderProduct.setOrderProductPrice(productVar.getDisplayPrice() * quantity);
 			userOrderProduct.setUserOrder(userOrderSave);
@@ -230,18 +243,31 @@ public class OrderServiceImpl implements OrderService {
 			totalAmount += productVar.getDisplayPrice()*quantity;
 			
 			totalProducts.add(userOrderProduct);
+			
+			// if 3 products are ordered then 3 entries are maintained user to admin against order prod id
+			
+			if(admin != null) {
+				PaymentWalletTransaction pwt = new PaymentWalletTransaction();
+				pwt.setAmount(productVar.getDisplayPrice()*quantity);
+				pwt.setCreatedDate(new Date());
+				pwt.setOrder(userOrderSave);
+				pwt.setReciever(String.valueOf(admin.getId()));
+				pwt.setSender(userOrderSave.getUser());
+				pwt.setStatus("1"); 
+				pwt.setType("OP");  //Order Placed
+				pwt.setOrderProds(userOrderProduct);
+				paymentwalletTransactionRepo.save(pwt);		
+			}
 		  }
 			
 			// maintaining enteries for affiliate commisiomn
-			long affiiateId = userOrder.getAffiliateId();
+			
 			if(affiiateId != 0) {
 				AffiliateCommisionOrder afcommOrder = new AffiliateCommisionOrder();
-				Optional<User> affiliateuser = userRepo.findById(affiiateId);
-				if(affiliateuser.isPresent()) {
-					afcommOrder.setAffiliateId(affiliateuser.get());
-				}
+				afcommOrder.setAffiliateId(affialiateUser);
 				long catid = productVar.getCategoryId();
 				Optional<Category> categoryProd =  catRepo.findById(catid);
+				//Here commission will be taken from some other point
 				if(categoryProd.isPresent()) {
 					afcommOrder.setCommision(categoryProd.get().getCommissionPercentage());
 				}
@@ -249,12 +275,16 @@ public class OrderServiceImpl implements OrderService {
 				afcommOrder.setOrderprodid(userOrderProduct);
 				afcommOrder.setProdvarid(productVar);
 				afcommOrder.setReturnId(null);
+				//Update the Status of This also 
 				afcommOrder.setStatus("PENDING");
 				Optional<User> customer = userRepo.findById(userOrder.getUserId());
 				if(customer.isPresent()) {
 					afcommOrder.setUser(customer.get());
 				}
 				affiliateCommOrderRepo.save(afcommOrder);
+				
+				userOrderProduct.setAffiliateCommisionExists(true);
+				//userOrderProduct.setAffiliate(affialiateUser);
 			}
 			
 			
@@ -321,15 +351,13 @@ public class OrderServiceImpl implements OrderService {
 				User admin = userRepo.findByUserType("SUPERADMIN");
 				if(admin!=null)
 				{
-					PaymentWalletTransaction pwt = new PaymentWalletTransaction();
-					pwt.setAmount(totalAmount);
-					pwt.setCreatedDate(new Date());
-					pwt.setOrder(userOrderSave);
-					pwt.setReciever(String.valueOf(admin.getId()));
-					pwt.setSender(userOrderSave.getUser());
-					pwt.setStatus("1"); 
-					pwt.setType("OP");  //Order Placed
-					paymentwalletTransactionRepo.save(pwt);			
+			/*
+			 * PaymentWalletTransaction pwt = new PaymentWalletTransaction();
+			 * pwt.setAmount(totalAmount); pwt.setCreatedDate(new Date());
+			 * pwt.setOrder(userOrderSave); pwt.setReciever(String.valueOf(admin.getId()));
+			 * pwt.setSender(userOrderSave.getUser()); pwt.setStatus("1");
+			 * pwt.setType("OP"); //Order Placed paymentwalletTransactionRepo.save(pwt);
+			 */	
 	
 					UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
 					if(userWalletAdmin != null) {
@@ -353,12 +381,29 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<UserOrderProducts> getOrderProductByUser(long userId, Filter filter) {
+	public List<OrderUiListingDTO> getOrderProductByUser(long userId, Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
+		//CHANGE IMPLEMENTING DATE FILTER AND SEARCH STRING
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getAllUsersOrderBySearchString(userId,filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.findByUserOrderUserIdAndCreatedDateBetween(userId,startDate,endDate,pagable);
+		}
+		}
+		
 		return userOrderProdRepo.findByUserOrderUserId(userId,pagable);
 	}
 //	@Override
@@ -405,12 +450,27 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	
 	@Override
-	public List<UserOrderProducts> getVendorOrder(long vendorId,Filter filter) {
+	public List<OrderUiListingDTO> getVendorOrder(long vendorId,Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getAllOrderForVendorBySearchString(vendorId,filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.findByvendorvendor_IdByDateRange(vendorId,startDate,endDate,pagable);
+		}
+		}
 		return userOrderProdRepo.findByvendorvendor_Id(vendorId,pagable);
 
 	}
@@ -928,7 +988,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public UserOrderProducts getOrderProductForVendor(long vendorId, long orderProductId) {
+	public OrderUiDTO getOrderProductForVendor(long vendorId, long orderProductId) {
 		return  userOrderProdRepo.findByIdAndVendorId(orderProductId,vendorId);
 		//return userOrderProdRepo.findByUserOrderIdAndVendorId(orderId,vendorId);
 	}
@@ -981,8 +1041,30 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<UserOrderProducts> getOrderForVendorByStatus(long vendorId, String status) {
-		return userOrderProdRepo.findByvendorvendor_IdAndStatus(vendorId,status);
+	public List<OrderUiListingDTO> getOrderForVendorByStatus(long vendorId, String status, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		//CHANGE IMPLEMENTING DATE FILTER AND SEARCH STRING
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getAllVendorOrderAndStatusAndBySearchString(vendorId,status,filter.getSearchString(),pagable);
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.findByvendorvendor_IdAndStatusCreatedDateBetween(vendorId,status,startDate,endDate,pagable);
+		}
+		}
+		
+		return userOrderProdRepo.findByvendorvendor_IdAndStatus(vendorId,status,pagable);
 	}
 
 	@Override
@@ -1001,7 +1083,7 @@ public class OrderServiceImpl implements OrderService {
 				 userOrderProducts = userOrderProductOpt.get();
 			
 			//for(UserOrderProducts userOrdrProd :userOrderProducts) {
-			userOrderProducts.setStatus("CANCELLED");
+				 userOrderProducts.setStatus("CANCELLED");
 				ProductVariant varient = userOrderProducts.getProduct();
 				double oldReserved = varient.getReservedQuantity();
 				oldReserved = oldReserved - userOrderProducts.getQuantity();
@@ -1010,8 +1092,14 @@ public class OrderServiceImpl implements OrderService {
 //				oldQty = oldQty - userOrdrProd.getQuantity();
 //				varient.setTotalQuantity(oldQty);
 				productVariantRepo.save(varient);
-				userOrderProdRepo.save(userOrderProducts);
-			//}
+				userOrderProducts=userOrderProdRepo.save(userOrderProducts);
+				
+				
+//				//Update AFFILIATE COMMISSION TABLE ALSO IF ORDER IS CANCELLED
+				if(userOrderProducts.isAffiliateCommisionExists())
+				{
+					updateAffiliateCommission(userOrderProducts);
+				}
 			// update wallet and add entry to payment wallet entry from Super admin to user
 			
 						User admin = userRepo.findByUserType("SUPERADMIN");
@@ -1060,6 +1148,17 @@ public class OrderServiceImpl implements OrderService {
 		return usrOrdr;
 	}
 
+	public void updateAffiliateCommission(UserOrderProducts userOrderProducts) {
+		// TODO Auto-generated method stub
+		AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(userOrderProducts.getId());
+		if(afOrder!=null)
+		{
+			afOrder.setStatus(userOrderProducts.getStatus());
+			affiliateCommOrderRepo.save(afOrder);
+		}
+		
+	}
+
 	@Override
 	public Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId) {
 		UserOrder usrOrdr = null;
@@ -1080,10 +1179,16 @@ public class OrderServiceImpl implements OrderService {
 				userOrdrProd=userOrdrProdOpt.get();
 				if(userOrdrProd.getStatus().equals("COMPLETE"))
 				{
-				 userOrdrProd=userOrdrProdOpt.get();
+				userOrdrProd=userOrdrProdOpt.get();
 				userOrdrProd.setStatus("RETURNED REQUESTED");
 				userOrderProdRepo.save(userOrdrProd);
+				
+				if(userOrdrProd.isAffiliateCommisionExists())
+				{
+					updateAffiliateCommission(userOrdrProd);
+				}
 			
+				
 			// maintain entry for return management with status
 			ReturnManagement returnManage = new ReturnManagement();
 			returnManage.setOrder(usrOrdr);
@@ -1097,6 +1202,14 @@ public class OrderServiceImpl implements OrderService {
 				returnManage.setCreatedBy(String.valueOf(loginUser.get().getId()));
 			}
 			returnManagement.save(returnManage);
+			
+			// now user only return one order product so update status for affiliate only
+			AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(orderProdId);
+			if(afOrder != null) {
+				afOrder.setStatus("RETURNED");
+				afOrder.setReturnId(returnManage);
+				affiliateCommOrderRepo.save(afOrder);
+			}
 			}
 			}
 		}
@@ -1116,7 +1229,7 @@ public class OrderServiceImpl implements OrderService {
 //	}
 	
 	@Override
-	public List<UserOrderProducts> getLastOrders(int offset) {
+	public List<OrderUiListingDTO> getLastOrders(int offset) {
 		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
 		List<String> statusList = new ArrayList<>();
 		statusList.add("DISPATCHED");
@@ -1125,7 +1238,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<ReturnManagement> getLastReturns(int offset) {
+	public List<ReturnUiListDTO> getLastReturns(int offset) {
 		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
 		return returnManagement.getLastReturns(pagable);
 	}
@@ -1137,7 +1250,7 @@ public class OrderServiceImpl implements OrderService {
 //	}
 	
 	@Override
-	public List<UserOrderProducts> getAllOrderByStatus(int offset,String status) {
+	public List<OrderUiListingDTO> getAllOrderByStatus(int offset,String status) {
 		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
 		return userOrderProdRepo.getAllOrderByStatus(status,pagable);
 	}
@@ -1148,13 +1261,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<UserOrderProducts> getAllVendorSales(long userId, Filter filter) {
+	public List<OrderUiListingDTO> getAllVendorSales(long userId, Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return userOrderProdRepo.findByVendorIdAndStatus(userId,"COMPLETE",pagable);
+		return userOrderProdRepo.findByvendorvendor_IdAndStatus(userId,"COMPLETE",pagable);
 	}
 
 	@Override
@@ -1163,18 +1276,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<UserOrderProducts> getAllOrderForSuperAdmin(Filter filter) {
+	public List<OrderUiListingDTO> getAllOrderForSuperAdmin(Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		Page<UserOrderProducts> pageDate= userOrderProdRepo.findAll(pagable);
-		return pageDate.hasContent()? pageDate.getContent():null;
+		return userOrderProdRepo.findAllOrderForSuperAdmin();
+	//	Page<UserOrderProducts> pageDate= userOrderProdRepo.find
+	//	return pageDate.hasContent()? pageDate.getContent():null;
 	}
 
 	@Override
-	public List<UserOrderProducts> getLastOrdersForVendor(int offset, long vendorId,String status) {
+	public List<OrderUiListingDTO> getLastOrdersForVendor(int offset, long vendorId,String status) {
 		final Pageable pagable = PageRequest.of(offset, 5, Sort.Direction.DESC,"createdDate");
 		return userOrderProdRepo.getAllOrderByStatusAndUserId(status,vendorId,pagable);
 	}
@@ -1202,13 +1316,44 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public long getCountOrderProductByUser(long userId) {
+	public long getCountOrderProductByUser(long userId, Filter filter) {
+		//CHANGE IMPLEMENTING DATE FILTER AND SEARCH STRING
+				if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+				{
+					return userOrderProdRepo.getAllUsersOrderCountBySearchString(userId,filter.getSearchString());
+				}
+				else
+				{
+				if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+				{
+					String[] dates=filter.getDateRange().split(",");
+					Date startDate= new Date(Long.parseLong(dates[0]));
+					Date endDate = new Date(Long.parseLong(dates[1]));
+					System.out.println("start date "+startDate+"  end Date"+endDate);
+					return userOrderProdRepo.countByUserOrderUserIdAndCreatedDateBetween(userId,startDate,endDate);
+				}
+				}
 		return userOrderProdRepo.countByUserOrderUserId(userId);
 
 	}
 
 	@Override
-	public long getVendorOrderCount(long vendorId) {
+	public long getVendorOrderCount(long vendorId,Filter filter) {
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getVendorOrderCountBySearchString(vendorId,filter.getSearchString());
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.getVendorOrderCountByDateRange(vendorId,startDate,endDate);
+		}
+		}
 		return userOrderProdRepo.getVendorOrderCount(vendorId);
 
 	}
@@ -1311,6 +1456,26 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public long getVendorOrderCountByStatus(long vendorId, String status, Filter filter) {
+		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
+		{
+			return userOrderProdRepo.getVendorOrderCountBySearchStringAndStatus(vendorId,status,filter.getSearchString());
+		}
+		else
+		{
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return userOrderProdRepo.getVendorOrderCountByDateRangeAndStatus(vendorId,status,startDate,endDate);
+		}
+		}
+		return userOrderProdRepo.getVendorOrderCountAndStatus(vendorId,status);
 	}
 
 	

@@ -40,6 +40,11 @@ public class UserOrderProducts {
 	@JoinColumn(name="vendor_Id",nullable = false)
 	private User vendor;
 	
+	
+	@ManyToOne
+	@JoinColumn(name="affiliate_id")
+	private User affiliate;
+	
 	private Date createdDate;
 	
 	private String createdBy;
@@ -50,6 +55,16 @@ public class UserOrderProducts {
 	
 	private String orderCode;
 	
+	private boolean affiliateCommisionExists;
+	
+	
+	
+	public User getAffiliate() {
+		return affiliate;
+	}
+	public void setAffiliate(User affiliate) {
+		this.affiliate = affiliate;
+	}
 	public String getOrderCode() {
 		return orderCode;
 	}
@@ -76,6 +91,13 @@ public class UserOrderProducts {
 		this.createdDate = createdDate;
 	}
 
+	
+	public boolean isAffiliateCommisionExists() {
+		return affiliateCommisionExists;
+	}
+	public void setAffiliateCommisionExists(boolean affiliateCommisionExists) {
+		this.affiliateCommisionExists = affiliateCommisionExists;
+	}
 	public String getCreatedBy() {
 		return createdBy;
 	}

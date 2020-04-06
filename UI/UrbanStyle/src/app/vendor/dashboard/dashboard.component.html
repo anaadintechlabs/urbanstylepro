@@ -11,10 +11,10 @@
                 <div class="card-body">
                     <div class="row m-0" *ngFor="let data of lastOrdersList; let i = index">
                         <div class="col-md-4 col-4">
-                           <p>ORD-{{data.id}}</p>
+                           <p>ORD-{{data.orderProductId}}</p>
                         </div>
                         <div class="col-md-4 col-4">
-                           <p>{{data.product?.product?.productName}}</p>
+                           <p>{{data.variantName}}</p>
                         </div>
                         <div class="col-md-4 col-4">
                            <p>{{data.orderProductPrice | currencyFormat}}</p>
@@ -34,7 +34,7 @@
                            <p>RET-{{data.returnId}}</p>
                         </div>
                         <div class="col-md-4 col-4">
-                           <p>{{data.orderProduct?.product?.product?.productName}}</p>
+                           <p>{{data.variantName}}</p>
                         </div>
                         <div class="col-md-4 col-4">
                            <p>{{data.orderProductPrice | currencyFormat}}</p>
@@ -51,10 +51,10 @@
                 <div class="card-body">
                     <div class="row m-0" *ngFor="let data of lastSalesList; let i = index">
                         <div class="col-md-4 col-4">
-                           <p>SAL-{{data.id}}</p>
+                           <p>SAL-{{data.orderProductId}}</p>
                         </div>
                         <div class="col-md-4 col-4">
-                           <p>{{data.product?.product?.productName}}</p>
+                           <p>{{data.variantName}}</p>
                         </div>
                         <div class="col-md-4 col-4">
                            <p>{{data.orderProductPrice | currencyFormat}}</p>

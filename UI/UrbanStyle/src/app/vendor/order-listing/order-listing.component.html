@@ -1,8 +1,18 @@
 <div class="container" >
   <div class="row my-5" *ngIf=" !showProduct">
-    <div class="col-12 col-md-12">
+    <div class="col-6 col-md-6">
       <div class="ordder_heading">
         <h4>Order Managment</h4>
+      </div>
+    </div>
+    <div class="col-6 col-md-6">
+      <div class="ordder_heading">
+        <select   [(ngModel)]="timeRange" (ngModelChange)="chooseDateRange()" name="" id="">
+                <option  value="WEEKLY">Last 7 Days</option>
+                <option   value="MONTHLY">Last 30 Days</option>
+                <option   value="QUARTERLY">Last 90 Days</option>
+                <!-- <option value="RETURN">RETURN</option> -->
+              </select>
       </div>
     </div>
   </div>
@@ -16,6 +26,8 @@
           <span><button class="btn actionBtn" (click)="getOrderByStatus('PENDING')">Pending Order </button></span>
           <span><button class="btn actionBtn" (click)="getOrderByStatus('PLACED')">Placed Order </button></span>
           <span><button class="btn actionBtn" (click)="getOrderByStatus('CANCELLED')">Cancelled Order </button></span>
+          <span><button class="btn actionBtn" (click)="getOrderByStatus('COMPLETE')">Completed Order </button></span>
+  
         </p>
       </div>
     </div>
@@ -25,23 +37,23 @@
       <table class="table table-striped">
         <thead class="thead-default">
           <tr>
-            <th>Order Id</th>
-            <th>Order Date</th>
-            <th>Order Status</th>
-            <th>Order Price</th>
-            <th>Order Placed By</th>
+            <th >Order Id<i class="fa" (click)="sortHeaderClick('id')" [ngClass]="{ 'fa-sort': isSorting('id'), 'fa-sort-up': isSortAsc('id'), 'fa-sort-down': isSortDesc('id') }"></i></th>
+            <th>Order Date<i class="fa" (click)="sortHeaderClick('userOrder.orderPlacedDate')" [ngClass]="{ 'fa-sort': isSorting('userOrder.orderPlacedDate'), 'fa-sort-up': isSortAsc('userOrder.orderPlacedDate'), 'fa-sort-down': isSortDesc('userOrder.orderPlacedDate') }"></i></th>
+            <th>Order Status<i class="fa" (click)="sortHeaderClick('status')" [ngClass]="{ 'fa-sort': isSorting('status'), 'fa-sort-up': isSortAsc('status'), 'fa-sort-down': isSortDesc('status') }"></i></th>
+            <th>Order Price<i class="fa" (click)="sortHeaderClick('orderProductPrice')" [ngClass]="{ 'fa-sort': isSorting('orderProductPrice'), 'fa-sort-up': isSortAsc('orderProductPrice'), 'fa-sort-down': isSortDesc('orderProductPrice') }"></i></th>
+            <th>Order Placed By<i class="fa" (click)="sortHeaderClick('userOrder.user.name')" [ngClass]="{ 'fa-sort': isSorting('userOrder.user.name'), 'fa-sort-up': isSortAsc('userOrder.user.name'), 'fa-sort-down': isSortDesc('userOrder.user.name') }"></i></th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
 
-          <tr *ngFor="let order of orderList | paginate: { itemsPerPage: limit, currentPage: offset,totalItems: count }; let i = index">
-            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(order.id,order.userOrder.id)">ORDER-{{ order.id }}</td>
+          <tr *ngFor="let order of orderList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: count }; let i = index">
+            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(order.orderProductId,order.orderId)">ORDER-{{ order.orderProductId }}</td>
 
-            <td>{{ order.userOrder.orderPlacedDate | date }}</td>
+            <td>{{ order.orderPlacedDate | date }}</td>
             <td>{{ order.status }}</td>
             <td>{{ order.orderProductPrice | currencyFormat}}</td>
-            <td>{{ order.userOrder.user.name }}</td>
+            <td>{{ order.userName }}</td>
             <td>
               <p class="mb-0" *ngIf="order.status == 'PLACED' ||  order.status == 'COMPLETE' ||  order.status == 'CANCELLED' ||  order.status == 'RETURNED REQUESTED'  ||  order.status == 'RETURNED' ">NA</p>
               <select *ngIf="order.status != 'PLACED' && order.status != 'COMPLETE' &&   order.status != 'CANCELLED' &&   order.status != 'RETURNED REQUESTED' &&   order.status != 'RETURNED'" [(ngModel)]="order.f_Status" (ngModelChange)="chooseAction(order)" name="" id="">

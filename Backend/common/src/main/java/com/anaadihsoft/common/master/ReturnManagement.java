@@ -27,6 +27,8 @@ public class ReturnManagement {
 	@ManyToOne
 	private User user;
 	
+	private String returnType;//whether it is from CUSTOMER or COURIER  future use
+	
 	private String reason;
 	
 	private String status;
@@ -36,6 +38,8 @@ public class ReturnManagement {
 	private Date unitRecieveDate;
 	
 	private Date customerRefundDate;
+	
+	private String returnCode;
 	
 	
 	private Date createdDate;
@@ -59,6 +63,14 @@ public class ReturnManagement {
 	}
 
 	
+
+	public String getReturnType() {
+		return returnType;
+	}
+
+	public void setReturnType(String returnType) {
+		this.returnType = returnType;
+	}
 
 	public UserOrder getOrder() {
 		return order;
@@ -165,4 +177,14 @@ public class ReturnManagement {
 	{
 		this.setModifiedDate(new Date());
 	}
+
+	public String getReturnCode() {
+		return returnCode;
+	}
+
+	public void setReturnCode(String returnCode) {
+		this.returnCode = returnCode;
+	}
+	
+	
 }

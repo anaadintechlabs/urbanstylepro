@@ -22,12 +22,12 @@
         </thead>
         <tbody>
           <tr *ngFor="let order of salesList">
-            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(order.id,order.userOrder.id)">SAL-{{ order.id }}</td>
-            <td>{{ order.userOrder.orderPlacedDate | date }}</td>
-            <td>{{ order.userOrder.orderPaidDate | date }}</td>
+            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(order.orderProductId,order.orderId)">SAL-{{ order.orderProductId }}</td>
+            <td>{{ order.orderPlacedDate | date }}</td>
+            <td>{{ order.orderPaidDate | date }}</td>
             <td>{{ order.status }}</td>
             <td>{{ order.orderProductPrice }}</td>
-            <td>{{ order.userOrder.user.name }}</td>
+            <td>{{ order.userName }}</td>
           </tr>
           <tr *ngIf="orderList?.length ==0 ">
             <td scope="row">No record found</td>

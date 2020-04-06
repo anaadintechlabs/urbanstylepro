@@ -340,12 +340,14 @@ changeStatusOfCategory(
   }
 
   //get all order of vendor by status
-  getAllOrderOfVendorByStatus(vendorId,status,url)
+  getAllOrderOfVendorByStatus(vendorId,status,body,url)
   {
-    const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("status",status);
-    console.log(param);
+    // const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("status",status);
+//    console.log(param);
+        url=url+"?vendorId="+vendorId+'&status='+status;
+
     return new Observable<any>(obs => {
-      this._apiService.getOrder(url, param).subscribe(res => {
+      this._apiService.postOrder(url,body).subscribe(res => {
         if (res.isSuccess) {
           obs.next(res.data);
         }
