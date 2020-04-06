@@ -51,10 +51,12 @@ export class AddProductService {
     return this.productDTO.get("productMetaInfo") as FormArray;
   }
 
-  customValidateArrayGroup(): ValidatorFn {
+   customValidateArrayGroup(): ValidatorFn {
     return (formArray:FormArray):{[key: string]: any} | null=>{
       let valid:boolean=true;
       formArray.controls.forEach((x:FormGroup)=>{
+          let v_status = false;
+          let s_status = false;
           let index1 = formArray.controls.indexOf(x);
           console.log("validated Array",x.get('productVariant').get('variantCode') as FormControl);
           let code1 : FormControl = x.get('productVariant').get('variantCode') as FormControl;
@@ -65,19 +67,23 @@ export class AddProductService {
             let sku2 : FormControl = y.get('productVariant').get('sku') as FormControl;
             if(index1 != index2){
               if(code1.value === code2.value){
-                code1.setErrors({notUnique:'not a unique value'});
+                v_status = true;
+                code2.setErrors({notUnique:'not a unique value'});
                 valid = false;
-              } else {
-                code1.setErrors(null)
-              }
+              } 
               if(sku1.value === sku2.value){
-                sku1.setErrors({notUnique:'not a unique value'});
+                s_status = true;
+                sku2.setErrors({notUnique:'not a unique value'});
                 valid = false;
-              } else {
-                sku1.setErrors(null);
               }
             }
           })
+          if(!v_status) {
+            code1.setErrors(null);
+          }
+          if(!s_status){
+            sku1.setErrors(null);
+          }
       })
       return valid?null:{error:'Not all values are same'}
     }
@@ -301,7 +307,7 @@ export class AddProductService {
   validateSalePrice(control : AbstractControl) : ValidationErrors {
     if (!control.parent || !control) return;
     let sPrice = control.value;
-    let dPrice = control.parent.get('manufacturerSuggesstedPrice').value;
+    let dPrice = control.parent.get('displayPrice').value;
     if(dPrice == ''){
       return null
     }
@@ -319,68 +325,68 @@ export class AddProductService {
 
   saveChanges() {
     console.log("metalist",this.productDTO);
-    // if(this.selectedVariation.length==0)
-    // {
-    //   let productFormGroup=this.productVariantDTO.at(0).get('productVariant') as FormGroup;
-    //   productFormGroup.controls.variantName.patchValue(this.productFormGroup.controls.productName.value);
-    // }
-    // if(this.productDTO.status == 'VALID') {
-    //   console.log("in valid",this.productDTO);
+    if(this.selectedVariation.length==0)
+    {
+      let productFormGroup=this.productVariantDTO.at(0).get('productVariant') as FormGroup;
+      productFormGroup.controls.variantName.patchValue(this.productFormGroup.controls.productName.value);
+    }
+    if(this.productDTO.status == 'VALID') {
+      console.log("in valid",this.productDTO);
 
-    //   console.log(this.features[0]);
-    //   this.productFormGroup.get('features').patchValue(JSON.stringify(this.features));
-    //   this.uploadedPhoto = this.myFiles;
-    //   let url: string = "";
-    //   const frmData = new FormData();
+      console.log(this.features[0]);
+      this.productFormGroup.get('features').patchValue(JSON.stringify(this.features));
+      this.uploadedPhoto = this.myFiles;
+      let url: string = "";
+      const frmData = new FormData();
   
-    //   for (var i = 0; i < this.uploadedPhoto.length; i++) {
-    //     if(this.uploadedPhoto[i] != '-') {
-    //       frmData.append("file", this.uploadedPhoto[i]);
-    //     }
-    //   }
-    //   frmData.append("productDTOString", JSON.stringify(this.productDTO.value));
-    //   if (this.productStatus == "EDIT") {
-    //     url = "product/updateProduct";
-    //   } else {
-    //     url = "product/saveProduct";
-    //   }
-    //   for (let index = 0; index < this.getProductMetaAllInfo.length; index++) {
-    //     const element = this.getProductMetaAllInfo.controls[index] as FormGroup;
-    //     if(this.metaList[index].unitsAvailable) {
-    //       if(this.metaList[index].subKeyAvailable) {
-    //         element.get('metaValue').patchValue(`(${this.metaList[index].subKeys.join(',')}) ${this.metaList[index].selectedDropDown}`)
-    //       } else {
-    //         element.get('metaValue').patchValue(`(${element.value.metaValue}) ${this.metaList[index].selectedDropDown}`)
-    //       }
-    //     } else {
-    //       if(this.metaList[index].subKeyAvailable) {
-    //         element.get('metaValue').patchValue(`${this.metaList[index].subKeys.join(',')}`)
-    //       } else {
-    //         element.get('metaValue').patchValue(`${element.value.metaValue}`)
-    //       }
-    //     }
-    //   }
-    //   console.log("metalist",this.productDTO);
+      for (var i = 0; i < this.uploadedPhoto.length; i++) {
+        if(this.uploadedPhoto[i] != '-') {
+          frmData.append("file", this.uploadedPhoto[i]);
+        }
+      }
+      frmData.append("productDTOString", JSON.stringify(this.productDTO.value));
+      if (this.productStatus == "EDIT") {
+        url = "product/updateProduct";
+      } else {
+        url = "product/saveProduct";
+      }
+      for (let index = 0; index < this.getProductMetaAllInfo.length; index++) {
+        const element = this.getProductMetaAllInfo.controls[index] as FormGroup;
+        if(this.metaList[index].unitsAvailable) {
+          if(this.metaList[index].subKeyAvailable) {
+            element.get('metaValue').patchValue(`(${this.metaList[index].subKeys.join(',')}) ${this.metaList[index].selectedDropDown}`)
+          } else {
+            element.get('metaValue').patchValue(`(${element.value.metaValue}) ${this.metaList[index].selectedDropDown}`)
+          }
+        } else {
+          if(this.metaList[index].subKeyAvailable) {
+            element.get('metaValue').patchValue(`${this.metaList[index].subKeys.join(',')}`)
+          } else {
+            element.get('metaValue').patchValue(`${element.value.metaValue}`)
+          }
+        }
+      }
+      console.log("metalist",this.productDTO);
       
-    //   this._apiService.postWithMedia(url, frmData).subscribe(
-    //     res => {
-    //       console.log("save done");
-    //       this._router.navigateByUrl("/vendor/inventory");
-    //       this.toastr.success("Product saved successfully", "Success");
-    //       this.flushData();
-    //     },
-    //     error => {
-    //       this.toastr.success("Something went wrong!", "Failure");
-    //     }
-    //   );
+      this._apiService.postWithMedia(url, frmData).subscribe(
+        res => {
+          console.log("save done");
+          this._router.navigateByUrl("/vendor/inventory");
+          this.toastr.success("Product saved successfully", "Success");
+          this.flushData();
+        },
+        error => {
+          this.toastr.success("Something went wrong!", "Failure");
+        }
+      );
 
 
-    //   return
-    // } else if(this.productDTO.status == 'INVALID') {
-    //   console.log("in Invalid",this.productDTO);
-    //   this.toastr.warning("Please fill all the details","Oops")
-    //   return
-    // }
+      return
+    } else if(this.productDTO.status == 'INVALID') {
+      console.log("in Invalid",this.productDTO);
+      this.toastr.warning("Please fill all the details","Oops")
+      return
+    }
   
   }
 

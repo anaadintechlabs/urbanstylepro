@@ -68,8 +68,8 @@
       </div>
 
       <!-- Transaction Details -->
-<div><b>Transaction Details</b></div><br>
-    <div class="col-md-12">
+     <div *ngIf="orderDetails?.status == 'COMPLETE'"><b>Transaction Details</b></div><br>
+   <div *ngIf="orderDetails?.status == 'COMPLETE'" class="col-md-12">
       <table class="table table-striped">
         <thead class="thead-default">
           <tr>

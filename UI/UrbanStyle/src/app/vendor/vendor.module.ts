@@ -25,6 +25,7 @@ import { SharedModule } from '../shared/shared.module';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 
 import { NgxPaginationModule } from '../../../node_modules/ngx-pagination';
+import { WalletComponent } from './wallet/wallet.component';
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { NgxPaginationModule } from '../../../node_modules/ngx-pagination';
     OrderListingComponent,
     SalesListingComponent,
     SalesReturnListingComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    WalletComponent
   ],
   bootstrap: [VendorComponent]
 })

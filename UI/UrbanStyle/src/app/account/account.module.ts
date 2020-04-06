@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 
 
 
@@ -22,7 +24,9 @@ import { HeaderComponent } from './header/header.component';
     BankDetailsComponent,
     AddressComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    EditProfileComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     RouterModule.forChild(AccountRoutes),

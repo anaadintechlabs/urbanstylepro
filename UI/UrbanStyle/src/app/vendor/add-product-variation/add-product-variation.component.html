@@ -61,15 +61,15 @@
         </div>
         <div>
           <span class="input-group-text">$</span>
-          <input type="number" name="username" class="form-control" formControlName="manufacturerSuggesstedPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.actualPrice?.errors }">
+          <input type="number" name="username" class="form-control" formControlName="manufacturerSuggesstedPrice" placeholder=""  [ngClass]="{ 'is-invalid': _addProduct.productVariantDTO.at(i).get('productVariant').get('manufacturerSuggesstedPrice').errors && _addProduct.productVariantDTO.at(i).get('productVariant').get('manufacturerSuggesstedPrice').touched }">
         </div>
         <div>
           <span class="input-group-text">$</span>
-          <input type="number" name="username" class="form-control" formControlName="displayPrice" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.actualPrice?.errors }">
+          <input type="number" name="username" class="form-control" formControlName="displayPrice" placeholder=""  [ngClass]="{ 'is-invalid': _addProduct.productVariantDTO.at(i).get('productVariant').get('displayPrice').errors && _addProduct.productVariantDTO.at(i).get('productVariant').get('displayPrice').touched }">
         </div>
         <div *ngIf="_addProduct.saleSelect">
           <span class="input-group-text">$</span>
-          <input type="number" formControlName="salesPrice" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.discountPrice?.errors }">
+          <input type="number" formControlName="salesPrice" class="form-control" placeholder=""  [ngClass]="{ 'is-invalid': _addProduct.productVariantDTO.at(i).get('productVariant').get('salesPrice').errors && _addProduct.productVariantDTO.at(i).get('productVariant').get('salesPrice').touched }">
         </div>
         <div *ngIf="_addProduct.saleSelect">
           <span class="input-group-text">
