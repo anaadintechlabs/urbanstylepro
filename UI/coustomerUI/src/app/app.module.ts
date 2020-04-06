@@ -17,6 +17,7 @@ import { CartSideMenuComponent } from './modules/header/components/cart-side-men
 // import { CurrencyFormatPipe } from './shared/pipes/curruncy-formator';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './shared/shared.module';
+import { SingleProductViewModule } from './single-product-view/single-product-view.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SharedModule } from './shared/shared.module';
     BlockModule,
     FormsModule, 
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    SingleProductViewModule
   ],
   providers: [
     JwtServiceService

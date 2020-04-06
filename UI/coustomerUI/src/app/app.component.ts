@@ -14,7 +14,6 @@ import { WishlistService } from 'src/_service/product/wishlist.service';
 export class AppComponent implements OnInit {
 
   title = 'urbanStyleCustomer';
-
   constructor(
     private router: Router,
     private toastr: ToastrService,

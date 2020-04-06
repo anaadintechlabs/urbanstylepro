@@ -1,6 +1,6 @@
 <bredcrumb></bredcrumb>
 
-<section class="innerPageContent" *ngIf="singleProductData">
+<section class="innerPageContent" >
     <div class="container">
         <div class="row py-4" >
             <div class="col-12 col-md-6 col-lg-6 col-xl-6">
@@ -8,10 +8,8 @@
             </div>
             <div class="col-md-6 col-xs-12">
                 <product-description [avrageRating]="avgRating" [description]="singleProductData" (scrollToForm)="scroll(reviewForm)"></product-description>
-                <!-- <reviews [reviews]="singleProductData?.allReviews"></reviews> -->
             </div>
         </div>
-
         <div class="row mt-5">
             <div class="col-12">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -37,22 +35,16 @@
                 </div>
               </div>
             </div>
-        </div>
-
-        
+        </div>      
         <div #reviewForm class="row mt-5">
           <div class="col-12">
             <reviews [reviews]="singleProductData?.allReviews"></reviews>
           </div>
         </div>
-
-       
-
         <div class="row py-4" *ngIf="singleProductData">
             <div class="col-md-12 col-xs-12">
                 <app-carousal2 [productList]="singleProductData?.relatedProductsPackets"></app-carousal2>
             </div>
         </div>
     </div>
-    <brand-slider></brand-slider>
-</section>
+</section>  

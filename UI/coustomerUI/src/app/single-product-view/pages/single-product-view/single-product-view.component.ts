@@ -3,23 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/_service/http_&_login/api.service';
 import { urls } from 'src/constants/urlLists';
 import { HttpParams } from '@angular/common/http';
-import { ProductVerient } from 'src/_modals/product';
-
-type SingleProduct = {
-  mainProductPacket : Productpacket;
-  relatedProductsPackets : Productpacket[]; 
-  allReviews : any[]
-}
-
-type Productpacket = {
-  mainProduct : MainProduct;
-  allImages : any[];
-}
-
-type MainProduct = {
-  productVariant : ProductVerient;
-  attributesMap : any;
-}
 
 @Component({
   selector: 'app-single-product-view',
@@ -27,28 +10,36 @@ type MainProduct = {
   styleUrls: ['./single-product-view.component.scss']
 })
 export class SingleProductViewComponent implements OnInit {
-  
-  public singleProductData: SingleProduct;
-  public avgRating : string;
+  public productId : any;
+  public singleProductData : any;
+  public avgRating : any;
 
   constructor(
-    private route : ActivatedRoute,
-    private _apiservice :ApiService
-  ) { }
-
-  ngOnInit() {
-    this.route.paramMap.subscribe(params=>{
-      this.getProductData(params.get('id'))
+    private router : ActivatedRoute,
+    public _apiservice : ApiService
+  ) { 
+    this.router.params.subscribe(data=>{
+      console.log(data);
+      this.productId = data.id;
+      console.log(this.productId);
+      this.getProductData();
     })
   }
 
-  getProductData(id:string){
-    this._apiservice.get(urls.singleProduct,new HttpParams().set('prodVarId',id)).subscribe(res=>{
+  ngOnInit(): void {
+  }
+
+  getProductData(){
+    const param = new HttpParams()
+    .set('prodVarId', this.productId);
+    this._apiservice.get(urls.singleProduct,param).subscribe(res=>{
       if(res.isSuccess){
         this.singleProductData = res.data.SingleProductDetail;
       }
     });
-    this._apiservice.get(urls.avrgRatingProduct,new HttpParams().set('productId',id)).subscribe(res=>{
+    const param2 = new HttpParams()
+    .set('productId', this.productId);
+    this._apiservice.get(urls.avrgRatingProduct,param2).subscribe(res=>{
       if(res.isSuccess){
         this.avgRating = res.data.averageRating.toString();
         // console.log("avg rating",res);

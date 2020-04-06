@@ -48,7 +48,7 @@
           <input type="text" [value]="getVarient(item)" formControlName="variantName" hidden>
         </div>
         <div>
-          <input type="text" id="name"  class="form-control" formControlName="variantCode" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+          <input type="text" id="name"  class="form-control" formControlName="variantCode" placeholder=""  [ngClass]="{ 'is-invalid': _addProduct.productVariantDTO.at(i).get('productVariant').get('variantCode').errors && _addProduct.productVariantDTO.at(i).get('productVariant').get('variantCode').touched}">
         </div>
         <div>
           <select formControlName='productIdType' id="" class="custom-select">
@@ -57,7 +57,7 @@
           </select>
         </div>
         <div>
-          <input type="text"   class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': submitted && f.sku?.errors }">
+          <input type="text"   class="form-control" formControlName="sku" placeholder=""  [ngClass]="{ 'is-invalid': _addProduct.productVariantDTO.at(i).get('productVariant').get('sku').errors && _addProduct.productVariantDTO.at(i).get('productVariant').get('sku').touched }">
         </div>
         <div>
           <span class="input-group-text">$</span>
