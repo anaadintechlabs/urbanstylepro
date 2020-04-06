@@ -223,6 +223,13 @@ public class OrderServiceImpl implements OrderService {
 			 userOrderProduct = new UserOrderProducts();
 			userOrderProduct.setProduct(productVar);
 			userOrderProduct.setStatus("PENDING");
+			
+			UrlShortner urlSShort= new UrlShortner();
+			String UID = urlSShort.generateUid("OD-", 9);
+			System.out.println("uid"+UID);
+
+			userOrderProduct.setOrderCode(UID);
+			
 			// addd reserved quantity
 			//userOrderProduct.setStatus(userOrderSave.getOrderStatus());
 			userOrderProduct.setQuantity(quantity);
@@ -776,7 +783,7 @@ public class OrderServiceImpl implements OrderService {
 					pwtinner.setReciever(source.getSource());
 					pwtinner.setSender(admin);
 					pwtinner.setStatus("1"); 
-					pwtinner.setType("OP");  //Order Placed
+					pwtinner.setType("OC");  //Order complete
 					pwtinner.setOrderProds(userOrdrProd);
 					paymentwalletTransactionRepo.save(pwtinner);
 					if(source.getDistributionTo().equals("VENDOR")) {
@@ -797,7 +804,7 @@ public class OrderServiceImpl implements OrderService {
 					pwtinner.setReciever(String.valueOf(vendor));
 					pwtinner.setSender(admin);
 					pwtinner.setStatus("1"); 
-					pwtinner.setType("OP");  //Order Placed
+					pwtinner.setType("OC");  //Order Placed
 					pwtinner.setOrderProds(userOrdrProd);
 					paymentwalletTransactionRepo.save(pwtinner);
 					

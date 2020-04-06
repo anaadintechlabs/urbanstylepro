@@ -37,6 +37,7 @@ import com.urbanstyle.order.Repository.UserRepository;
 import com.urbanstyle.order.Repository.UserWalletRepo;
 import com.urbanstyle.order.Repository.WishListRepository;
 import com.urbanstyle.order.Service.OrderService;
+import com.urbanstyle.order.Service.PaymentTransactionService;
 import com.urbanstyle.order.util.CommonResponseSender;
 
 @RestController
@@ -62,6 +63,9 @@ public class OrderController {
 
 	@Autowired
 	private ReturnOrder returnManagement;
+	
+	@Autowired
+	private PaymentTransactionService paymentTransactionService; 
 
 	/**
 	 * 
@@ -339,12 +343,20 @@ public class OrderController {
 	 * @param userId
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return wallet as well as incoming and outgoing transaction
 	 */
 	@RequestMapping(value= {"/getWalletByUser"},method= {RequestMethod.POST,RequestMethod.GET})
-	public Map<String,Object> getWalletByUser(@RequestParam(value="userId")long userId,HttpServletRequest request,HttpServletResponse response){
+	public Map<String,Object> getWalletByUser(@RequestParam(value="userId")long userId,
+			@RequestBody Filter filter,HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 		resultMap.put("walletDetails",userWalletRep.findByUserId(userId));
+		
+		resultMap.put("incomingTransactions", paymentTransactionService.getAllIncomingTransactions(userId,filter));
+		resultMap.put("incomingCount", paymentTransactionService.getAllIncomingTransactionsCount(userId,filter));
+		
+		resultMap.put("outgoingTransactions", paymentTransactionService.getAllOutgoingTransactions(userId,filter));
+		resultMap.put("outgoingCount", paymentTransactionService.getAllOutgoingTransactionsCount(userId,filter));
+
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 
@@ -397,5 +409,8 @@ public class OrderController {
 		resultMap.put("canPlace",orderService.canPlaceOrderOrNot(userOrderList));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
+	
+	
+	
 		
 }

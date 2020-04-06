@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 
 import org.hibernate.annotations.ManyToAny;
 
@@ -107,4 +108,11 @@ public class PaymentWalletTransaction {
 	public void setOrderProds(UserOrderProducts orderProds) {
 		this.orderProds = orderProds;
 	}
+	
+	@PrePersist
+	public void setDates()
+	{
+		this.createdDate= new Date();
+	}
 }
+
