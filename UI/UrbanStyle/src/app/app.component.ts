@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, NavigationStart } from '@angular/router';
-import { CurrencyService } from './_services/currency.service';
+import { CurrencyService } from 'src/_services/currency.service';
+
 
 export let Refresh = false;
 @Component({

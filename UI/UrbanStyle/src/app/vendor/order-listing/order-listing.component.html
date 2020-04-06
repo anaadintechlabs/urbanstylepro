@@ -8,6 +8,7 @@
     <div class="col-6 col-md-6">
       <div class="ordder_heading">
         <select   [(ngModel)]="timeRange" (ngModelChange)="chooseDateRange()" name="" id="">
+          <option  value="">Select Date Range</option>
                 <option  value="WEEKLY">Last 7 Days</option>
                 <option   value="MONTHLY">Last 30 Days</option>
                 <option   value="QUARTERLY">Last 90 Days</option>
@@ -37,12 +38,12 @@
       <table class="table table-striped">
         <thead class="thead-default">
           <tr>
-            <th >Order Id<i class="fa" (click)="sortHeaderClick('id')" [ngClass]="{ 'fa-sort': isSorting('id'), 'fa-sort-up': isSortAsc('id'), 'fa-sort-down': isSortDesc('id') }"></i></th>
-            <th>Order Date<i class="fa" (click)="sortHeaderClick('userOrder.orderPlacedDate')" [ngClass]="{ 'fa-sort': isSorting('userOrder.orderPlacedDate'), 'fa-sort-up': isSortAsc('userOrder.orderPlacedDate'), 'fa-sort-down': isSortDesc('userOrder.orderPlacedDate') }"></i></th>
-            <th>Order Status<i class="fa" (click)="sortHeaderClick('status')" [ngClass]="{ 'fa-sort': isSorting('status'), 'fa-sort-up': isSortAsc('status'), 'fa-sort-down': isSortDesc('status') }"></i></th>
-            <th>Order Price<i class="fa" (click)="sortHeaderClick('orderProductPrice')" [ngClass]="{ 'fa-sort': isSorting('orderProductPrice'), 'fa-sort-up': isSortAsc('orderProductPrice'), 'fa-sort-down': isSortDesc('orderProductPrice') }"></i></th>
-            <th>Order Placed By<i class="fa" (click)="sortHeaderClick('userOrder.user.name')" [ngClass]="{ 'fa-sort': isSorting('userOrder.user.name'), 'fa-sort-up': isSortAsc('userOrder.user.name'), 'fa-sort-down': isSortDesc('userOrder.user.name') }"></i></th>
-            <th>Action</th>
+            <th title="Sort By Id" >Order Id<i class="fa" (click)="sortHeaderClick('id')" [ngClass]="{ 'fa-sort': isSorting('id'), 'fa-sort-up': isSortAsc('id'), 'fa-sort-down': isSortDesc('id') }"></i></th>
+            <th title="Sort By Date">Order Date<i class="fa" (click)="sortHeaderClick('userOrder.orderPlacedDate')" [ngClass]="{ 'fa-sort': isSorting('userOrder.orderPlacedDate'), 'fa-sort-up': isSortAsc('userOrder.orderPlacedDate'), 'fa-sort-down': isSortDesc('userOrder.orderPlacedDate') }"></i></th>
+            <th title="Sort By Status">Order Status<i class="fa" (click)="sortHeaderClick('status')" [ngClass]="{ 'fa-sort': isSorting('status'), 'fa-sort-up': isSortAsc('status'), 'fa-sort-down': isSortDesc('status') }"></i></th>
+            <th title="Sort By Price">Order Price<i class="fa" (click)="sortHeaderClick('orderProductPrice')" [ngClass]="{ 'fa-sort': isSorting('orderProductPrice'), 'fa-sort-up': isSortAsc('orderProductPrice'), 'fa-sort-down': isSortDesc('orderProductPrice') }"></i></th>
+            <th title="Sort By User">Order Placed By<i class="fa" (click)="sortHeaderClick('userOrder.user.name')" [ngClass]="{ 'fa-sort': isSorting('userOrder.user.name'), 'fa-sort-up': isSortAsc('userOrder.user.name'), 'fa-sort-down': isSortDesc('userOrder.user.name') }"></i></th>
+             <th>Action</th>
           </tr>
         </thead>
         <tbody>

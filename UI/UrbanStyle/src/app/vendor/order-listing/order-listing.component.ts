@@ -14,7 +14,7 @@ export class OrderListingComponent implements OnInit {
   filterSelected: boolean;
   selectdStatus: any;
   pageNumber=1;
-  timeRange='WEEKLY';
+  timeRange='';
   user: User;
   userId: any;
   showProduct = false;
@@ -52,48 +52,48 @@ export class OrderListingComponent implements OnInit {
   }
 
   chooseAction(data) {
-    let check=confirm("Are you sure, you want to change the status");
-    if(check)
-    {
-    if(!data.f_Status){
-      return
-    }
-    if(data.f_Status == "") {
-      return
-    }
-    if(data.f_Status == "INPROGRESS"){
-      this.changeStatusOfPartialOrder('INPROGRESS',data.id,data.userOrder.id);
-      this.toastr.success("Order marked as INPROGRESS,Take further action","Success")
-     
-      // return
-    } else if(data.f_Status == 'DISPATCHED'){
-      this.changeStatusOfPartialOrder('DISPATCHED',data.id,data.userOrder.id);
-      this.toastr.success("Order marked as DISPATCHED,Quantity reserved from your inventory","Success")
-      
-      // return
-    } 
-    else if(data.f_Status == 'PLACED'){
-      this.changeStatusOfPartialOrder('PLACED',data.id,data.userOrder.id);
-      this.toastr.success("Order marked as PLACED,Wait for admin action","Success")
-      
-    } 
-    else if(data.f_Status == 'CANCEL'){
-      this.cancelOrderByUser(data.id,data.userOrder.id,data.userOrder.user.id);
-      // return
-    }
-    else if(data.f_Status == 'RETURN'){
-      this.returnOrderByUser(data.id,data.userOrder.id,data.userOrder.user.id);
-      // return
-    }
-    
+        let check = confirm("Are you sure, you want to change the status");
+    if (check) {
+      if (!data.f_Status) {
+        return
+      }
+      if (data.f_Status == "") {
+        return
+      }
+      if (data.f_Status == "INPROGRESS") {
+        this.changeStatusOfPartialOrder('INPROGRESS', data.orderProductId, data.orderId);
+        this.toastr.success("Order marked as INPROGRESS,Take further action", "Success")
 
-  }
-  else{
-    setTimeout(() => {
-      data.f_Status = "DISABLE";
-    }, 0);
-  
-  }
+        // return
+      } else if (data.f_Status == 'DISPATCHED') {
+        this.changeStatusOfPartialOrder('DISPATCHED', data.orderProductId, data.orderId);
+        this.toastr.success("Order marked as DISPATCHED,Quantity reserved from your inventory", "Success")
+
+        // return
+      }
+      else if (data.f_Status == 'PLACED') {
+        this.changeStatusOfPartialOrder('PLACED', data.orderProductId, data.orderId);
+        this.toastr.success("Order marked as PLACED,Wait for admin action", "Success")
+
+      }
+      else if (data.f_Status == 'CANCEL') {
+        this.cancelOrderByUser(data.orderProductId, data.orderId, data.userId);
+        // return
+      }
+      else if (data.f_Status == 'RETURN') {
+        this.returnOrderByUser(data.orderProductId, data.orderId, data.userId);
+        // return
+      }
+
+
+     }
+
+    else {
+      setTimeout(() => {
+        data.f_Status = "DISABLE";
+      }, 0);
+ 
+    }
   }
 
   getOrderByStatus(status) {
@@ -124,7 +124,7 @@ export class OrderListingComponent implements OnInit {
         data => {
           console.log("All order", data);
           this.orderList = data.orderList;
-          //this.count=data.count;
+          this.count=data.count;
 
           this.addF_Status(this.orderList);
         },
@@ -148,7 +148,7 @@ export class OrderListingComponent implements OnInit {
           this.orderList = data.orderList;
           this.count=data.count;
           //jiust for getting exact page number
-          // this.offset+=1;
+          // this.offset=1;
 
 
           this.addF_Status(this.orderList);
@@ -251,7 +251,6 @@ export class OrderListingComponent implements OnInit {
 
 
   pageChanged(event){
-    console.log("page changes"+event)
     this.offset=event-1;
     this.pageNumber=event;
     this.getAllOrderOfVendor(this.userId);
@@ -307,9 +306,81 @@ isSortDesc(name: string) {
 
 
 
-chooseDateRange()
-{
-console.log(this.timeRange);
-}
+  chooseDateRange() {
+    if(this.timeRange!='')
+      {
+    let dte = new Date();
+    if (this.timeRange == 'WEEKLY') {
+      dte.setDate(dte.getDate() - 7);
+    }
+    if (this.timeRange == 'MONTHLY') {
+      dte.setDate(dte.getDate() - 30);
+    }
+    if (this.timeRange == 'QUARTERLY') {
+      dte.setDate(dte.getDate() - 90);
+    }
+
+    let dateString = dte.getTime()  +','+  new Date().getTime();
+       let request = {
+      "limit": this.limit,
+      "offset": this.offset,
+      "sortingDirection": this.sortingDirection,
+      "sortingField": this.sortingField,
+      "dateRange":dateString
+    };
+  if (this.filterSelected) {
+      if (this.selectdStatus == 'ALL') {
+        this.getAllOrderOfVendorWithRequest(this.userId,request);
+      }
+      else {
+        this.getAllOrderOfVendorByStatusWithRequest(this.userId, this.selectdStatus,request);
+      }
+    }
+    else {
+
+      this.getAllOrderOfVendorWithRequest(this.userId,request);
+    } 
+
+      }
+  }
+
+
+
+
+    getAllOrderOfVendorByStatusWithRequest(vendorId, status,request) {
+
+
+    this.dataService.getAllOrderOfVendorByStatus(vendorId, status, request, "api/getOrderForVendorByStatus")
+      .subscribe(
+      data => {
+        console.log("All order", data);
+        this.orderList = data.orderList;
+        this.count=data.count;
+
+        this.addF_Status(this.orderList);
+      },
+      error => {
+        console.log("error======", error);
+      }
+      );
+  }
+  getAllOrderOfVendorWithRequest(vendorId,request) {
+ 
+    this.dataService
+      .getAllOrderOfVendor(vendorId, request, "api/getOrderForVendor")
+      .subscribe(
+      data => {
+        console.log("All order", data);
+        this.orderList = data.orderList;
+        this.count = data.count;
+        this.addF_Status(this.orderList);
+      },
+      error => {
+        console.log("error======", error);
+      }
+      );
+  }
+
+
 }
 
