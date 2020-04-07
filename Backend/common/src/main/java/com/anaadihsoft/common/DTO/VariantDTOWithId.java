@@ -6,9 +6,19 @@ public class VariantDTOWithId {
 
 	private String variationId;
 	
+	private String variationCode;
+	
 	private Set<AttributeMiniDTO> variationData;
 
 	
+
+	public String getVariationCode() {
+		return variationCode;
+	}
+
+	public void setVariationCode(String variationCode) {
+		this.variationCode = variationCode;
+	}
 
 	public String getVariationId() {
 		return variationId;

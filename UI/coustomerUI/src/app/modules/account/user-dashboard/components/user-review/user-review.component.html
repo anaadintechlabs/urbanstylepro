@@ -17,6 +17,7 @@
               <th>Rating</th>
               <th>Title</th>
               <th>Product</th>
+              <th>Date</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -25,7 +26,8 @@
               <td>{{ review.review }}</td>
               <td>{{ review.rating }}</td>
               <td>{{ review.title }}</td>
-              <td>{{ review.product.variantName }}</td>
+              <td>{{ review.productName }}</td>
+              <td>{{ review.createdDate | date }}</td>
               <td>
                 <button class="btn actionBtn" (click)="softDeleteProductReview(review.id)">
                   Delete

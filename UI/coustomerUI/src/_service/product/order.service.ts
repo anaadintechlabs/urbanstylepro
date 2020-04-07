@@ -5,6 +5,7 @@ import { UserService } from '../http_&_login/user-service.service';
 import { ApiService } from '../http_&_login/api.service';
 import { User } from 'src/_modals/user';
 import { Observable } from '../../../node_modules/rxjs';
+import { HttpParams } from "@angular/common/http";
 
 @Injectable({
     providedIn:'root'
@@ -155,4 +156,17 @@ export class OrderService {
       });  
     }
     }
+
+     getOrderProductForVendor(orderId,orderProductId,vendorId,url)
+  {
+const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderId",orderId).set("orderProductId",orderProductId);   
+
+ return new Observable<any>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data);
+        }
+      });
+    });
+  }
 }

@@ -30,47 +30,47 @@ export class NavigationComponent implements OnInit {
 const navigations: Nav[] = [
   {
     name : 'Profile',
-    url : '/classic/account/dashboard/profile',
+    url : '/account/dashboard/profile',
     icon : 'fas fa-user'
   },
   {
     name : 'Manage Address',
-    url : '/classic/account/dashboard/address',
+    url : '/account/dashboard/address',
     icon : 'fas fa-user'
   },
   {
     name : 'Wishlist',
-    url : '/classic/account/dashboard/wishlist',
+    url : '/account/dashboard/wishlist',
     icon : 'fas fa-heart'
   },
   {
     name : 'Order',
-    url : '/classic/account/dashboard/orders',
+    url : '/account/dashboard/orders',
     icon : 'fas fa-history'
   },
   {
     name : 'Review',
-    url : '/classic/account/dashboard/review',
+    url : '/account/dashboard/review',
     icon : 'fas fa-comments'
   },
   {
     name : 'Wallet',
-    url : '/classic/account/dashboard/wallet',
+    url : '/account/dashboard/wallet',
     icon : 'fas fa-comments'
   },
   {
     name : 'Return',
-    url : '/classic/account/dashboard/return',
+    url : '/account/dashboard/return',
     icon : 'fas fa-cogs'
   },
   {
     name : 'Setting',
-    url : '/classic/account/dashboard/setting',
+    url : '/account/dashboard/setting',
     icon : 'fas fa-cogs'
   },
   {
     name : 'Logout',
-    url : '/classic/account/dashboard/wishli',
+    url : '/account/dashboard/wishli',
     icon : 'fas fa-sign-out-alt'
   }
 ]

@@ -14,7 +14,7 @@ public interface ProductReviewService {
 
 	ProductReview reviewProductSave(ProductReview productReview);
 
-	List<ProductReview> getAllReviewsOfUser(Filter filter, long userId);
+	List<ProductReviewDTO> getAllReviewsOfUser(Filter filter, long userId);
 
 	List<ProductReview> getAllReviewsOfProduct(Filter filter, long productId);
 
@@ -24,7 +24,7 @@ public interface ProductReviewService {
 	
 	List<ProductReviewDTO> getAllReviewsforSPV(long prodVarId);
 	
-	Long getAverageRatingOnProduct(long productId, int active);
+	Long getAverageRatingOnProduct(String productId, int active);
 
 	List<ProductReviewDTO> getLast5ProductReviewsOfVendor(long vendorId, int offset);
 

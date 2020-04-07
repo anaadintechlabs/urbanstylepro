@@ -158,7 +158,7 @@ public class ProductReviewController {
 	 */
 	@RequestMapping(value="/getAverageRatingOnProduct",method=RequestMethod.GET)
 	public Map<String,Object> getAverageRatingOnProduct(
-			@RequestParam(value="productId") long productId,
+			@RequestParam(value="productId") String productId,
 			HttpServletRequest request,HttpServletResponse response)
 	{
 		final HashMap<String, Object> map = new HashMap<>();

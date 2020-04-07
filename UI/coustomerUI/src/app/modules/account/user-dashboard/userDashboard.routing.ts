@@ -10,6 +10,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import { UserReviewComponent } from './components/user-review/user-review.component';
 import { ReturnsComponent } from './components/returns/returns.component';
 import { ManageAddressComponent } from './components/manage-address/manage-address.component';
+import { OrderDetailsComponent } from "./components/order-details/order-details.component";
 
 
 const routes: Routes = [
@@ -29,6 +30,10 @@ const routes: Routes = [
             {
                 path : 'orders',
                 component : OrdersComponent
+            },
+            {
+                path : 'orderDetails/:productId/:orderId',
+                component : OrderDetailsComponent
             },
             {
                 path : 'wishlist',

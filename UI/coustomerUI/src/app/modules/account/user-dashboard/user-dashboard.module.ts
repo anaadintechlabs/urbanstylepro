@@ -13,7 +13,8 @@ import { UserReviewComponent } from './components/user-review/user-review.compon
 import { ReturnsComponent } from './components/returns/returns.component';
 import { ManageAddressComponent } from './components/manage-address/manage-address.component';
 import { WalletComponent } from './components/wallet/wallet.component';
-import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import {NgxPaginationModule} from 'ngx-pagination';
+import { OrderDetailsComponent } from './components/order-details/order-details.component'; // <-- import the module
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
     ReturnsComponent,
     ManageAddressComponent,
     WalletComponent,
+    OrderDetailsComponent,
   ],
   imports: [
     CommonModule,

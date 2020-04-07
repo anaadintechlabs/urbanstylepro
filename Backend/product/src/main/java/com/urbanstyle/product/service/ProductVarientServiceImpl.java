@@ -257,7 +257,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 		long affiliateId=0;
 		ProductVarientPacketDTO mainProductPacket = new ProductVarientPacketDTO();
 		ProductVariant prodVarient =  productVarRepo.findByUniqueprodvarId(uniqueId);
-		System.out.println("prodVarient"+prodVarient);
+		
 		if(prodVarient==null)
 		{
 			//check in Short Code table
@@ -276,7 +276,6 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 			}
 		}
 		if(prodVarient!=null) {
-			System.out.println("prodVarient not null"+prodVarient);
 
 			long prodVarId=prodVarient.getProductVariantId();
 			Map<String, String> attrDetails = productAttributeServce.findAllAttributeListWithAttributeKey(prodVarId);
@@ -302,7 +301,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 						attributeMini.setId(obj[1].toString());
 						attributeMini.setName(obj[2].toString());
 
-						if(optAttr.isPresent())
+						if(!optAttr.isPresent())
 						{					
 						variant.getVariationData().add(attributeMini);
 						}
@@ -347,6 +346,7 @@ public class ProductVarientServiceImpl implements ProductVarientService {
 						attributeMini.setName(obj[2].toString());
 						data.add(attributeMini);					
 						variantWithId.setVariationId(obj[3].toString());
+						variantWithId.setVariationCode(obj[4].toString());
 						variantWithId.setVariationData(data);
 						variantCombinations.add(variantWithId);
 						System.out.println(obj[1].toString()+"  "+ obj[2].toString() +" "+obj[3].toString());

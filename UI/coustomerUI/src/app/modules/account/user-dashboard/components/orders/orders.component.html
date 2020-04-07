@@ -24,23 +24,21 @@
           </thead>
           <tbody>
             <tr *ngFor="let order of orderList">
-                <td>ORDER-{{ order.id }}</td>
-                <td>{{ order.product.variantName }}</td>
+                <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(order.orderProductId,order.orderId)" >ORDER-{{ order.orderProductId }}</td>
+                <td>{{ order.variantName }}</td>
                 
-                <td>{{ order.userOrder.orderPlacedDate | date }}</td>
+                <td>{{ order.orderPlacedDate | date }}</td>
                 <td>{{ order.status }}</td>
-                <td>{{ order.userOrder.orderTotalPrice }}</td>
+                <td>{{ order.orderProductPrice }}</td>
                 <td>
                     <!-- (click)="getOrderProductForVendor(order.id,order.userOrder.id)" -->
-                  <button class="btn actionBtn" >
-                    View Details
-                  </button>
+                 
                   <!-- *ngIf="order.orderStatus!='PAID' && order.singleVendorOrder " -->
                   
-                  <button class="btn actionBtn" (click)="cancelOrderByUser(order.userOrder.id,order.id)">
+                  <button *ngIf="order.status == 'PENDING' " class="btn actionBtn" (click)="cancelOrderByUser(order.orderId,order.orderProductId)">
                     CANCEL
                   </button>
-                  <button *ngIf="order.status=='COMPLETED'" class="btn actionBtn" (click)="returnOrderByUserPopUp(order.id,order.userOrder.id)">
+                  <button *ngIf="order.status=='COMPLETED'" class="btn actionBtn" (click)="returnOrderByUserPopUp(order.orderId,order.orderProductId)">
                     RETURN
                   </button>
                 </td>

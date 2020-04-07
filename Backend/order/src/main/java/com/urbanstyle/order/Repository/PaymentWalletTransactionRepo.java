@@ -23,11 +23,11 @@ public interface PaymentWalletTransactionRepo extends PagingAndSortingRepository
 	List<PaymentWalletTransactionDTO> getTransactionofOrderWithDTO(long orderProdId,String status);
 	
 	@Query("Select new com.anaadihsoft.common.DTO.PaymentWalletTransactionDTO(uop) from PaymentWalletTransaction uop where uop.sender.id =?1 and uop.createdDate between ?2 and ?3")
-	List<PaymentWalletTransactionDTO> getAllOutgoingTransactionByDateRange(String userIdString, Date startDate,
+	List<PaymentWalletTransactionDTO> getAllOutgoingTransactionByDateRange(long userIdString, Date startDate,
 			Date endDate, Pageable pagable);
 	
 	@Query("Select new com.anaadihsoft.common.DTO.PaymentWalletTransactionDTO(uop) from PaymentWalletTransaction uop where uop.sender.id =?1 ")
-	List<PaymentWalletTransactionDTO> getAllOutgoingTransaction(String userIdString, Pageable pagable);
+	List<PaymentWalletTransactionDTO> getAllOutgoingTransaction(long userIdString, Pageable pagable);
 
 	@Query("Select new com.anaadihsoft.common.DTO.PaymentWalletTransactionDTO(uop) from PaymentWalletTransaction uop where uop.reciever =?1 and uop.createdDate between ?2 and ?3")
 	List<PaymentWalletTransactionDTO> getAllIncomingTransactionByDateRange(String userIdString, Date startDate,
