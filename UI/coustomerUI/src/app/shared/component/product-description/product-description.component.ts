@@ -36,7 +36,7 @@ type MainProduct = {
 export class ProductDescriptionComponent implements OnInit {
   private destroy$: Subject<void> = new Subject();
 
-  @Input() description : SingleProduct;
+  @Input() description : any;
   @Input() avrageRating : string;
   @Output() scrollToForm : EventEmitter<void> = new EventEmitter<void>();
 
@@ -81,10 +81,58 @@ export class ProductDescriptionComponent implements OnInit {
         }
       });
     })
+
+    this.description.variants.forEach(element => {
+      element.variationData.forEach(ele => {
+        ele['selected'] = false;
+      });
+    });
   }
 
   cartAdd() {
     this.selectedQuantity++;
+  }
+
+  changeVarient(data,item) {
+    item.variationData.forEach(element => {
+      if(element == data) {
+        element.selected = true;
+      } else {
+        element.selected = false;
+      }
+    });
+    this.makeSelectedCombination();
+  }
+
+  makeSelectedCombination(){
+    let selectedData : any = [];
+    this.description.variants.forEach(element => {
+      element.variationData.forEach(ele => {
+        if(ele.selected){
+          selectedData.push(ele);
+        }
+      });
+    });
+    console.log(selectedData);
+    this.findSelectedCombination(selectedData)
+  }
+
+  findSelectedCombination(data) {
+    let varientExist : boolean = false;
+    let selectedVarient : any;
+    this.description.variantCombinations.forEach(element => {
+      element.variationData.forEach(ele => {
+          ele.selected = true;
+      });
+    });
+    this.description.variantCombinations.forEach(element => {
+      if(element.variationData.toString() == data.toString()) {
+        varientExist = true;
+        selectedVarient = element;
+      }
+    });
+    console.log(varientExist);
+    console.log(selectedVarient);
   }
 
   cartMinus() {

@@ -28,29 +28,14 @@
 
     <h3>{{ description.mainProductPacket.mainProduct.productVariant.displayPrice | currencyFormat }}</h3>
     <div class="proCard">
-      <p [innerHTML]="description.mainProductPacket.mainProduct.productVariant.variantName"></p>
-      <!-- <ul class="pro-point">
-        <li>Our best-selling night</li>
-        <li>Wicks away moisture to secure your grip</li>
-        <li>5mm of premium cushion</li>
-        <li>Supports you and your joints</li>
-        <li>Lightweight and durable </li>
-      </ul> -->
+      <p [innerHTML]="description?.mainProductPacket?.mainProduct?.productVariant?.longDescription"></p>
     </div>
-    <div class="row mb-3 mt-3 align-items-center" >
-      <div class="col-12 col-md-12 col-xl-7 col-lg-7 pl-0 pl-md-0">
-        <form>
-          <div class="form-group row align-items-center">
-            <label for="staticEmail" class="col-sm-3 col-form-label">Size :</label>
-            <div class="col-sm-9 p-0">
-              <!-- <select class="form-control">
-                <option>Standard 71" (180cm)</option>
-              </select> -->
-            </div>
-          </div>
-        </form>
+    <div class="row mb-3 mt-3" *ngFor="let item of description?.variants" >
+      <div class="col-12 col-md-12 col-xl-12 col-lg-12 pl-0 pl-md-0" >
+        <label for="staticEmail" class="col-form-label" >{{ item.variationName }} :</label>
+          <span class="varientName" *ngFor="let varData of item?.variationData" [ngClass]="{'selected': varData?.selected}" (click)="changeVarient(varData,item)">{{ varData?.name }}</span>
       </div>
-      <div class="col-12 col-md-12 col-xl-5 col-lg-5 p-0 pl-md-2 pr-md-0">
+      <!-- <div class="col-12 col-md-12 col-xl-5 col-lg-5 p-0 pl-md-2 pr-md-0">
         <ul class="color-choice">
           <li class="mr-3"><p>Color :</p></li>
           <li>
@@ -61,7 +46,7 @@
             <span class="color5"><i class="fas fa-circle"></i></span>
           </li>
         </ul>  
-      </div>
+      </div> -->
     </div>
 
     <ul class="addtoCart">
