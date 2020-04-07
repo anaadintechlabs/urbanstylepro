@@ -185,6 +185,16 @@ export class UserService {
     ));
   }
 
+  getWalletDetailsOfUser(filter)
+  {
+     let currunt_user = JSON.parse(this.getUser());
+    const route ='api/getWalletByUser?userId='+currunt_user.id;
+    return this.apiService.postOrder( route, filter).pipe(
+      map(data => {
+        return data;
+      }
+    ));
+  }
 
   softDeleteProductReview(id)
   {

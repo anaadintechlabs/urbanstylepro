@@ -13,7 +13,7 @@
         <table class="table table-striped">
           <thead class="thead-default">
             <tr>
-               
+               <th>Return Id</th>
                 <th>Product Name</th>
                 <th>Return Date</th>
                 <th>Reason</th>
@@ -24,11 +24,12 @@
           </thead>
           <tbody>
             <tr *ngFor="let return of returnList">
-                <td>{{ return.orderProduct.product.variantName }}</td>
+              <td>{{ return.returnId }}</td>
+                <td>{{ return.variantName }}</td>
                 
                 <td>{{ return.returnAuthorizeDate | date }}</td>
                 <td>{{ return.reason }}</td>
-                <td>{{ return.orderProduct.orderProductPrice }}</td>
+                <td>{{ return.orderProductPrice }}</td>
                 <td>
                   <button class="btn actionBtn" >
                     View Details

@@ -6,6 +6,8 @@ import com.anaadihsoft.common.master.ProductReview;
 
 public class ProductReviewDTO {
 	
+	private long id;
+	
 	private String review;
 	
 	private String rating;
@@ -32,6 +34,7 @@ public class ProductReviewDTO {
 	}
 	
 	public ProductReviewDTO(ProductReview pr) {
+		this.id=pr.getId();
 		this.review = pr.getReview();
 		this.rating = pr.getRating();
 		this.title = pr.getTitle();
@@ -116,4 +119,14 @@ public class ProductReviewDTO {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	
 }

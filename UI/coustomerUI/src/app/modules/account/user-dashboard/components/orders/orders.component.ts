@@ -1,6 +1,7 @@
 import { Subject } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../../../../../_service/product/order.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-orders',
@@ -15,7 +16,7 @@ export class OrdersComponent implements OnInit {
   public sortingField='createdDate'
   public orderList:any;
   public orderDetails:any;
-  constructor(public orderService:OrderService) { }
+  constructor(public orderService:OrderService,public _router : Router) { }
 
   ngOnInit() {
     this.getOrderOfUser();
@@ -50,6 +51,11 @@ export class OrdersComponent implements OnInit {
       console.log("error",error);
     })
   }
+  }
+
+
+    getOrderProductForVendor(orderProductId,orderId) {
+    this._router.navigate(['account/dashboard/orderDetails',orderProductId,orderId])
   }
 
 

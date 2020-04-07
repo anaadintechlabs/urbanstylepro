@@ -19,7 +19,7 @@ public interface ProductAttributeRepository extends PagingAndSortingRepository<P
 	
 	
 	
-	@Query("select am.variationName,pad.attributeMasterId,pad.attributeValue,pad.productVariant.productVariantId from  ProductAttributeDetails pad inner join AttributeMaster am "
+	@Query("select am.variationName,pad.attributeMasterId,pad.attributeValue,pad.productVariant.productVariantId,pad.productVariant.uniqueprodvarId from  ProductAttributeDetails pad inner join AttributeMaster am "
 			+ "on pad.attributeMasterId=am.id where pad.productVariant.product.productId=?1")
 	List<Object[]> findAllAttributeListWithAttributeKeyAndValue(long prodId);
 	
