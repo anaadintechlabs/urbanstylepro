@@ -14,7 +14,7 @@ import { Observable, throwError } from "rxjs";
 export class ApiService {
 
   userUrl='http://localhost:8081/urban/';
-  orderUrl='http://localhost:8083/urban/';
+  orderUrl='http://localhost:8083/';
   // userUrl='https://user2.cfapps.io/urban/';  
   //orderUrl='https://myorder.cfapps.io/';
  

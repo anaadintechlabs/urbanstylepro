@@ -11,6 +11,7 @@ import { UserReviewComponent } from './components/user-review/user-review.compon
 import { ReturnsComponent } from './components/returns/returns.component';
 import { ManageAddressComponent } from './components/manage-address/manage-address.component';
 import { OrderDetailsComponent } from "./components/order-details/order-details.component";
+import { AddAddressComponent } from "./components/add-address/add-address.component";
 
 
 const routes: Routes = [
@@ -26,13 +27,17 @@ const routes: Routes = [
                 path : 'address',
                 component : ManageAddressComponent
             },
+            {
+                path : 'address/add',
+                component : AddAddressComponent
+            },
             
             {
                 path : 'orders',
                 component : OrdersComponent
             },
             {
-                path : 'orderDetails/:productId/:orderId',
+                path : 'orderDetails/:vendorId/:productId/:orderId',
                 component : OrderDetailsComponent
             },
             {

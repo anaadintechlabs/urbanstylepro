@@ -1,1 +1,42 @@
-<p>shared-products works!</p>
+<div class="container" >
+    <div class="row my-5" >
+      <div class="col-12 col-md-12">
+        <div class="ordder_heading">
+          <h4>My Order </h4>
+        </div>
+      </div>
+    </div>
+  
+   
+    <div class="row" >
+      <div class="col-12 col-md-12">
+        <table class="table table-striped">
+          <thead class="thead-default">
+            <tr>
+                <th>Order Id</th>
+                <th>Order Product</th>
+                <th>Order Date</th>
+                <th>Order Status</th>
+                <th>Order Price</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orderList">
+                <td  >ORDER-{{ order.orderProductId }}</td>
+                <td>{{ order.variantName }}</td>
+                
+                <td>{{ order.orderPlacedDate | date }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.orderProductPrice }}</td>
+                
+              </tr>
+              <tr *ngIf="orderList && orderList.length ==0 ">
+                <td scope="row">No record found</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+
+  </div>

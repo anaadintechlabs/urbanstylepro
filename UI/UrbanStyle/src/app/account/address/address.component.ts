@@ -7,7 +7,7 @@ import {
   MatPaginator,
   MatSort,
   MatTableDataSource
-} from "@angular/material";
+} from '@angular/material';
 import { DataService } from "src/_services/data/data.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { UserServiceService } from 'src/_services/http_&_login/user-service.service';

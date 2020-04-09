@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     let body = {
       email : this.f.email.value,
       password : this.f.password.value,
-      userType:'VENDOR'
+      userType:'AFFILIATE'
     }
     this._userService.attemptAuth(body).subscribe(res=>{
       this.toastr.success('Login Successfull', 'Success');

@@ -157,5 +157,34 @@ export class UserService {
       }
     ));
   }
+
+  //Change these servicesto order
+
+    getWalletDetailsOfUser(filter)
+  {
+     let currunt_user = JSON.parse(this.getUser());
+    const route ='api/getWalletByUser?userId='+currunt_user.id;
+    return this.apiService.postOrder( route, filter).pipe(
+      map(data => {
+        return data;
+      }
+    ));
+  }
   
+   getOrderOfUser(filter)
+    {
+        console.log("filter is",filter)
+        if(filter)
+        {
+        let currunt_user = JSON.parse(this.getUser());
+        let url='api/getOrderByAffiliate?affiliateId='+currunt_user.id;
+        return new Observable<any>(obs => {
+            this.apiService.postOrder(url,filter).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });  
+    }
+    }
+
 }

@@ -32,11 +32,11 @@ const route : route[] = [
     route : '/affiliate/dashboard/products'
   },
   {
-    name : 'Shared Product',
+    name : 'Orders',
     route : '/affiliate/dashboard/shared'
   },
   {
-    name : 'Commision',
+    name : 'Returns',
     route : '/affiliate/dashboard/history'
   },
   {

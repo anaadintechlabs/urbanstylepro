@@ -20,6 +20,7 @@ export class OrderDetailsComponent implements OnInit {
   user : User;
   trackingId:any;
   trackingLink:any;
+  vendorId:any;
   transactionDetails : any;
   constructor(
     public dataService: OrderService,
@@ -28,6 +29,7 @@ export class OrderDetailsComponent implements OnInit {
     public toastr:ToastrService
   ) { 
     this._param.params.subscribe(data=>{
+      this.vendorId=data.vendorId;
       this.orderId = data.orderId
       this.orderProductId = data.productId
       console.log(data);
@@ -44,7 +46,7 @@ export class OrderDetailsComponent implements OnInit {
   getDetails(userId) {
     console.log(this.orderId);
     console.log(this.orderProductId);
-    this.dataService.getOrderProductForVendor(this.orderId,this.orderProductId, userId, "api/getOrderProductForVendor").subscribe(
+    this.dataService.getOrderProductForVendor(this.orderId,this.orderProductId, this.vendorId, "api/getOrderProductForVendor").subscribe(
       data => {
         console.log("All Products inside order", data);
         //this.orderProduct = data.orderList;

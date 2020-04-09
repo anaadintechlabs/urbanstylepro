@@ -27,6 +27,10 @@ public class OrderUiListingDTO {
 	 
 	 private String userName;
 	 
+	 private long vendorId;
+	 
+	 private String vendorName;
+	 
 	 
 	 private long productVariantId;
 		
@@ -59,6 +63,8 @@ public class OrderUiListingDTO {
 		 this.mainImageUrl=uop.getProduct().getMainImageUrl();
 		 this.userId=uop.getUserOrder().getUser().getId();
 		 this.userName=uop.getUserOrder().getUser().getName();
+		 this.vendorId=uop.getVendor().getId();
+		 this.vendorName=uop.getVendor().getName();
 	 }
 
 
@@ -189,6 +195,26 @@ public class OrderUiListingDTO {
 
 	public void setMainImageUrl(String mainImageUrl) {
 		this.mainImageUrl = mainImageUrl;
+	}
+
+
+	public long getVendorId() {
+		return vendorId;
+	}
+
+
+	public void setVendorId(long vendorId) {
+		this.vendorId = vendorId;
+	}
+
+
+	public String getVendorName() {
+		return vendorName;
+	}
+
+
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
 	}
 	 
 	

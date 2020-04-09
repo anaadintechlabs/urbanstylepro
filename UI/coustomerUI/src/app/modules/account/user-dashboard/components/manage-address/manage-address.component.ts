@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { UserService } from '../../../../../../_service/http_&_login/user-service.service';
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 
 
@@ -24,7 +26,7 @@ export class ManageAddressComponent implements OnInit {
   public listLength: any;
   pageNumber: any;
 
-  constructor(public userService:UserService ) {
+  constructor(public userService:UserService,public toast:ToastrService,public router:Router ) {
       this.getAddressDetailsByUser();
   }
 
@@ -51,6 +53,7 @@ export class ManageAddressComponent implements OnInit {
     this.userService.deleteAddressDetails(address.id).subscribe(
       data => {
         this.addressDetails = data.addressDetails;
+        this.toast.success("Address deleted successfully","Success");
       },
       error => {
         console.log("error======", error);
@@ -58,4 +61,11 @@ export class ManageAddressComponent implements OnInit {
     );
   }
 
+
+  navigateToAddGroup() {
+          this.router.navigateByUrl(
+        "/account/dashboard/address/add"
+      );
+    
+  }
 }
