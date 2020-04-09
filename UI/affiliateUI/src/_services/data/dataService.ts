@@ -26,4 +26,16 @@ export class DataService {
           });
         });
       }
+
+      getGeneratedCodeAndLinkOfAffiliate(url):Observable<any[]>{
+        return new Observable<any[]>(obs=>{
+          this._apiService.get(url).subscribe(res=>{
+            if(res.isSuccess)
+              {
+                obs.next(res.data.productList);
+              }
+          })
+        });
+      }
+    
 }

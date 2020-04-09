@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anaadihsoft.common.DTO.AffiliateComissionDTO;
 import com.anaadihsoft.common.DTO.OrderUiListingDTO;
 import com.anaadihsoft.common.DTO.ReturnUiListDTO;
 import com.anaadihsoft.common.external.Filter;
@@ -52,6 +53,17 @@ public class AffiliateServiceImpl implements AffiliateService{
 						filter.getSortingField());
 		
 		return affiliateCommisionOrderRepo.getOrderForAffialiteAndStatus(affiliateId,status,pagable);
+	}
+
+	@Override
+	public List<AffiliateComissionDTO> getTotalComissionGroupByProduct(long affiliateId, Filter filter) {
+		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
+				filter.getSortingDirection() != null
+				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
+						: Sort.Direction.ASC,
+						filter.getSortingField());
+		return affiliateCommisionOrderRepo.getTotalComissionGroupByProduct(affiliateId,pagable);
+
 	}
 
 }

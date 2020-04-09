@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.anaadihsoft.common.DTO.AffiliateLinkDTO;
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductDTOWithImage;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
@@ -482,17 +483,36 @@ public class ProductServiceImpl implements ProductService{
 		ProductVariant varient = productVarientSerice.findByProdVarId(prodVarId);
 		Optional<User> user =  userRepo.findById(userId);
 		User loginuser = null;
-		if(user.isPresent()) {
+		String appUrl="";
+		if(user.isPresent() && user.get().getUserType().equals("AFFILIATE")) {
 			loginuser = user.get();
+			UrlShortner urlShorten = new UrlShortner(varient.getSku(),userId,varient.getSku());
+			String shortCode = urlShorten.generateLink();
+			
+			ShortCodeGenerator shortcode = new ShortCodeGenerator();
+			boolean alreadyExist=shortCodeGen.existsByUserAndProdVar(loginuser,varient);
+			if(alreadyExist)
+			{
+				return "EXISTS";
+			}
+			if(shortCodeGen.existsByShortCode(shortCode))
+			{
+				shortCode=urlShorten.generateUid("AC", 9);
+			}
+			shortcode.setProdVar(varient);
+			appUrl="https://www.urbanstyledecor.com/q/"+shortCode;
+			shortcode.setShortCode(shortCode);
+			shortcode.setGeneratedUrl(appUrl);
+			shortcode.setUser(loginuser);
+			shortCodeGen.save(shortcode);
+			
 		}
-		UrlShortner urlShorten = new UrlShortner(varient.getSku(),userId,varient.getSku());
-		String requiredURL = urlShorten.generateLink();
-		ShortCodeGenerator shortcode = new ShortCodeGenerator();
-		shortcode.setProdVar(varient);
-		shortcode.setShortCode(requiredURL);
-		shortcode.setUser(loginuser);
-		shortCodeGen.save(shortcode);		
-		return requiredURL;
+		
+		return appUrl;
+	}
+	@Override
+	public List<AffiliateLinkDTO> getGeneratedCodeAndLinkOfAffiliate(long userId) {
+		return shortCodeGen.getGeneratedCodeAndLinkOfAffiliate(userId);
 	}
 
 

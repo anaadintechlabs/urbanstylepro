@@ -1,9 +1,11 @@
-import { UserService } from 'src/_service/http_&_login/user-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import { FormControl } from "@angular/forms";
 import { Validators } from "@angular/forms";
+import { environment } from "src/environments/environment";
+import { UserService } from "src/_services/http_&_login/user-service.service";
+
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -11,7 +13,7 @@ import { Validators } from "@angular/forms";
 })
 export class EditProfileComponent implements OnInit {
 
-  imageUrl = "http://localhost:8081/urban/downloadFile/";
+ imageUrl =environment.image_url;
 
   
   public user:any;
@@ -30,7 +32,6 @@ export class EditProfileComponent implements OnInit {
 myFiles:string [] = [];
 urlArray:any=[];
 directUrl:boolean=true;
-// imageUrl = this.appService.BaseUrl+"/downloadFile/";
   constructor(public toastr:ToastrService,private appService:UserService) { }
 
   ngOnInit() {
@@ -42,7 +43,7 @@ directUrl:boolean=true;
     this.appService.getLoggerInUserDetails().subscribe(data=>{
       this.user=data.user;
      this.userForm.patchValue(this.user);
-      console.log(this.userForm.value);
+      
      if(this.user.provider=='local')
       {
         this.directUrl=false;
@@ -107,5 +108,4 @@ directUrl:boolean=true;
     });
     }
   }
-
 }

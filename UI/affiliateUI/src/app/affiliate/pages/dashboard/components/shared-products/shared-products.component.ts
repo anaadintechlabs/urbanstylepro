@@ -14,7 +14,7 @@ export class SharedProductsComponent implements OnInit {
   public offset=0;
   public limit=15;
   public sortingDirection='DESC';
-  public sortingField='orderDate'
+  public sortingField='orderdate'
   public orderList:any;
   public orderDetails:any;
   constructor(public userService:UserService,public _router : Router,public toastr:ToastrService,) { }

@@ -13,7 +13,7 @@
             <div class="col-md-6 text-left p-0">
                 <p *ngIf="product.generatedLink" class="mb-0">Generated Link: {{ product?.generatedLink }} </p> 
             </div>
-            <div class="col-md-6 text-right p-0" (click)="generateLink()">
+            <div  *ngIf="!product.generatedLink" class="col-md-6 text-right p-0" (click)="generateLink()">
                 <button>Generate Link</button>
             </div>
         </div>

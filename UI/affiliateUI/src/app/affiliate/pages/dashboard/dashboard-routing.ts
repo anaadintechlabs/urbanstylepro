@@ -6,6 +6,8 @@ import { AllProductComponent } from './components/all-product/all-product.compon
 import { SharedProductsComponent } from './components/shared-products/shared-products.component';
 import { SalesHistoryComponent } from './components/sales-history/sales-history.component';
 import { AccDetailsComponent } from './components/acc-details/acc-details.component';
+import { EditProfileComponent } from "src/app/affiliate/pages/dashboard/components/edit-profile/edit-profile.component";
+import { SettingsComponent } from "src/app/affiliate/pages/dashboard/components/settings/settings.component";
 
 export const DashboardRoutes: Routes = [
   {
@@ -13,7 +15,7 @@ export const DashboardRoutes: Routes = [
     component : DashboardComponent,
     children:[
         {
-            path : '',
+            path : 'stats',
             component : StatisticsComponent
         }, 
         {
@@ -31,6 +33,14 @@ export const DashboardRoutes: Routes = [
         {
             path : 'accDetails',
             component : AccDetailsComponent
+        },
+        {
+            path : 'profile',
+            component : EditProfileComponent
+        },
+        {
+            path : 'setting',
+            component : SettingsComponent
         },
     ]
   }

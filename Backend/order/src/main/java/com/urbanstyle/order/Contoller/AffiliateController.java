@@ -82,5 +82,23 @@ public class AffiliateController {
 			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 
 	}
+	
+	
+	/**
+	 * 
+	 * @param request
+	 * @param filter
+	 * @param response
+	 * @param userId
+	 * @return GET ALL ORDER OF A USER based on filter and search string
+	 */
+	@RequestMapping(value= {"/getTotalComissionGroupByProduct"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getTotalComissionGroupByProduct(HttpServletRequest request,
+			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="affiliateId",required=true) String userId ){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("productList",affiliateService.getTotalComissionGroupByProduct(Long.parseLong(userId),filter));
+			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+
+	}
 
 }
