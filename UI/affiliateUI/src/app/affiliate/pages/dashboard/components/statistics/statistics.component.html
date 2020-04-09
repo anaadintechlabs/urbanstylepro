@@ -1,1 +1,42 @@
-<p>statistics works!</p>
+<div class="container" >
+    <div class="row my-5" >
+      <div class="col-12 col-md-12">
+        <div class="ordder_heading">
+          <h4>Statistics </h4>
+        </div>
+      </div>
+    </div>
+  
+   
+    <div class="row" >
+      <div class="col-12 col-md-12">
+        <table class="table table-striped">
+          <thead class="thead-default">
+            <tr>
+                <th>Product Image</th>
+                <th>Product Name</th>
+                <th>Product SKU</th>
+                <th>Total Amount</th>
+                <th>Unique Id</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of productList">
+                <td  ><img [src]="product.mainImageUrl"></td>
+                <td>{{ product.variantName }}</td>
+                
+                <td>{{ product.sku }}</td>
+                <td>{{ product.amount }}</td>
+                <td>{{ product.uniqueprodvarId }}</td>
+                
+              </tr>
+              <tr *ngIf="productList && productList.length ==0 ">
+                <td scope="row">No record found</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+
+  </div>

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import com.anaadihsoft.common.DTO.AffiliateComissionDTO;
 import com.anaadihsoft.common.DTO.OrderUiListingDTO;
 import com.anaadihsoft.common.DTO.ReturnUiListDTO;
 import com.anaadihsoft.common.master.AffiliateCommisionOrder;
@@ -27,5 +28,8 @@ public interface AffiliateCommisionOrderRepo extends PagingAndSortingRepository<
 	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(u.orderProd) FROM AffiliateCommisionOrder u where  u.affiliateId.id =?1  and u.status=?2 AND u.returnId=NULL ")
 
 	List<OrderUiListingDTO> getOrderForAffialiteAndStatus(long affiliateId, String status, Pageable pagable);
+
+	@Query("Select new com.anaadihsoft.common.DTO.AffiliateComissionDTO(sum(u.commision),u.prodvarid) FROM AffiliateCommisionOrder u where  u.affiliateId.id =?1   AND u.returnId=NULL group by u.prodvarid")
+	List<AffiliateComissionDTO> getTotalComissionGroupByProduct(long affiliateId, Pageable pagable);
 
 }

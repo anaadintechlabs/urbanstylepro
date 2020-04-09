@@ -1,6 +1,6 @@
 import { JwtServiceService } from './jwt-service.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChanged';
@@ -8,6 +8,8 @@ import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
 import { ApiService } from './api.service';
 import { Router } from "@angular/router";
 import { User } from 'src/_modals/user.modal';
+import { HttpHeaders, HttpClient, HttpBackend } from "@angular/common/http";
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
@@ -25,7 +27,9 @@ export class UserService {
   constructor(
     private jwtService:JwtServiceService,
     private apiService:ApiService, 
-    private router: Router
+    private router: Router,
+    private httpBackend:HttpBackend,
+     private httpClient:HttpClient,
   ) {
     this.load();
   }
@@ -187,4 +191,95 @@ export class UserService {
     }
     }
 
+    getAllReturnOfAffiliate(affiliateId,filter)
+    {
+      if(filter)
+        {
+        let currunt_user = JSON.parse(this.getUser());
+        let url='api/getReturnByAffiliate?affiliateId='+currunt_user.id;
+        return new Observable<any>(obs => {
+            this.apiService.postOrder(url,filter).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });  
+         }
+
+    }
+
+
+
+    
+  changePassword(obj)
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    let url =
+      "api/user/changePassword?userId=" +
+      currunt_user.id ;
+    return this.apiService.postUser(url,obj).pipe(
+      map(data => {
+        return data;
+      }
+    ));
+  }
+
+
+  getLoggerInUserDetails()
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    let url =
+      "api/user/getUserById?userId=" +
+      currunt_user.id ;
+    return this.apiService.getUser(url).pipe(
+      map(data => {
+        return data.data;
+      }
+    ));
+  }
+
+  updateUser(data)
+  {
+        const HttpUploadOptions = {
+       headers: new HttpHeaders({
+         'Authorization': 'Bearer ' + this.jwtService.getToken()
+       }),
+     }
+ 
+     this.httpClient= new HttpClient(this.httpBackend);
+          let url=environment.user_url+'api/user/updateUser';
+        return this.httpClient.put(url,data,HttpUploadOptions).pipe(map(this.successResponse), catchError(this.errorHandler));
+  }
+
+  
+  errorHandler(error){
+    return Observable.throw(error) ;
+    }
+  
+    successResponse(response){
+    try {
+        if (response) {
+          return response.data;
+        }
+      }
+      catch (ex) {
+        console.log(ex);
+      }
+      return response;
+  
+    }
+
+    getTotalComissionGroupByProduct(filter)
+    {
+        if(filter)
+        {
+        let currunt_user = JSON.parse(this.getUser());
+        let url='api/getTotalComissionGroupByProduct?affiliateId='+currunt_user.id;
+        return new Observable<any>(obs => {
+            this.apiService.postOrder(url,filter).subscribe(res=>{
+                return obs.next(res);
+              
+          });
+      });  
+    }
+    }
 }
