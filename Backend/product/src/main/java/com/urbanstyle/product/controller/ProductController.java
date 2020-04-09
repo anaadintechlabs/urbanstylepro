@@ -416,4 +416,14 @@ public class ProductController {
 		map.put("product", productService.genAffiliatelink(prodVarId,userId));
 		return CommonResponseSender.createdSuccessResponse(map, response);
 	}
+	
+	
+	@RequestMapping(value="/getGeneratedCodeAndLinkOfAffiliate",method= {RequestMethod.GET,RequestMethod.POST})
+	public Map<String,Object> getGeneratedCodeAndLinkOfAffiliate(
+			@RequestParam(value="userId") long userId, HttpServletRequest request,HttpServletResponse response){
+		
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("productList", productService.getGeneratedCodeAndLinkOfAffiliate(userId));
+		return CommonResponseSender.createdSuccessResponse(map, response);
+	}
 }

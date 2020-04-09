@@ -11,6 +11,7 @@ import { User } from 'src/_modals/user.modal';
 export class AllProductComponent implements OnInit {
   
   productList : ProductVariant[] = [];
+  generatedLinks:any[]=[];
   user : User;
   userId :any;
   constructor(
@@ -19,13 +20,26 @@ export class AllProductComponent implements OnInit {
     this.user = JSON.parse(window.localStorage.getItem("user"));
     if (this.user.token) {
       this.userId = this.user.id;
-      this.getAllActiveProduct();
+      this.getGeneratedCodeAndLinkOfAffiliate(this.userId);
+     
     }
    }
 
   ngOnInit() {
   }
 
+  getGeneratedCodeAndLinkOfAffiliate(userId)
+  {
+    let url = `product/getGeneratedCodeAndLinkOfAffiliate?userId=`+userId;
+    this.dataService.getGeneratedCodeAndLinkOfAffiliate(url).subscribe(data => {
+          this.generatedLinks = data;
+          
+          console.log(this.generatedLinks);
+           this.getAllActiveProduct();
+      }, error => {
+          console.log("error======", error);
+      });
+  }
   getAllActiveProduct() {
     let body = {
       limit: 15,
@@ -37,6 +51,28 @@ export class AllProductComponent implements OnInit {
     let url = `product/getAllVariantsByStatus?status=1`;
     this.dataService.getAllActiveProduct(url, body).subscribe(data => {
           this.productList = data;
+          console.log("product list",this.productList)
+          this.productList.forEach(element => {
+            if(this.generatedLinks && this.generatedLinks.length>0)
+              {
+              let index=  this.generatedLinks.findIndex(obj =>
+                { 
+                  return obj.id == element.productVariantId
+                });
+                if(index!=-1)
+                  {
+                    if(index==0)
+                      {
+                element['generatedLink']=this.generatedLinks[0].generatedLink;        
+                      }
+              else
+                {
+                element['generatedLink']=this.generatedLinks[index-1].generatedLink;
+                }
+                  }
+               
+              }
+          });
       }, error => {
           console.log("error======", error);
       });

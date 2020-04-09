@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.anaadihsoft.common.DTO.AffiliateLinkDTO;
 import com.anaadihsoft.common.DTO.ProductDTO;
 import com.anaadihsoft.common.DTO.ProductDTOWithImage;
 import com.anaadihsoft.common.DTO.ProductVariantDTO;
@@ -75,5 +76,9 @@ public interface ProductService {
 	Product updateSingleProductVariant(ProductDTO productDTO, MultipartFile[] files, long productVariantId);
 	 
 	String genAffiliatelink(long prodVarId, long userId);
+
+	List<AffiliateLinkDTO> getGeneratedCodeAndLinkOfAffiliate(long userId);
+	
+	
 }
 

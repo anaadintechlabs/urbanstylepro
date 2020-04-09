@@ -49,10 +49,10 @@
                     </div>
                     <div class="row">
                         <div class="product_image" *ngIf='!directUrl'>
-                            <img style="height:200px; width:200px" class="product_image_top" [src]="imageUrl+user.imageUrl">
+                            <img class="product_image_top" [src]="imageUrl+user.imageUrl">
                         </div>
                         <div class="product_image" *ngIf='directUrl'>
-                          <img style="height:200px; width:200px" class="product_image_top" [src]="user.imageUrl">
+                          <img class="product_image_top" [src]="user.imageUrl">
                         </div>
                                 <div class="upload-image">
                                     <label class=" control-label upload"  for="filebutton">

@@ -21,6 +21,8 @@ public class ShortCodeGenerator {
 	private ProductVariant prodVar;
 	
 	private String shortCode;
+	
+	private String generatedUrl;
 
 	public long getId() {
 		return id;
@@ -53,4 +55,14 @@ public class ShortCodeGenerator {
 	public void setShortCode(String shortCode) {
 		this.shortCode = shortCode;
 	}
+
+	public String getGeneratedUrl() {
+		return generatedUrl;
+	}
+
+	public void setGeneratedUrl(String generatedUrl) {
+		this.generatedUrl = generatedUrl;
+	}
+	
+	
 }

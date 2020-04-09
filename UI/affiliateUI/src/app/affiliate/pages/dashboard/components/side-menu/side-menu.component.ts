@@ -44,6 +44,18 @@ const route : route[] = [
     route : '/affiliate/dashboard/accDetails'
   },
   {
+    name : 'Statistics',
+    route : '/affiliate/dashboard/stats'
+  },
+  {
+    name : 'Edit Profile',
+    route : '/affiliate/dashboard/profile'
+  },
+  {
+    name : 'Settings',
+    route : '/affiliate/dashboard/setting'
+  },
+  {
     name : 'Logout',
     route : 'Logout'
   },

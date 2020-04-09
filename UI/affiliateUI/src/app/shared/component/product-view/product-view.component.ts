@@ -3,6 +3,7 @@ import { ProductVariant } from 'src/_modals/productVariant';
 import { ApiService } from 'src/_services/http_&_login/api.service';
 import { UserService } from 'src/_services/http_&_login/user-service.service';
 import { User } from 'src/_modals/user.modal';
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-product-view',
@@ -16,7 +17,8 @@ export class ProductViewComponent implements OnInit {
 
   constructor(
     private _apiService : ApiService,
-    private userService : UserService
+    private userService : UserService,
+    private toastrService : ToastrService
   ) {
     this.user = JSON.parse(this.userService.getUser());
    }
@@ -29,8 +31,16 @@ export class ProductViewComponent implements OnInit {
     this._apiService.get(url).subscribe(res=>{
       console.log(res);
       if(res.isSuccess) {
+        if(res.data.product=='EXISTS')
+          {
+        this.toastrService.warning("Link already generated for this product!","Oops");
+          }
+          else
+            {
         this.product['generatedLink'] = res.data.product;
+        this.toastrService.success("Link generated successfully","Success");
         console.log(this.product);
+            }
       }
     })
   }

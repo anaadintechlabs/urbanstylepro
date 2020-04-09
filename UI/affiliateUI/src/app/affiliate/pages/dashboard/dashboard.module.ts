@@ -9,6 +9,9 @@ import { SalesHistoryComponent } from './components/sales-history/sales-history.
 import { AccDetailsComponent } from './components/acc-details/acc-details.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -20,12 +23,16 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedProductsComponent,
     SalesHistoryComponent,
     AccDetailsComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    EditProfileComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class DashboardModule { }

@@ -1,1 +1,50 @@
-<p>sales-history works!</p>
+<div class="container" >
+  <div class="row my-5" >
+    <div class="col-12 col-md-12">
+      <div class="ordder_heading">
+        <h4>Return Managment</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" >
+    <div class="col-12 col-md-12">
+      <table class="table table-striped">
+        <thead class="thead-default">
+          <tr>
+            <th>Return Id</th>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Customer return Reason</th>
+            <th>Return Authorize Date</th>
+            <th>Customer Refund Date</th>
+            <th>Unit Recived Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="returnList">
+          <tr *ngFor="let return of returnList">
+
+            <td >RET-{{ return.returnId }}</td>
+            <td><img  class="productImage" [src]="return.mainImageUrl" alt="" srcset=""></td>
+            <td>{{ return.variantName }}</td> 
+            <td>{{ return.reason }}</td>
+            <td>{{ return.returnAuthorizeDate | date }}</td>
+            <td>{{ return.customerRefundDate | date}}</td>
+            <td>{{ return.unitRecieveDate | date}}</td>
+            <td>{{ return.status }}</td>
+            
+          </tr>
+          <tr *ngIf="returnList?.length ==0 ">
+            <td scope="row">No record found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+  
+  
