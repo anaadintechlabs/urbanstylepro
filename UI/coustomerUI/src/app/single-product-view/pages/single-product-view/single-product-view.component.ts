@@ -46,6 +46,23 @@ export class SingleProductViewComponent implements OnInit {
       }
     })
   }
+  changeData(id) {
+    const param = new HttpParams()
+    .set('prodVarId', id);
+    this._apiservice.get(urls.singleProduct,param).subscribe(res=>{
+      if(res.isSuccess){
+        this.singleProductData = res.data.SingleProductDetail;
+      }
+    });
+    const param2 = new HttpParams()
+    .set('productId', id);
+    this._apiservice.get(urls.avrgRatingProduct,param2).subscribe(res=>{
+      if(res.isSuccess){
+        this.avgRating = res.data.averageRating.toString();
+        // console.log("avg rating",res);
+      }
+    })
+  }
 
   scroll(el : HTMLElement) {
     el.scrollIntoView({behavior:"smooth", inline  : 'nearest', block : 'nearest'});

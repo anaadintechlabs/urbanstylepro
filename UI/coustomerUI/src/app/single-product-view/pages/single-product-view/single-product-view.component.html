@@ -7,7 +7,7 @@
                 <product-image-slider [allImages]="singleProductData?.mainProductPacket?.allImages"></product-image-slider>
             </div>
             <div class="col-md-6 col-xs-12">
-                <product-description [avrageRating]="avgRating" [description]="singleProductData" (scrollToForm)="scroll(reviewForm)"></product-description>
+                <product-description (productId)="changeData($event)" [avrageRating]="avgRating" [description]="singleProductData" (scrollToForm)="scroll(reviewForm)"></product-description>
             </div>
         </div>
         <div class="row mt-5">

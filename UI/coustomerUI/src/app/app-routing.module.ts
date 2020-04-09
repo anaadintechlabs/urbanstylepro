@@ -24,7 +24,7 @@ const routes: Routes = [
               component: HomeOneComponent
           },
           {
-            path: ':id',
+            path: 'q/:id',
             loadChildren: () => import('./single-product-view/single-product-view.module').then(m => m.SingleProductViewModule)
           },
           // {
