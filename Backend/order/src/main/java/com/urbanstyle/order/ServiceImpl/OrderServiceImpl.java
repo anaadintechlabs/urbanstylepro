@@ -228,7 +228,7 @@ public class OrderServiceImpl implements OrderService {
 			String UID = urlSShort.generateUid("OD-", 9);
 			System.out.println("uid"+UID);
 
-			userOrderProduct.setOrderCode(UID);
+			userOrderProduct.setOrderCode("OD-"+UID);
 			
 			// addd reserved quantity
 			//userOrderProduct.setStatus(userOrderSave.getOrderStatus());
@@ -276,7 +276,7 @@ public class OrderServiceImpl implements OrderService {
 				Optional<Category> categoryProd =  catRepo.findById(catid);
 				//Here commission will be taken from some other point
 				if(categoryProd.isPresent()) {
-					afcommOrder.setCommision(categoryProd.get().getCommissionPercentage());
+					afcommOrder.setCommision(categoryProd.get().getCommissionPercentage() * quantity);
 				}
 				afcommOrder.setOrderdate( new Date());
 				afcommOrder.setOrderprodid(userOrderProduct);
@@ -490,6 +490,8 @@ public class OrderServiceImpl implements OrderService {
 		Optional<UserOrder> userOrder  = orderRepo.findById(orderId);
 		if(userOrder.isPresent()) {
 			 usrOrdr = userOrder.get();
+			 //Here also check if previous status was Discpatchec then creaate a new return 
+			 //of type courier return
 			usrOrdr.setOrderStatus(status);
 			orderRepo.save(usrOrdr);
 			List<UserOrderProducts> userOrderProducts = userOrderProdRepo.findByUserOrderId(orderId);
@@ -610,6 +612,11 @@ public class OrderServiceImpl implements OrderService {
 			userOrderProd.setTrackingId(trackingId);
 			userOrderProd.setTrackingLink(link);
 			userOrderProd=userOrderProdRepo.save(userOrderProd);
+			
+			if(userOrderProd.isAffiliateCommisionExists())
+			{
+				updateAffiliateCommission(userOrderProd);
+			}
 			
 			UserOrder userOrder  =  userOrderProd.getUserOrder();
 			boolean updateStatus = true;
@@ -780,6 +787,7 @@ public class OrderServiceImpl implements OrderService {
 					pwtinner.setAmount(amount);
 					pwtinner.setCreatedDate(new Date());
 					pwtinner.setOrder(userOrder.get());
+					//here source will come from affiliate transaction table
 					pwtinner.setReciever(source.getSource());
 					pwtinner.setSender(admin);
 					pwtinner.setStatus("1"); 
@@ -1167,7 +1175,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId) {
+	public Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId,String type) {
 		UserOrder usrOrdr = null;
 		Optional<UserOrder> userOrder  = orderRepo.findByIdAndUserId(orderId, userId);
 		if(userOrder.isPresent()) {
@@ -1203,6 +1211,7 @@ public class OrderServiceImpl implements OrderService {
 			returnManage.setReason(reason);
 			returnManage.setStatus("REQUESTED");
 			returnManage.setOrderProduct(userOrdrProd);
+			returnManage.setReturnType(type);
 			Optional<User> loginUser = userRepo.findById(userId);
 			if(loginUser.isPresent()) {
 				returnManage.setUser(loginUser.get());					

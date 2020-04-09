@@ -77,7 +77,7 @@ public class AffiliateController {
 	public Map<String,Object> getReturnByAffiliate(HttpServletRequest request,
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="affiliateId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",affiliateService.getReturnByAffiliate(Long.parseLong(userId),filter));
+			resultMap.put("returnList",affiliateService.getReturnByAffiliate(Long.parseLong(userId),filter));
 		//	resultMap.put("count",affiliateService.getCountOrderProductByAffiliate(Long.parseLong(userId),filter));
 			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 

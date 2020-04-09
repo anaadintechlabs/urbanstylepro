@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-xl-12">
+        <div class="row">
+            <div class="col-xl-6">
+            </div>
+            <div class="col-xl-6 text-right">
+                <button type="button" mat-button (click)="backButton()">
+                    Back
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form [formGroup]="addressForm" (submit)="onSubmit()">
+    <div class="form-group">
+        <!-- Password-->
+        <label class="control-label" for="password">Address One</label>
+        <div class="controls">
+            <input
+            type="text"
+            class="form-control"
+            formControlName="addressOne"
+            placeholder=""
+            />
+        </div>
+    </div>
+    <div class="form-group">
+        <!-- Password-->
+        <label class="control-label" for="password">Address 2</label>
+        <div class="controls">
+            <input
+            type="text"
+            class="form-control"
+            formControlName="addressTwo"
+            placeholder=""
+            />
+        </div>
+    </div>
+    <div class="form-group">
+        <!-- Password-->
+        <label class="control-label" for="password">ZipCode</label>
+        <div class="controls">
+            <input
+            type="text"     
+            class="form-control"
+            formControlName="zip"
+            placeholder=""
+            />
+        </div>
+    </div>
+    <div class="form-group" formGroupName="country">
+        <!-- Password-->
+        <label class="control-label" for="password">Country</label>
+        <div class="controls">
+            <select
+            (change)="countryOnChange($event)"
+            type="text"     
+            class="form-control"
+            formControlName="id"
+            placeholder=""
+            >
+            <option [value]="country.id" *ngFor="let country of countryList">{{country.countryName}}</option>
+        </select>
+            
+        </div>
+    </div>
+    <div class="form-group" formGroupName="state">
+        <!-- Password-->
+        <label class="control-label" for="password">State</label>
+        <div class="controls">
+            <select
+            (change)="stateOnChange($event)"
+            type="text"     
+            class="form-control"
+            formControlName="id"
+            placeholder=""
+            >
+            <option [value]="state.id" *ngFor="let state of stateList">{{state.stateName}}</option>
+        </select>  
+        </div>
+    </div>
+    <div class="form-group" formGroupName="cite">
+        <!-- Password-->
+        <label class="control-label" for="password">City</label>
+        <div class="controls">
+            <select
+            type="text"     
+            class="form-control"
+            formControlName="id"
+            placeholder=""
+            >
+                <option [value]="city.id" *ngFor="let city of cityList">{{city.cityName}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <input type="submit" class ="btn btn-success" value="Submit"/>
+    </div>
+</form>
+ 

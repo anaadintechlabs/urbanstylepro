@@ -9,6 +9,8 @@ import { ApiService } from './api.service';
 import { Router } from "@angular/router";
 import { User } from 'src/_modals/user';
 import { HttpHeaders, HttpClient, HttpBackend } from '../../../node_modules/@angular/common/http';
+import { Address,Country, State, City } from "../../_modals/address";
+import { HttpParams } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -291,5 +293,62 @@ export class UserService {
       return response;
   
     }
+
+
+
+
+    //address apis
+     getAllCountries(url: string): Observable<Country[]> {
+    return new Observable<Country[]>(obs => {
+      this.apiService.postUser(url).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.countryList);
+        }
+      });
+    });
+  }
+  
+  getAllStatesOfCountry(url: string): Observable<State[]> {
+    return new Observable<State[]>(obs => {
+      this.apiService.postUser(url).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.stateList);
+        }
+      });
+    });
+  }
+
+  getAllCityOfState(url: string): Observable<City[]> {
+    return new Observable<City[]>(obs => {
+      this.apiService.postUser(url).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.cityList);
+        }
+      });
+    });
+  }
+
+
+   getAddressInformation(url: string, addressId): Observable<Address> {
+    const param: HttpParams = new HttpParams().set("addressId", addressId);
+
+    return new Observable<Address>(obs => {
+      this.apiService.getUser(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.address);
+        }
+      });
+    });
+  }
+
+   saveAddressDetails(url, data): Observable<Address> {
+    return new Observable<any>(obs => {
+      this.apiService.postUser(url, data).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.addressDetails);
+        }
+      });
+    });
+  }
 
 }

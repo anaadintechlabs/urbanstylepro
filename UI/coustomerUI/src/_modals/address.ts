@@ -12,21 +12,21 @@ export interface Address {
     primaryAddress: false  
 }
 
-interface Country {
+export interface Country {
     id: number,
     countryName: string, 
     countryCode: string, 
     currency: string
 }
 
-interface State {
+export interface State {
     id: number, 
     stateName: string, 
     stateCode: string, 
     country: Country
 }
 
-interface City {
+export interface City {
     id: number, 
     cityName: string, 
     cityCode: string, 

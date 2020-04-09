@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WishlistService } from 'src/_service/product/wishlist.service';
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-wishlist',
@@ -17,7 +18,8 @@ export class WishlistComponent implements OnInit {
 
   public 
   constructor(
-    public _wishList : WishlistService
+    public _wishList : WishlistService,
+    public toast:ToastrService
   ) { }
 
 
@@ -48,7 +50,8 @@ export class WishlistComponent implements OnInit {
   {
     this._wishList.softDeleteWishlist(id).subscribe(data=>{
       console.log("data deleted successsfully");
-      this.wishlist=data.wishList;
+      this.wishlist=data.data.wishList;
+      this.toast.success("Product removed from wishlist","Success");
       console.log("data us",data);
     },error=>{
       console.log("error",error);

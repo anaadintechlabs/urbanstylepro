@@ -21,7 +21,7 @@ public interface AffiliateCommisionOrderRepo extends PagingAndSortingRepository<
 	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(u.orderProd) FROM AffiliateCommisionOrder u where  u.affiliateId.id =?1  AND u.returnId=NULL ")
 	List<OrderUiListingDTO> getOrderForAffialite(long affiliateId, Pageable pagable);
 
-	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(u.returnId) FROM AffiliateCommisionOrder u where  u.affiliateId.id =?1 and u.returnId=NULL")
+	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(u.returnId) FROM AffiliateCommisionOrder u where  u.affiliateId.id =?1 and u.returnId!=NULL")
 	List<ReturnUiListDTO> getReturnByAffiliate(long affiliateId, Pageable pagable);
 
 	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(u.orderProd) FROM AffiliateCommisionOrder u where  u.affiliateId.id =?1  and u.status=?2 AND u.returnId=NULL ")

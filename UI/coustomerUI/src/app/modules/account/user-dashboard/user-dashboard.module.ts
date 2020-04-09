@@ -14,7 +14,8 @@ import { ReturnsComponent } from './components/returns/returns.component';
 import { ManageAddressComponent } from './components/manage-address/manage-address.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 import {NgxPaginationModule} from 'ngx-pagination';
-import { OrderDetailsComponent } from './components/order-details/order-details.component'; // <-- import the module
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { AddAddressComponent } from './components/add-address/add-address.component'; // <-- import the module
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
     ManageAddressComponent,
     WalletComponent,
     OrderDetailsComponent,
+    AddAddressComponent,
   ],
   imports: [
     CommonModule,

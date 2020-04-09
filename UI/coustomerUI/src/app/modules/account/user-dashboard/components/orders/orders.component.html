@@ -24,7 +24,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let order of orderList">
-                <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(order.orderProductId,order.orderId)" >ORDER-{{ order.orderProductId }}</td>
+                <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(order.vendorId,order.orderProductId,order.orderId)" >ORDER-{{ order.orderProductId }}</td>
                 <td>{{ order.variantName }}</td>
                 
                 <td>{{ order.orderPlacedDate | date }}</td>
@@ -38,7 +38,7 @@
                   <button *ngIf="order.status == 'PENDING' " class="btn actionBtn" (click)="cancelOrderByUser(order.orderId,order.orderProductId)">
                     CANCEL
                   </button>
-                  <button *ngIf="order.status=='COMPLETED'" class="btn actionBtn" (click)="returnOrderByUserPopUp(order.orderId,order.orderProductId)">
+                  <button *ngIf="order.status=='COMPLETE'" class="btn actionBtn" (click)="returnOrderByUserPopUp(order.orderId,order.orderProductId)">
                     RETURN
                   </button>
                 </td>

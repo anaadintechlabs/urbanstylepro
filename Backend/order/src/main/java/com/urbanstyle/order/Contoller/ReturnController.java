@@ -144,9 +144,10 @@ public class ReturnController {
 			@RequestParam(value="orderProdId")long orderProdId,
 			@RequestParam(value="userId")long userId,
 			@RequestParam(value="reason")String reason,
+			@RequestParam(value="type")String type,
 			HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",orderService.returnOrderByUser(orderId,userId,reason,orderProdId));
+			resultMap.put("orderList",orderService.returnOrderByUser(orderId,userId,reason,orderProdId,type));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
