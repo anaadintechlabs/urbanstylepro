@@ -19,7 +19,7 @@ export class TopBarSearchComponent implements OnInit {
 
   submit() {
     this._productService.applySearch();
-    this._router.navigateByUrl('/classic/shop');
+    this._router.navigateByUrl('/shop');
   }
 
 }

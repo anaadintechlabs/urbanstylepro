@@ -39,6 +39,7 @@ export class ProductDescriptionComponent implements OnInit {
   @Input() description : any;
   @Input() avrageRating : string;
   @Output() scrollToForm : EventEmitter<void> = new EventEmitter<void>();
+  @Output() productId : EventEmitter<string> = new EventEmitter<string>();
 
   addingToCart : boolean = false;
   addingToWishlist : boolean = false;
@@ -126,13 +127,28 @@ export class ProductDescriptionComponent implements OnInit {
       });
     });
     this.description.variantCombinations.forEach(element => {
-      if(element.variationData.toString() == data.toString()) {
+      if(this.checkArray(data,element.variationData)) {
         varientExist = true;
         selectedVarient = element;
       }
     });
-    console.log(varientExist);
     console.log(selectedVarient);
+    if(varientExist){
+      this.productId.emit(selectedVarient.variationCode);
+    }
+  }
+
+  checkArray(a,b) : boolean {
+    let status: boolean = false;
+    for (var i = 0, len = a.length; i < len; i++) { 
+      for (var j = 0, len2 = b.length; j < len2; j++) {
+        if (a[i].name === b[j].name) {
+          b.splice(j, 1);
+          len2=b.length;
+        }
+      }
+    }
+    return b.length == 0;
   }
 
   cartMinus() {
@@ -202,7 +218,7 @@ export class ProductDescriptionComponent implements OnInit {
 
   checkout(data:ProductVerient) {
     this.prepareCheckoutItem(data);
-    this._router.navigate(['/classic/order/']);
+    this._router.navigate(['/order/']);
   }
 
   prepareCheckoutItem(data:ProductVerient){

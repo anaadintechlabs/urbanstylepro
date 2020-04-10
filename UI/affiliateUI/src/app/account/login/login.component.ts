@@ -39,7 +39,12 @@ export class LoginComponent implements OnInit {
       userType:'AFFILIATE'
     }
     this._userService.attemptAuth(body).subscribe(res=>{
-      this.toastr.success('Login Successfull', 'Success');
+      console.log(res);
+      if(Object.keys(res).length > 0) {
+        this.toastr.success('Login Successfull', 'Success');
+      } else {
+        this.toastr.error("Please Enter valid Credentials!","Oops!")
+      }       
     },error=>{
       this.toastr.error("Please Enter valid Credentials!","Oops!")
     });

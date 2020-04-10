@@ -31,16 +31,13 @@ export class ProductViewComponent implements OnInit {
     this._apiService.get(url).subscribe(res=>{
       console.log(res);
       if(res.isSuccess) {
-        if(res.data.product=='EXISTS')
-          {
-        this.toastrService.warning("Link already generated for this product!","Oops");
-          }
-          else
-            {
-        this.product['generatedLink'] = res.data.product;
-        this.toastrService.success("Link generated successfully","Success");
-        console.log(this.product);
-            }
+        if(res.data.product=='EXISTS'){
+          this.toastrService.warning("Link already generated for this product!","Oops");
+        } else  {
+          this.product['productVarLink'] = res.data.product;
+          this.toastrService.success("Link generated successfully","Success");
+          console.log(this.product);
+        }
       }
     })
   }

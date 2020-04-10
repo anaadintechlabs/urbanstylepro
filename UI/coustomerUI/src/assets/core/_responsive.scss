@@ -1,9 +1,11 @@
 @media only screen and (min-width: 1024px) and (max-width: 1366px) {
-    /* .addtoCart {
-      align-items: flex-start;
-      flex-direction: column;
-    } */
+    .addtoCart {
+      display: inherit;
+      // align-items: flex-start;
+      // flex-direction: column;
+    }
     .addtoCart li {
+      display: inline-flex;
       margin: 0 5px 20px 0;
     }
     .addtoCart li a {
@@ -33,10 +35,12 @@
       height: 180px;
     }
     .addtoCart {
+      display: inherit;
       align-items: flex-start;
       flex-direction: column;
     }
     .addtoCart li {
+      display: inline-flex;
       margin: 0 5px 20px 0;
     }
     .addtoCart li a {
@@ -98,10 +102,12 @@
       margin: 15px 10px;
     }
     .addtoCart {
+      display: inherit;
       align-items: flex-start;
       flex-direction: column;
     }
     .addtoCart li {
+      display: inline-flex;
       margin: 0 5px 20px 0;
     }
     .addtoCart li a {
