@@ -16,7 +16,7 @@ public interface ReturnService {
 
 	void setReturnStatusbyAdmin(long returnId, String status);
 
-	List<ReturnUiListDTO> getReturnByVendor(long parseLong, Filter filter);
+	List<ReturnUiListDTO> getReturnByVendor(long parseLong, Filter filter, String type);
 
 	List<ReturnUiListDTO> getReturnForSuperAdmin(Filter filter);
 
@@ -26,7 +26,7 @@ public interface ReturnService {
 
 	long getReturnCountByUser(long parseLong, Filter filter);
 
-	long getReturnCountByVendor(long parseLong, Filter filter);
+	long getReturnCountByVendor(long parseLong, Filter filter, String type);
 
 
 

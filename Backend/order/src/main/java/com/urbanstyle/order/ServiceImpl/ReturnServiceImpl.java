@@ -289,7 +289,7 @@ public class ReturnServiceImpl implements ReturnService{
 	}
 
 	@Override
-	public List<ReturnUiListDTO> getReturnByVendor(long vendorId, Filter filter) {
+	public List<ReturnUiListDTO> getReturnByVendor(long vendorId, Filter filter,String type) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
 				filter.getSortingDirection() != null
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
@@ -298,7 +298,7 @@ public class ReturnServiceImpl implements ReturnService{
 		//Here We have to get return from User Order
 		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
 		{
-			return returnOrderRepository.getAllReturnOfVendorBySearchString(vendorId,filter.getSearchString(),pagable);
+			return returnOrderRepository.getAllReturnOfVendorBySearchString(vendorId,filter.getSearchString(),type,pagable);
 		}
 		else
 		{
@@ -308,11 +308,11 @@ public class ReturnServiceImpl implements ReturnService{
 				Date startDate= new Date(Long.parseLong(dates[0]));
 				Date endDate = new Date(Long.parseLong(dates[1]));
 				System.out.println("start date "+startDate+"  end Date"+endDate);
-				return returnOrderRepository.findByOrderProductVendorIdAndDateRange(vendorId,startDate,endDate,pagable);
+				return returnOrderRepository.findByOrderProductVendorIdAndDateRange(vendorId,startDate,endDate,type,pagable);
 			}
 		}
 		
-		return returnOrderRepository.findByOrderProductVendorId(vendorId,pagable);
+		return returnOrderRepository.findByOrderProductVendorId(vendorId,type,pagable);
 		//return returnOrderRepository
 	}
 
@@ -396,10 +396,10 @@ public class ReturnServiceImpl implements ReturnService{
 	}
 
 	@Override
-	public long getReturnCountByVendor(long vendorId,Filter filter) {
+	public long getReturnCountByVendor(long vendorId,Filter filter,String type) {
 		if(filter.getSearchString()!=null && !filter.getSearchString().isEmpty())
 		{
-			return returnOrderRepository.getAllReturnCountBySearchString(vendorId,filter.getSearchString());
+			return returnOrderRepository.getAllReturnCountBySearchString(vendorId,filter.getSearchString(),type);
 		}
 		else
 		{
@@ -408,10 +408,10 @@ public class ReturnServiceImpl implements ReturnService{
 			String[] dates=filter.getDateRange().split(",");
 			Date startDate= new Date(Long.parseLong(dates[0]));
 			Date endDate = new Date(Long.parseLong(dates[1]));
-			return returnOrderRepository.countAllReturnByDateRange(vendorId,startDate,endDate);
+			return returnOrderRepository.countAllReturnByDateRange(vendorId,startDate,endDate,type);
 		}
 		}
-		return returnOrderRepository.countByOrderProductVendorId(vendorId);
+		return returnOrderRepository.countByOrderProductVendorId(vendorId,type);
 	}
 
 

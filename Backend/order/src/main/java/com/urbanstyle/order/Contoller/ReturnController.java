@@ -85,10 +85,11 @@ public class ReturnController {
 	 */
 	@RequestMapping(value= {"/getReturnForVendor"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> getReturnByVendor(HttpServletRequest request,
-			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="vendorId",required=true) String userId ){
+			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="vendorId",required=true) String userId,
+			@RequestParam(value="type",required=true) String type){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("returnList",returnService.getReturnByVendor(Long.parseLong(userId),filter));
-			resultMap.put("count",returnService.getReturnCountByVendor(Long.parseLong(userId),filter));
+			resultMap.put("returnList",returnService.getReturnByVendor(Long.parseLong(userId),filter,type));
+			resultMap.put("count",returnService.getReturnCountByVendor(Long.parseLong(userId),filter,type));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
@@ -144,10 +145,9 @@ public class ReturnController {
 			@RequestParam(value="orderProdId")long orderProdId,
 			@RequestParam(value="userId")long userId,
 			@RequestParam(value="reason")String reason,
-			@RequestParam(value="type")String type,
 			HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-			resultMap.put("orderList",orderService.returnOrderByUser(orderId,userId,reason,orderProdId,type));
+			resultMap.put("orderList",orderService.returnOrderByUser(orderId,userId,reason,orderProdId));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
