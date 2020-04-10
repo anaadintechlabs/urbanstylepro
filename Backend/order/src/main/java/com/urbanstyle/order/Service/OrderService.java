@@ -44,7 +44,7 @@ public interface OrderService {
 
 	Object cancelOrderByUser(long orderId, long userId, long orderProductId);
 
-	Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId, String type);
+	Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId);
 
 	
 	List<OrderUiListingDTO> getLastOrders(int offset);

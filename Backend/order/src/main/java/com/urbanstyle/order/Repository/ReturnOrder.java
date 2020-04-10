@@ -25,22 +25,22 @@ public interface ReturnOrder extends PagingAndSortingRepository<ReturnManagement
 	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) from ReturnManagement uop where uop.user.id =?1 order by uop.createdDate desc")
 	List<ReturnUiListDTO> findByUserId(long userId, Pageable pagable);
 
-	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 order by uop.createdDate desc")
-	List<ReturnUiListDTO> findByOrderProductVendorId(long vendorId, Pageable pagable);
+	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 and uop.returnType=?2")
+	List<ReturnUiListDTO> findByOrderProductVendorId(long vendorId, String type, Pageable pagable);
 
-	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 and  uop.createdDate between ?2 and ?3")
+	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 and uop.returnType=?4 and  uop.createdDate between ?2 and ?3")
 	List<ReturnUiListDTO> findByOrderProductVendorIdAndDateRange(long vendorId, Date startDate, Date endDate,
-			Pageable pagable);
+			String type, Pageable pagable);
 	
-	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(u) FROM ReturnManagement u where  u.orderProduct.vendor.id =?1  AND "+
+	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(u) FROM ReturnManagement u where  u.orderProduct.vendor.id =?1 and u.returnType=?3 AND "+
 			"LOWER(u.orderProduct.product.variantName) LIKE %?2% OR LOWER(u.orderProduct.product.variantCode) LIKE %?2%  " )
-	List<ReturnUiListDTO> getAllReturnOfVendorBySearchString(long vendorId, String searchString, Pageable pagable);
+	List<ReturnUiListDTO> getAllReturnOfVendorBySearchString(long vendorId, String searchString, String type, Pageable pagable);
 
 	
 	long countByUserId(long userId);
 
-	@Query("Select count(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 ")
-	long countByOrderProductVendorId(long vendorId);
+	@Query("Select count(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 and uop.returnType=?2")
+	long countByOrderProductVendorId(long vendorId, String type);
 
 	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) from ReturnManagement uop where uop.user.id =?1 and  uop.createdDate between ?2 and ?3")
 	List<ReturnUiListDTO> findByUserIdAndCreatedDateBetween(long userId, Date startDate, Date endDate,
@@ -57,12 +57,12 @@ public interface ReturnOrder extends PagingAndSortingRepository<ReturnManagement
 			"LOWER(u.orderProduct.product.variantName) LIKE %?2% OR LOWER(u.orderProduct.product.variantCode) LIKE %?2%  " )
 	long getAllUsersBySearchString(long userId, String searchString);
 
-	@Query("Select count(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 and  uop.createdDate between ?2 and ?3")
-	long countAllReturnByDateRange(long vendorId, Date startDate, Date endDate);
+	@Query("Select count(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 and uop.returnType=?4  and  uop.createdDate between ?2 and ?3")
+	long countAllReturnByDateRange(long vendorId, Date startDate, Date endDate, String type);
 
-	@Query("Select count(u) FROM ReturnManagement u where  u.orderProduct.vendor.id =?1  AND "+
+	@Query("Select count(u) FROM ReturnManagement u where  u.orderProduct.vendor.id =?1 and u.returnType=?3  AND "+
 			"LOWER(u.orderProduct.product.variantName) LIKE %?2% OR LOWER(u.orderProduct.product.variantCode) LIKE %?2%  " )
-	long getAllReturnCountBySearchString(long vendorId, String searchString);
+	long getAllReturnCountBySearchString(long vendorId, String searchString, String type);
 
 	@Query("Select new com.anaadihsoft.common.DTO.ReturnUiListDTO(uop) from ReturnManagement uop where  uop.createdDate between ?1 and ?2")
 	List<ReturnUiListDTO> getAllReturnsByDateRange(Date startDate, Date endDate, Pageable pagable);

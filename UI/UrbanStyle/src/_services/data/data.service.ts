@@ -311,10 +311,10 @@ changeStatusOfCategory(
   }
 
   //all return of vendor
-  getAllReturnOfVendor(vendorId,filter,url)
+  getAllReturnOfVendor(vendorId,filter,type,url)
   {
 
-      url=url+'?vendorId='+vendorId;
+      url=url+'?vendorId='+vendorId+'&type='+type;
     //  const param: HttpParams = new HttpParams().set("vendorId", vendorId);
     // console.log(param);
     return new Observable<any[]>(obs => {
