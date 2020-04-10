@@ -32,6 +32,7 @@ export class UserService {
      private httpClient:HttpClient,
   ) {
     this.load();
+    this.populate();
   }
 
   load(){
@@ -97,10 +98,13 @@ export class UserService {
       const route ='/login';
       return this.apiService.postUser('api/auth' + route, credentials).pipe(
         map(data => {
-          this.setAuth(data);
-          this.navigateToDashboardBasedOnUserType(data.userType);
-          this.router.navigateByUrl(this.redirectUrl);
-          return data;
+          if(data.userType == 'AFFILIATE'){
+            this.setAuth(data);
+            this.router.navigateByUrl(this.redirectUrl);
+            return data;
+          } else {
+            return {} as User;
+          }
         }
       ));
   }
