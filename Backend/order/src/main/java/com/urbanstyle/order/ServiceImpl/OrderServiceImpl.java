@@ -1089,9 +1089,12 @@ public class OrderServiceImpl implements OrderService {
 		Optional<UserOrder> userOrder  = orderRepo.findByIdAndUserId(orderId,userId);
 		UserOrderProducts userOrderProducts = null;
 		if(userOrder.isPresent()) {
+			
 			 usrOrdr = userOrder.get();
+			String previousStatus=usrOrdr.getOrderStatus();
 			usrOrdr.setOrderStatus("CANCELLED");
-			orderRepo.save(usrOrdr);
+			usrOrdr=orderRepo.save(usrOrdr);
+			
 			Optional<UserOrderProducts> userOrderProductOpt = userOrderProdRepo.findById(orderProductId);
 			if(userOrderProductOpt.isPresent())
 			{
@@ -1108,7 +1111,11 @@ public class OrderServiceImpl implements OrderService {
 //				varient.setTotalQuantity(oldQty);
 				productVariantRepo.save(varient);
 				userOrderProducts=userOrderProdRepo.save(userOrderProducts);
-				
+				if(previousStatus.equals("DISPATCHED"))
+				{
+					System.out.println("CANCELED AFTER DISPATCHED ENTRY WILL GO TO COURIER RETURN");
+					generateCourierReturnRecord(userOrderProducts,userId);
+				}
 				
 //				//Update AFFILIATE COMMISSION TABLE ALSO IF ORDER IS CANCELLED
 				if(userOrderProducts.isAffiliateCommisionExists())
@@ -1163,6 +1170,25 @@ public class OrderServiceImpl implements OrderService {
 		return usrOrdr;
 	}
 
+	private void generateCourierReturnRecord(UserOrderProducts userOrdrProd, long userId) {
+		ReturnManagement returnManage = new ReturnManagement();
+		returnManage.setOrder(userOrdrProd.getUserOrder());
+		returnManage.setOrderProduct(userOrdrProd);
+		returnManage.setReason("Courier Return ");
+		returnManage.setStatus("REQUESTED");
+		returnManage.setOrderProduct(userOrdrProd);
+		UrlShortner urlShort = new UrlShortner();
+		String code=urlShort.generateLink();
+		returnManage.setReturnCode("RT-"+code);
+		returnManage.setReturnType("COURIER_RETURN");
+		Optional<User> loginUser = userRepo.findById(userId);
+		if(loginUser.isPresent()) {
+			returnManage.setUser(loginUser.get());					
+			returnManage.setCreatedBy(String.valueOf(loginUser.get().getId()));
+		}
+		returnManagement.save(returnManage);
+	}
+
 	public void updateAffiliateCommission(UserOrderProducts userOrderProducts) {
 		// TODO Auto-generated method stub
 		AffiliateCommisionOrder afOrder = affiliateCommOrderRepo.findByOrderProdId(userOrderProducts.getId());
@@ -1175,7 +1201,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId,String type) {
+	public Object returnOrderByUser(long orderId, long userId, String reason, long orderProdId) {
 		UserOrder usrOrdr = null;
 		Optional<UserOrder> userOrder  = orderRepo.findByIdAndUserId(orderId, userId);
 		if(userOrder.isPresent()) {
@@ -1211,7 +1237,10 @@ public class OrderServiceImpl implements OrderService {
 			returnManage.setReason(reason);
 			returnManage.setStatus("REQUESTED");
 			returnManage.setOrderProduct(userOrdrProd);
-			returnManage.setReturnType(type);
+			UrlShortner urlShort = new UrlShortner();
+			String code=urlShort.generateLink();
+			returnManage.setReturnCode("RT-"+code);
+			returnManage.setReturnType("CUSTOMER_RETURN");
 			Optional<User> loginUser = userRepo.findById(userId);
 			if(loginUser.isPresent()) {
 				returnManage.setUser(loginUser.get());					

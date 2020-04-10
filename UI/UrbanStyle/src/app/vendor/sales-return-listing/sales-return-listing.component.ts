@@ -15,6 +15,7 @@ export class SalesReturnListingComponent implements OnInit {
   returnList: any = [];
   returnDetails:any;
   selectedReturnId: any;
+  selectedType:any='CUSTOMER_RETURN';
   constructor(
     public dataService: DataService,
     public _router : Router,
@@ -26,7 +27,7 @@ export class SalesReturnListingComponent implements OnInit {
     if (this.user && this.user.token) {
       this.userId = this.user.id;
       console.log("logged in vendor id", this.userId);
-      this.getAllReturnOfVendor(this.userId);
+      this.getAllReturnOfVendor('CUSTOMER_RETURN');
 
     }
   }
@@ -70,7 +71,8 @@ export class SalesReturnListingComponent implements OnInit {
 
 
 
-  getAllReturnOfVendor(vendorId) {
+  getAllReturnOfVendor(type) {
+    this.selectedType=type;
     let filter={
       'limit':15,
       'offset':0,
@@ -78,7 +80,7 @@ export class SalesReturnListingComponent implements OnInit {
       'sortingField':'createdDate'
     }
     this.dataService
-      .getAllReturnOfVendor(vendorId, filter,"api/getReturnForVendor")
+      .getAllReturnOfVendor(this.userId, filter,type,"api/getReturnForVendor")
       .subscribe(
         data => {
           console.log("All order", data);
@@ -118,7 +120,7 @@ export class SalesReturnListingComponent implements OnInit {
         //instead of this call api for get all order of user
         this.toastr.success("Status changes successfully, Wait for Admin status","Success");
 
-        this.getAllReturnOfVendor(this.userId);
+        this.getAllReturnOfVendor(this.selectedType);
         
       },
       error => {
