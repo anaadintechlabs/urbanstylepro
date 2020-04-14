@@ -3,3 +3,13 @@
     border-bottom: 1px solid #000000;
     border-top: 1px solid #000000;
 }
+nav.navbar{
+    box-shadow: 1px 1px 12px 0px #5d5d5d !important;
+    z-index: 999 !important;
+}
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-nav .dropdown-menu {
+        left: -110px;
+        top: 50px;
+    }
+}

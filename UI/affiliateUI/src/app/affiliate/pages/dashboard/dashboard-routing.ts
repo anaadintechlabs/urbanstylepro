@@ -15,6 +15,11 @@ export const DashboardRoutes: Routes = [
     component : DashboardComponent,
     children:[
         {
+            path : '',
+            redirectTo: "products",
+            pathMatch: "full"
+        },
+        {
             path : 'stats',
             component : StatisticsComponent
         }, 

@@ -1,4 +1,4 @@
-<ul class="sideMenuList">
+<!-- <ul class="sideMenuList">
     <li *ngFor="let item of allRoute">
         <a *ngIf="item.route != 'Logout'" [routerLink]="[item.route]" routerLinkActive="router-link-active" >
             {{ item.name}}            
@@ -7,4 +7,23 @@
             {{ item.name}}            
         </a>
     </li>
-</ul>
+</ul> -->
+
+<div class="sideMenu bg-primary">
+    <ul class="sideMenuList">
+        <li *ngFor="let item of allRoute">
+            <a *ngIf="item.route != 'Logout'" [routerLink]="[item.route]" routerLinkActive="router-link-active" >
+                <span class="icon">
+                    <i [class]="item.icon"></i>
+                </span>
+                {{ item.name}}            
+            </a>
+            <a *ngIf="item.route == 'Logout'" (click)="logout()" >
+                <span class="icon">
+                    <i [class]="item.icon"></i>
+                </span>
+                {{ item.name}}            
+            </a>
+        </li>
+    </ul>
+</div>

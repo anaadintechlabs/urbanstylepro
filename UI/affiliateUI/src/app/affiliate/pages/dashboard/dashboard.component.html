@@ -1,10 +1,14 @@
-<div class="container my-5">
+<div class="container-fluid mainContent noPadding">
     <div class="row">
-        <div class="col-md-3">
-            <app-side-menu></app-side-menu>
+        <div class="col-md-3 noPadding">
+            <div class="sideMenu bg-primary">
+                <app-side-menu></app-side-menu>
+            </div>
         </div>
         <div class="col-md-9 col-md-offset-2">
-            <router-outlet></router-outlet>
+            <div class="details">
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
 </div>
