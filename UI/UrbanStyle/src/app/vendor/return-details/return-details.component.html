@@ -1,0 +1,113 @@
+<div class="container" >
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
+      <!-- <button class="button btn-success" (click)="backButton()">Back</button> -->
+    </div>
+  </div>
+    <div class="row my-5" >
+      <div class="col-md-6 mb-4">
+        <h4>Return Summary</h4>
+        <div class="order_details">
+          <p>Order Id : ORDER-{{ returnDetails?.orderProductId }}</p>
+          <p>Order Date : {{ returnDetails?.orderPlacedDate | date }}</p>
+          <p>Return Status : {{ returnDetails?.status }}</p>
+          <p>Return Price {{ returnDetails?.orderProductPrice}}</p>
+          <p>Order Placed By : {{ returnDetails?.userName }}</p>
+          <p>Tracking Id : {{ returnDetails?.trackingId }}</p>
+          <p>Tracking Link : {{ returnDetails?.trackingLink }}</p>
+          <p>Reason : {{returnDetails?.reason}} </p>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <h4>Shipped Address</h4>
+        <div class="shiped_details">
+          <p>Address Main: {{ returnDetails?.addressOne }}</p>
+          <p>Address Secondary: {{ returnDetails?.addressTwo }}</p>
+          <p>Zipcode: {{ returnDetails?.zip }}</p>
+          <p>State/Country: {{ returnDetails?.state }}/{{ returnDetails?.country }}</p>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead class="thead-default">
+            <tr>
+                <th>Image</th>
+              <th>Product Name</th>
+              
+              <th>Listing Id</th>
+              <th>Quantity</th>
+              <th>Variant Total Price</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+              <!-- *ngFor="let orderProduct of orderProductList" -->
+            <tr >
+                <td>
+                    <img height="75px" width="auto" [src]="returnDetails?.mainImageUrl" alt="" srcset="">
+                  </td>
+              <td>{{ returnDetails?.variantName }}</td>
+              
+              <td>{{ returnDetails?.uniqueprodvarId }}</td>
+              <td>{{ returnDetails?.quantity }}</td>
+              <td>{{ returnDetails?.orderProductPrice }}</td>
+              <td>{{ returnDetails?.status }}</td>
+              <!-- <td>
+                <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('INPROGRESS',orderProduct.id)">
+                  Inprogress
+                </button>
+                <button class="btn actionBtn" (click)="changeStatusOfPartialOrder('DISPATCHED',orderProduct.id)">
+                  DISPATCHED
+                </button>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Transaction Details -->
+     <div *ngIf="returnDetails?.status == 'COMPLETE'"><b>Transaction Details</b></div><br>
+   <div *ngIf="returnDetails?.status == 'COMPLETE'" class="col-md-12">
+      <table class="table table-striped">
+        <thead class="thead-default">
+          <tr>
+              <th>Sender</th>
+            <th>Reciever</th>
+            
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transDet of transactionDetails">
+            <td>{{transDet.sender.name}}</td>
+            <td>{{transDet.reciever}}</td>
+            <td>{{transDet.amount}}</td>
+            <td>{{transDet.type}}</td>
+            <td>{{transDet.createdDate}}</td>
+          </tr>
+          </tbody>
+        </table>
+    </div>
+
+    <!-- Transaction Details -->
+    
+    </div>
+    <div class="row mt-4 tracking"  *ngIf="returnDetails?.status == 'ACCEPT'">
+      <div class="col-md-4">
+        <label for="">Tracking Id: </label>
+        <input [(ngModel)]="trackingId" type="text">
+      </div>
+      <div class="col-md-4">
+        <label for="">Tracking Link: </label>
+        <input [(ngModel)]="trackingLink" type="text">
+      </div>
+      <div class="col-md-4">  
+        <button class="btn actionBtn" *ngIf="returnDetails?.status == 'ACCEPT'" (click)="setTrackingCodeAndUrlForAdmin(returnDetails?.returnId)">Submit</button>
+      </div>
+    </div>
+  </div>

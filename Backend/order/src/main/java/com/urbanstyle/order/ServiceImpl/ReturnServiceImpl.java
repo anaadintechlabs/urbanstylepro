@@ -96,7 +96,7 @@ public class ReturnServiceImpl implements ReturnService{
 	}
 
 	@Override
-	public void setReturnStatusbyAdmin(long returnId, String status) {
+	public void setReturnStatusbyAdmin(long returnId, String status, String sellable, String fault) {
 		Optional<ReturnManagement> optReturn = returnOrderRepository.findById(returnId);
 		System.out.println("optReturn"+optReturn);
 		if(optReturn.isPresent())
@@ -104,13 +104,15 @@ public class ReturnServiceImpl implements ReturnService{
 			System.out.println("setting status"+optReturn.get());
 			ReturnManagement returnObj=optReturn.get();
 			returnObj.setStatus(status);
+			
 			if("ACCEPT".equals(status))
 			{
 				returnObj.setReturnAuthorizeDate(new Date());
 			}
 			 //update Inventory in case of return also
 			 else if("RECIEVED".equalsIgnoreCase(status)) {
-				recieveOrder(returnObj); 
+				returnObj.setReturnFault(fault);
+				recieveOrder(returnObj,sellable); 
 		
 		 }
 			returnOrderRepository.save(returnObj);
@@ -118,7 +120,7 @@ public class ReturnServiceImpl implements ReturnService{
 		
 	}
 
-	private void recieveOrder(ReturnManagement returnObj) {
+	private void recieveOrder(ReturnManagement returnObj, String sellable) {
 		
 		long orderId=returnObj.getOrder().getId();
 		 HashMap<Long,Double> userBal = new HashMap<>();
@@ -137,8 +139,14 @@ public class ReturnServiceImpl implements ReturnService{
 					{
 						updateAffiliateCommission(userOrdrProd);
 					}
+					
+					//if(sellable!=null && sellable.equalsIgnoreCase("YES")))
+				
 					ProductVariant varient = userOrdrProd.getProduct();
 					varient.setTotalQuantity(varient.getTotalQuantity() + userOrdrProd.getQuantity());
+					productVariantRepo.save(varient);
+					
+					//Here we can take user from User order product
 					if(userBal.get(Long.valueOf(varient.getCreatedBy())) != null) {
 						double oldAmount = userBal.get(Long.valueOf(varient.getCreatedBy()));
 						oldAmount += userOrdrProd.getQuantity()*varient.getDisplayPrice();
@@ -148,7 +156,7 @@ public class ReturnServiceImpl implements ReturnService{
 						userBal.put(Long.valueOf(varient.getCreatedBy()), amount);
 					}
 					userOrderProdRepo.save(userOrdrProd);
-					productVariantRepo.save(varient);
+					
 					System.out.println("userBal"+userBal);
 				//}
 					
@@ -158,16 +166,79 @@ public class ReturnServiceImpl implements ReturnService{
 						returnManage.setStatus("COMPLETE");
 						returnManage.setUnitRecieveDate(new Date());
 						returnManage.setCustomerRefundDate(new Date());
-						returnOrderRepository.save(returnManage);
+						returnManage=returnOrderRepository.save(returnManage);
 				    }
 				 // above update inventory and status and update return status
-				    returnBalanceToAllAuthority(userBal,usrOrdr,userOrdrProd);
-				    
+				    //AGAR TO CUSTOMER RETURN HAI TB TO INKE PASS PAISA GYA HOGA
+				    //PR DUSRI TYPE KA RETURN HAI TO NI GYA
+				    if(returnManage.getReturnType().equals("CUSTOMER_RETURN"))
+				    {
+				    	if(userOrdrProd.isAffiliateCommisionExists())
+						{
+				    returnBalanceToAllAuthority(userBal,usrOrdr,userOrdrProd,true);
+						}
+				    	else
+				    	{
+				    		returnBalanceToAllAuthority(userBal,usrOrdr,userOrdrProd,false);	
+				    	}
+				    }
+				    else
+				    {
+				    	System.out.println("return case of courier");
+				    	//jo code cancel me hota hai
+				    	returnAsInCancel(usrOrdr,userOrdrProd);
+				    }
 			}
 			
 			
 			
 	
+		
+	}
+
+	private void returnAsInCancel(UserOrder usrOrdr, UserOrderProducts userOrderProducts) {
+		
+		User admin = userRepo.findByUserType("SUPERADMIN");
+		PaymentWalletTransaction pwt = new PaymentWalletTransaction();
+		pwt.setAmount(userOrderProducts.getOrderProductPrice());
+		pwt.setCreatedDate(new Date());
+		pwt.setOrder(usrOrdr);
+		pwt.setReciever(String.valueOf(usrOrdr.getUser().getId()));
+		pwt.setRecieverDetails(usrOrdr.getUser());
+		pwt.setSender(admin);
+		pwt.setOrderProds(userOrderProducts);
+		pwt.setStatus("1"); 
+		pwt.setType("CANCEL");  //Order Placed
+		paymentwalletTransactionRepo.save(pwt);			
+
+		UserWallet userWalletAdmin = UserWalletRepo.findByUserId(admin.getId()); 
+		if(userWalletAdmin != null) {
+			double amount = userWalletAdmin.getAmount();
+//			userWalletAdmin.setAmount(amount - (userOrderProducts.getOrderProductPrice()*userOrderProducts.getQuantity()));
+			userWalletAdmin.setAmount(amount - (userOrderProducts.getOrderProductPrice()));
+
+			userWalletAdmin.setModifiedDate(new Date());
+			userWalletAdmin.setStatus("1");
+			userWalletAdmin.setUser(admin);
+			UserWalletRepo.save(userWalletAdmin);
+		}
+		// update wallet for user
+		UserWallet userWalletuser = UserWalletRepo.findByUserId(usrOrdr.getUser().getId()); 
+		if(userWalletuser != null) {
+			double amount = userWalletuser.getAmount();
+			userWalletuser.setAmount(amount + (userOrderProducts.getOrderProductPrice()));
+			userWalletuser.setModifiedDate(new Date());
+			userWalletuser.setStatus("1");
+			userWalletuser.setUser(usrOrdr.getUser());
+			UserWalletRepo.save(userWalletuser);
+		}else {
+			userWalletuser = new UserWallet();
+			userWalletuser.setAmount(userOrderProducts.getOrderProductPrice());
+			userWalletuser.setModifiedDate(new Date());
+			userWalletuser.setStatus("1");
+			userWalletuser.setUser(usrOrdr.getUser());
+			UserWalletRepo.save(userWalletuser);
+		}
 		
 	}
 
@@ -181,8 +252,7 @@ public class ReturnServiceImpl implements ReturnService{
 		
 	}
 
-	private void returnBalanceToAllAuthority(HashMap<Long, Double> userBal, UserOrder userOrder, UserOrderProducts userOrdrProd) {
-		
+	private void returnBalanceToAllAuthority(HashMap<Long, Double> userBal, UserOrder userOrder, UserOrderProducts userOrdrProd, boolean affialitePresent) {
 		
 		
 	    // now get data from all vendors
@@ -190,7 +260,9 @@ public class ReturnServiceImpl implements ReturnService{
 	    double totalAmount = 0;
 	    User admin = userRepo.findByUserType("SUPERADMIN");
 	    for(Long vendorId : allVendors) {
-	    	PaymentWalletTransaction pwt = paymentwalletTransactionRepo.findByRecieverAndOrderId(String.valueOf(vendorId),userOrder.getId());
+	    	//if return typr is after complete tb to inke pass paisa pachucha hoga other wise ni pahucha hga
+	    	//there will be multiple entries f
+	    	PaymentWalletTransaction pwt = paymentwalletTransactionRepo.findByRecieverAndOrderProdsId(String.valueOf(vendorId),userOrdrProd.getId());
 	    	
 	    	totalAmount += pwt.getAmount();
 	    	User vendorUser = userRepo.findById(vendorId).get();
@@ -200,6 +272,7 @@ public class ReturnServiceImpl implements ReturnService{
 			pwtinner.setOrder(userOrder);
 			pwtinner.setOrderProds(userOrdrProd);
 			pwtinner.setReciever(String.valueOf(userOrder.getUser().getId()));
+			pwtinner.setRecieverDetails(userOrder.getUser());
 			pwtinner.setSender(vendorUser);
 			pwtinner.setStatus("1"); 
 			pwtinner.setType("RT");  //Return
@@ -209,6 +282,7 @@ public class ReturnServiceImpl implements ReturnService{
 			UserWallet userWalletVendor = UserWalletRepo.findByUserId(vendorUser.getId()); 
 			if(userWalletVendor != null) {
 				double amountWallet = userWalletVendor.getAmount();
+				System.out.println("previos amount"+amountWallet);
 				userWalletVendor.setAmount(amountWallet - pwt.getAmount());
 				userWalletVendor.setModifiedDate(new Date());
 				userWalletVendor.setStatus("1");
@@ -220,35 +294,50 @@ public class ReturnServiceImpl implements ReturnService{
 	    Iterable<PaymentWalletDistribution> allSources =  paymentWalletDistRepo.findAll();
 		for(PaymentWalletDistribution source : allSources) {
 			long perc = source.getPerc();
-			if(source.getDistributionTo().equals("VENDOR")) {
+			if(source.getTypeOfuser().equals("VENDOR")) {
 				continue;
 			}
-			if(source.getDistributionTo().equals("AFFILIATE")) {
-				long percGivenToAff = source.getPerc();
-				double amountFromAff=(userOrder.getOrderTotalPrice()*percGivenToAff)/100; 
-				totalAmount += amountFromAff;
-				String affiliatid = source.getSource();
-				User affiliatiduser = userRepo.findById(Long.parseLong(affiliatid)).get();
-				UserWallet userWalletAff = UserWalletRepo.findByUserId(affiliatiduser.getId());
-				if(userWalletAff != null) {
-					double amount = userWalletAff.getAmount();
-					userWalletAff.setAmount(amount - amountFromAff);
-					userWalletAff.setModifiedDate(new Date());
-					userWalletAff.setStatus("1");
-					userWalletAff.setUser(affiliatiduser);
-					UserWalletRepo.save(userWalletAff);
+			if(source.getTypeOfuser().equals("AFFILIATE")) {
+				AffiliateCommisionOrder afOrder = null;
+				//Here also Affialite Order Commission comes into picture
+				long percGivenToAff=0;
+				long affiliatid ;
+				if(affialitePresent)
+				{
+					afOrder = affiliateCommOrderRepo.findByOrderProdId(userOrdrProd.getId());
+					if(afOrder!=null)
+					{
+					percGivenToAff=(long) afOrder.getCommision();
+					affiliatid=afOrder.getAffiliateId().getId();
+					double amountFromAff=(userOrder.getOrderTotalPrice()*percGivenToAff)/100; 
+					totalAmount += amountFromAff;
+					
+					User affiliatiduser = userRepo.findById(affiliatid).get();
+					UserWallet userWalletAff = UserWalletRepo.findByUserId(affiliatiduser.getId());
+					if(userWalletAff != null) {
+						double amount = userWalletAff.getAmount();
+						userWalletAff.setAmount(amount - amountFromAff);
+						userWalletAff.setModifiedDate(new Date());
+						userWalletAff.setStatus("1");
+						userWalletAff.setUser(affiliatiduser);
+						UserWalletRepo.save(userWalletAff);
+					}
+					PaymentWalletTransaction pwtinnerAff = new PaymentWalletTransaction();
+					pwtinnerAff.setAmount(amountFromAff);
+					pwtinnerAff.setCreatedDate(new Date());
+					pwtinnerAff.setOrder(userOrder);
+					pwtinnerAff.setOrderProds(userOrdrProd);
+					pwtinnerAff.setReciever(String.valueOf(userOrder.getUser().getId()));
+					pwtinnerAff.setRecieverDetails(userOrder.getUser());
+					pwtinnerAff.setSender(affiliatiduser);
+					pwtinnerAff.setStatus("1"); 
+					pwtinnerAff.setType("RT");  //Return
+					paymentwalletTransactionRepo.save(pwtinnerAff);
+					}
 				}
-				PaymentWalletTransaction pwtinnerAff = new PaymentWalletTransaction();
-				pwtinnerAff.setAmount(amountFromAff);
-				pwtinnerAff.setCreatedDate(new Date());
-				pwtinnerAff.setOrder(userOrder);
-				pwtinnerAff.setOrderProds(userOrdrProd);
-				pwtinnerAff.setReciever(String.valueOf(userOrder.getUser().getId()));
-				pwtinnerAff.setSender(affiliatiduser);
-				pwtinnerAff.setStatus("RETURNED"); 
-				pwtinnerAff.setType("RT");  //Return
-				paymentwalletTransactionRepo.save(pwtinnerAff);
-			}else {
+	
+			
+			}else if(source.getTypeOfuser().equals("SUPERADMIN")){
 				long percGivenToSA = source.getPerc();
 				double amountFromSA=(userOrder.getOrderTotalPrice()*percGivenToSA)/100; 
 				totalAmount += amountFromSA;
@@ -267,6 +356,7 @@ public class ReturnServiceImpl implements ReturnService{
 				pwtinnerSA.setOrder(userOrder);
 				pwtinnerSA.setOrderProds(userOrdrProd);
 				pwtinnerSA.setReciever(String.valueOf(userOrder.getUser().getId()));
+				pwtinnerSA.setRecieverDetails(userOrder.getUser());
 				pwtinnerSA.setSender(admin);
 				pwtinnerSA.setStatus("1"); 
 				pwtinnerSA.setType("RT");  //Return
@@ -280,6 +370,15 @@ public class ReturnServiceImpl implements ReturnService{
 		if(userWalletuser != null) {
 			double amount = userWalletuser.getAmount();
 			userWalletuser.setAmount(amount + totalAmount);
+			userWalletuser.setModifiedDate(new Date());
+			userWalletuser.setStatus("1");
+			userWalletuser.setUser(actualUser);
+			UserWalletRepo.save(userWalletuser);
+		}
+		else
+		{
+			userWalletuser= new UserWallet();
+			userWalletuser.setAmount( totalAmount);
 			userWalletuser.setModifiedDate(new Date());
 			userWalletuser.setStatus("1");
 			userWalletuser.setUser(actualUser);
@@ -412,6 +511,18 @@ public class ReturnServiceImpl implements ReturnService{
 		}
 		}
 		return returnOrderRepository.countByOrderProductVendorId(vendorId,type);
+	}
+
+	@Override
+	public void setTrackingCodeAndUrlForAdmin(long returnId,String trackingId, String trackingUrl) {
+		Optional<ReturnManagement> rm =returnOrderRepository.findById(returnId);
+		if(rm.isPresent())
+		{
+			ReturnManagement obj= rm.get();
+			obj.setTrackingId(trackingId);
+			obj.setTrackingUrl(trackingUrl);
+			returnOrderRepository.save(obj);
+		}
 	}
 
 

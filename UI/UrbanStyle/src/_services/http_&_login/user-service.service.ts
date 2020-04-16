@@ -2,7 +2,7 @@ import { JwtServiceService } from './jwt-service.service';
 
 
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { map,catchError } from 'rxjs/operators';
 import { User } from '../../_modals/user.modal';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -10,6 +10,8 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
 import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
 import { ApiService } from './api.service';
 import { Router } from "@angular/router";
+import {HttpHeaders, HttpBackend, HttpClient,HttpParams } from "@angular/common/http";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,9 @@ export class UserServiceService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
   constructor(private jwtService:JwtServiceService,
-              private apiService:ApiService, private router: Router
+              private apiService:ApiService, private router: Router,
+    private httpBackend:HttpBackend,
+    private httpClient:HttpClient,
   ) { }
 
   populate() {
@@ -149,4 +153,63 @@ export class UserServiceService {
     ));
   }
   
+
+    changePassword(obj)
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    let url =
+      "api/user/changePassword?userId=" +
+      currunt_user.id ;
+    return this.apiService.postUser(url,obj).pipe(
+      map(data => {
+        return data;
+      }
+    ));
+  }
+
+
+  getLoggerInUserDetails()
+  {
+    let currunt_user = JSON.parse(this.getUser());
+    let url =
+      "api/user/getUserById?userId=" +
+      currunt_user.id ;
+    return this.apiService.getUser(url).pipe(
+      map(data => {
+        return data.data;
+      }
+    ));
+  }
+
+  updateUser(data)
+  {
+        const HttpUploadOptions = {
+       headers: new HttpHeaders({
+         'Authorization': 'Bearer ' + this.jwtService.getToken()
+       }),
+     }
+ 
+     this.httpClient= new HttpClient(this.httpBackend);
+          let url=environment.user_url+'api/user/updateUser';
+        return this.httpClient.put(url,data,HttpUploadOptions).pipe(map(this.successResponse), catchError(this.errorHandler));
+  }
+
+
+  errorHandler(error){
+    return Observable.throw(error) ;
+    }
+  
+    successResponse(response){
+    try {
+        if (response) {
+          return response.data;
+        }
+      }
+      catch (ex) {
+        console.log(ex);
+      }
+      return response;
+  
+    }
+
 }

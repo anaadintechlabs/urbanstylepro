@@ -7,24 +7,36 @@
     </div>
   </div>
 
+  <div class="col-6 col-md-6">
+    <div class="ordder_heading">
+      <select   [(ngModel)]="timeRange" (ngModelChange)="chooseDateRange()" name="" id="">
+        <option  value="">Select Date Range</option>
+              <option  value="WEEKLY">Last 7 Days</option>
+              <option   value="MONTHLY">Last 30 Days</option>
+              <option   value="QUARTERLY">Last 90 Days</option>
+              <!-- <option value="RETURN">RETURN</option> -->
+            </select>
+    </div>
+  </div>
+
   <div class="row" >
     <div class="col-12 col-md-12">
       <table class="table table-striped">
         <thead class="thead-default">
           <tr>
-            <th>Return Id</th>
+            <th>Return Id<i class="fa" (click)="sortHeaderClick('returnId.returnId')" [ngClass]="{ 'fa-sort': isSorting('returnId'), 'fa-sort-up': isSortAsc('returnId'), 'fa-sort-down': isSortDesc('returnId') }"></i></th>
             <th>Image</th>
-            <th>Product Name</th>
+            <th>Product Name<i class="fa" (click)="sortHeaderClick('prodvarid.variantName')" [ngClass]="{ 'fa-sort': isSorting('orderProduct.product.variantName'), 'fa-sort-up': isSortAsc('orderProduct.product.variantName'), 'fa-sort-down': isSortDesc('orderProduct.product.variantName') }"></i></th>
             <th>Customer return Reason</th>
-            <th>Return Authorize Date</th>
-            <th>Customer Refund Date</th>
-            <th>Unit Recived Date</th>
-            <th>Status</th>
+            <th>Return Authorize Date<i class="fa" (click)="sortHeaderClick('returnId.returnAuthorizeDate')" [ngClass]="{ 'fa-sort': isSorting('returnAuthorizeDate'), 'fa-sort-up': isSortAsc('returnAuthorizeDate'), 'fa-sort-down': isSortDesc('returnAuthorizeDate') }"></i></th>
+            <th>Customer Refund Date<i class="fa" (click)="sortHeaderClick('returnId.customerRefundDate')" [ngClass]="{ 'fa-sort': isSorting('orderProd.id'), 'fa-sort-up': isSortAsc('orderProd.id'), 'fa-sort-down': isSortDesc('orderProd.id') }"></i></th>
+            <th>Unit Recived Date<i class="fa" (click)="sortHeaderClick('returnId.unitReceivedDate')" [ngClass]="{ 'fa-sort': isSorting('customerRefundDate'), 'fa-sort-up': isSortAsc('customerRefundDate'), 'fa-sort-down': isSortDesc('customerRefundDate') }"></i></th>
+            <th>Status<i class="fa" (click)="sortHeaderClick('status')" [ngClass]="{ 'fa-sort': isSorting('status'), 'fa-sort-up': isSortAsc('status'), 'fa-sort-down': isSortDesc('status') }"></i></th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody *ngIf="returnList">
-          <tr *ngFor="let return of returnList">
+          <tr *ngFor="let return of returnList  | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: count }; let i = index">
 
             <td >RET-{{ return.returnId }}</td>
             <td><img  class="productImage" [src]="return.mainImageUrl" alt="" srcset=""></td>
@@ -39,12 +51,9 @@
           <tr *ngIf="returnList?.length ==0 ">
             <td scope="row">No record found</td>
           </tr>
+          <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
         </tbody>
       </table>
     </div>
   </div>
 </div>
-
-
-  
-  

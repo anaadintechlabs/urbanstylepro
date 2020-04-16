@@ -73,6 +73,8 @@ public class ReturnUiDTO {
 			private boolean primaryAddress;
 			
 			
+			
+			
 			//return 
 			private long returnId;
 
@@ -367,8 +369,8 @@ public class ReturnUiDTO {
 					this.userId = r.getOrder().getUser().getId();
 					this.userName = r.getOrder().getUser().getName();
 					
-				 this.trackingId=r.getOrderProduct().getTrackingId();
-				 this.trackingLink=r.getOrderProduct().getTrackingLink();
+				 this.trackingId=r.getTrackingId();
+				 this.trackingLink=r.getTrackingUrl();
 				 this.addressOne=r.getOrder().getAddress().getAddressOne();
 				 this.addressTwo=r.getOrder().getAddress().getAddressTwo();
 				 this.city=r.getOrder().getAddress().getCite().getCityName();

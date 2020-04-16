@@ -16,6 +16,15 @@ export class SalesReturnListingComponent implements OnInit {
   returnDetails:any;
   selectedReturnId: any;
   selectedType:any='CUSTOMER_RETURN';
+
+  pageNumber=1;
+  timeRange='';
+  public limit=5;
+  public offset=0;
+  public sortingField="id";
+  public sortingDirection="desc";
+  public count=10;
+
   constructor(
     public dataService: DataService,
     public _router : Router,
@@ -50,6 +59,10 @@ export class SalesReturnListingComponent implements OnInit {
     } else if(data.f_Status == 'REJECT'){
       this.setReturnStatusbyAdmin(data.returnId,'REJECT');
     }
+    else if(data.f_Status == 'RECIEVED')
+      {
+this.setReturnStatusbyAdmin(data.returnId,'RECIEVED');
+      }
   }
   else
   {
@@ -65,8 +78,8 @@ export class SalesReturnListingComponent implements OnInit {
     });
   }
 
-  getOrderProductForVendor(orderProductId,orderId) {
-    this._router.navigate(['/vendor/orderDetails',orderProductId,orderId])
+  getOrderProductForVendor(orderProductId,returnId) {
+    this._router.navigate(['/vendor/returnDetails',returnId,orderProductId]);
   }
 
 
@@ -74,10 +87,10 @@ export class SalesReturnListingComponent implements OnInit {
   getAllReturnOfVendor(type) {
     this.selectedType=type;
     let filter={
-      'limit':15,
-      'offset':0,
-      'sortingDirection':'DESC',
-      'sortingField':'createdDate'
+      'limit':this.limit,
+      "offset": this.offset,
+      "sortingDirection": this.sortingDirection,
+      "sortingField": this.sortingField,
     }
     this.dataService
       .getAllReturnOfVendor(this.userId, filter,type,"api/getReturnForVendor")
@@ -86,7 +99,7 @@ export class SalesReturnListingComponent implements OnInit {
           console.log("All order", data);
           this.returnList = data;
           this.addF_Status(this.returnList);
-          
+          this.count = this.returnList.count;
         },
         error => {
           console.log("error======", error);
@@ -110,7 +123,44 @@ export class SalesReturnListingComponent implements OnInit {
   // }
 
 
+  pageChanged(event){
+    this.offset=event-1;
+    this.pageNumber=event;
+    this.getAllReturnOfVendor('CUSTOMER_RETURN');
+  }
 
+  sortHeaderClick(sortinField)
+  {
+            if(this.sortingDirection=='asc')
+          {
+            this.sortingDirection='desc';
+          }
+          else
+            {
+              this.sortingDirection='asc';
+            }
+    this.sortingField=sortinField;
+    this.getAllReturnOfVendor('CUSTOMER_RETURN');
+  }
+
+  isSorting(name: string) {
+  return this.sortingField !== name && name !== '';
+};
+ 
+isSortAsc(name: string) {
+  if(this.sortingField === name && this.sortingDirection === 'asc')
+    {
+  return true;
+    }
+
+};
+ 
+isSortDesc(name: string) {
+  if(this.sortingField === name && this.sortingDirection === 'desc')
+    {
+  return true;
+    }
+  }
 
 
   setReturnStatusbyAdmin(returnId,status) {
@@ -118,7 +168,7 @@ export class SalesReturnListingComponent implements OnInit {
     this.dataService.changeStatusOfReturn( returnId,status, "api/setReturnStatusbyAdmin").subscribe(
       data => {
         //instead of this call api for get all order of user
-        this.toastr.success("Status changes successfully, Wait for Admin status","Success");
+        this.toastr.success("Status changed successfully","Success");
 
         this.getAllReturnOfVendor(this.selectedType);
         
@@ -127,6 +177,45 @@ export class SalesReturnListingComponent implements OnInit {
         console.log("error======", error);
       }
     );
+  }
+
+  chooseDateRange() {
+    if(this.timeRange!='')
+      {
+    let dte = new Date();
+    if (this.timeRange == 'WEEKLY') {
+      dte.setDate(dte.getDate() - 7);
+    }
+    if (this.timeRange == 'MONTHLY') {
+      dte.setDate(dte.getDate() - 30);
+    }
+    if (this.timeRange == 'QUARTERLY') {
+      dte.setDate(dte.getDate() - 90);
+    }
+
+    let dateString = dte.getTime()  +','+  new Date().getTime();
+       let request = {
+      "limit": this.limit,
+      "offset": this.offset,
+      "sortingDirection": this.sortingDirection,
+      "sortingField": this.sortingField,
+      "dateRange":dateString
+    };
+    this.dataService
+    .getAllReturnOfVendor(this.userId, request,"CUSTOMER_RETURN","api/getReturnForVendor")
+    .subscribe(
+      data => {
+        console.log("All order", data);
+        this.returnList = data;
+        this.addF_Status(this.returnList);
+        this.count = this.returnList.count;
+      },
+      error => {
+        console.log("error======", error);
+      }
+    );
+
+      }
   }
 
 

@@ -12,6 +12,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 
 
 
@@ -33,6 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxPaginationModule
   ]
 })
 export class DashboardModule { }

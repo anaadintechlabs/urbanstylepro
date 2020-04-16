@@ -26,12 +26,17 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
 
 import { NgxPaginationModule } from '../../../node_modules/ngx-pagination';
 import { WalletComponent } from './wallet/wallet.component';
+import { SettingsComponent } from './settings/settings.component';
+import { ReactiveFormsModule } from "@angular/forms";
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ReturnDetailsComponent } from './return-details/return-details.component';
 
 @NgModule({
   imports: [
     VendorRoutingModule,
     CommonModule,
     FormModule,
+    ReactiveFormsModule,
     ServicesModule,
     NgbModule,
     ServicesModule,
@@ -55,7 +60,10 @@ import { WalletComponent } from './wallet/wallet.component';
     SalesListingComponent,
     SalesReturnListingComponent,
     OrderDetailsComponent,
-    WalletComponent
+    WalletComponent,
+    SettingsComponent,
+    EditProfileComponent,
+    ReturnDetailsComponent
   ],
   bootstrap: [VendorComponent]
 })

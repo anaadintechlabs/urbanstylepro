@@ -7,21 +7,33 @@
       </div>
     </div>
   
-   
+    <div class="col-6 col-md-6">
+      <div class="ordder_heading">
+        <select   [(ngModel)]="timeRange" (ngModelChange)="chooseDateRange()" name="" id="">
+          <option  value="">Select Date Range</option>
+                <option  value="WEEKLY">Last 7 Days</option>
+                <option   value="MONTHLY">Last 30 Days</option>
+                <option   value="QUARTERLY">Last 90 Days</option>
+                <!-- <option value="RETURN">RETURN</option> -->
+              </select>
+      </div>
+    </div>
+
+
     <div class="row" >
       <div class="col-12 col-md-12">
         <table class="table table-striped">
           <thead class="thead-default">
             <tr>
-                <th>Order Id</th>
-                <th>Order Product</th>
-                <th>Order Date</th>
-                <th>Order Status</th>
-                <th>Order Price</th>
+                <th>Order Id<i class="fa" (click)="sortHeaderClick('orderProd.id')" [ngClass]="{ 'fa-sort': isSorting('orderProd.id'), 'fa-sort-up': isSortAsc('orderProd.id'), 'fa-sort-down': isSortDesc('orderProd.id') }"></i></th>
+                <th>Order Product<i class="fa" (click)="sortHeaderClick('prodvarid.productVariantId')" [ngClass]="{ 'fa-sort': isSorting('prodvarid.productVariantId'), 'fa-sort-up': isSortAsc('prodvarid.productVariantId'), 'fa-sort-down': isSortDesc('prodvarid.productVariantId') }"></i></th>
+                <th>Order Date<i class="fa" (click)="sortHeaderClick('orderdate')" [ngClass]="{ 'fa-sort': isSorting('orderdate'), 'fa-sort-up': isSortAsc('orderdate'), 'fa-sort-down': isSortDesc('orderdate') }"></i></th>
+                <th>Order Status<i class="fa" (click)="sortHeaderClick('status')" [ngClass]="{ 'fa-sort': isSorting('status'), 'fa-sort-up': isSortAsc('status'), 'fa-sort-down': isSortDesc('status') }"></i></th>
+                <th>Order Price<i class="fa" (click)="sortHeaderClick('orderProd.orderProductPrice')" [ngClass]="{ 'fa-sort': isSorting('orderProd.orderProductPrice'), 'fa-sort-up': isSortAsc('orderProd.orderProductPrice'), 'fa-sort-down': isSortDesc('orderProd.orderProductPrice') }"></i></th>
               </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let order of orderList">
+            <tr *ngFor="let order of orderList  | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: count }; let i = index">
                 <td  >ORDER-{{ order.orderProductId }}</td>
                 <td>{{ order.variantName }}</td>
                 
@@ -33,6 +45,7 @@
               <tr *ngIf="orderList && orderList.length ==0 ">
                 <td scope="row">No record found</td>
               </tr>
+              <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
           </tbody>
         </table>
       </div>

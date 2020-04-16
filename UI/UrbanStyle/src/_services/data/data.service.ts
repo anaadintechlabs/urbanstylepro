@@ -370,6 +370,18 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
     });
   }
 
+  getSingleReturnDetails(returnId,orderProductId,userId,url)
+  {
+    const param: HttpParams = new HttpParams().set("returnId", returnId).set("orderProdId",orderProductId);   
+
+ return new Observable<any>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data);
+        }
+      });
+    });
+  }
   changeStatusOfCompleteOrder(status,orderId,url)
   {
     const param: HttpParams = new HttpParams().set("orderId", orderId).set("status",status);   
@@ -394,6 +406,17 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
     });
   }
 
+  setTrackingCodeAndUrlForAdmin(returnId,url,trackingId,trackingLink)
+  {
+      const param: HttpParams = new HttpParams().set("returnId", returnId).set("trackingId",trackingId).set("trackingUrl",trackingLink);   
+ return new Observable<any[]>(obs => {
+      this._apiService.getOrder(url, param).subscribe(res => {
+        if (res.isSuccess) {
+          obs.next(res.data.orderList);
+        }
+      });
+    });
+  }
 
   cancelOrderByUser(userId,orderId,orderProductId,url)
   {
@@ -444,8 +467,8 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
     });
   }
 
-  getReturnForVendor(url, vendorId, filter) {
-    url=url+'?vendorId='+vendorId;
+  getReturnForVendor(url, vendorId, filter,type) {
+    url=url+'?vendorId='+vendorId+'&type='+type;
     return new Observable<any[]>(obs => {
       this._apiService.postOrder(url,filter).subscribe(res => {
         if (res.isSuccess) {
@@ -467,12 +490,13 @@ const param: HttpParams = new HttpParams().set("vendorId", vendorId).set("orderI
     });
   }
 
-  getWalletByUser(url,userId) {
-    const param: HttpParams = new HttpParams().set("userId", userId);
-    return new Observable<any[]>(obs => {
-      this._apiService.getOrder(url, param).subscribe(res => {
+  getWalletDetailsOfUser(filter,userId) {
+    const route ='api/getWalletByUser?userId='+userId;
+    // const param: HttpParams = new HttpParams().set("userId", userId);
+    return new Observable<any>(obs => {
+      this._apiService.postOrder(route,filter).subscribe(res => {
         if (res.isSuccess) {
-          obs.next(res.data.walletDetails);
+          obs.next(res.data);
         }
       });
     });

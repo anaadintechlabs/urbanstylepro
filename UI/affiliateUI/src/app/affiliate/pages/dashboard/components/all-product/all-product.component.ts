@@ -51,7 +51,7 @@ export class AllProductComponent implements OnInit {
     let url = `product/getAllVariantsByStatus?status=1`;
     this.dataService.getAllActiveProduct(url, body).subscribe(data => {
           this.productList = data;
-          console.log("product list",this.productList)
+         console.log("generate Linked",this.generatedLinks);
           this.productList.forEach(element => {
             if(this.generatedLinks && this.generatedLinks.length>0)
               {
@@ -59,18 +59,19 @@ export class AllProductComponent implements OnInit {
                 { 
                   return obj.id == element.productVariantId
                 });
+                console.log("index",index);
                 if(index!=-1)
                   {
                     if(index==0)
                       {
                 element['generatedLink']=this.generatedLinks[0].generatedLink;        
                       }
-              else
-                {
-                element['generatedLink']=this.generatedLinks[index-1].generatedLink;
-                }
+                    else
+                      {
+                      element['generatedLink']=this.generatedLinks[index-1].generatedLink;
+                      }
                   }
-               
+               console.log('elemnt is',element);
               }
           });
       }, error => {

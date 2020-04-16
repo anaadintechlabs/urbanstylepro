@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { DataService } from "src/_services/data/data.service";
 import { User } from 'src/_modals/user.modal';
-import { ApiService } from 'src/_services/http_&_login/api.service';
 import { isNgTemplate } from '@angular/compiler';
 import { AddProductService } from 'src/_services/product/addProductService';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
+import { ApiService } from "src/_services/http_&_login/api.service";
 @Component({
   selector: "app-inventory",
   templateUrl: "./inventory.component.html",
@@ -29,6 +29,10 @@ export class InventoryComponent implements OnInit {
   public listLength: any;
   pageNumber: any;
   user: User;
+  filterSelected: boolean;
+  selectdStatus: any;
+  public sortingField="modifiedDate";
+  public sortingDirection="desc";
 
   @ViewChild("variant", { static: false })
   modal;
@@ -90,10 +94,10 @@ export class InventoryComponent implements OnInit {
 
   getAllProductOfUser() {
     let body = {
-      limit: 25,
+      limit: 50,
       offset: 0,
-      sortingDirection: "DESC",
-      sortingField: "modifiedDate"
+      sortingDirection: this.sortingDirection,
+      sortingField: this.sortingField
     };
     this.dataService.getAllProductOfUser(this.userId, body).subscribe(data => {
       this.productList = data.productList;
@@ -346,6 +350,61 @@ export class InventoryComponent implements OnInit {
       }
     })
   }
+
+  pageChanged(event){
+    this.offset=event-1;
+    this.pageNumber=event;
+    this.getAllProductOfUser();
+  }
+
+
+  sortHeaderClick(sortinField)
+  {
+            if(this.sortingDirection=='asc')
+          {
+            this.sortingDirection='desc';
+          }
+          else
+            {
+              this.sortingDirection='asc';
+            }
+    this.sortingField=sortinField;
+    if(this.filterSelected)
+      {
+        if (this.selectdStatus == 'ALL') {
+          this.getAllProductOfUser();
+    }
+    else{
+      this.getAllProductOfUser();
+    }
+      }
+      else
+        {
+          
+          this.getAllProductOfUser();
+        }
+  }
+
+  isSorting(name: string) {
+  return this.sortingField !== name && name !== '';
+};
+ 
+isSortAsc(name: string) {
+  if(this.sortingField === name && this.sortingDirection === 'asc')
+    {
+  return true;
+    }
+
+};
+ 
+isSortDesc(name: string) {
+  if(this.sortingField === name && this.sortingDirection === 'desc')
+    {
+  return true;
+    }
+
+}
+
 }
 
 interface search {

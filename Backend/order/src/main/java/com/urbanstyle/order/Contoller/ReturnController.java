@@ -68,7 +68,7 @@ public class ReturnController {
 			@RequestParam(value="orderProdId",required=true) long orderProdId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("returnDetails",returnService.getAllDetailOfReturn(returnId));
-			resultMap.put("transactionList",paymentwalletTransactionRepo.getTransactionofOrder(returnId, "RT"));
+			resultMap.put("transactionList",paymentwalletTransactionRepo.getTransactionofOrder(orderProdId, "RT"));
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
@@ -165,9 +165,32 @@ public class ReturnController {
 	@RequestMapping(value= {"/setReturnStatusbyAdmin"},method= {RequestMethod.POST,RequestMethod.GET})
 	public Map<String,Object> setStatusbyAdmin(@RequestParam(value="returnId")long returnId,
 			@RequestParam(value="status")String status,
+			@RequestParam(value="sellable",required=false)String sellable,
+			@RequestParam(value="fault",required=false)String fault,
 			HttpServletRequest request,HttpServletResponse response){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
-		returnService.setReturnStatusbyAdmin(returnId,status);
+		returnService.setReturnStatusbyAdmin(returnId,status,sellable,fault);
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
+	
+	
+	/**
+	 *  ACTION PERFORMED BY ADMIN ON OERDER
+	 * @param orderId
+	 * @param status
+	 * @param userId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value= {"/setTrackingCodeAndUrlForAdmin"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> setTrackingCodeAndUrlForAdmin(@RequestParam(value="returnId")long returnId,
+			@RequestParam(value="trackingId")String trackingId,
+			@RequestParam(value="trackingUrl")String trackingUrl,
+			HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		returnService.setTrackingCodeAndUrlForAdmin(returnId,trackingId,trackingUrl);
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 	}
 	
