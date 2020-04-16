@@ -9,13 +9,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class PaymentWalletDistribution {
 
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,5 +55,12 @@ public class PaymentWalletDistribution {
 		this.typeOfUser = source;
 	}
 	
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
 	
 }

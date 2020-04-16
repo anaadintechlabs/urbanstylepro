@@ -9,8 +9,23 @@ public class OrderTransactionSummaryDTO {
 	private String recieveruserCode;
 	private long recieveruserId;
 	private String recieveruserName;
+	
+	
+	private String  reason;
 
 	
+	
+	
+	public String getReason() {
+		return reason;
+	}
+
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+
 	public String getSenderuserCode() {
 		return senderuserCode;
 	}

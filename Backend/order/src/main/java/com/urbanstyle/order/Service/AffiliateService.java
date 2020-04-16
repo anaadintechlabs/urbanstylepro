@@ -20,4 +20,6 @@ public interface AffiliateService {
 
 	List<AffiliateComissionDTO> getTotalComissionGroupByProduct(long parseLong, Filter filter);
 
+	long getCountOrderProductByAffiliate(long parseLong, Filter filter);
+
 }

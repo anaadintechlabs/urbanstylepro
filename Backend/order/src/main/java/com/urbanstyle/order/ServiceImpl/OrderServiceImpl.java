@@ -1302,13 +1302,13 @@ public class OrderServiceImpl implements OrderService {
 		{
 			UserOrderProducts userOrdrProd=userOrdrProdOpt.get();
 			ProductVariant varient = userOrdrProd.getProduct();
-			if(userBal.get(Long.valueOf(varient.getCreatedBy())) != null) {
+			if(userBal.get(userOrdrProd.getVendor().getId()) != null) {
 				double oldAmount = userBal.get(Long.valueOf(varient.getCreatedBy()));
-				oldAmount += userOrdrProd.getQuantity()*varient.getDisplayPrice();
-				userBal.put(Long.valueOf(varient.getCreatedBy()), oldAmount);
+				oldAmount += userOrdrProd.getOrderProductPrice();
+				userBal.put(userOrdrProd.getVendor().getId(), oldAmount);
 			}else {
-				double amount = userOrdrProd.getQuantity()*varient.getDisplayPrice();
-				userBal.put(Long.valueOf(varient.getCreatedBy()), amount);
+				double amount = userOrdrProd.getOrderProductPrice();
+				userBal.put(userOrdrProd.getVendor().getId(), amount);
 			}
 
 			double orderTotalPrice = userOrdrProd.getOrderProductPrice();
@@ -1330,7 +1330,7 @@ public class OrderServiceImpl implements OrderService {
 					 perc = afOrder.getCommision();
 					 amountToVendor = (orderTotalPrice*afOrder.getCommision())/100;							
 
-					 User admin = userRepo.findByUserType("SUPERADMIN");
+					    User admin = userRepo.findByUserType("SUPERADMIN");
 						OrderTransactionSummaryDTO afDto = new OrderTransactionSummaryDTO();
 						afDto.setSenderuserCode(admin.getUserCode());
 						afDto.setSenderuserName(admin.getName());
@@ -1339,6 +1339,7 @@ public class OrderServiceImpl implements OrderService {
 						afDto.setRecieveruserName(affiliatiduser.getName());
 						afDto.setRecieveruserCode(affiliatiduser.getUserCode());
 						afDto.setAmount(amountToVendor);
+						afDto.setReason(source.getDistributionTo());
 						allTransactionDetails.add(afDto);
 				}
 
@@ -1351,8 +1352,9 @@ public class OrderServiceImpl implements OrderService {
 				adminDto.setSenderuserName(admin.getName());
 				adminDto.setSenderuserId(admin.getId());
 				adminDto.setRecieveruserId(admin.getId());
-				adminDto.setRecieveruserName(source.getDistributionTo());
+				adminDto.setReason(source.getDistributionTo());
 				adminDto.setRecieveruserCode(admin.getUserCode());
+				adminDto.setRecieveruserName(admin.getName());
 				adminDto.setAmount(amoutToadmin);
 				allTransactionDetails.add(adminDto);
 			}
