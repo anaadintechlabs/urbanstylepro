@@ -7,6 +7,17 @@
       </div>
     </div>
   
+    <div class="col-6 col-md-6">
+      <div class="ordder_heading">
+        <select   [(ngModel)]="timeRange" (ngModelChange)="chooseDateRange()" name="" id="">
+          <option  value="">Select Date Range</option>
+                <option  value="WEEKLY">Last 7 Days</option>
+                <option   value="MONTHLY">Last 30 Days</option>
+                <option   value="QUARTERLY">Last 90 Days</option>
+                <!-- <option value="RETURN">RETURN</option> -->
+              </select>
+      </div>
+    </div>
    
     <div class="row" >
       <div class="col-12 col-md-12">
@@ -14,14 +25,14 @@
           <thead class="thead-default">
             <tr>
                 <th>Product Image</th>
-                <th>Product Name</th>
-                <th>Product SKU</th>
-                <th>Total Amount</th>
-                <th>Unique Id</th>
+                <th>Product Name<i class="fa" (click)="sortHeaderClick('orderProd.product.variantName')" [ngClass]="{ 'fa-sort': isSorting('orderProd.product.variantName'), 'fa-sort-up': isSortAsc('orderProd.product.variantName'), 'fa-sort-down': isSortDesc('orderProd.product.variantName') }"></i></th>
+                <th>Product SKU<i class="fa" (click)="sortHeaderClick('orderProd.product.sku')" [ngClass]="{ 'fa-sort': isSorting('orderProd.product.sku'), 'fa-sort-up': isSortAsc('orderProd.product.sku'), 'fa-sort-down': isSortDesc('orderProd.product.sku') }"></i></th>
+                <th>Total Amount<i class="fa" (click)="sortHeaderClick('commision')" [ngClass]="{ 'fa-sort': isSorting('commision'), 'fa-sort-up': isSortAsc('commision'), 'fa-sort-down': isSortDesc('commision') }"></i></th>
+                <th>Unique Id<i class="fa" (click)="sortHeaderClick('id')" [ngClass]="{ 'fa-sort': isSorting('id'), 'fa-sort-up': isSortAsc('id'), 'fa-sort-down': isSortDesc('id') }"></i></th>
               </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let product of productList">
+            <tr *ngFor="let product of productList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: count }; let i = index">
                 <td  ><img [src]="product.mainImageUrl"></td>
                 <td>{{ product.variantName }}</td>
                 
@@ -33,6 +44,7 @@
               <tr *ngIf="productList && productList.length ==0 ">
                 <td scope="row">No record found</td>
               </tr>
+              <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
           </tbody>
         </table>
       </div>

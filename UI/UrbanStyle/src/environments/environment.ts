@@ -4,11 +4,13 @@
 
 export const environment = {
   production: false,
-  api_url: "http://localhost:8082/",
-//   api_url: "https://producturban.cfapps.io/",
+  //api_url: "http://localhost:8082/",
+   api_url: "https://producturban.cfapps.io/",
   // api_url: "http://192.168.0.160:8082/",
- // order_url:"https://myorder.cfapps.io/"
- order_url: "http://localhost:8083/urban"
+  order_url:"https://myorder.cfapps.io/urban",
+// order_url: "http://localhost:8083/urban",
+  //user_url:'http://localhost:8081/urban/'
+user_url:'https://userurban.cfapps.io/urban'
 };
 
 /*

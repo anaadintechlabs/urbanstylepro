@@ -66,4 +66,10 @@ public class AffiliateServiceImpl implements AffiliateService{
 
 	}
 
+	@Override
+	public long getCountOrderProductByAffiliate(long parseLong, Filter filter) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

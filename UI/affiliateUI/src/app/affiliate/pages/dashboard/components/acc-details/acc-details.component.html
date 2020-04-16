@@ -4,7 +4,7 @@
     <div class="row my-5" >
       <div class="col-12 col-md-12">
         <div class="ordder_heading">
-          <h4> Wallet Amount:{{walletDetails?.amount}} </h4>
+          <h4> Wallet Amount:${{walletDetails?.amount}} </h4>
         </div>
       </div>
     </div>
@@ -41,7 +41,8 @@
                 <td>ORDER-{{ transaction.orderId }}</td>
                 
                 <td>{{ transaction.amount }}</td>
-                <td>{{ transaction.reciever }}</td>
+                <!-- <td>{{ transaction.reciever }}</td> -->
+                <td>Paras</td>
                 <td>{{ transaction.type }}</td>
                 <td>{{ transaction.createdDate | date }}</td>
                 

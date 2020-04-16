@@ -23,6 +23,11 @@ public class PaymentWalletTransaction {
 	
 	private String reciever;
 	
+
+
+	@ManyToOne
+	private User recieverDetails;
+	
 	private double amount;
 	
 	private String type;
@@ -36,6 +41,14 @@ public class PaymentWalletTransaction {
 	private UserOrderProducts orderProds;
 	
 	private Date createdDate;
+	
+	public User getRecieverDetails() {
+		return recieverDetails;
+	}
+
+	public void setRecieverDetails(User recieverDetails) {
+		this.recieverDetails = recieverDetails;
+	}
 
 	public long getId() {
 		return id;

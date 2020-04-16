@@ -118,8 +118,8 @@ public class UrlShortner {
 		String userId = String.valueOf(userid);
 		
 		String generateURL = "";
-		if(sku.length()>3){
 			generateURL+=sku.substring(0, 3);
+			if(sku.length()>3){
 		}else {
 			generateURL+=sku;
 		}

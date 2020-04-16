@@ -11,9 +11,9 @@
     <div class="col-md-12 link_col pb-0" >
         <div class="row align-items-center m-auto">
             <div class="col-md-6 text-left p-0">
-                <p *ngIf="product.productVarLink" class="mb-0">Generated Link: {{ product?.productVarLink }} </p> 
+                 <p *ngIf="product.generatedLink" class="mb-0">Generated Link: {{ product?.generatedLink }} </p>  
             </div>
-            <div  *ngIf="!product.productVarLink" class="col-md-6 text-right p-0" (click)="generateLink()">
+            <div  *ngIf="!product.generatedLink" class="col-md-6 text-right p-0" (click)="generateLink()">
                 <button>Generate Link</button>
             </div>
         </div>

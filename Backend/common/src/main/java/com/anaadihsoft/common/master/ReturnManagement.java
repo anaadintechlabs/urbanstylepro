@@ -41,10 +41,44 @@ public class ReturnManagement {
 	
 	private String returnCode;
 	
+	private String trackingId;
+	
+	private String trackingUrl;
+	
 	
 	private Date createdDate;
 	private String createdBy;
 	
+
+	private String returnFault;
+	
+	
+
+	
+	public String getReturnFault() {
+		return returnFault;
+	}
+
+	public void setReturnFault(String returnFault) {
+		this.returnFault = returnFault;
+	}
+
+	public String getTrackingId() {
+		return trackingId;
+	}
+
+	public void setTrackingId(String trackingId) {
+		this.trackingId = trackingId;
+	}
+
+	public String getTrackingUrl() {
+		return trackingUrl;
+	}
+
+	public void setTrackingUrl(String trackingUrl) {
+		this.trackingUrl = trackingUrl;
+	}
+
 	public long getReturnId() {
 		return returnId;
 	}

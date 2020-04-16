@@ -40,7 +40,7 @@ public class AffiliateController {
 			@RequestBody Filter filter,HttpServletResponse response,@RequestParam(value="affiliateId",required=true) String userId ){
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 			resultMap.put("orderList",affiliateService.getOrderProductByAffiliate(Long.parseLong(userId),filter));
-		//	resultMap.put("count",affiliateService.getCountOrderProductByAffiliate(Long.parseLong(userId),filter));
+			resultMap.put("count",affiliateService.getCountOrderProductByAffiliate(Long.parseLong(userId),filter));
 			return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
 
 	}

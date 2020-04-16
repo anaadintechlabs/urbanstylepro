@@ -35,6 +35,8 @@ export class AddProductService {
   public saleSelect : boolean = false;
   public editVarient : boolean = false;
 
+  public apiCalled : boolean = false;
+
   get productDescFormGroup(): FormGroup {
     return this.productDTO.get("productDesc") as FormGroup;
   }
@@ -58,7 +60,7 @@ export class AddProductService {
           let v_status = false;
           let s_status = false;
           let index1 = formArray.controls.indexOf(x);
-          console.log("validated Array",x.get('productVariant').get('variantCode') as FormControl);
+         // console.log("validated Array",x.get('productVariant').get('variantCode') as FormControl);
           let code1 : FormControl = x.get('productVariant').get('variantCode') as FormControl;
           let sku1 : FormControl = x.get('productVariant').get('sku') as FormControl;
           formArray.controls.forEach((y:FormGroup)=>{
@@ -208,6 +210,8 @@ export class AddProductService {
     for (let i in commaSepratedData) {
       myMap[tempAttributeData[i]] = commaSepratedData[i];
     }
+    // this.validateDisplayPrice
+    //this.validateSalePrice
     productVarientDto = this._fb.group({
       attributesMap: new FormControl(myMap),
       productVariant: new FormGroup({
@@ -215,8 +219,8 @@ export class AddProductService {
         variantName : new FormControl("",[Validators.required, Validators.minLength(2),Validators.maxLength(80)]),
         variantCode : new FormControl("",[Validators.required, Validators.minLength(2),Validators.maxLength(80)]),
         productIdType : new FormControl("",[Validators.required]),
-        displayPrice: new FormControl("", [this.validateDisplayPrice]),
-        salesPrice: new FormControl("", [this.validateSalePrice]),
+        displayPrice: new FormControl("", []),
+        salesPrice: new FormControl("", []),
         salesStartDate: new FormControl("", []),
         salesEndDate: new FormControl("", []),
         salesQuantity: new FormControl("", []),
@@ -276,8 +280,8 @@ export class AddProductService {
       variantName : new FormControl(element.variantName,[Validators.required,Validators.minLength(8),Validators.maxLength(80)]),
       variantCode : new FormControl(element.variantCode,[Validators.required]),
       productIdType : new FormControl(element.productIdType,[Validators.required]),
-      displayPrice: new FormControl(element.displayPrice, [Validators.required,this.validateDisplayPrice]),
-      salesPrice: new FormControl(element.salesPrice, [this.validateSalePrice]),
+      displayPrice: new FormControl(element.displayPrice, [Validators.required]),
+      salesPrice: new FormControl(element.salesPrice, []),
       salesStartDate: new FormControl(element.salesStartDate, []),
       salesEndDate: new FormControl(element.salesEndDate, []),
       salesQuantity: new FormControl(element.salesQuantity, []),
@@ -332,7 +336,7 @@ export class AddProductService {
     }
     if(this.productDTO.status == 'VALID') {
       console.log("in valid",this.productDTO);
-
+      
       console.log(this.features[0]);
       this.productFormGroup.get('features').patchValue(JSON.stringify(this.features));
       this.uploadedPhoto = this.myFiles;
@@ -367,7 +371,7 @@ export class AddProductService {
         }
       }
       console.log("metalist",this.productDTO);
-      
+      this.apiCalled=true;
       this._apiService.postWithMedia(url, frmData).subscribe(
         res => {
           console.log("save done");
@@ -376,6 +380,7 @@ export class AddProductService {
           this.flushData();
         },
         error => {
+          this.apiCalled=false;
           this.toastr.success("Something went wrong!", "Failure");
         }
       );

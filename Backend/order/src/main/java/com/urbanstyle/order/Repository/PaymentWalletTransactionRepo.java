@@ -36,4 +36,6 @@ public interface PaymentWalletTransactionRepo extends PagingAndSortingRepository
 	@Query("Select new com.anaadihsoft.common.DTO.PaymentWalletTransactionDTO(uop) from PaymentWalletTransaction uop where uop.reciever =?1 ")
 	List<PaymentWalletTransactionDTO> getAllIncomingTransaction(String userIdString, Pageable pagable);
 
+	PaymentWalletTransaction findByRecieverAndOrderProdsId(String valueOf, long id);
+
 }

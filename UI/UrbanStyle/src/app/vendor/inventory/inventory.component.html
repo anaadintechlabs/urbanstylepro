@@ -54,8 +54,8 @@
 				  <!-- <div class="checkBox"></div> -->
 				  <div><p>Status</p></div>
 				  <div><p>Image</p></div>
-				  <div><p>SKU/(Product Id)</p></div>
-				  <div><p>Product Name/(UPC/UIN Id)</p></div>
+				  <div><p>SKU/(Product Id)<i class="fa" (click)="sortHeaderClick('productId')" [ngClass]="{ 'fa-sort': isSorting('productId'), 'fa-sort-up': isSortAsc('productId'), 'fa-sort-down': isSortDesc('productId') }"></i></p></div>
+				  <div><p>Product Name/(UPC/UIN Id)<i class="fa" (click)="sortHeaderClick('productName')" [ngClass]="{ 'fa-sort': isSorting('productName'), 'fa-sort-up': isSortAsc('productName'), 'fa-sort-down': isSortDesc('productName') }"></i></p></div>
 				  <div><p>Available</p></div>
 				  <div><p>MSRP</p></div>
 				  <div><p>Price</p></div>
@@ -64,7 +64,7 @@
 				  <div *ngIf="showSale"><p>Sale End Date</p></div>
 				  <div><p>Action</p></div>
 				</div>
-				<div class="" *ngFor="let item of productList">
+				<div class="" *ngFor="let item of productList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: count }; let i = index">
 				  <div class="variationBody">
 					<!-- <div  class="checkBox"> 
 					  <input type="checkbox" class="custom-checkbox" >
@@ -151,7 +151,9 @@
 						<button class="btn editBtn" (click)="editProductVariant(data)">Edit</button>
 					</div>
 				  </div>
-				</div>    
+				</div>   
+				
+				<pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
 			  </div>
 		</div>
 

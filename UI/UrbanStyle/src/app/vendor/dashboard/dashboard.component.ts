@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
     this.getVendorId();
     this.getLastOrderList();
     this.getReturnsList();
-    this.getUserWalletDetails();
+    //this.getUserWalletDetails();
     this.getSalesList();
     this.getLastReviewList();
   }
@@ -52,8 +52,9 @@ export class DashboardComponent implements OnInit {
   }
 
   getReturnsList() {
+    let type='CUSTOMER_RETURN';
     let url = 'api/getReturnForVendor';
-    this.service.getReturnForVendor(url, this.vendorId, this.filter).subscribe(
+    this.service.getReturnForVendor(url, this.vendorId, this.filter,type).subscribe(
       data => {
         this.returnsList = data;
         console.log(this.returnsList);
@@ -89,17 +90,17 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  getUserWalletDetails() {
-    let url = 'api/getWalletByUser';
-    this.service.getWalletByUser(url, this.vendorId).subscribe(
-      data => {
-        this.walletDetails = data;
-        console.log(this.walletDetails);
-      }, error => {
-        console.log(error);
-      }
-    )
-  }
+  // getUserWalletDetails() {
+  //   let url = 'api/getWalletByUser';
+  //   this.service.getWalletByUser(url, this.vendorId).subscribe(
+  //     data => {
+  //       this.walletDetails = data;
+  //       console.log(this.walletDetails);
+  //     }, error => {
+  //       console.log(error);
+  //     }
+  //   )
+  // }
 
 
 }

@@ -5,7 +5,19 @@
         <h4>Return Managment</h4>
       </div>
     </div>
+    <div class="col-6 col-md-6">
+      <div class="ordder_heading">
+        <select   [(ngModel)]="timeRange" (ngModelChange)="chooseDateRange()" name="" id="">
+          <option  value="">Select Date Range</option>
+                <option  value="WEEKLY">Last 7 Days</option>
+                <option   value="MONTHLY">Last 30 Days</option>
+                <option   value="QUARTERLY">Last 90 Days</option>
+                <!-- <option value="RETURN">RETURN</option> -->
+              </select>
+      </div>
+    </div>
   </div>
+
 
   <div class="row">
     <div class="col-12 col-md-12">
@@ -26,19 +38,19 @@
           <tr>
             <th>Return Id</th>
             <th>Image</th>
-            <th>Product Name</th>
-            <th>Customer return Reason</th>
-            <th>Return Authorize Date</th>
-            <th>Customer Refund Date</th>
-            <th>Unit Recived Date</th>
-            <th>Status</th>
+            <th>Product Name<i class="fa" (click)="sortHeaderClick('orderProduct.product.variantName')" [ngClass]="{ 'fa-sort': isSorting('orderProduct.product.variantName'), 'fa-sort-up': isSortAsc('orderProduct.product.variantName'), 'fa-sort-down': isSortDesc('orderProduct.product.variantName') }"></i></th>
+            <th>Customer return Reason<i class="fa" (click)="sortHeaderClick('reason')" [ngClass]="{ 'fa-sort': isSorting('reason'), 'fa-sort-up': isSortAsc('reason'), 'fa-sort-down': isSortDesc('reason') }"></i></th>
+            <th>Return Authorize Date<i class="fa" (click)="sortHeaderClick('returnAuthorizeDate')" [ngClass]="{ 'fa-sort': isSorting('returnAuthorizeDate'), 'fa-sort-up': isSortAsc('returnAuthorizeDate'), 'fa-sort-down': isSortDesc('returnAuthorizeDate') }"></i></th>
+            <th>Customer Refund Date<i class="fa" (click)="sortHeaderClick('customerRefundDate')" [ngClass]="{ 'fa-sort': isSorting('customerRefundDate'), 'fa-sort-up': isSortAsc('customerRefundDate'), 'fa-sort-down': isSortDesc('customerRefundDate') }"></i></th>
+            <th>Unit Recived Date<i class="fa" (click)="sortHeaderClick('unitRecieveDate')" [ngClass]="{ 'fa-sort': isSorting('unitRecieveDate'), 'fa-sort-up': isSortAsc('unitRecieveDate'), 'fa-sort-down': isSortDesc('unitRecieveDate') }"></i></th>
+            <th>Status<i class="fa" (click)="sortHeaderClick('status')" [ngClass]="{ 'fa-sort': isSorting('status'), 'fa-sort-up': isSortAsc('status'), 'fa-sort-down': isSortDesc('status') }"></i></th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody *ngIf="returnList">
-          <tr *ngFor="let return of returnList">
+          <tr *ngFor="let return of returnList  | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: count }; let i = index">
 
-            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(return.orderProductId,return.orderId)">RET-{{ return.returnId }}</td>
+            <td style="color: blue; cursor: pointer;" (click)="getOrderProductForVendor(return.orderProductId,return.returnId)">RET-{{ return.returnId }}</td>
             <td><img  class="productImage" [src]="return.mainImageUrl" alt="" srcset=""></td>
             <td>{{ return.variantName }}</td> 
             <td>{{ return.reason }}</td>
@@ -47,23 +59,22 @@
             <td>{{ return.unitRecieveDate | date}}</td>
             <td>{{ return.status }}</td>
             <td>
-              <p class="mb-0" *ngIf="return.status != 'REQUESTED'">NA</p>
-              <select *ngIf="return.status == 'REQUESTED'" [(ngModel)]="return.f_Status" (ngModelChange)="chooseAction(return)" name="" id="">
+              <p class="mb-0" *ngIf="return.status == 'REJECT' || return.status == 'COMPLETE'  ">NA</p>
+              <select *ngIf="return.status == 'REQUESTED' || return.status == 'ACCEPT'"  [(ngModel)]="return.f_Status" (ngModelChange)="chooseAction(return)" name="" id="">
                 <option value="DISABLE" disabled>Select Action</option>
-                <option value="ACCEPT">APPROVE</option>
-                <option value="REJECT">REJECT</option>
+                <option *ngIf="return.status == 'REQUESTED'"value="ACCEPT">APPROVE</option>
+                <option *ngIf="return.status == 'REQUESTED'" value="REJECT">REJECT</option>
+                <option *ngIf="return.status == 'ACCEPT'" value="RECIEVED">RECEIVE</option>
               </select>
             </td>
           </tr>
           <tr *ngIf="returnList?.length ==0 ">
             <td scope="row">No record found</td>
           </tr>
+          <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
         </tbody>
       </table>
     </div>
   </div>
 </div>
-
-
-  
-  

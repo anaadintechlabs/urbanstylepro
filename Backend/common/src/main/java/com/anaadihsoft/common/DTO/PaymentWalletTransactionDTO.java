@@ -16,7 +16,7 @@ public class PaymentWalletTransactionDTO {
 	
 	private String reciever;
 	
-	private long recieverId;
+	private String recieverId;
 		
 	private double amount;
 	
@@ -72,12 +72,15 @@ public class PaymentWalletTransactionDTO {
 	}
 
 
-	public long getRecieverId() {
+	
+
+
+	public String getRecieverId() {
 		return recieverId;
 	}
 
 
-	public void setRecieverId(long recieverId) {
+	public void setRecieverId(String recieverId) {
 		this.recieverId = recieverId;
 	}
 
@@ -155,8 +158,8 @@ public class PaymentWalletTransactionDTO {
 		this.id=pwt.getId();
 		this.orderCode=pwt.getOrder().getOrderCode();
 		this.orderId=pwt.getOrder().getId();
-		this.reciever=pwt.getReciever();
-		this.recieverId=1;
+		this.reciever=pwt.getRecieverDetails().getName();
+		this.recieverId=pwt.getReciever();
 		this.sender=pwt.getSender().getName();
 		this.senderId=pwt.getSender().getId();
 		this.status=pwt.getStatus();

@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
-
+//NOT IN USE ,CHECK UNDER VENDOR MOUDLE
   constructor() { }
 
   ngOnInit() {
   }
+
 
 }
