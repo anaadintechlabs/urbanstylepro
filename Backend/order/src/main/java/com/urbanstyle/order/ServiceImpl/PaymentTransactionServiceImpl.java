@@ -67,14 +67,28 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
 
 	@Override
 	public long getAllIncomingTransactionsCount(long userId, Filter filter) {
-		// TODO Auto-generated method stub
-		return 0;
+		String userIdString=userId+"";
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			return paymentWalletTransactionRepo.getAllIncomingTransactionCountByDateRange(userIdString,startDate,endDate);
+		}
+		return paymentWalletTransactionRepo.getAllIncomingTransactionCount(userIdString);
 	}
 
 	@Override
 	public long getAllOutgoingTransactionsCount(long userId, Filter filter) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			return paymentWalletTransactionRepo.getAllOutgoingTransactionCountByDateRange(userId,startDate,endDate);
+		}
+		
+		return paymentWalletTransactionRepo.getAllOutgoingTransactionCount(userId);
 	}
 
 	

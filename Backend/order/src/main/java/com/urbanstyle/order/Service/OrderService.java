@@ -1,6 +1,7 @@
 package com.urbanstyle.order.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -82,4 +83,6 @@ public interface OrderService {
 	boolean canPlaceOrderOrNot(List<UserOrderQtyDTO> userOrderList);
 
 	long getVendorOrderCountByStatus(long vendorId, String status, Filter filter);
+
+	void getAllOrderCountForDashboard(String dateRange, Long vendorId, Map<String, Object> resultMap);
 }

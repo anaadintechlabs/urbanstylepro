@@ -1,5 +1,6 @@
 package com.urbanstyle.order.ServiceImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,15 @@ public class AffiliateServiceImpl implements AffiliateService{
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
+
+		if(filter.getDateRange()!=null && !filter.getDateRange().isEmpty())
+		{
+			String[] dates=filter.getDateRange().split(",");
+			Date startDate= new Date(Long.parseLong(dates[0]));
+			Date endDate = new Date(Long.parseLong(dates[1]));
+			System.out.println("start date "+startDate+"  end Date"+endDate);
+			return affiliateCommisionOrderRepo.getOrderForAffialiteAndCreatedDateBetween(affiliateId,startDate,endDate,pagable);
+		}
 		
 		return affiliateCommisionOrderRepo.getOrderForAffialite(affiliateId,pagable);
 	}

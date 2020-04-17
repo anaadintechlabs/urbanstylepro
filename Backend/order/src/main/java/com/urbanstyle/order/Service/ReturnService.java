@@ -1,6 +1,7 @@
 package com.urbanstyle.order.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,8 @@ public interface ReturnService {
 	long getReturnCountByVendor(long parseLong, Filter filter, String type);
 
 	void setTrackingCodeAndUrlForAdmin(long returnId, String trackingId, String trackingUrl);
+
+	void getAllReturnCountForDashboard(String dateRange, Long vendorId, Map<String, Object> resultMap);
 
 
 

@@ -1,8 +1,11 @@
 package com.urbanstyle.order.ServiceImpl;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -523,6 +526,84 @@ public class ReturnServiceImpl implements ReturnService{
 			obj.setTrackingUrl(trackingUrl);
 			returnOrderRepository.save(obj);
 		}
+	}
+
+	@Override
+	public void getAllReturnCountForDashboard(String dateRange, Long vendorId, Map<String, Object> resultMap) {
+		
+		Date startDate;
+		Date endDate;
+		if(dateRange!=null && !dateRange.isEmpty())
+		{
+		String[] dates=dateRange.split(",");
+		startDate = new Date(Long.parseLong(dates[0]));
+		endDate = new Date(Long.parseLong(dates[1]));
+		}
+		else
+		{
+			startDate= new Date();
+			endDate = new Date();
+		}
+		//settig start date to start and end date to end of day
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(startDate);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		startDate=cal.getTime();
+		
+		Calendar cal2 = new GregorianCalendar();
+		cal2.setTime(endDate);
+		cal2.set(Calendar.HOUR_OF_DAY, 23);
+		cal2.set(Calendar.MINUTE, 59);
+		cal2.set(Calendar.SECOND, 59);
+		endDate=cal2.getTime();
+		
+		//superadmin
+		if(vendorId==null)
+		{
+			resultMap.put("totalCourierReturn", getCountOfReturByTypeAndDateRange("COURIER_RETURN",startDate,endDate));
+			resultMap.put("totalCustomerReturn", getCountOfReturByTypeAndDateRange("CUSTOMER_RETURN",startDate,endDate));
+			
+			resultMap.put("requestedCourierReturn", getCountOfReturnByTypeAndStatusAndDateRange("COURIER_RETURN","REQUESTED",startDate,endDate));
+			resultMap.put("requestedCustomerReturn", getCountOfReturnByTypeAndStatusAndDateRange("CUSTOMER_RETURN","REQUESTED",startDate,endDate));
+
+			resultMap.put("completedCourierReturn",getCountOfReturnByTypeAndStatusAndDateRange("COURIER_RETURN","COMPLETE",startDate,endDate));
+			resultMap.put("compltedCustomerReturn", getCountOfReturnByTypeAndStatusAndDateRange("CUSTOMER_RETURN","COMPLETE",startDate,endDate));
+
+			
+		}
+		else
+		{
+			resultMap.put("totalCourierReturn", getCountOfReturByTypeAndDateRangeAndVendorId("COURIER_RETURN",startDate,endDate,vendorId.longValue()));
+			resultMap.put("totalCustomerReturn", getCountOfReturByTypeAndDateRangeAndVendorId("CUSTOMER_RETURN",startDate,endDate,vendorId.longValue()));
+			
+			resultMap.put("requestedCourierReturn", getCountOfReturnByTypeAndStatusAndDateRangeAndVendorId("COURIER_RETURN","REQUESTED",startDate,endDate,vendorId.longValue()));
+			resultMap.put("requestedCustomerReturn", getCountOfReturnByTypeAndStatusAndDateRangeAndVendorId("CUSTOMER_RETURN","REQUESTED",startDate,endDate,vendorId.longValue()));
+
+			resultMap.put("completedCourierReturn",getCountOfReturnByTypeAndStatusAndDateRangeAndVendorId("COURIER_RETURN","COMPLETE",startDate,endDate,vendorId.longValue()));
+			resultMap.put("compltedCustomerReturn", getCountOfReturnByTypeAndStatusAndDateRangeAndVendorId("CUSTOMER_RETURN","COMPLETE",startDate,endDate,vendorId.longValue()));
+
+		}
+	}
+
+	private long getCountOfReturnByTypeAndStatusAndDateRangeAndVendorId(String type, String status, Date startDate,
+			Date endDate, long vendorId) {
+		return returnOrderRepository.countAllReturnByDateRangeAndStatus(vendorId,startDate,endDate,type,status);
+	}
+
+	private long getCountOfReturByTypeAndDateRangeAndVendorId(String type, Date startDate, Date endDate,
+			long vendorId) {
+		return returnOrderRepository.countAllReturnByDateRange(vendorId,startDate,endDate,type);
+	}
+
+	private long getCountOfReturnByTypeAndStatusAndDateRange(String type, String status, Date startDate,
+			Date endDate) {
+		return returnOrderRepository.countByReturnTypeAndStatusAndCreatedDateBetween(type,status,startDate,endDate);
+	}
+
+	private long getCountOfReturByTypeAndDateRange(String type, Date startDate, Date endDate) {
+		return returnOrderRepository.countByReturnTypeAndCreatedDateBetween(type,startDate,endDate);
 	}
 
 

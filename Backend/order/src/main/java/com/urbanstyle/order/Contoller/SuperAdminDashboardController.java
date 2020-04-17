@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anaadihsoft.common.external.Filter;
 import com.urbanstyle.order.Repository.AddressRepository;
 import com.urbanstyle.order.Repository.ProductVarientRepository;
+import com.urbanstyle.order.Repository.ReturnOrder;
 import com.urbanstyle.order.Repository.ShoppingCartItemRepository;
 import com.urbanstyle.order.Repository.UserRepository;
 import com.urbanstyle.order.Repository.WishListRepository;
 import com.urbanstyle.order.Service.OrderService;
+import com.urbanstyle.order.Service.ReturnService;
 import com.urbanstyle.order.util.CommonResponseSender;
 
 @RestController
@@ -33,6 +35,9 @@ public class SuperAdminDashboardController {
 
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private ReturnService reutrnService;
 	
 	@Autowired
 	private UserRepository userRepo;
@@ -205,6 +210,46 @@ public class SuperAdminDashboardController {
 			resultMap.put("orderList",orderService.getAllOrderForSuperAdmin(filter));
 			resultMap.put("count",orderService.countForSuperAdmin());
 		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
-
 	}
+	
+	//logic
+	// get count of all type of order like total, pending,inprogress,dispatched
+	// also take date range from Ui so that in future date range can be applied
+	// also take vendorId in case request if from Vendor Dashboard
+	
+	/**
+	 * ALL ORDER IRRESPECTIVE OF STATUS FOR SUPER ADMIN
+	 * @param request
+	 * @param filter
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value= {"/getAllOrderCountForDashboard"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getAllOrderCountForDashboard(HttpServletRequest request,
+			@RequestParam(value="dateRange",required=false) String dateRange,
+			@RequestParam(value="vendorId",required=false) Long vendorId,
+			HttpServletResponse response ){
+		Map<String, Object> resultMap = new HashMap<>();
+		orderService.getAllOrderCountForDashboard(dateRange,vendorId,resultMap);
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	//Same for return
+	
+	/**
+	 * ALL ORDER IRRESPECTIVE OF STATUS FOR SUPER ADMIN
+	 * @param request
+	 * @param filter
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value= {"/getAllReturnCountForDashboard"},method= {RequestMethod.POST,RequestMethod.GET})
+	public Map<String,Object> getAllReturnCountForDashboard(HttpServletRequest request,
+			@RequestParam(value="dateRange",required=false) String dateRange,
+			@RequestParam(value="vendorId",required=false) Long vendorId,
+			HttpServletResponse response ){
+		Map<String, Object> resultMap = new HashMap<>();
+		reutrnService.getAllReturnCountForDashboard(dateRange,vendorId,resultMap);
+		return CommonResponseSender.getRecordSuccessResponse(resultMap, response);
+	}
+	
 }

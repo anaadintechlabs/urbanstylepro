@@ -59,6 +59,9 @@ public interface ReturnOrder extends PagingAndSortingRepository<ReturnManagement
 
 	@Query("Select count(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 and uop.returnType=?4  and  uop.createdDate between ?2 and ?3")
 	long countAllReturnByDateRange(long vendorId, Date startDate, Date endDate, String type);
+	
+	@Query("Select count(uop) from ReturnManagement uop where uop.orderProduct.vendor.id =?1 and uop.returnType=?4 and uop.status=?5  and  uop.createdDate between ?2 and ?3")
+	long countAllReturnByDateRangeAndStatus(long vendorId, Date startDate, Date endDate, String type,String status);
 
 	@Query("Select count(u) FROM ReturnManagement u where  u.orderProduct.vendor.id =?1 and u.returnType=?3  AND "+
 			"LOWER(u.orderProduct.product.variantName) LIKE %?2% OR LOWER(u.orderProduct.product.variantCode) LIKE %?2%  " )
@@ -79,6 +82,10 @@ public interface ReturnOrder extends PagingAndSortingRepository<ReturnManagement
 	@Query("Select count(u) FROM ReturnManagement u where   "+
 			"LOWER(u.orderProduct.product.variantName) LIKE %?1% OR LOWER(u.orderProduct.product.variantCode) LIKE %?1%  " )
 	long getAllReturnCountBySearchString(String searchString);
+
+	long countByReturnTypeAndCreatedDateBetween(String type, Date startDate, Date endDate);
+
+	long countByReturnTypeAndStatusAndCreatedDateBetween(String type, String status, Date startDate, Date endDate);
 
 
 	

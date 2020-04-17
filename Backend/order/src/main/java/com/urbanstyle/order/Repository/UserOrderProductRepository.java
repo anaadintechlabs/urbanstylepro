@@ -123,4 +123,12 @@ public interface UserOrderProductRepository extends PagingAndSortingRepository<U
 	@Query("Select new com.anaadihsoft.common.DTO.OrderUiListingDTO(uop) from UserOrderProducts uop  order by uop.userOrder.orderPlacedDate desc")
 	List<OrderUiListingDTO> findAllOrderForSuperAdmin();
 
+	long countByVendorIdAndStatusAndCreatedDateBetween(long vendorId, String status, Date startDate, Date endDate);
+
+	long countByVendorIdAndCreatedDateBetween(long vendorId, Date startDate, Date endDate);
+
+	long countByStatusAndCreatedDateBetween(String status, Date startDate, Date endDate);
+
+	long countByCreatedDateBetween(Date startDate, Date endDate);
+
 }

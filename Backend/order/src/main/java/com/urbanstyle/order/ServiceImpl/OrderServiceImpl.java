@@ -1,9 +1,12 @@
 package com.urbanstyle.order.ServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -1418,6 +1421,72 @@ public class OrderServiceImpl implements OrderService {
 		}
 		}
 		return userOrderProdRepo.getVendorOrderCountAndStatus(vendorId,status);
+	}
+
+	@Override
+	public void getAllOrderCountForDashboard(String dateRange, Long vendorId, Map<String, Object> resultMap) {
+		Date startDate;
+		Date endDate;
+		if(dateRange!=null && !dateRange.isEmpty())
+		{
+		String[] dates=dateRange.split(",");
+		startDate = new Date(Long.parseLong(dates[0]));
+		endDate = new Date(Long.parseLong(dates[1]));
+		}
+		else
+		{
+			startDate= new Date();
+			endDate = new Date();
+		}
+		//settig start date to start and end date to end of day
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(startDate);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		startDate=cal.getTime();
+		
+		Calendar cal2 = new GregorianCalendar();
+		cal2.setTime(endDate);
+		cal2.set(Calendar.HOUR_OF_DAY, 23);
+		cal2.set(Calendar.MINUTE, 59);
+		cal2.set(Calendar.SECOND, 59);
+		endDate=cal2.getTime();
+		
+		//superadmin
+		if(vendorId==null)
+		{
+			resultMap.put("total", getOrderByStatusAndDateRange(startDate,endDate));
+			resultMap.put("pending", getCountOfOrderByStatusAndDateRange("PENDING",startDate,endDate));
+			resultMap.put("dispatched", getCountOfOrderByStatusAndDateRange("DISPATCHED",startDate,endDate));
+			resultMap.put("cancelled", getCountOfOrderByStatusAndDateRange("CANCELLED",startDate,endDate));
+		}
+		else
+		{
+			resultMap.put("total", getOrderByStatusAndDateRangeAndVendorId(startDate,endDate,vendorId.longValue()));
+			resultMap.put("pending", getCountOfOrderByStatusAndDateRangeAndVendorId("PENDING",startDate,endDate,vendorId.longValue()));
+			resultMap.put("dispatched", getCountOfOrderByStatusAndDateRangeAndVendorId("DISPATCHED",startDate,endDate,vendorId.longValue()));
+			resultMap.put("cancelled", getCountOfOrderByStatusAndDateRangeAndVendorId("CANCELLED",startDate,endDate,vendorId.longValue()));
+		}
+		
+		
+	}
+
+	private long getOrderByStatusAndDateRangeAndVendorId(Date startDate, Date endDate, long vendorId) {
+		return userOrderProdRepo.countByVendorIdAndCreatedDateBetween(vendorId, startDate, endDate);
+	}
+
+	private long getCountOfOrderByStatusAndDateRangeAndVendorId(String status, Date startDate, Date endDate, long vendorId) {
+		return userOrderProdRepo.countByVendorIdAndStatusAndCreatedDateBetween(vendorId,status, startDate, endDate);
+			}
+
+	private long getOrderByStatusAndDateRange(Date startDate, Date endDate) {
+		return userOrderProdRepo.countByCreatedDateBetween(startDate, endDate);
+	}
+
+	private long getCountOfOrderByStatusAndDateRange(String status, Date startDate, Date endDate) {
+		return userOrderProdRepo.countByStatusAndCreatedDateBetween(status, startDate, endDate);
+
 	}
 
 	

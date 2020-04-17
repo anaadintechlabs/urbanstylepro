@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 @Entity
 public class AffiliateCommisionOrder {
@@ -37,6 +39,55 @@ public class AffiliateCommisionOrder {
 	
 	@ManyToOne
 	private ReturnManagement returnId;
+	
+	private Date createdDate;
+	
+	private Date modifiedDate;
+	
+	
+	@PrePersist()
+	public void setDates()
+	{
+		this.createdDate= new Date();
+	}
+	
+	@PreUpdate()
+	public void setModifiedDate()
+	{
+		this.modifiedDate= new Date();
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public UserOrderProducts getOrderProd() {
+		return orderProd;
+	}
+
+	public void setOrderProd(UserOrderProducts orderProd) {
+		this.orderProd = orderProd;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 
 	public User getAffiliateId() {
 		return affiliateId;
