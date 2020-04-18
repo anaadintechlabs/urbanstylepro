@@ -22,6 +22,9 @@ public class AffiliateServiceImpl implements AffiliateService{
 	@Autowired
 	private AffiliateCommisionOrderRepo affiliateCommisionOrderRepo; 
 	
+	@Autowired
+	private AffiliateDao affiliateDAO;
+	
 	@Override
 	public List<OrderUiListingDTO> getOrderProductByAffiliate(long affiliateId, Filter filter) {
 		final Pageable pagable = PageRequest.of(filter.getOffset(), filter.getLimit(),
@@ -30,7 +33,7 @@ public class AffiliateServiceImpl implements AffiliateService{
 						: Sort.Direction.ASC,
 						filter.getSortingField());
 		
-		return affiliateCommisionOrderRepo.getOrderForAffialite(affiliateId,pagable);
+		return affiliateDAO.getOrderForAffialite(affiliateId,filter);
 	}
 
 	@Override
@@ -40,7 +43,7 @@ public class AffiliateServiceImpl implements AffiliateService{
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return affiliateCommisionOrderRepo.getReturnByAffiliate(affiliateId,pagable);
+		return affiliateDAO.getReturnByAffiliate(affiliateId,filter);
 
 	}
 
@@ -52,7 +55,7 @@ public class AffiliateServiceImpl implements AffiliateService{
 						: Sort.Direction.ASC,
 						filter.getSortingField());
 		
-		return affiliateCommisionOrderRepo.getOrderForAffialiteAndStatus(affiliateId,status,pagable);
+		return affiliateDAO.getOrderForAffialiteAndStatus(affiliateId,status,filter);
 	}
 
 	@Override
@@ -62,7 +65,7 @@ public class AffiliateServiceImpl implements AffiliateService{
 				&& filter.getSortingDirection().equalsIgnoreCase("DESC") ? Sort.Direction.DESC
 						: Sort.Direction.ASC,
 						filter.getSortingField());
-		return affiliateCommisionOrderRepo.getTotalComissionGroupByProduct(affiliateId,pagable);
+		return affiliateDAO.getTotalComissionGroupByProduct(affiliateId,filter);
 
 	}
 
